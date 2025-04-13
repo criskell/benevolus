@@ -7,37 +7,14 @@ const api = axios.create({
   baseURL: "http://localhost",
   withCredentials: true,
   withXSRFToken: true,
-  fetchOptions: {
-    credentials: "include"
-  },
 })
-
-function getCookie(name: string): string | null {
-  const cookies = document.cookie.split("; ");
-  for (const cookie of cookies) {
-    const [key, value] = cookie.split("=");
-    if (key === name) {
-      return decodeURIComponent(value);
-    }
-  }
-  return null;
-}
-
-
-// api.interceptors.request.use((config) => {
-//   // const token = decodeURIComponent(document.cookie.replace('XSRF-TOKEN=', ''));
-//   const token = getCookie("XSRF-TOKEN");
-//   console.log({ token })
-//   api.defaults.headers['X-XSRF-TOKEN'] = token;
-
-//   return config;
-// });
 
 export const SignUpForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    password_confirmation: ""
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,13 +26,7 @@ export const SignUpForm = () => {
     e.preventDefault();
 
     await api.get("/sanctum/csrf-cookie")
-    await api.post("/register", {
-      x: 'oi'
-    }, {
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    })
+    await api.post("/auth/register", formData);
   };
 
   return (
@@ -102,6 +73,20 @@ export const SignUpForm = () => {
               type="password"
               id="password"
               value={formData.password}
+              onChange={handleChange}
+              className="mt-1 block w-full px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-600"
+              placeholder="••••••••"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password_confirmation" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Senha
+            </label>
+            <input
+              type="password"
+              id="password_confirmation"
+              value={formData.password_confirmation}
               onChange={handleChange}
               className="mt-1 block w-full px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-600"
               placeholder="••••••••"
