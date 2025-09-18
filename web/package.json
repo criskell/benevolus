@@ -9,10 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.4",
     "axios": "^1.8.4",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.13",
     "next": "15.3.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
