@@ -10,3 +10,12 @@
   --color-primary-500: oklch(0.84 0.18 117.33);
   --spacing: 0.25rem;
 }
+
+.react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.react-horizontal-scrolling-menu--scroll-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

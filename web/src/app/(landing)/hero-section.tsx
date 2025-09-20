@@ -18,7 +18,7 @@ export function HeroSection() {
         radius="full"
         variant="bordered"
       >
-        Novas mudanças
+        Changelog
       </Button>
       <div className="text-center text-[clamp(40px,10vw,40px)] leading-[1.2] font-bold tracking-tighter sm:text-[46px]">
         <div>
