@@ -30,13 +30,13 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body
         className={cn(
-          'antialiased text-foreground bg-background font-sans',
+          'antialiased text-foreground bg-background font-sans flex flex-col min-h-screen',
           fontSans.variable
         )}
       >
         <Navbar />
 
-        {children}
+        <div className="flex-1">{children}</div>
 
         <Footer />
       </body>
