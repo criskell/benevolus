@@ -6,6 +6,7 @@ import { cn } from '@/lib/cn';
 import { Navbar } from '@/components/layout/navbar';
 
 import './globals.css';
+import { Footer } from '@/components/layout/footer';
 
 const fontSans = Inter({
   variable: '--font-inter',
@@ -36,6 +37,8 @@ export default function RootLayout({
         <Navbar />
 
         {children}
+
+        <Footer />
       </body>
     </html>
   );
