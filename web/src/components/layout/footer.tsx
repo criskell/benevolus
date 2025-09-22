@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="bg-primary-800 text-white py-8 text-sm">
+    <footer className="bg-default-50 py-8 text-sm">
       <div className="max-w-6xl mx-auto space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -49,7 +49,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-divider text-center">
+        <div className="text-center">
           <p className="mt-4">
             &copy; {new Date().getFullYear()} Benevolus. Todos os direitos
             reservados.
