@@ -6,6 +6,7 @@ import type { Campaign } from '@/models/campaign';
 
 import { HeroSection } from './hero-section';
 import { CategoryNavigation } from './category-navigation';
+import { CallToAction } from './call-to-action';
 
 const mockedCampaigns: Campaign[] = [
   {
@@ -72,16 +73,19 @@ const mockedCampaigns: Campaign[] = [
 
 export default function Home() {
   return (
-    <main className="container mx-auto flex-1 flex flex-col items-center justify-center px-8 my-16 space-y-16">
-      <HeroSection />
-      <div className="max-w-full">
-        <CategoryNavigation />
+    <main className="space-y-16">
+      <div className="container mx-auto flex-1 flex flex-col items-center justify-center px-8 my-16 space-y-16">
+        <HeroSection />
+        <div className="max-w-full">
+          <CategoryNavigation />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {mockedCampaigns.map((campaign, idx) => (
+            <CampaignCard campaign={campaign} key={idx} />
+          ))}
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {mockedCampaigns.map((campaign, idx) => (
-          <CampaignCard campaign={campaign} key={idx} />
-        ))}
-      </div>
+      <CallToAction />
     </main>
   );
 }
