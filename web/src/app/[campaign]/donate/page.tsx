@@ -7,13 +7,23 @@ import {
   Button,
   Card,
   Checkbox,
+  input,
   Input,
   Switch,
 } from '@heroui/react';
+import { useId, useState } from 'react';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import { PatternFormat } from 'react-number-format';
 
 import placeholder from '@/assets/images/placeholder1.jpg';
 
 export default function CampaignDonatePage() {
+  const [phone, setPhone] = useState<any>();
+  const [country, setCountry] = useState<any>();
+
+  const phoneInputId = useId();
+
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10">
       <Breadcrumbs>
@@ -78,8 +88,39 @@ export default function CampaignDonatePage() {
             <div className="flex flex-col gap-4">
               <Input label="Nome" labelPlacement="outside-top" />
               <Input label="E-mail" labelPlacement="outside-top" />
-              <Input label="CPF" labelPlacement="outside-top" />
-              <Input label="Telefone" labelPlacement="outside-top" />
+
+              <PatternFormat
+                format="###.###.###-##"
+                mask="_"
+                customInput={Input}
+                label="CPF"
+                labelPlacement="outside-top"
+              />
+
+              <div>
+                <label
+                  className={input({
+                    labelPlacement: 'outside-top',
+                  }).label()}
+                  htmlFor={phoneInputId}
+                >
+                  Telefone
+                </label>
+
+                <PhoneInput
+                  onChange={(phone) => setPhone(phone)}
+                  value={phone}
+                  countryCallingCodeEditable={false}
+                  inputComponent={Input}
+                  defaultCountry="BR"
+                  id={phoneInputId}
+                  international
+                />
+              </div>
+
+              <Checkbox>
+                Sou estrangeiro / Sou brasileiro, mas moro fora do Brasil
+              </Checkbox>
             </div>
 
             <Alert
