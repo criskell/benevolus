@@ -57,7 +57,8 @@ export const Footer = () => {
 
         <div className="text-center">
           <p className="mt-4">
-            &copy; {new Date().getFullYear()} Benevolus. Todos os direitos reservados.
+            &copy; {new Date().getFullYear()} Benevolus. Todos os direitos
+            reservados.
           </p>
         </div>
       </div>

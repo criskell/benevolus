@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Alert,
@@ -10,13 +10,13 @@ import {
   input,
   Input,
   Switch,
-} from '@heroui/react';
-import { useId, useState } from 'react';
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
-import { PatternFormat } from 'react-number-format';
+} from "@heroui/react";
+import { useId, useState } from "react";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import { PatternFormat } from "react-number-format";
 
-import placeholder from '@/assets/images/placeholder1.jpg';
+import placeholder from "@/assets/images/placeholder1.jpg";
 
 export default function CampaignDonatePage() {
   const [phone, setPhone] = useState<any>();
@@ -100,7 +100,7 @@ export default function CampaignDonatePage() {
               <div>
                 <label
                   className={input({
-                    labelPlacement: 'outside-top',
+                    labelPlacement: "outside-top",
                   }).label()}
                   htmlFor={phoneInputId}
                 >
@@ -126,7 +126,7 @@ export default function CampaignDonatePage() {
             <Alert
               hideIcon
               classNames={{
-                mainWrapper: 'flex-row justify-between items-center',
+                mainWrapper: "flex-row justify-between items-center",
               }}
               className="text-sm font-medium"
             >

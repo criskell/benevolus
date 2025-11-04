@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { Button } from '@heroui/react';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import { useContext } from 'react';
-import { VisibilityContext, ScrollMenu } from 'react-horizontal-scrolling-menu';
-import 'react-horizontal-scrolling-menu/dist/styles.css';
+import { Button } from "@heroui/react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useContext } from "react";
+import { VisibilityContext, ScrollMenu } from "react-horizontal-scrolling-menu";
+import "react-horizontal-scrolling-menu/dist/styles.css";
 
 const CATEGORIES = [
-  'Todos',
-  'Educação',
-  'Emergenciais',
-  'Empatia',
-  'Esporte',
-  'Geração de renda',
-  'Moradia',
-  'Projetos sociais',
+  "Todos",
+  "Educação",
+  "Emergenciais",
+  "Empatia",
+  "Esporte",
+  "Geração de renda",
+  "Moradia",
+  "Projetos sociais",
 ];
 
 export const CategoryNavigation = () => {
@@ -49,7 +49,7 @@ const Category = ({
 
 const LeftArrow = () => {
   const visibility = useContext(VisibilityContext);
-  const isVisible = visibility.useIsVisible('first', true);
+  const isVisible = visibility.useIsVisible("first", true);
 
   if (isVisible) {
     return;
@@ -70,7 +70,7 @@ const LeftArrow = () => {
 
 const RightArrow = () => {
   const visibility = useContext(VisibilityContext);
-  const isVisible = visibility.useIsVisible('last', true);
+  const isVisible = visibility.useIsVisible("last", true);
 
   if (isVisible) {
     return;
