@@ -1,4 +1,4 @@
-import type { IconSvgProps } from '@/types/svg';
+import type { IconSvgProps } from "@/types/svg";
 
 export const LogoIcon = ({
   size = 36,

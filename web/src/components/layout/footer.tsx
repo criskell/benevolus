@@ -1,3 +1,21 @@
+const sobreListLinks = [
+  { link: "#", text: "Quem somos" },
+  { link: "#", text: "Como funciona" },
+  { link: "#", text: "Termos de uso" },
+];
+
+const suporteListLinks = [
+  { link: "#", text: "Central de ajuda" },
+  { link: "#", text: "Contato" },
+  { link: "#", text: "FAQ" },
+];
+
+const socialListLinks = [
+  { link: "#", text: "Facebook" },
+  { link: "#", text: "Instagram" },
+  { link: "#", text: "Twitter" },
+];
+
 export const Footer = () => {
   return (
     <footer className="bg-default-50 py-8 text-sm">
@@ -6,45 +24,33 @@ export const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Sobre</h3>
             <ul className="space-y-1">
-              <li>
-                <a href="#">Quem somos</a>
-              </li>
-              <li>
-                <a href="#">Como funciona</a>
-              </li>
-              <li>
-                <a href="#">Termos de uso</a>
-              </li>
+              {sobreListLinks.map((item, index) => (
+                <li key={index}>
+                  <a href={item.link}>{item.text}</a>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h3 className="text-lg font-semibold mb-4">Suporte</h3>
             <ul className="space-y-1">
-              <li>
-                <a href="#">Central de ajuda</a>
-              </li>
-              <li>
-                <a href="#">Contato</a>
-              </li>
-              <li>
-                <a href="#">FAQ</a>
-              </li>
+              {suporteListLinks.map((item, index) => (
+                <li key={index}>
+                  <a href={item.link}>{item.text}</a>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h3 className="text-lg font-semibold mb-4">Redes sociais</h3>
             <ul className="space-y-1">
-              <li>
-                <a href="#">Facebook</a>
-              </li>
-              <li>
-                <a href="#">Instagram</a>
-              </li>
-              <li>
-                <a href="#">Twitter</a>
-              </li>
+              {socialListLinks.map((item, index) => (
+                <li key={index}>
+                  <a href={item.link}>{item.text}</a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

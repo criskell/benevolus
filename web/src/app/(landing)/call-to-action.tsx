@@ -1,4 +1,4 @@
-import { Button } from '@heroui/button';
+import { Button } from "@heroui/button";
 
 export const CallToAction = () => {
   return (

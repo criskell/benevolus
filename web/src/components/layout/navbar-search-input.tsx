@@ -1,17 +1,17 @@
-import { Input } from '@heroui/input';
-import { Kbd } from '@heroui/kbd';
+import { Input } from "@heroui/input";
+import { Kbd } from "@heroui/kbd";
 
-import { SearchIcon } from '@/components/icons/search';
+import { SearchIcon } from "@/components/icons/search";
 
 export const navbarSearchInput = (
   <Input
     aria-label="Pesquisar campanhas..."
     classNames={{
-      inputWrapper: 'bg-default-100',
-      input: 'text-sm',
+      inputWrapper: "bg-default-100",
+      input: "text-sm",
     }}
     endContent={
-      <Kbd className="hidden lg:inline-block" keys={['command']}>
+      <Kbd className="hidden lg:inline-block" keys={["command"]}>
         K
       </Kbd>
     }

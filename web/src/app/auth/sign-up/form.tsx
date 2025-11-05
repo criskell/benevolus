@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import axios from "axios";
 import { useState } from "react";
@@ -7,14 +7,14 @@ const api = axios.create({
   baseURL: "http://localhost",
   withCredentials: true,
   withXSRFToken: true,
-})
+});
 
 export const SignUpForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    password_confirmation: ""
+    password_confirmation: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +25,7 @@ export const SignUpForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await api.get("/sanctum/csrf-cookie")
+    await api.get("/sanctum/csrf-cookie");
     await api.post("/auth/register", formData);
   };
 
@@ -38,7 +38,10 @@ export const SignUpForm = () => {
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+            >
               Nome completo
             </label>
             <input
@@ -52,7 +55,10 @@ export const SignUpForm = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+            >
               E-mail
             </label>
             <input
@@ -66,7 +72,10 @@ export const SignUpForm = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+            >
               Senha
             </label>
             <input
@@ -80,7 +89,10 @@ export const SignUpForm = () => {
           </div>
 
           <div>
-            <label htmlFor="password_confirmation" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+            <label
+              htmlFor="password_confirmation"
+              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+            >
               Senha
             </label>
             <input
@@ -103,7 +115,10 @@ export const SignUpForm = () => {
 
         <p className="text-center text-sm text-zinc-600 dark:text-zinc-400">
           Já tem uma conta?{" "}
-          <a href="/login" className="text-zinc-900 dark:text-zinc-200 hover:underline font-medium">
+          <a
+            href="/login"
+            className="text-zinc-900 dark:text-zinc-200 hover:underline font-medium"
+          >
             Entrar
           </a>
         </p>
