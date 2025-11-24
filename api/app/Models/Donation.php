@@ -17,7 +17,7 @@ class Donation extends Model
         'paid_at',
     ];
 
-    public function user(): User
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
