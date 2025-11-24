@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Button } from "@heroui/react";
-import { Icon } from "@iconify/react";
+import { Button } from '@heroui/react';
+import { Icon } from '@iconify/react';
 
 export function HeroSection() {
   return (
@@ -18,7 +18,7 @@ export function HeroSection() {
         radius="full"
         variant="bordered"
       >
-        Changelog
+        Nossa missão
       </Button>
       <div className="text-center text-[clamp(40px,10vw,40px)] leading-[1.2] font-bold tracking-tighter sm:text-[46px]">
         <div>

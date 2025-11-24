@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { formatMoney } from "@/lib/format-money";
-import { getUserNameInitials } from "@/lib/get-user-name-initials";
-import { Card, CardBody } from "@heroui/card";
-import { Chip, Button, Progress, Avatar, Badge } from "@heroui/react";
+import { formatMoney } from '@/lib/format-money';
+import { getUserNameInitials } from '@/lib/get-user-name-initials';
+import { Card, CardBody } from '@heroui/card';
+import { Chip, Button, Progress, Avatar, Badge } from '@heroui/react';
 import {
   HeartIcon,
   MessageCircleIcon,
@@ -11,11 +11,11 @@ import {
   StarIcon,
   UsersIcon,
   ZapIcon,
-} from "lucide-react";
+} from 'lucide-react';
 
 export default function CampaignPage() {
   return (
-    <div className="flex-1 my-16 container mx-auto flex gap-16 justify-between relative">
+    <div className="flex-1 my-16 max-w-[1280px] mx-auto flex gap-16 justify-between relative">
       <main className="w-full space-y-8">
         <Card
           className="p-12 border border-divider flex flex-row gap-4"
@@ -121,38 +121,38 @@ export default function CampaignPage() {
             {[
               {
                 donor: {
-                  name: "Anônimo",
+                  name: 'Anônimo',
                 },
-                createdAt: "há cerca de 1 hora",
+                createdAt: 'há cerca de 1 hora',
                 value: 1000,
               },
               {
                 donor: {
-                  name: "Anônimo",
+                  name: 'Anônimo',
                 },
                 value: 5000,
-                createdAt: "há cerca de 1 hora",
+                createdAt: 'há cerca de 1 hora',
               },
               {
                 donor: {
-                  name: "Fulana",
+                  name: 'Fulana',
                 },
                 value: 500,
-                createdAt: "há cerca de 2 horas",
+                createdAt: 'há cerca de 2 horas',
               },
               {
                 donor: {
-                  name: "Ciclano",
+                  name: 'Ciclano',
                 },
                 value: 600,
-                createdAt: "há cerca de 2 horas",
+                createdAt: 'há cerca de 2 horas',
               },
               {
                 donor: {
-                  name: "Silvano",
+                  name: 'Silvano',
                 },
                 value: 700,
-                createdAt: "há cerca de 3 horas",
+                createdAt: 'há cerca de 3 horas',
               },
             ].map((donation, idx) => (
               <div className="flex gap-4 font-medium items-center" key={idx}>
@@ -184,15 +184,15 @@ export default function CampaignPage() {
             {[
               {
                 author: {
-                  name: "Anônimo",
+                  name: 'Anônimo',
                 },
-                body: "Força na luta sempre!",
+                body: 'Força na luta sempre!',
               },
               {
                 author: {
-                  name: "Fulano",
+                  name: 'Fulano',
                 },
-                body: "Força fulana!",
+                body: 'Força fulana!',
               },
             ].map((message, idx) => (
               <div className="flex gap-4 font-medium" key={idx}>

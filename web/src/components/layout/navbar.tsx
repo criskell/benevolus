@@ -6,19 +6,25 @@ import {
   NavbarBrand,
   NavbarItem,
   NavbarMenuItem,
-} from "@heroui/navbar";
-import { Link } from "@heroui/link";
-import { link as linkStyles } from "@heroui/theme";
-import NextLink from "next/link";
-import clsx from "clsx";
+} from '@heroui/navbar';
+import { Link } from '@heroui/link';
+import { link as linkStyles } from '@heroui/theme';
+import NextLink from 'next/link';
+import clsx from 'clsx';
 
-import { siteConfig } from "@/config/site";
-import { LogoIcon } from "@/components/icons/logo";
-import { navbarSearchInput } from "./navbar-search-input";
+import { siteConfig } from '@/config/site';
+import { LogoIcon } from '@/components/icons/logo';
+import { navbarSearchInput } from './navbar-search-input';
 
 export const Navbar = () => {
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
+    <HeroUINavbar
+      maxWidth="xl"
+      position="sticky"
+      classNames={{
+        wrapper: 'px-0',
+      }}
+    >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
@@ -31,8 +37,8 @@ export const Navbar = () => {
             <NavbarItem key={item.href}>
               <NextLink
                 className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                  linkStyles({ color: 'foreground' }),
+                  'data-[active=true]:text-primary data-[active=true]:font-medium'
                 )}
                 color="foreground"
                 href={item.href}
@@ -63,10 +69,10 @@ export const Navbar = () => {
               <Link
                 color={
                   index === 2
-                    ? "primary"
+                    ? 'primary'
                     : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
+                    ? 'danger'
+                    : 'foreground'
                 }
                 href="#"
                 size="lg"
