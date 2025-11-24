@@ -5,6 +5,7 @@ Charity and donation campaign management application.
 ## Technology stack
 
 - Laravel
+- Laravel Sail
 - Next.js
 - HeroUI + HeroUI Pro
 - Woovi
