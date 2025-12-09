@@ -84,37 +84,13 @@ class DonationProcessor
                 ]);
 
                 return $donation;
-            } else {
-                $this->donationService->updateStatus($donation, $status);
-
-                $this->logger->warning('Donation payment not confirmed', [
-                    'donation_id' => $donation->id,
-                    'status' => $status,
-                ]);
             }
 
-            return $donation;
-        });
-    }
+            $this->donationService->updateStatus($donation, $status);
 
-    public function cancel(int $donationId, ?string $reason = null): Donation
-    {
-        return $this->db->transaction(function () use ($donationId, $reason) {
-            $donation = $this->donationService->findById($donationId);
-
-            if (!$donation) {
-                throw new Exception('Donation not found: ' . $donationId);
-            }
-
-            if ($donation->payment_status === 'paid') {
-                throw new Exception('It is not possible to cancel a paid donation.');
-            }
-
-            $donation = $this->donationService->updateStatus($donation, 'cancelled');
-
-            $this->logger->info('Donation cancelled', [
+            $this->logger->warning('Donation payment not confirmed', [
                 'donation_id' => $donation->id,
-                'reason' => $reason
+                'status' => $status,
             ]);
 
             return $donation;
