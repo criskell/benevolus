@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { siteConfig } from "@/config/site";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { siteConfig } from '@/config/site';
 
-import { cn } from "@/lib/cn";
-import { Navbar } from "@/components/layout/navbar";
+import { cn } from '@/lib/utils/cn';
+import { Navbar } from '@/components/layout/navbar';
 
-import "./globals.css";
-import { Footer } from "@/components/layout/footer";
+import './globals.css';
+import { Footer } from '@/components/layout/footer';
 
 const fontSans = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+  variable: '--font-inter',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
@@ -30,8 +30,8 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body
         className={cn(
-          "antialiased text-foreground bg-background font-sans flex flex-col min-h-screen",
-          fontSans.variable,
+          'antialiased text-foreground bg-background font-sans flex flex-col min-h-screen',
+          fontSans.variable
         )}
       >
         <Navbar />

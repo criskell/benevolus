@@ -6,11 +6,16 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "api:generate": "kubb --logLevel=silent"
   },
   "dependencies": {
     "@heroui/react": "^2.8.4",
     "@iconify/react": "^6.0.2",
+    "@kubb/plugin-client": "^4.10.1",
+    "@kubb/plugin-oas": "^4.10.1",
+    "@kubb/plugin-ts": "^4.10.1",
+    "@t3-oss/env-nextjs": "^0.13.8",
     "axios": "^1.8.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.13",
@@ -21,9 +26,12 @@
     "react-horizontal-scrolling-menu": "^8.2.0",
     "react-number-format": "^5.4.4",
     "react-phone-number-input": "^3.4.12",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
+    "@kubb/cli": "^4.10.1",
+    "@kubb/core": "^4.10.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

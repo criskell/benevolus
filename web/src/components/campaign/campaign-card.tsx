@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Badge, Button, Card } from "@heroui/react";
-import { BookmarkIcon } from "lucide-react";
+import { Badge, Button, Card } from '@heroui/react';
+import { BookmarkIcon } from 'lucide-react';
 
-import type { Campaign } from "@/models/campaign";
-import { formatMoney } from "@/lib/format-money";
+import type { Campaign } from '@/models/campaign';
+import { formatMoney } from '@/lib/utils/format-money';
 
 export type CampaignCardProps = {
   campaign: Campaign;

@@ -10,6 +10,7 @@ use App\Http\Resources\PaymentResource;
 use App\Http\Responses\ApiResponse;
 use App\Services\DonationProcessor;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 
 class DonateController extends Controller
@@ -17,6 +18,7 @@ class DonateController extends Controller
     public function __construct(private DonationProcessor $donationProcessor) {}
 
     #[OA\Post(
+        operationId: "createDonation",
         path: "/api/donations",
         summary: "Create a new donation",
         description: "Create a new donation with payment information",
@@ -37,6 +39,7 @@ class DonateController extends Controller
                             ref: "#/components/schemas/ApiSuccessResponse"
                         ),
                         new OA\Schema(
+                            description: "Donation",
                             properties: [
                                 new OA\Property(
                                     property: "data",
@@ -77,6 +80,7 @@ class DonateController extends Controller
     }
 
     #[OA\Post(
+        operationId: "confirmDonation",
         path: "/api/donations/{id}/confirm",
         summary: "Confirm donation payment",
         tags: ["Donations"],
@@ -89,43 +93,13 @@ class DonateController extends Controller
             ),
         ],
         responses: [
-            new OA\Response(
-                response: 200,
-                description: "Success",
-                content: new OA\JsonContent(
-                    allOf: [
-                        new OA\Schema(
-                            ref: "#/components/schemas/ApiSuccessResponse"
-                        ),
-                        new OA\Schema(
-                            properties: [
-                                new OA\Property(
-                                    property: "data",
-                                    ref: "#/components/schemas/DonationResponse"
-                                ),
-                            ]
-                        ),
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: 404,
-                description: "Not found",
-                content: new OA\JsonContent(
-                    ref: "#/components/schemas/ApiErrorResponse"
-                )
-            ),
+            new OA\Response(response: 204, description: "Donation payment confirmed successfully"),
         ],
     )]
-    public function confirm(string $externalReferenceId): JsonResponse
+    public function confirm(string $externalReferenceId): Response
     {
-        $donation = $this->donationProcessor->confirmPayment($externalReferenceId);
-        $data = [
-            'donation_id' => $donation->id,
-            'status' => $donation->payment_status,
-            'paid_at' => $donation->paid_at,
-        ];
+        $this->donationProcessor->confirmPayment($externalReferenceId);
 
-        return ApiResponse::success($data);
+        return response()->noContent();
     }
 }

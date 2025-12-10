@@ -1,7 +1,8 @@
 'use client';
 
-import { formatMoney } from '@/lib/format-money';
-import { getUserNameInitials } from '@/lib/get-user-name-initials';
+import { createDonation } from '@/lib/http/generated';
+import { formatMoney } from '@/lib/utils/format-money';
+import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 import { Card, CardBody } from '@heroui/card';
 import { Chip, Button, Progress, Avatar, Badge } from '@heroui/react';
 import {

@@ -1,0 +1,381 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Benevolus",
+        "description": "API Documentation",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local Server"
+        }
+    ],
+    "paths": {
+        "/api/donations": {
+            "post": {
+                "tags": [
+                    "Donations"
+                ],
+                "summary": "Create a new donation",
+                "description": "Create a new donation with payment information",
+                "operationId": "createDonation",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DonationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/ApiSuccessResponse"
+                                        },
+                                        {
+                                            "description": "Donation",
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "donation": {
+                                                            "$ref": "#/components/schemas/DonationResource"
+                                                        },
+                                                        "payment": {
+                                                            "$ref": "#/components/schemas/PaymentResource"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/donations/{id}/confirm": {
+            "post": {
+                "tags": [
+                    "Donations"
+                ],
+                "summary": "Confirm donation payment",
+                "operationId": "confirmDonation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Donation payment confirmed successfully"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DonorRequest": {
+                "required": [
+                    "name",
+                    "email",
+                    "taxId",
+                    "phoneNumber"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "taxId": {
+                        "type": "string",
+                        "pattern": "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$"
+                    },
+                    "phoneNumber": {
+                        "type": "string",
+                        "pattern": "^\\d{10,11}$"
+                    }
+                },
+                "type": "object"
+            },
+            "DonationRequest": {
+                "required": [
+                    "amount",
+                    "anonymousDonation",
+                    "donor",
+                    "paymentMethod"
+                ],
+                "properties": {
+                    "amount": {
+                        "type": "number",
+                        "maximum": 1000000,
+                        "minimum": 1
+                    },
+                    "anonymousDonation": {
+                        "type": "boolean"
+                    },
+                    "campaignId": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "donor": {
+                        "$ref": "#/components/schemas/DonorRequest"
+                    },
+                    "paymentMethod": {
+                        "type": "string",
+                        "enum": [
+                            "pix",
+                            "credit_card",
+                            "boleto"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "goal": {
+                        "type": "number"
+                    },
+                    "raised": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "DonationCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DonationResource"
+                        }
+                    },
+                    "meta": {
+                        "properties": {
+                            "total": {
+                                "type": "integer"
+                            },
+                            "perPage": {
+                                "type": "integer"
+                            },
+                            "currentPage": {
+                                "type": "integer"
+                            },
+                            "lastPage": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "nullable": true
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "DonationResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "amountCents": {
+                        "type": "number"
+                    },
+                    "isAnonymous": {
+                        "type": "boolean"
+                    },
+                    "paymentStatus": {
+                        "type": "string"
+                    },
+                    "paymentMethod": {
+                        "type": "string"
+                    },
+                    "externalReference": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "paidAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "donor": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/DonorResource"
+                            }
+                        ],
+                        "nullable": true,
+                        "type": "object"
+                    },
+                    "campaign": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/CampaignResource"
+                            }
+                        ],
+                        "nullable": true,
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "DonorResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "taxId": {
+                        "type": "string"
+                    },
+                    "phoneNumber": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "PaymentResource": {
+                "properties": {
+                    "method": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "pixCode": {
+                        "type": "string"
+                    },
+                    "qrCodeUrl": {
+                        "type": "string"
+                    },
+                    "expiresAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiSuccessResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiErrorResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Validation error"
+                    },
+                    "errors": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Donations",
+            "description": "Donations endpoints"
+        }
+    ]
+}

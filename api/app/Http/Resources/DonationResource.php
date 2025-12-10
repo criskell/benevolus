@@ -7,7 +7,6 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: "DonationResource",
-
     properties: [
         new OA\Property(property: "id", type: "integer"),
         new OA\Property(property: "amountCents", type: "number"),
