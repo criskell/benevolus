@@ -3,17 +3,10 @@
 use App\Http\Controllers\API\CampaignController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\DonateController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/donations', [DonateController::class, 'store']);
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    })->middleware('auth:sanctum');
-
-    Route::post('/campaigns', [CampaignController::class, 'store']);
-});
-
-Route::apiResource('campaigns.comments', CommentController::class)->shallow();
+Route::apiResource('profile', ProfileController::class)->only(['index']);
+Route::apiResource('campaigns', CampaignController::class)->only(['store']);
+Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);

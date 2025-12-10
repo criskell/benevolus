@@ -8,10 +8,19 @@ use App\Http\Requests\CommentUpdateRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Services\CommentService;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class CommentController extends Controller
+class CommentController extends Controller implements HasMiddleware
 {
     public function __construct(private CommentService $commentService) {}
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:sanctum', only: ['store', 'update', 'destroy']),
+        ];
+    }
 
     public function index(int $campaign)
     {
