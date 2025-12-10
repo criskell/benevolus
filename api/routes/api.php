@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CampaignController;
+use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\DonateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,3 +15,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/campaigns', [CampaignController::class, 'store']);
 });
+
+Route::apiResource('campaigns.comments', CommentController::class)->shallow();

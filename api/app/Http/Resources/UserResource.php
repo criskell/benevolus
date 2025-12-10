@@ -6,13 +6,13 @@ use OpenApi\Attributes as OA;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 #[OA\Schema(
-    schema: "DonorResource",
+    schema: "UserResource",
     properties: [
         new OA\Property(property: "id", type: "integer"),
         new OA\Property(property: "name", type: "string"),
     ]
 )]
-class DonorResource extends JsonResource
+class UserResource extends JsonResource
 {
     public function toArray($request): array
     {
