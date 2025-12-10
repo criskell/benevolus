@@ -14,14 +14,14 @@ class DonationDTO
         public ?int $campaignId = null
     ) {}
 
-    public static function fromRequest(array $data): self
+    public static function from(array $data): self
     {
         return new self(
             amount: $data['amount'],
             anonymousDonation: (bool) $data['anonymousDonation'],
-            donor: DonorDTO::fromArray($data['donor']),
             paymentMethod: $data['paymentMethod'],
             campaignId: $data['campaignId'],
+            donor: DonorDTO::from($data['donor']),
         );
     }
 }

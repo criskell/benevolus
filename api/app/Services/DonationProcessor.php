@@ -4,10 +4,8 @@ namespace App\Services;
 
 use App\DTO\Donation\DonationDTO;
 use App\DTO\Payment\PaymentDTO;
-use App\Events\DonationCreated;
 use App\Models\Donation;
 use Exception;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -20,37 +18,31 @@ class DonationProcessor
         private PaymentProcessorInterface $paymentProcessor,
         private ConnectionInterface $db,
         private LoggerInterface $logger,
-        private Dispatcher $events
     ) {}
 
     public function process(DonationDTO $data): array
     {
         return $this->db->transaction(function () use ($data) {
             $user = $this->userService->findOrCreateDonor($data->donor);
-
             $paymentResult = $this->paymentProcessor->createPayment($data);
-
             $donation = $this->donationService->createFromPayment(
                 user: $user,
                 amount: $data->amount,
                 paymentMethod: $data->paymentMethod,
-                paymentId: $paymentResult['payment_id'],
+                externalReference: $paymentResult['externalReference'],
                 campaignId: $data->campaignId,
                 isAnonymous: $data->anonymousDonation
             );
-
             $transaction = $this->transactionService->createFromDonation(
                 donation: $donation,
                 user: $user
             );
 
-            $this->events->dispatch(new DonationCreated($donation));
-
-            $this->logger->info('Donation processed successfully', [
-                'donation_id' => $donation->id,
-                'user_id' => $user->id,
+            $this->logger->info('Donation created successfully', [
+                'donationId' => $donation->id,
+                'userId' => $user->id,
                 'amount' => $donation->amount,
-                'payment_id' => $paymentResult['payment_id']
+                'externalReference' => $paymentResult['externalReference']
             ]);
 
             return [
@@ -79,8 +71,8 @@ class DonationProcessor
                 $donation = $this->donationService->markAsPaid($donation);
 
                 $this->logger->info('Donation payment confirmed', [
-                    'donation_id' => $donation->id,
-                    'external_reference' => $externalReferenceId
+                    'donationId' => $donation->id,
+                    'externalReference' => $externalReferenceId
                 ]);
 
                 return $donation;
@@ -89,7 +81,7 @@ class DonationProcessor
             $this->donationService->updateStatus($donation, $status);
 
             $this->logger->warning('Donation payment not confirmed', [
-                'donation_id' => $donation->id,
+                'donationId' => $donation->id,
                 'status' => $status,
             ]);
 

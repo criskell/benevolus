@@ -58,17 +58,22 @@ class DonateRequest extends FormRequest
             'donor.taxId' => [
                 'required',
                 'string',
-                'regex:/^\d{3}\.\d{3}.\d{3}/'
+                'regex:/^\d{3}\.\d{3}.\d{3}/',
             ],
             'donor.phoneNumber' => [
                 'required',
                 'string',
-                'regex:/^\d{10,11}$/'
+                'regex:/^\d{10,11}$/',
+            ],
+            'donor.email' => [
+                'required',
+                'string',
+                'email',
             ],
             'paymentMethod' => [
                 'required',
                 'string',
-                'in:pix,credit_card,boleto'
+                'in:pix,credit_card,boleto',
             ],
         ];
     }

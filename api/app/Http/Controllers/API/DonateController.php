@@ -8,10 +8,8 @@ use App\Http\Requests\DonateRequest;
 use App\Http\Resources\DonationResource;
 use App\Http\Resources\PaymentResource;
 use App\Http\Responses\ApiResponse;
-use App\Models\Campaign;
 use App\Services\DonationProcessor;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 class DonateController extends Controller
@@ -70,17 +68,12 @@ class DonateController extends Controller
     )]
     public function store(DonateRequest $request): JsonResponse
     {
-        $donation = DonationDTO::fromRequest($request->validated());
+        $result = $this->donationProcessor->process(DonationDTO::from($request->validated()));
 
-        $result = $this->donationProcessor->process($donation);
-
-        return ApiResponse::created(
-            data: [
-                'donation' => new DonationResource($result['donation']),
-                'payment' => new PaymentResource($result['payment']),
-            ],
-            message: 'Donation successfully created',
-        );
+        return ApiResponse::created([
+            'donation' => new DonationResource($result['donation']),
+            'payment' => new PaymentResource($result['payment']),
+        ]);
     }
 
     #[OA\Post(
@@ -127,15 +120,12 @@ class DonateController extends Controller
     public function confirm(string $externalReferenceId): JsonResponse
     {
         $donation = $this->donationProcessor->confirmPayment($externalReferenceId);
+        $data = [
+            'donation_id' => $donation->id,
+            'status' => $donation->payment_status,
+            'paid_at' => $donation->paid_at,
+        ];
 
-        return ApiResponse::success(
-            data: [
-                'donation_id' => $donation->id,
-                'status' => $donation->payment_status,
-                'paid_at' => $donation->paid_at,
-            ],
-
-            message: 'Donation status updated',
-        );
+        return ApiResponse::success($data);
     }
 }

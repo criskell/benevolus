@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\DTO\Payment\PaymentDTO;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
@@ -21,11 +22,11 @@ class PaymentResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'method' => $this->resource['method'] ?? null,
-            'status' => $this->resource['status'] ?? 'pending',
-            'pixCode' => $this->resource['pix_code'] ?? null,
-            'qrCodeUrl' => $this->resource['qr_code'] ?? null,
-            'expiresAt' => $this->resource['expires_at'] ?? null,
+            'method' => $this->resource->method ?? null,
+            'status' => $this->resource->status ?? 'pending',
+            'pixCode' => $this->resource->pixCode ?? null,
+            'qrCodeUrl' => $this->resource->qrCode ?? null,
+            'expiresAt' => $this->resource->expiresAt ?? null,
         ];
     }
 }

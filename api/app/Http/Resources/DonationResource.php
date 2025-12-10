@@ -10,11 +10,11 @@ use OpenApi\Attributes as OA;
 
     properties: [
         new OA\Property(property: "id", type: "integer"),
-        new OA\Property(property: "amount", type: "number"),
+        new OA\Property(property: "amountCents", type: "number"),
         new OA\Property(property: "isAnonymous", type: "boolean"),
         new OA\Property(property: "paymentStatus", type: "string"),
         new OA\Property(property: "paymentMethod", type: "string"),
-        new OA\Property(property: "externalReferenceId", type: "string", nullable: true),
+        new OA\Property(property: "externalReference", type: "string", nullable: true),
         new OA\Property(property: "paidAt", type: "string", format: "date-time"),
         new OA\Property(property: "createdAt", type: "string", format: "date-time"),
         new OA\Property(property: "updatedAt", type: "string", format: "date-time"),
@@ -38,11 +38,11 @@ class DonationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'amount' => $this->amount,
+            'amountCents' => $this->amount_cents,
             'isAnonymous' => (bool) $this->is_anonymous,
             'paymentStatus' => $this->payment_status,
             'paymentMethod' => $this->payment_method,
-            'externalReferenceId' => $this->external_reference_id,
+            'externalReference' => $this->external_reference,
             'paidAt' => $this->paid_at,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,

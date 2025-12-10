@@ -30,11 +30,10 @@ use OpenApi\Attributes as OA;
 )]
 class ApiResponse
 {
-    public static function success(mixed $data, string $message = 'Operation successfully completed', int $status = 200): JsonResponse
+    public static function success(mixed $data, int $status = 200): JsonResponse
     {
         $response = [
             'success' => true,
-            'message' => $message,
         ];
 
         if ($data !== null) {
@@ -44,11 +43,10 @@ class ApiResponse
         return response()->json($response, $status);
     }
 
-    public static function error(string $message, int $status = 400, mixed $errors = null): JsonResponse
+    public static function error(int $status = 400, mixed $errors = null): JsonResponse
     {
         $response = [
             'success' => false,
-            'message' => $message,
         ];
 
         if ($errors !== null) {
@@ -58,18 +56,13 @@ class ApiResponse
         return response()->json($response, $status);
     }
 
-    public static function created(mixed $data, string $message = 'Resource created successfully')
+    public static function created(mixed $data)
     {
-        return self::success($data, $message, 201);
+        return self::success($data, 201);
     }
 
-    public static function notFound(mixed $data, string $message = 'Resource not found')
+    public static function notFound(mixed $data)
     {
-        return self::error($message, 201);
-    }
-
-    public static function validationError(array $errors, string $message = 'Invalid data')
-    {
-        return self::error($message, 422, $errors);
+        return self::error(201);
     }
 }

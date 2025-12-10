@@ -11,6 +11,7 @@ class Transaction extends Model
         'user_id',
         'direction',
         'type',
+        'amount_cents',
     ];
 
     public function campaign()

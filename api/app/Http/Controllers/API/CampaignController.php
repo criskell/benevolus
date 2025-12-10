@@ -13,14 +13,15 @@ class CampaignController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'goal_cents' => 'required|numeric|min:1',
+            'goalCents' => 'required|numeric|min:1',
         ]);
 
         $campaign = Campaign::create([
             'title' => $request->title,
             'description' => $request->description,
-            'goal' => $request->goal,
+            'goal_cents' => $request->goalCents,
             'status' => 'approved',
+            'user_id' => auth()->user()->id,
         ]);
 
         return response()->json([
@@ -28,4 +29,3 @@ class CampaignController extends Controller
         ], 201);
     }
 }
-

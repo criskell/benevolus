@@ -46,9 +46,9 @@ class StripePaymentProcessor implements PaymentProcessorInterface
             return [
                 'paymentId' => $paymentIntent->id,
                 'status' => $paymentIntent->status,
-                'pix_code' => $this->extractPixCode($confirmedIntent),
-                'qr_code' => $this->extractQrCodeUrl($confirmedIntent),
-                'expires_at' => now()->addHours(24),
+                'pixCode' => $this->extractPixCode($confirmedIntent),
+                'qrCode' => $this->extractQrCodeUrl($confirmedIntent),
+                'expiresAt' => now()->addHours(24),
             ];
         } catch (ApiErrorException $e) {
             throw PaymentException::processingFailed($e->getMessage());

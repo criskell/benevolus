@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use App\Services\Payment\StripePaymentProcessor;
+use App\Services\StripePaymentProcessor;
 use App\Services\PaymentProcessorInterface;
+use App\Services\WooviPaymentProcessor;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             PaymentProcessorInterface::class,
-            StripePaymentProcessor::class
+            WooviPaymentProcessor::class
         );
     }
 

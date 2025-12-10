@@ -6,7 +6,7 @@ readonly class DonorDTO
 {
     public function __construct(public string $name, public string $email, public string $taxId, public string $phoneNumber) {}
 
-    public static function fromArray(array $data): self
+    public static function from(array $data): self
     {
         return new self(
             name: $data['name'],

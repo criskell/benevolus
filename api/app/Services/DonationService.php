@@ -18,7 +18,7 @@ class DonationService
         User $user,
         int $amount,
         string $paymentMethod,
-        string $paymentId,
+        string $externalReference,
         ?int $campaignId = null,
         bool $isAnonymous = false
     ) {
@@ -26,11 +26,11 @@ class DonationService
             // FIXME: I need to store the user information for debugging, legal, etc. purposes only.
             'user_id' => $isAnonymous ? null : $user->id,
             'campaign_id' => $campaignId,
-            'amount' => $amount,
+            'amount_cents' => $amount,
             'payment_method' => $paymentMethod,
             'payment_status' => 'pending',
-            'payment_processor' => 'stripe',
-            'external_reference_id' => $paymentId,
+            'payment_processor' => 'woovi',
+            'external_reference' => $externalReference,
             'paid_at' => null,
         ]);
     }

@@ -17,9 +17,9 @@ readonly class PaymentDTO
         return new self(
             method: $result['donation']->payment_method,
             status: $result['donation']->payment_status,
-            pixCode: $result['payment']['pix_code'] ?? null,
-            qrCode: $result['payment']['qr_code'] ?? null,
-            expiresAt: $result['payment']['expires_at'] ?? null,
+            pixCode: $result['payment']['pixCode'] ?? null,
+            qrCode: $result['payment']['qrCode'] ?? null,
+            expiresAt: $result['payment']['expiresAt'] ?? null,
         );
     }
 }
