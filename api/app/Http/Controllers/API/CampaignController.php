@@ -21,7 +21,7 @@ class CampaignController extends Controller
             'description' => $request->description,
             'goal_cents' => $request->goalCents,
             'status' => 'approved',
-            'user_id' => auth()->user()->id,
+            'user_id' => $request->user()->id,
         ]);
 
         return response()->json([
