@@ -13,7 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 
-class DonateController extends Controller
+class DonationController extends Controller
 {
     public function __construct(private DonationProcessor $donationProcessor) {}
 
