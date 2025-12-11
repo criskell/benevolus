@@ -6,7 +6,7 @@ use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+Route::apiResource('campaigns', CampaignController::class);
 Route::apiResource('donations', DonationController::class)->only(['store']);
 Route::apiSingleton('profile', ProfileController::class);
-Route::apiResource('campaigns', CampaignController::class)->only(['store']);
 Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);

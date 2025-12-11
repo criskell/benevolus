@@ -10,7 +10,7 @@ class Campaign extends Model
     const STATUS_APPROVED = 'approved';
     const STATUS_REJECTED = 'rejected';
     const STATUS_FINISHED = 'finished';
-    
+
     protected $fillable = [
         'user_id',
         'title',
@@ -34,5 +34,10 @@ class Campaign extends Model
     public function getStatusLabelAttribute()
     {
         return ucfirst($this->status);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

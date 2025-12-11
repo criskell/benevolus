@@ -3,29 +3,50 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCampaignRequest;
+use App\Http\Requests\UpdateCampaignRequest;
+use App\Http\Resources\CampaignResource;
 use App\Models\Campaign;
+use App\Services\CampaignService;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
 {
-    public function store(Request $request)
+    public function __construct(private CampaignService $campaignService) {}
+
+    public function index(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'goalCents' => 'required|numeric|min:1',
-        ]);
+        $filters = $request->only(['status', 'userId', 'search']);
+        $perPage = $request->get('per_page', 15);
 
-        $campaign = Campaign::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'goal_cents' => $request->goalCents,
-            'status' => 'approved',
-            'user_id' => $request->user()->id,
-        ]);
+        $campaigns = $this->campaignService->list($filters, $perPage);
 
-        return response()->json([
-            'data' => $campaign,
-        ], 201);
+        return CampaignResource::collection($campaigns);
+    }
+
+    public function store(StoreCampaignRequest $request)
+    {
+        $campaign = $this->campaignService->create($request->validated(), $request->user()->id);
+
+        return new CampaignResource($campaign);
+    }
+
+    public function show(Campaign $campaign)
+    {
+        return new CampaignResource($campaign);
+    }
+
+    public function update(UpdateCampaignRequest $request, Campaign $campaign)
+    {
+        $this->campaignService->update($campaign, $request->validated());
+
+        return response()->noContent();
+    }
+
+    public function destroy(Campaign $campaign)
+    {
+        $this->campaignService->delete($campaign);
+
+        return response()->noContent();
     }
 }
