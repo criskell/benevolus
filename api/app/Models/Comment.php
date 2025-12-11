@@ -30,8 +30,8 @@ class Comment extends Model
         return $this->hasMany(CommentReaction::class);
     }
 
-    public function likesCount(): int
+    public function likes(): HasMany
     {
-        return $this->reactions()->where('liked', true)->count();
+        return $this->reactions()->where('liked', true);
     }
 }

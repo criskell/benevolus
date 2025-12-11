@@ -25,7 +25,7 @@ class CommentController extends Controller implements HasMiddleware
 
     public function index(int $campaign)
     {
-        $comments = Comment::where('campaign_id', $campaign)->latest()->paginate();
+        $comments = Comment::withCount('likes')->where('campaign_id', $campaign)->latest()->paginate();
 
         return CommentResource::collection($comments);
     }

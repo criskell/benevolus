@@ -15,6 +15,7 @@ class CommentResource extends JsonResource
             'content' => $this->content,
             'isAnonymous' => $this->is_anonymous,
             'createdAt' => $this->created_at,
+            'likes' => $this->likes_count ?? 0,
         ];
     }
 }
