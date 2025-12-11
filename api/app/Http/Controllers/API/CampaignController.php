@@ -33,6 +33,8 @@ class CampaignController extends Controller
 
     public function show(Campaign $campaign)
     {
+        $campaign->loadCount('favoritedByUsers');
+
         return new CampaignResource($campaign);
     }
 

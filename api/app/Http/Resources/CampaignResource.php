@@ -28,6 +28,7 @@ class CampaignResource extends JsonResource
             'goalCents' => $this->goal_cents,
             'raised' => $this->raised_amount,
             'status' => $this->status,
+            'favorites' => $this->favorites_count ?? 0,
         ];
     }
 }
