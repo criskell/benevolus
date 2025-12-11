@@ -15,7 +15,7 @@ class DonationProcessor
         private UserService $userService,
         private DonationService $donationService,
         private TransactionService $transactionService,
-        private PaymentProcessorInterface $paymentProcessor,
+        private PaymentGatewayInterface $paymentGateway,
         private ConnectionInterface $db,
         private LoggerInterface $logger,
     ) {}
@@ -24,7 +24,7 @@ class DonationProcessor
     {
         return $this->db->transaction(function () use ($data) {
             $user = $this->userService->findOrCreateDonor($data->donor);
-            $paymentResult = $this->paymentProcessor->createPayment($data);
+            $paymentResult = $this->paymentGateway->createPayment($data);
             $donation = $this->donationService->createFromPayment(
                 user: $user,
                 amount: $data->amount,
@@ -65,7 +65,7 @@ class DonationProcessor
                 throw new Exception('Donation not found: ' . $externalReferenceId);
             }
 
-            $status = $this->paymentProcessor->getPaymentStatus($externalReferenceId);
+            $status = $this->paymentGateway->getPaymentStatus($externalReferenceId);
 
             if ($status == 'successed' || $status == 'paid') {
                 $donation = $this->donationService->markAsPaid($donation);

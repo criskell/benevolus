@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Services\StripePaymentProcessor;
-use App\Services\PaymentProcessorInterface;
-use App\Services\WooviPaymentProcessor;
+use App\Services\StripePaymentGateway;
+use App\Services\PaymentGatewayInterface;
+use App\Services\WooviPaymentGateway;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,8 +15,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            PaymentProcessorInterface::class,
-            WooviPaymentProcessor::class
+            PaymentGatewayInterface::class,
+            WooviPaymentGateway::class
         );
     }
 

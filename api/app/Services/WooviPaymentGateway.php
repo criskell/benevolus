@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use App\DTO\Donation\DonationDTO;
-use App\Services\PaymentProcessorInterface;
+use App\Services\PaymentGatewayInterface;
 use OpenPix\PhpSdk\Client;
 use Illuminate\Support\Str;
 
-class WooviPaymentProcessor implements PaymentProcessorInterface
+class WooviPaymentGateway implements PaymentGatewayInterface
 {
     public function __construct(private Client $client) {}
 

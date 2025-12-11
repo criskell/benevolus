@@ -5,13 +5,13 @@ namespace App\Services;
 use App\DTO\Donation\DonationDTO;
 use App\DTO\User\DonorDTO;
 use App\Exceptions\PaymentException;
-use App\Services\PaymentProcessorInterface;
+use App\Services\PaymentGatewayInterface;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
-class StripePaymentProcessor implements PaymentProcessorInterface
+class StripePaymentGateway implements PaymentGatewayInterface
 {
     private StripeClient $stripe;
 
