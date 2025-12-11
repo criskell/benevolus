@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\CampaignController;
 use App\Http\Controllers\API\CampaignFavoriteController;
 use App\Http\Controllers\API\CommentController;
+use App\Http\Controllers\API\CommentReactionController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\LeaderboardController;
 use App\Http\Controllers\API\ProfileController;
@@ -15,6 +16,7 @@ Route::apiResource('donations', DonationController::class)->only(['store']);
 
 Route::apiResource('campaigns', CampaignController::class);
 Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);
+Route::post('/comments/{comment}/react', [CommentReactionController::class, 'toggle']);
 
 Route::get('/profile/campaigns/favorited', [CampaignFavoriteController::class, 'index']);
 Route::post('/campaigns/{campaign}/favorite', [CampaignFavoriteController::class, 'toggle']);
