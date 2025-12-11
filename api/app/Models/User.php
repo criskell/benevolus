@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Dom\Comment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,19 +46,24 @@ class User extends Authenticatable
         return $this->hasMany(Campaign::class);
     }
 
-    public function favoriteCampaigns()
+    public function favoriteCampaigns(): BelongsToMany
     {
         return $this->belongsToMany(Campaign::class, 'campaign_user_favorites')
             ->withTimestamps();
     }
 
-    public function donations()
+    public function donations(): HasMany
     {
         return $this->hasMany(Donation::class);
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class);
     }
 }

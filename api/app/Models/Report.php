@@ -10,6 +10,8 @@ class Report extends Model
         'user_id',
         'campaign_id',
         'reason',
+        'type',
+        'description',
         'status',
     ];
 

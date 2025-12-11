@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('campaigns', function (Blueprint $table) {
-            $table->dropColumn('status');
-            $table->enum('status', ['in_review', 'open', 'closed', 'rejected', 'finished']);
+        Schema::table('reports', function (Blueprint $table) {
+            $table->string('type');
+            $table->text('description');
         });
     }
 
@@ -22,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('campaigns', function (Blueprint $table) {
-            $table->enum('status', ['pending', 'approved', 'rejected', 'finished']);
+        Schema::table('reports', function (Blueprint $table) {
+            $table->dropColumn('type');
+            $table->dropColumn('description');
         });
     }
 };
