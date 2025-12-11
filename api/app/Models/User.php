@@ -42,4 +42,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Campaign::class);
     }
+
+    public function favoriteCampaigns()
+    {
+        return $this->belongsToMany(Campaign::class, 'campaign_user_favorites')
+            ->withTimestamps();
+    }
 }

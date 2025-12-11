@@ -40,4 +40,10 @@ class Campaign extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'campaign_user_favorites')
+            ->withTimestamps();
+    }
 }
