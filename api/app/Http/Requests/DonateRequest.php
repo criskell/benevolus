@@ -37,11 +37,6 @@ use OpenApi\Attributes as OA;
 )]
 class DonateRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
