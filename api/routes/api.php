@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CampaignController;
 use App\Http\Controllers\API\CampaignFavoriteController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\DonationController;
+use App\Http\Controllers\API\LeaderboardController;
 use App\Http\Controllers\API\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,3 +14,6 @@ Route::apiResource('campaigns', CampaignController::class);
 Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);
 Route::get('/profile/campaigns/favorited', [CampaignFavoriteController::class, 'index']);
 Route::post('/campaigns/{campaign}/favorite', [CampaignFavoriteController::class, 'toggle']);
+Route::get('/leaderboard/campaigns', [LeaderboardController::class, 'topCampaigns']);
+Route::get('/leaderboard/donors', [LeaderboardController::class, 'topDonors']);
+Route::get('/leaderboard/creators', [LeaderboardController::class, 'topCreators']);
