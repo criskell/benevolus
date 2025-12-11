@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Comment extends Model
 {
+    protected $casts = [
+        'is_anonymous' => 'boolean',
+    ];
+
     protected $fillable = [
         'user_id',
         'campaign_id',
