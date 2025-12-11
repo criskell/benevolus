@@ -14,8 +14,7 @@ class CommentReactionService
             ->first();
 
         if ($reaction) {
-            $reaction->liked = !$reaction->liked;
-            $reaction->save();
+            $reaction->delete();
             return $reaction;
         }
 
