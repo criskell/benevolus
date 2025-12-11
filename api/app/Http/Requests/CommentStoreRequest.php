@@ -9,8 +9,8 @@ class CommentStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => ['required', 'string'],
-            'is_anonymous' => ['required', 'boolean'],
+            'content' => 'required|string',
+            'is_anonymous' => 'required|boolean',
         ];
     }
 }

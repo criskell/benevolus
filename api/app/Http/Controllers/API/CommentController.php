@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentStoreRequest;
 use App\Http\Requests\CommentUpdateRequest;
 use App\Http\Resources\CommentResource;
+use App\Models\Campaign;
 use App\Models\Comment;
 use App\Services\CommentService;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -29,9 +30,9 @@ class CommentController extends Controller implements HasMiddleware
         return CommentResource::collection($comments);
     }
 
-    public function store(CommentStoreRequest $request)
+    public function store(Campaign $campaign, CommentStoreRequest $request)
     {
-        $comment = $this->commentService->create($request->user(), $request->validated());
+        $comment = $this->commentService->create($request->user(), $campaign, $request->validated());
 
         return new CommentResource($comment);
     }
