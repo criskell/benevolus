@@ -65,6 +65,6 @@ class Campaign extends Model
 
     public function assets(): HasMany
     {
-        return $this->hasMany(CampaignAsset::class);
+        return $this->hasMany(CampaignMediaAsset::class);
     }
 }

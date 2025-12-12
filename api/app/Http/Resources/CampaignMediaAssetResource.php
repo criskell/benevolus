@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CampaignAssetResource extends JsonResource
+class CampaignMediaAssetResource extends JsonResource
 {
     public function toArray($request): array
     {

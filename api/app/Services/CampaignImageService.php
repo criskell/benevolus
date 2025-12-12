@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Campaign;
-use App\Models\CampaignAsset;
+use App\Models\CampaignMediaAsset;
 use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class CampaignImageService
 {
-    public function store(Campaign $campaign, UploadedFile $file): CampaignAsset
+    public function store(Campaign $campaign, UploadedFile $file): CampaignMediaAsset
     {
         $path = 'images/campaigns/' . $campaign->id;
         $fileName = Str::random(48) . '.' . $file->getClientOriginalExtension();
@@ -24,7 +24,7 @@ class CampaignImageService
             throw new Exception('Failed to upload image');
         }
 
-        return CampaignAsset::create([
+        return CampaignMediaAsset::create([
             'campaign_id' => $campaign->id,
             'path' => $fullPath,
             'type' => 'image',

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class CampaignAsset extends Model
+class CampaignMediaAsset extends Model
 {
     protected $fillable = [
         'campaign_id',

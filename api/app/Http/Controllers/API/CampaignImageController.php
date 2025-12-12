@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadCampaignImageRequest;
-use App\Http\Resources\CampaignAssetResource;
+use App\Http\Resources\CampaignMediaAssetResource;
 use App\Models\Campaign;
 use App\Services\CampaignImageService;
 
@@ -16,6 +16,6 @@ class CampaignImageController extends Controller
     {
         $image = $this->campaignImageService->store($campaign, $request->file('image'));
 
-        return new CampaignAssetResource($image);
+        return new CampaignMediaAssetResource($image);
     }
 }
