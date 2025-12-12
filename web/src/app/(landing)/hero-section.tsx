@@ -7,8 +7,6 @@ import { useTranslations } from 'next-intl';
 export function HeroSection() {
   const t = useTranslations('home');
 
-  console.log(t);
-
   return (
     <section className="z-20 flex flex-col items-center justify-center gap-[18px] sm:gap-6">
       <Button
@@ -23,12 +21,13 @@ export function HeroSection() {
         radius="full"
         variant="bordered"
       >
-        Nossa missão
+        {t('mission')}
       </Button>
       <div className="text-center text-[clamp(40px,10vw,40px)] leading-[1.2] font-bold tracking-tighter sm:text-[46px]">
         <div>
-          A maneira mais
-          <br /> fácil de fazer a diferença.
+          {t('title_line_1')}
+          <br />
+          {t('title_line_2')}
         </div>
       </div>
       <p className="text-default-500 text-center leading-7 font-normal sm:w-[466px] sm:text-[18px]">
@@ -36,7 +35,7 @@ export function HeroSection() {
       </p>
       <div className="flex flex-col items-center justify-center gap-6 sm:flex-row">
         <Button color="primary" radius="full">
-          Faça uma doação
+          {t('donate')}
         </Button>
         <Button
           className="border-default-100"
@@ -52,7 +51,7 @@ export function HeroSection() {
           radius="full"
           variant="bordered"
         >
-          Crie uma nova campanha
+          {t('create_campaign')}
         </Button>
       </div>
     </section>
