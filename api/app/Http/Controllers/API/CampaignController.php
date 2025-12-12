@@ -24,16 +24,16 @@ class CampaignController extends Controller
         return CampaignResource::collection($campaigns);
     }
 
-    public function store(StoreCampaignRequest $request)
+    public function show(int $id)
     {
-        $campaign = $this->campaignService->create($request->validated(), $request->user()->id);
+        $campaign = $this->campaignService->getById($id);
 
         return new CampaignResource($campaign);
     }
 
-    public function show(int $campaignId)
+    public function store(StoreCampaignRequest $request)
     {
-        $campaign = $this->campaignService->getById($campaignId);
+        $campaign = $this->campaignService->create($request->validated(), $request->user()->id);
 
         return new CampaignResource($campaign);
     }

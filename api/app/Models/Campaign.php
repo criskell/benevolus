@@ -72,4 +72,9 @@ class Campaign extends Model
     {
         return $this->hasMany(Withdrawal::class);
     }
+
+    public function updates(): HasMany
+    {
+        return $this->hasMany(CampaignUpdate::class);
+    }
 }

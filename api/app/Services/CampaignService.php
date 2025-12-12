@@ -19,7 +19,13 @@ class CampaignService
             ->take(15)
             ->get();
 
+        $recentUpdates = $campaign->updates()
+            ->latest()
+            ->take(15)
+            ->get();
+
         $campaign->setRelation('recentComments', $recentComments);
+        $campaign->setRelation('recentUpdates', $recentUpdates);
 
         return $campaign;
     }

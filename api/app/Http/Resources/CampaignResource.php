@@ -30,6 +30,7 @@ class CampaignResource extends JsonResource
             'status' => $this->status,
             'favorites' => $this->favorites_count ?? 0,
             'comments' => CommentResource::collection($this->whenLoaded('recentComments')),
+            'updates' => CampaignUpdateResource::collection($this->whenLoaded('recentUpdates')),
         ];
     }
 }
