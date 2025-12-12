@@ -32,7 +32,10 @@ class WithdrawalController extends Controller
             'amountCents' => $request->amountCents,
         ];
 
-        // FIXME: Validate campaign account balance.
+        if ($request->amountCents > $campaign->available_balance_cents) {
+            abort(403);
+        }
+
         $withdrawal = $this->withdrawalService->create($campaign, $data);
 
         // FIXME: Background processing.

@@ -21,5 +21,7 @@ final class WithdrawalProcessor
             'destinationAlias' => $withdrawal->pix_key,
             'correlationID' => $externalReference,
         ]);
+
+        $withdrawal->campaign()->decrement('available_balance_cents', $withdrawal->amountCents);
     }
 }
