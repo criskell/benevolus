@@ -10,6 +10,7 @@ use App\Http\Controllers\API\LeaderboardController;
 use App\Http\Controllers\API\OAuthController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\ReportController;
+use App\Http\Controllers\API\WithdrawalController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,10 +24,9 @@ Route::apiResource('donations', DonationController::class)->only(['store']);
 
 Route::apiResource('campaigns', CampaignController::class);
 Route::post('/campaigns/{campaign}/images', [CampaignImageController::class, 'store']);
-
+Route::apiResource('campaigns.withdrawals', WithdrawalController::class)->shallow()->except(['destroy', 'update']);
 Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);
 Route::post('/comments/{comment}/react', [CommentReactionController::class, 'toggle']);
-
 Route::get('/profile/campaigns/favorited', [CampaignFavoriteController::class, 'index']);
 Route::post('/campaigns/{campaign}/favorite', [CampaignFavoriteController::class, 'toggle']);
 

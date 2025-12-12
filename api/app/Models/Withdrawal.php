@@ -8,11 +8,9 @@ class Withdrawal extends Model
 {
     protected $fillable = [
         'campaign_id',
-        'amount',
-        'status',
+        'amountCents',
         'pix_key',
         'pix_key_type',
-        'paid_at',
     ];
 
     protected $casts = [
