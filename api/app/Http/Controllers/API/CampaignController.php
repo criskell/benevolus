@@ -31,9 +31,9 @@ class CampaignController extends Controller
         return new CampaignResource($campaign);
     }
 
-    public function show(Campaign $campaign)
+    public function show(int $campaignId)
     {
-        $campaign->loadCount('favoritedByUsers');
+        $campaign = $this->campaignService->getById($campaignId);
 
         return new CampaignResource($campaign);
     }

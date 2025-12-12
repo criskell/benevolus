@@ -8,6 +8,22 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CampaignService
 {
+    public function getById(int $campaignId): Campaign
+    {
+        $campaign = Campaign::withCount('favoritedByUsers')
+            ->findOrFail($campaignId);
+
+        $recentComments = $campaign->comments()
+            ->with('user')
+            ->latest()
+            ->take(15)
+            ->get();
+
+        $campaign->setRelation('recentComments', $recentComments);
+
+        return $campaign;
+    }
+
     public function list(array $filters = [], int $perPage = 15): LengthAwarePaginator
     {
         $query = Campaign::query();

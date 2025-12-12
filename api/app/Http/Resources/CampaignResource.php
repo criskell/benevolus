@@ -29,6 +29,7 @@ class CampaignResource extends JsonResource
             'raised' => $this->raised_amount,
             'status' => $this->status,
             'favorites' => $this->favorites_count ?? 0,
+            'comments' => CommentResource::collection($this->whenLoaded('recentComments')),
         ];
     }
 }
