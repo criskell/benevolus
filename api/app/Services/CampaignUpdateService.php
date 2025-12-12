@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\CampaignUpdate;
 use App\Models\User;
 
-class CampaignUpdateService
+final class CampaignUpdateService
 {
     public function __construct(private DonationService $donationService) {}
 

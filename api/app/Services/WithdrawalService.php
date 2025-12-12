@@ -6,7 +6,7 @@ use App\Models\Campaign;
 use App\Models\Withdrawal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class WithdrawalService
+final class WithdrawalService
 {
     public function list(): LengthAwarePaginator
     {

@@ -6,7 +6,7 @@ use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
-class LeaderboardService
+final class LeaderboardService
 {
     public function getTopCampaigns(int $limit): Collection
     {

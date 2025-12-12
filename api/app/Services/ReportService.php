@@ -7,7 +7,7 @@ use App\Models\Report;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class ReportService
+final class ReportService
 {
     public function list(int $perPage = 30): LengthAwarePaginator
     {

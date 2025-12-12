@@ -6,7 +6,7 @@ use App\Models\Campaign;
 use App\Models\Comment;
 use App\Models\User;
 
-class CommentService
+final class CommentService
 {
     public function create(User $user, Campaign $campaign, array $data): Comment
     {

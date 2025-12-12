@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
 
-class OAuthService
+final class OAuthService
 {
     public function getRedirectUrl(string $provider)
     {

@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Address;
 use App\Models\User;
 
-class ProfileService
+final class ProfileService
 {
     public function updateProfile(User $user, array $data)
     {

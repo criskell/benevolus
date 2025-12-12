@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Database\ConnectionInterface;
 use Psr\Log\LoggerInterface;
 
-class DonationProcessor
+final class DonationProcessor
 {
     public function __construct(
         private UserService $userService,

@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Comment;
 use App\Models\CommentReaction;
 
-class CommentReactionService
+final class CommentReactionService
 {
     public function toggleLike(Comment $comment, int $userId): CommentReaction
     {

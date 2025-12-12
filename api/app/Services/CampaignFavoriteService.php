@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Campaign;
 use App\Models\User;
 
-class CampaignFavoriteService
+final class CampaignFavoriteService
 {
     public function toggleFavorite(User $user, Campaign $campaign)
     {

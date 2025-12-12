@@ -7,7 +7,7 @@ use App\Services\PaymentGatewayInterface;
 use OpenPix\PhpSdk\Client;
 use Illuminate\Support\Str;
 
-class WooviPaymentGateway implements PaymentGatewayInterface
+final class WooviPaymentGateway implements PaymentGatewayInterface
 {
     public function __construct(private Client $client) {}
 

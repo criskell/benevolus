@@ -6,7 +6,7 @@ use App\Models\Donation;
 use App\Models\Transaction;
 use App\Models\User;
 
-class TransactionService
+final class TransactionService
 {
     public function create(array $attributes): Transaction
     {

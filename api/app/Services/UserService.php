@@ -6,7 +6,7 @@ use App\DTO\User\DonorDTO;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class UserService
+final class UserService
 {
     public function findOrCreateDonor(DonorDTO $donor): User
     {

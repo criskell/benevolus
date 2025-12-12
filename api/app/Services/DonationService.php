@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\DTO\Donation\DonationDTO;
 use App\Models\Donation;
 use App\Models\User;
-use Illuminate\Database\ConnectionInterface;
 
-class DonationService
+final class DonationService
 {
     public function create(array $attributes): Donation
     {

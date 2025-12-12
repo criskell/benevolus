@@ -11,7 +11,7 @@ use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
-class StripePaymentGateway implements PaymentGatewayInterface
+final class StripePaymentGateway implements PaymentGatewayInterface
 {
     private StripeClient $stripe;
 
