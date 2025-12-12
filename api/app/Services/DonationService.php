@@ -78,4 +78,14 @@ class DonationService
             ->latest('paid_at')
             ->paginate($perPage);
     }
+
+    public function isUserDonorForCampaign(?User $user, int $campaignId)
+    {
+        if (!$user) return false;
+
+        return $user->donations()
+            ->where('campaign_id', $campaignId)
+            ->where('payment_status', 'paid')
+            ->exists();
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\CampaignController;
 use App\Http\Controllers\API\CampaignFavoriteController;
 use App\Http\Controllers\API\CampaignImageController;
+use App\Http\Controllers\API\CampaignUpdateController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\CommentReactionController;
 use App\Http\Controllers\API\DonationController;
@@ -25,6 +26,7 @@ Route::apiResource('donations', DonationController::class)->only(['store']);
 Route::apiResource('campaigns', CampaignController::class);
 Route::post('/campaigns/{campaign}/images', [CampaignImageController::class, 'store']);
 Route::apiResource('campaigns.withdrawals', WithdrawalController::class)->shallow()->except(['destroy', 'update']);
+Route::apiResource('campaigns.updates', CampaignUpdateController::class)->shallow()->except(['update']);
 Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);
 Route::post('/comments/{comment}/react', [CommentReactionController::class, 'toggle']);
 Route::get('/profile/campaigns/favorited', [CampaignFavoriteController::class, 'index']);
