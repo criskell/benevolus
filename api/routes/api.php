@@ -10,11 +10,14 @@ use App\Http\Controllers\API\LeaderboardController;
 use App\Http\Controllers\API\OAuthController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\ReportController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/auth/{provider}/redirect', [OAuthController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [OAuthController::class, 'callback']);
 Route::apiSingleton('profile', ProfileController::class);
+
+Route::post('/woovi/webhook', [WebhookController::class, 'receive']);
 
 Route::apiResource('donations', DonationController::class)->only(['store']);
 
