@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(CommentReaction::class);
     }
+
+    public function oAuthAccounts(): HasMany
+    {
+        return $this->hasMany(OAuthAccount::class);
+    }
 }

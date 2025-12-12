@@ -7,10 +7,13 @@ use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\CommentReactionController;
 use App\Http\Controllers\API\DonationController;
 use App\Http\Controllers\API\LeaderboardController;
+use App\Http\Controllers\API\OAuthController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\ReportController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/auth/{provider}/redirect', [OAuthController::class, 'redirect']);
+Route::get('/auth/{provider}/callback', [OAuthController::class, 'callback']);
 Route::apiSingleton('profile', ProfileController::class);
 
 Route::apiResource('donations', DonationController::class)->only(['store']);

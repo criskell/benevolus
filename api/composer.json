@@ -16,6 +16,7 @@
         "laravel/fortify": "^1.25",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.24",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-aws-s3-v3": "^3.0",
         "open-pix/php-sdk": "^1.1",
