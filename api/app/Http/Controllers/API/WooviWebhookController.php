@@ -67,8 +67,8 @@ class WooviWebhookController extends Controller
 
         // FIXME: Apply taxes.
         // FIXME: Implement double entry bookkeeping ledger.
+        // FIXME: Ports and adapters architecture.
         $amount = $request->input('charge.value');
-
         $donation->campaign->increment('available_balance_cents', $amount);
 
         return response()->json(['message' => 'Success.']);
