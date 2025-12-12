@@ -12,14 +12,14 @@ use App\Http\Controllers\API\OAuthController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\WithdrawalController;
-use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\API\WooviWebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/auth/{provider}/redirect', [OAuthController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [OAuthController::class, 'callback']);
 Route::apiSingleton('profile', ProfileController::class);
 
-Route::post('/woovi/webhook', [WebhookController::class, 'receive']);
+Route::post('/woovi/webhook', [WooviWebhookController::class, 'receive']);
 
 Route::apiResource('donations', DonationController::class)->only(['store']);
 Route::apiResource('campaigns.donations', DonationController::class)->shallow()->only(['index']);

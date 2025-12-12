@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use Illuminate\Http\Request;
 use OpenPix\PhpSdk\Client;
 
-class WebhookController extends Controller
+class WooviWebhookController extends Controller
 {
     const SIGNATURE_HEADER = 'x-webhook-signature';
 
@@ -47,9 +48,9 @@ class WebhookController extends Controller
 
     public function handleChargePaidWebhook(Request $request)
     {
-        $correlationID = $request->input('charge.correlationID');
+        $correlationId = $request->input('charge.correlationID');
 
-        $donation = Donation::where('external_reference', $correlationID)->first();
+        $donation = Donation::where('external_reference', $correlationId)->first();
 
         if (empty($donation)) {
             return response()->json([
@@ -63,6 +64,12 @@ class WebhookController extends Controller
 
         $donation->payment_status = 'paid';
         $donation->save();
+
+        // FIXME: Apply taxes.
+        // FIXME: Implement double entry bookkeeping ledger.
+        $amount = $request->input('charge.value');
+
+        $donation->campaign->increment('available_balance_cents', $amount);
 
         return response()->json(['message' => 'Success.']);
     }
