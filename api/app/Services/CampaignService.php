@@ -8,28 +8,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final class CampaignService
 {
-    public function getById(int $campaignId): Campaign
-    {
-        $campaign = Campaign::withCount('favoritedByUsers')
-            ->findOrFail($campaignId);
-
-        $recentComments = $campaign->comments()
-            ->with('user')
-            ->latest()
-            ->take(15)
-            ->get();
-
-        $recentUpdates = $campaign->updates()
-            ->latest()
-            ->take(15)
-            ->get();
-
-        $campaign->setRelation('recentComments', $recentComments);
-        $campaign->setRelation('recentUpdates', $recentUpdates);
-
-        return $campaign;
-    }
-
     public function list(array $filters = []): LengthAwarePaginator
     {
         $query = Campaign::query();
@@ -52,6 +30,28 @@ final class CampaignService
         return $query->orderBy('created_at', 'desc')->paginate();
     }
 
+    public function findById(int $campaignId): Campaign
+    {
+        $campaign = Campaign::withCount('favoritedByUsers')
+            ->findOrFail($campaignId);
+
+        $recentComments = $campaign->comments()
+            ->with('user')
+            ->latest()
+            ->take(15)
+            ->get();
+
+        $recentUpdates = $campaign->updates()
+            ->latest()
+            ->take(15)
+            ->get();
+
+        $campaign->setRelation('recentComments', $recentComments);
+        $campaign->setRelation('recentUpdates', $recentUpdates);
+
+        return $campaign;
+    }
+
     public function create(array $data, User $user): Campaign
     {
         $data = $this->mapPersistentEntity($data);
@@ -65,11 +65,6 @@ final class CampaignService
         $campaign->update($data);
 
         return $campaign;
-    }
-
-    public function find(int $id): ?Campaign
-    {
-        return Campaign::find($id);
     }
 
     public function delete(Campaign $campaign): void

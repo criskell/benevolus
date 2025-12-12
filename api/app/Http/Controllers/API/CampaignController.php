@@ -24,7 +24,7 @@ class CampaignController extends Controller
 
     public function show(int $id)
     {
-        $campaign = $this->campaignService->getById($id);
+        $campaign = $this->campaignService->findById($id);
 
         return new CampaignResource($campaign);
     }
