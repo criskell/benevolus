@@ -17,6 +17,7 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "open-pix/php-sdk": "^1.1",
         "scalar/laravel": "^0.2.0",
         "stripe/stripe-php": "^19.0"

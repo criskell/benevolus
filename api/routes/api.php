@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\CampaignController;
 use App\Http\Controllers\API\CampaignFavoriteController;
+use App\Http\Controllers\API\CampaignImageController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\CommentReactionController;
 use App\Http\Controllers\API\DonationController;
@@ -15,6 +16,8 @@ Route::apiSingleton('profile', ProfileController::class);
 Route::apiResource('donations', DonationController::class)->only(['store']);
 
 Route::apiResource('campaigns', CampaignController::class);
+Route::post('/campaigns/{campaign}/images', [CampaignImageController::class, 'store']);
+
 Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);
 Route::post('/comments/{comment}/react', [CommentReactionController::class, 'toggle']);
 

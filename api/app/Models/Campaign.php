@@ -62,4 +62,9 @@ class Campaign extends Model
     {
         return $this->hasMany(Report::class);
     }
+
+    public function assets(): HasMany
+    {
+        return $this->hasMany(CampaignAsset::class);
+    }
 }
