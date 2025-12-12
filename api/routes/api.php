@@ -22,8 +22,10 @@ Route::apiSingleton('profile', ProfileController::class);
 Route::post('/woovi/webhook', [WebhookController::class, 'receive']);
 
 Route::apiResource('donations', DonationController::class)->only(['store']);
+Route::apiResource('campaigns.donations', DonationController::class)->shallow()->only(['index']);
 
 Route::apiResource('campaigns', CampaignController::class);
+
 Route::post('/campaigns/{campaign}/images', [CampaignImageController::class, 'store']);
 Route::apiResource('campaigns.withdrawals', WithdrawalController::class)->shallow()->except(['destroy', 'update']);
 Route::apiResource('campaigns.updates', CampaignUpdateController::class)->shallow()->except(['update']);

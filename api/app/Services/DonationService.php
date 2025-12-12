@@ -7,6 +7,33 @@ use App\Models\User;
 
 final class DonationService
 {
+    public function findById(int $id): ?Donation
+    {
+        return Donation::find($id);
+    }
+
+    public function findByExternalReference(string $externalReference): ?Donation
+    {
+        return Donation::where('external_reference_id', $externalReference)->first();
+    }
+
+    public function findDonationsByUser(int $userId)
+    {
+        return Donation::where('user_id', $userId)
+            ->with('campaign')
+            ->latest()
+            ->paginate();
+    }
+
+    public function findPaidDonationsByCampaign(int $campaignId)
+    {
+        return Donation::where('campaign_id', $campaignId)
+            ->where('payment_status', 'paid')
+            ->with('user')
+            ->latest('paid_at')
+            ->paginate();
+    }
+
     public function create(array $attributes): Donation
     {
         return Donation::create($attributes);
@@ -47,34 +74,6 @@ final class DonationService
         ]);
 
         return $donation->fresh();
-    }
-
-    public function findById(int $id): ?Donation
-    {
-        return Donation::find($id);
-    }
-
-    public function findByExternalReference(string $externalReference): ?Donation
-    {
-        return Donation::where('external_reference_id', $externalReference)
-            ->first();
-    }
-
-    public function getDonationsByUser(int $userId, int $perPage = 15)
-    {
-        return Donation::where('user_id', $userId)
-            ->with('campaign')
-            ->latest()
-            ->paginate($perPage);
-    }
-
-    public function getDonationsByCampaign(int $campaignId, int $perPage = 15)
-    {
-        return Donation::where('campaign_id', $campaignId)
-            ->where('payment_status', 'paid')
-            ->with('user')
-            ->latest('paid_at')
-            ->paginate($perPage);
     }
 
     public function isUserDonorForCampaign(?User $user, int $campaignId)

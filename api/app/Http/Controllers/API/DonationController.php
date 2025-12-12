@@ -5,17 +5,30 @@ namespace App\Http\Controllers\API;
 use App\DTO\Donation\DonationDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DonateRequest;
+use App\Http\Resources\CampaignDonationResource;
 use App\Http\Resources\DonationResource;
 use App\Http\Resources\PaymentResource;
 use App\Http\Responses\ApiResponse;
+use App\Models\Campaign;
 use App\Services\DonationProcessor;
+use App\Services\DonationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 
-class DonationController extends Controller
+final class DonationController extends Controller
 {
-    public function __construct(private DonationProcessor $donationProcessor) {}
+    public function __construct(
+        private DonationService $donationService,
+        private DonationProcessor $donationProcessor
+    ) {}
+
+    public function index(Campaign $campaign)
+    {
+        $donations = $this->donationService->findPaidDonationsByCampaign($campaign->id);
+
+        return CampaignDonationResource::collection($donations);
+    }
 
     #[OA\Post(
         operationId: "createDonation",
