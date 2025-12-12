@@ -2,8 +2,13 @@
 
 import { Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 
 export function HeroSection() {
+  const t = useTranslations('home');
+
+  console.log(t);
+
   return (
     <section className="z-20 flex flex-col items-center justify-center gap-[18px] sm:gap-6">
       <Button
@@ -27,8 +32,7 @@ export function HeroSection() {
         </div>
       </div>
       <p className="text-default-500 text-center leading-7 font-normal sm:w-[466px] sm:text-[18px]">
-        Cada contribuição aproxima sonhos e ajuda quem mais precisa. Junte-se a
-        uma comunidade que faz a diferença.
+        {t('headline')}
       </p>
       <div className="flex flex-col items-center justify-center gap-6 sm:flex-row">
         <Button color="primary" radius="full">
