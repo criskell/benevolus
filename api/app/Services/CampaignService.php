@@ -56,6 +56,9 @@ final class CampaignService
     {
         $data = $this->mapPersistentEntity($data);
 
+        $data['status'] = 'open';
+        $data['amount_raised_cents'] = 0;
+
         return $user->campaigns()->create($data);
     }
 
