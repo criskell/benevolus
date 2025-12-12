@@ -7,11 +7,15 @@ use App\Http\Requests\StoreWithdrawalRequest;
 use App\Http\Resources\WithdrawalResource;
 use App\Models\Campaign;
 use App\Models\Withdrawal;
+use App\Services\WithdrawalProcessor;
 use App\Services\WithdrawalService;
 
 class WithdrawalController extends Controller
 {
-    public function __construct(private WithdrawalService $withdrawalService) {}
+    public function __construct(
+        private WithdrawalService $withdrawalService,
+        private WithdrawalProcessor $withdrawalProcessor
+    ) {}
 
     public function index()
     {
@@ -28,7 +32,11 @@ class WithdrawalController extends Controller
             'amountCents' => $request->amountCents,
         ];
 
-        $this->withdrawalService->create($campaign, $data);
+        // FIXME: Validate campaign account balance.
+        $withdrawal = $this->withdrawalService->create($campaign, $data);
+
+        // FIXME: Background processing.
+        $this->withdrawalProcessor->process($withdrawal);
 
         return response()->noContent();
     }
