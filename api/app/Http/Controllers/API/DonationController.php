@@ -25,7 +25,7 @@ final class DonationController extends Controller
 
     public function index(Campaign $campaign)
     {
-        $donations = $this->donationService->findPaidDonationsByCampaign($campaign->id);
+        $donations = $this->donationService->listPaidDonationsByCampaign($campaign->id);
 
         return CampaignDonationResource::collection($donations);
     }

@@ -8,6 +8,8 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final class CampaignService
 {
+    public function __construct(private DonationService $donationService) {}
+
     public function list(array $filters = []): LengthAwarePaginator
     {
         $query = Campaign::query();
@@ -46,8 +48,11 @@ final class CampaignService
             ->take(15)
             ->get();
 
+        $recentDonations = $this->donationService->findRecentDonations($campaignId);
+
         $campaign->setRelation('recentComments', $recentComments);
         $campaign->setRelation('recentUpdates', $recentUpdates);
+        $campaign->setRelation('recentDonations', $recentDonations);
 
         return $campaign;
     }

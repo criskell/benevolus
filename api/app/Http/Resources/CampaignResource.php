@@ -34,6 +34,7 @@ class CampaignResource extends JsonResource
             'favoriteCount' => $this->favorites_count ?? 0,
             'comments' => CommentResource::collection($this->whenLoaded('recentComments')),
             'updates' => CampaignUpdateResource::collection($this->whenLoaded('recentUpdates')),
+            'donations' => CampaignDonationResource::collection($this->whenLoaded('recentDonations')),
         ];
     }
 }

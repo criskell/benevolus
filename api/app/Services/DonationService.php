@@ -25,13 +25,22 @@ final class DonationService
             ->paginate();
     }
 
-    public function findPaidDonationsByCampaign(int $campaignId)
+    private function queryPaidDonationsByCampaign(int $campaignId)
     {
         return Donation::where('campaign_id', $campaignId)
             ->where('payment_status', 'paid')
             ->with('user')
-            ->latest('paid_at')
-            ->paginate();
+            ->latest('paid_at');
+    }
+
+    public function findRecentDonations(int $campaignId)
+    {
+        return $this->queryPaidDonationsByCampaign($campaignId)->take(15)->get();
+    }
+
+    public function listPaidDonationsByCampaign(int $campaignId)
+    {
+        return $this->queryPaidDonationsByCampaign($campaignId)->paginate();
     }
 
     public function create(array $attributes): Donation
