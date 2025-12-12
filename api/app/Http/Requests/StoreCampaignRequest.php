@@ -12,6 +12,7 @@ class StoreCampaignRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'goalCents' => 'required|numeric|min:1',
+            'expiresAt' => 'nullable|date',
         ];
     }
 

@@ -22,6 +22,10 @@ class Campaign extends Model
         'expires_at',
     ];
 
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
+
     public static function validStatuses(): array
     {
         return [

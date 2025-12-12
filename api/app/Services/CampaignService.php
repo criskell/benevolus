@@ -6,7 +6,7 @@ use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class CampaignService
+final class CampaignService
 {
     public function getById(int $campaignId): Campaign
     {
@@ -30,7 +30,7 @@ class CampaignService
         return $campaign;
     }
 
-    public function list(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function list(array $filters = []): LengthAwarePaginator
     {
         $query = Campaign::query();
 
@@ -49,21 +49,19 @@ class CampaignService
             });
         }
 
-        return $query->orderBy('created_at', 'desc')->paginate($perPage);
+        return $query->orderBy('created_at', 'desc')->paginate();
     }
 
-    public function create(User $user, array $data): Campaign
+    public function create(array $data, User $user): Campaign
     {
+        $data = $this->mapPersistentEntity($data);
+
         return $user->campaigns()->create($data);
     }
 
     public function update(Campaign $campaign, array $data): Campaign
     {
-        if (isset($data['goalCents'])) {
-            $data['goal_cents'] = $data;
-            unset($data['goal_cents']);
-        }
-
+        $data = $this->mapPersistentEntity($data);
         $campaign->update($data);
 
         return $campaign;
@@ -77,5 +75,15 @@ class CampaignService
     public function delete(Campaign $campaign): void
     {
         $campaign->delete();
+    }
+
+    private function mapPersistentEntity(array $data): array
+    {
+        return [
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'goal_cents' => $data['goalCents'],
+            'expires_at' => $data['expiresAt'],
+        ];
     }
 }

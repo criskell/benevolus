@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
+use App\Services\CampaignService;
 use App\Http\Requests\StoreCampaignRequest;
 use App\Http\Requests\UpdateCampaignRequest;
 use App\Http\Resources\CampaignResource;
-use App\Models\Campaign;
-use App\Services\CampaignService;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
@@ -17,9 +17,7 @@ class CampaignController extends Controller
     public function index(Request $request)
     {
         $filters = $request->only(['status', 'userId', 'search']);
-        $perPage = $request->get('per_page', 15);
-
-        $campaigns = $this->campaignService->list($filters, $perPage);
+        $campaigns = $this->campaignService->list($filters);
 
         return CampaignResource::collection($campaigns);
     }
@@ -33,7 +31,7 @@ class CampaignController extends Controller
 
     public function store(StoreCampaignRequest $request)
     {
-        $campaign = $this->campaignService->create($request->validated(), $request->user()->id);
+        $campaign = $this->campaignService->create($request->validated(), $request->user());
 
         return new CampaignResource($campaign);
     }
