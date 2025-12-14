@@ -12,6 +12,9 @@ import {
 } from '@heroui/react';
 import { useId, useState } from 'react';
 import { PixIcon } from '@/components/icons/pix';
+import { BarcodeIcon, CreditCardIcon } from 'lucide-react';
+import { PayPalIcon } from '@/components/icons/paypal';
+import { BitcoinIcon } from '@/components/icons/bitcoin';
 
 export function DonateForm() {
   const phoneInputId = useId();
@@ -128,10 +131,41 @@ export function DonateForm() {
         <p className="text-sm font-medium text-zinc-700 mb-4">
           Formas de pagamento
         </p>
-        <div className="grid grid-cols-4 gap-3">
-          <button className="flex flex-col items-center p-4 rounded-lg border-2 transition-colors border-blue-500 bg-blue-50">
+
+        <div className="flex gap-3 flex-wrap">
+          <button className="flex flex-col items-center p-4 rounded-lg border-2 transition-colors border-blue-500 bg-blue-50 w-40 grow">
             <PixIcon width={24} height={24} />
-            <span className="text-sm font-medium text-gray-900">Pix</span>
+            <span className="text-sm font-medium text-gray-900 mt-auto">
+              Pix
+            </span>
+          </button>
+
+          <button className="flex flex-col items-center p-4 rounded-lg border-2 transition-colors border-divider w-40 grow">
+            <CreditCardIcon width={24} height={24} />
+            <span className="text-sm font-medium text-gray-900">
+              Cartão de crédito ou débito
+            </span>
+          </button>
+
+          <button className="flex flex-col items-center p-4 rounded-lg transition-colors border-2 border-divider w-40 grow">
+            <BarcodeIcon width={24} height={24} />
+            <span className="text-sm font-medium text-gray-900 mt-auto">
+              Boleto
+            </span>
+          </button>
+
+          <button className="flex flex-col items-center p-4 rounded-lg transition-colors border-2 border-divider w-40 grow">
+            <BitcoinIcon height={24} width={24} />
+            <span className="text-sm font-medium text-gray-900 mt-auto">
+              Bitcoin
+            </span>
+          </button>
+
+          <button className="flex flex-col items-center p-4 rounded-lg transition-colors border-2 border-divider w-40 grow">
+            <PayPalIcon width={24} height={24} />
+            <span className="text-sm font-medium text-gray-900 mt-auto">
+              PayPal
+            </span>
           </button>
         </div>
       </Card>
