@@ -15,6 +15,7 @@ import { PixIcon } from '@/components/icons/pix';
 import { BarcodeIcon, CreditCardIcon } from 'lucide-react';
 import { PayPalIcon } from '@/components/icons/paypal';
 import { BitcoinIcon } from '@/components/icons/bitcoin';
+import { PaymentMethodButton } from './payment-method-button';
 
 export function DonateForm() {
   const phoneInputId = useId();
@@ -133,40 +134,26 @@ export function DonateForm() {
         </p>
 
         <div className="flex gap-3 flex-wrap">
-          <button className="flex flex-col items-center p-4 rounded-lg border-2 transition-colors border-blue-500 bg-blue-50 w-40 grow">
-            <PixIcon width={24} height={24} />
-            <span className="text-sm font-medium text-gray-900 mt-auto">
-              Pix
-            </span>
-          </button>
-
-          <button className="flex flex-col items-center p-4 rounded-lg border-2 transition-colors border-divider w-40 grow">
-            <CreditCardIcon width={24} height={24} />
-            <span className="text-sm font-medium text-gray-900">
-              Cartão de crédito ou débito
-            </span>
-          </button>
-
-          <button className="flex flex-col items-center p-4 rounded-lg transition-colors border-2 border-divider w-40 grow">
-            <BarcodeIcon width={24} height={24} />
-            <span className="text-sm font-medium text-gray-900 mt-auto">
-              Boleto
-            </span>
-          </button>
-
-          <button className="flex flex-col items-center p-4 rounded-lg transition-colors border-2 border-divider w-40 grow">
-            <BitcoinIcon height={24} width={24} />
-            <span className="text-sm font-medium text-gray-900 mt-auto">
-              Bitcoin
-            </span>
-          </button>
-
-          <button className="flex flex-col items-center p-4 rounded-lg transition-colors border-2 border-divider w-40 grow">
-            <PayPalIcon width={24} height={24} />
-            <span className="text-sm font-medium text-gray-900 mt-auto">
-              PayPal
-            </span>
-          </button>
+          <PaymentMethodButton
+            icon={<PixIcon width={24} height={24} />}
+            title="Pix"
+          />
+          <PaymentMethodButton
+            icon={<CreditCardIcon width={24} height={24} />}
+            title="Cartão de crédito ou débito"
+          />
+          <PaymentMethodButton
+            icon={<BarcodeIcon width={24} height={24} />}
+            title="Boleto"
+          />
+          <PaymentMethodButton
+            icon={<BitcoinIcon height={24} width={24} />}
+            title="Bitcoin"
+          />
+          <PaymentMethodButton
+            icon={<PayPalIcon width={24} height={24} />}
+            title="Paypal"
+          />
         </div>
       </Card>
 
