@@ -1,18 +1,18 @@
-import placeholderImage1 from "@/assets/images/placeholder1.jpg";
-import placeholderImage2 from "@/assets/images/placeholder2.jpg";
+import placeholderImage1 from '@/assets/images/placeholder1.jpg';
+import placeholderImage2 from '@/assets/images/placeholder2.jpg';
 
-import { CampaignCard } from "@/components/campaign/campaign-card";
-import type { Campaign } from "@/models/campaign";
+import { CampaignCard } from '@/components/campaign/campaign-card';
+import type { Campaign } from '@/models/campaign';
 
-import { HeroSection } from "./hero-section";
-import { CategoryNavigation } from "./category-navigation";
-import { CallToAction } from "./call-to-action";
+import { HeroSection } from './hero-section';
+import { CategoryNavigation } from './category-navigation';
+import { CallToAction } from './call-to-action';
 
 const mockedCampaigns: Campaign[] = [
   {
-    category: "SAÚDE",
+    category: 'SAÚDE',
     title:
-      "Fulano luta contra câncer raro e várias metástases, além disso, ainda corre risco de ser despejado da casa onde mora com a mãe",
+      'Fulano luta contra câncer raro e várias metástases, além disso, ainda corre risco de ser despejado da casa onde mora com a mãe',
     daysRemaining: 22,
     progress: 1,
     currentAmount: 48245,
@@ -20,9 +20,9 @@ const mockedCampaigns: Campaign[] = [
     images: [placeholderImage1.src, placeholderImage2.src],
   },
   {
-    category: "SAÚDE",
+    category: 'SAÚDE',
     title:
-      "Vaquinha para Fulana, mãe solo que cria sozinha seus gêmeos prematuros",
+      'Vaquinha para Fulana, mãe solo que cria sozinha seus gêmeos prematuros',
     daysRemaining: 22,
     progress: 3,
     currentAmount: 169035,
@@ -30,9 +30,9 @@ const mockedCampaigns: Campaign[] = [
     images: [placeholderImage1.src, placeholderImage2.src],
   },
   {
-    category: "SAÚDE",
+    category: 'SAÚDE',
     title:
-      "Fulano, bebê de apenas 11 meses, precisa de ajuda para continuar lutando contra leucemia mieloide aguda",
+      'Fulano, bebê de apenas 11 meses, precisa de ajuda para continuar lutando contra leucemia mieloide aguda',
     daysRemaining: 22,
     progress: 1,
     currentAmount: 40706,
@@ -40,9 +40,9 @@ const mockedCampaigns: Campaign[] = [
     images: [placeholderImage1.src, placeholderImage2.src],
   },
   {
-    category: "MORADIA",
+    category: 'MORADIA',
     title:
-      "Avó de 64 anos que perdeu neto de 8 ano e cria um outro com depressão pede ajuda para sair do morro",
+      'Avó de 64 anos que perdeu neto de 8 ano e cria um outro com depressão pede ajuda para sair do morro',
     daysRemaining: 22,
     progress: 4,
     currentAmount: 344710,
@@ -50,9 +50,9 @@ const mockedCampaigns: Campaign[] = [
     images: [placeholderImage1.src, placeholderImage2.src],
   },
   {
-    category: "SAÚDE",
+    category: 'SAÚDE',
     title:
-      "Criança de 5 anos chora de dor o dia inteiro por causa de crises. Ela precisa urgente de tratamento!",
+      'Criança de 5 anos chora de dor o dia inteiro por causa de crises. Ela precisa urgente de tratamento!',
     daysRemaining: 15,
     progress: 62,
     currentAmount: 6184969,
@@ -60,9 +60,9 @@ const mockedCampaigns: Campaign[] = [
     images: [placeholderImage1.src, placeholderImage2.src],
   },
   {
-    category: "MORADIA",
+    category: 'MORADIA',
     title:
-      "Após amputar as pernas por causa de um câncer agressivo, Dona Fulana sonha em deixar a casa que mora que está condenada e caindo",
+      'Após amputar as pernas por causa de um câncer agressivo, Dona Fulana sonha em deixar a casa que mora que está condenada e caindo',
     daysRemaining: 15,
     progress: 8,
     currentAmount: 548818,
@@ -74,7 +74,7 @@ const mockedCampaigns: Campaign[] = [
 export default function Home() {
   return (
     <main className="space-y-16">
-      <div className="container mx-auto flex-1 flex flex-col items-center justify-center px-8 my-16 space-y-16">
+      <div className="container max-w-[1280px] mx-auto flex-1 flex flex-col items-center justify-center px-8 my-16 space-y-16">
         <HeroSection />
         <div className="max-w-full">
           <CategoryNavigation />
