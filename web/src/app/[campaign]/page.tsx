@@ -1,8 +1,5 @@
 'use client';
 
-import { createDonation } from '@/lib/http/generated';
-import { formatMoney } from '@/lib/utils/format-money';
-import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 import { Card, CardBody } from '@heroui/card';
 import { Chip, Button, Progress, Avatar, Badge } from '@heroui/react';
 import {
@@ -13,6 +10,11 @@ import {
   UsersIcon,
   ZapIcon,
 } from 'lucide-react';
+
+import { createDonation } from '@/lib/http/generated';
+import { formatMoney } from '@/lib/utils/format-money';
+import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
+import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 
 export default function CampaignPage() {
   return (
@@ -27,6 +29,7 @@ export default function CampaignPage() {
             getInitials={getUserNameInitials}
             color="primary"
             size="lg"
+            className="flex-shrink-0"
           />
 
           <div>
@@ -35,6 +38,14 @@ export default function CampaignPage() {
                 Campanha para Fulana, mãe solo que cria sozinha seus gêmeos
                 prematuros
               </h2>
+            </div>
+
+            <div>
+              <img
+                src={placeholderImage1.src}
+                alt="Imagem"
+                className="rounded-lg h-80 mt-4"
+              />
             </div>
 
             <div className="mt-4">
@@ -46,12 +57,12 @@ export default function CampaignPage() {
 
                 <span className="inline-flex items-center gap-2">
                   <UsersIcon size={20} />
-                  567 apoiadores
+                  567 doadores
                 </span>
 
                 <span className="inline-flex items-center gap-2">
                   <MessageCircleIcon size={20} />
-                  89 mensagens
+                  89 comentários
                 </span>
               </div>
 
@@ -64,6 +75,21 @@ export default function CampaignPage() {
                 </Chip>
               </div>
             </div>
+          </div>
+        </Card>
+
+        <Card className="p-12 border border-divider" shadow="none">
+          <p className="text-lg font-semibold mb-6">Imagens</p>
+
+          <div className="flex gap-2 overflow-x-auto">
+            {Array.from({ length: 10 }, (_, index) => (
+              <img
+                src={placeholderImage1.src}
+                alt="Imagem"
+                className="rounded-lg w-80 object-cover mt-4"
+                key={index}
+              />
+            ))}
           </div>
         </Card>
 
@@ -102,13 +128,13 @@ export default function CampaignPage() {
 
         <Card className="p-12 border border-divider" shadow="none">
           <div className="text-lg font-semibold mb-6 flex items-center gap-4">
-            Novidades
+            Atualizações
             <Badge content="0"> </Badge>
           </div>
 
           <p className="text-center text-zinc-500">
-            Por enquanto não temos novidades. <br /> Fique de olho, atualizações
-            serão sempre divulgadas.
+            Por enquanto não temos atualizações desta campanha. <br /> Fique de
+            olho, atualizações serão sempre divulgadas.
           </p>
         </Card>
 
@@ -163,21 +189,23 @@ export default function CampaignPage() {
                 />
 
                 <div className="text-sm space-y-1 text-zinc-700">
-                  <p>{donation.donor.name}</p>
+                  <p className="font-bold">{donation.donor.name}</p>
                   <p>{donation.createdAt}</p>
                 </div>
 
-                <p className="ml-auto">R$ {formatMoney(donation.value)}</p>
+                <p className="ml-auto text-green-500">
+                  R$ {formatMoney(donation.value)}
+                </p>
               </div>
             ))}
 
-            <Button variant="light">Ver mais</Button>
+            <Button variant="flat">Ver mais</Button>
           </div>
         </Card>
 
         <Card className="p-12 border border-divider" shadow="none">
           <div className="text-lg font-semibold mb-6 flex items-center gap-6">
-            Mensagens
+            Comentários
             <Badge content="2"> </Badge>
           </div>
 
@@ -202,12 +230,18 @@ export default function CampaignPage() {
                   getInitials={getUserNameInitials}
                 />
 
-                <div className="text-sm space-y-2">
+                <div className="text-sm space-y-2 w-full">
                   <p className="font-semibold">{message.author.name}</p>
+
                   <p>{message.body}</p>
-                  <Button size="sm" variant="flat">
-                    Responder
-                  </Button>
+
+                  <div className="flex justify-between">
+                    <HeartIcon className="text-red-500" />
+
+                    <Button size="sm" color="primary">
+                      Responder
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
