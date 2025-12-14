@@ -15,6 +15,7 @@
         "guzzlehttp/psr7": "^2.8",
         "laravel/fortify": "^1.25",
         "laravel/framework": "^12.0",
+        "laravel/reverb": "^1.0",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.24",
         "laravel/tinker": "^2.10.1",
