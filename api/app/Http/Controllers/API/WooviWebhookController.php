@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\DonationPaid;
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use Illuminate\Http\Request;
@@ -70,6 +71,8 @@ class WooviWebhookController extends Controller
         // FIXME: Ports and adapters architecture.
         $amount = $request->input('charge.value');
         $donation->campaign->increment('available_balance_cents', $amount);
+
+        event(new DonationPaid($donation->external_reference));
 
         return response()->json(['message' => 'Success.']);
     }
