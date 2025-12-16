@@ -7,7 +7,6 @@ import NextLink from 'next/link';
 import { ProfileSidebar } from '../components/profile-sidebar';
 
 export default function CardsPage() {
-  // Dados mockados - serão substituídos por dados reais da API
   const userData = {
     name: 'Cristiano',
     followedCampaigns: 0,
@@ -20,7 +19,7 @@ export default function CardsPage() {
     { label: 'Configurações', active: false },
   ];
 
-  const hasCards = false; // Será substituído por verificação real
+  const hasCards = false;
 
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
@@ -44,7 +43,7 @@ export default function CardsPage() {
               color="primary"
               startContent={<Plus size={20} />}
               as={NextLink}
-              href="#"
+              href="/profile/cards/add"
             >
               Adicionar
             </Button>
@@ -52,22 +51,19 @@ export default function CardsPage() {
 
           {!hasCards ? (
             <div className="flex flex-col items-center justify-center py-20">
-              {/* Ilustração */}
               <div className="flex items-center justify-center mb-8">
                 <div className="w-24 h-24 rounded-full bg-default-100 flex items-center justify-center">
                   <CreditCard size={40} className="text-default-400" />
                 </div>
               </div>
 
-              {/* Mensagem de estado vazio */}
               <p className="text-default-500 text-center mb-4">
                 Você ainda não possui nenhum cartão cadastrado conosco.
               </p>
 
-              {/* Link para adicionar */}
               <Link
                 as={NextLink}
-                href="#"
+                href="/profile/cards/add"
                 color="primary"
                 className="text-primary font-medium cursor-pointer"
               >
@@ -75,9 +71,7 @@ export default function CardsPage() {
               </Link>
             </div>
           ) : (
-            <div>
-              {/* Aqui será exibida a lista de cartões quando houver */}
-            </div>
+            <div></div>
           )}
         </main>
       </div>
