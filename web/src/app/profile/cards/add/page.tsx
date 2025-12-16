@@ -195,7 +195,7 @@ export default function AddCardPage() {
                         }}
                       >
                         {estados.map((estado) => (
-                          <SelectItem key={estado} value={estado}>
+                          <SelectItem key={estado}>
                             {estado}
                           </SelectItem>
                         ))}
@@ -216,7 +216,7 @@ export default function AddCardPage() {
                           updateField('city', value || '');
                         }}
                       >
-                        <SelectItem key="sao-jose-dos-campos" value="sao-jose-dos-campos">
+                        <SelectItem key="sao-jose-dos-campos">
                           São José dos Campos
                         </SelectItem>
                       </Select>
