@@ -2,6 +2,13 @@
 
 import axios from "axios";
 import { useState } from "react";
+import {
+  AuthCard,
+  AuthInput,
+  AuthButton,
+  AuthForm,
+  AuthLink,
+} from "@/app/auth/_components";
 
 const api = axios.create({
   baseURL: "http://localhost",
@@ -18,11 +25,11 @@ export const SignUpForm = () => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    const { name, value } = e.currentTarget;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     await api.get("/sanctum/csrf-cookie");
@@ -30,99 +37,45 @@ export const SignUpForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
-      <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-2xl shadow-xl p-8 space-y-6 border border-zinc-200 dark:border-zinc-800">
-        <h2 className="text-3xl font-bold text-center text-zinc-900 dark:text-zinc-100">
-          Criar conta
-        </h2>
-
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-            >
-              Nome completo
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="mt-1 block w-full px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-600"
-              placeholder="Seu nome"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-            >
-              E-mail
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="mt-1 block w-full px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-600"
-              placeholder="seu@email.com"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-            >
-              Senha
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="mt-1 block w-full px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-600"
-              placeholder="••••••••"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="password_confirmation"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-            >
-              Senha
-            </label>
-            <input
-              type="password"
-              id="password_confirmation"
-              value={formData.password_confirmation}
-              onChange={handleChange}
-              className="mt-1 block w-full px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-600"
-              placeholder="••••••••"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-zinc-800 cursor-pointer hover:bg-zinc-700 text-white font-semibold rounded-xl shadow transition duration-300"
-          >
-            Cadastrar
-          </button>
-        </form>
-
-        <p className="text-center text-sm text-zinc-600 dark:text-zinc-400">
-          Já tem uma conta?{" "}
-          <a
-            href="/login"
-            className="text-zinc-900 dark:text-zinc-200 hover:underline font-medium"
-          >
-            Entrar
-          </a>
-        </p>
-      </div>
-    </div>
+    <AuthCard title="Criar Conta">
+      <AuthForm onSubmit={handleSubmit}>
+        <AuthInput
+          label="Nome Completo"
+          name="name"
+          placeholder="Seu nome completo"
+          type="text"
+          value={formData.name}
+          onChange={handleChange}
+        />
+        <AuthInput
+          label="Email"
+          name="email"
+          placeholder="seu@email.com"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <AuthInput
+          label="Senha"
+          name="password"
+          placeholder="Crie uma senha forte"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <AuthInput
+          label="Confirmar Senha"
+          name="password_confirmation"
+          placeholder="Confirme sua senha"
+          type="password"
+          value={formData.password_confirmation}
+          onChange={handleChange}
+        />
+        <AuthLink text="Já tem uma conta?" linkText="Fazer login" href="/auth/login" />
+        <div className="flex gap-2 justify-end">
+          <AuthButton>Cadastrar</AuthButton>
+        </div>
+      </AuthForm>
+    </AuthCard>
   );
 };
