@@ -2,6 +2,7 @@
 
 import { Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 export function HeroSection() {
@@ -34,9 +35,11 @@ export function HeroSection() {
         {t('headline')}
       </p>
       <div className="flex flex-col items-center justify-center gap-6 sm:flex-row">
-        <Button color="primary" radius="full">
-          {t('donate')}
-        </Button>
+        <Link href="/campaigns">
+          <Button color="primary" radius="full">
+            {t('donate')}
+          </Button>
+        </Link>
         <Button
           className="border-default-100"
           endContent={

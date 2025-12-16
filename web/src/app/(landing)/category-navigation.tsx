@@ -6,23 +6,28 @@ import { useContext } from "react";
 import { VisibilityContext, ScrollMenu } from "react-horizontal-scrolling-menu";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 
-const CATEGORIES = [
-  "Todos",
-  "Educação",
-  "Emergenciais",
-  "Empatia",
-  "Esporte",
-  "Geração de renda",
-  "Moradia",
-  "Projetos sociais",
-];
+interface CategoryNavigationProps {
+  categories: string[];
+  selectedCategory: string;
+  onCategorySelect: (category: string) => void;
+}
 
-export const CategoryNavigation = () => {
+export const CategoryNavigation = ({
+  categories,
+  selectedCategory,
+  onCategorySelect,
+}: CategoryNavigationProps) => {
   return (
     <div className="border-default-100 bg-default-50 px-2 rounded-full relative py-2 gap-2">
       <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-        {CATEGORIES.map((category) => (
-          <Category category={category} key={category} itemId={category} />
+        {categories.map((category) => (
+          <Category
+            category={category}
+            key={category}
+            itemId={category}
+            isSelected={category === selectedCategory}
+            onSelect={onCategorySelect}
+          />
         ))}
       </ScrollMenu>
     </div>
@@ -32,15 +37,20 @@ export const CategoryNavigation = () => {
 const Category = ({
   category,
   itemId: _,
+  isSelected,
+  onSelect,
 }: {
   category: string;
   itemId: string;
+  isSelected: boolean;
+  onSelect: (category: string) => void;
 }) => {
   return (
     <Button
-      variant="light"
+      variant={isSelected ? "solid" : "light"}
       radius="full"
-      className="text-default-500 shrink-0 min-w-0"
+      className={`text-default-500 shrink-0 min-w-0 ${isSelected ? 'bg-primary text-white' : ''}`}
+      onPress={() => onSelect(category)}
     >
       {category}
     </Button>
