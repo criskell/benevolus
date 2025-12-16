@@ -9,9 +9,9 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from '@heroui/navbar';
-import { Link } from '@heroui/link';
+
 import { link as linkStyles } from '@heroui/theme';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/react';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Link } from '@heroui/react';
 import { UserIcon, MessageCircle, Wallet, CreditCard, LogOut, ChevronDown } from 'lucide-react';
 import NextLink from 'next/link';
 import clsx from 'clsx';
@@ -59,6 +59,7 @@ export const Navbar = () => {
         justify="end"
       >
         <NavbarItem className="hidden lg:flex">{navbarSearchInput}</NavbarItem>
+        <NavbarItem><Link href="/auth/login">Login</Link></NavbarItem>
         <NavbarItem>
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
