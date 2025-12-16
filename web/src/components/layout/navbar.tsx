@@ -98,6 +98,8 @@ export const Navbar = () => {
               <DropdownItem
                 key="cards"
                 startContent={<CreditCard size={18} />}
+                as={NextLink}
+                href="/profile/cards"
               >
                 Cartões
               </DropdownItem>
