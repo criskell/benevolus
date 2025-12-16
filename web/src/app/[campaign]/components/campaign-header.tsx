@@ -1,8 +1,8 @@
 'use client';
 
 import { Card } from '@heroui/card';
-import { Chip, Avatar } from '@heroui/react';
-import { HeartIcon, MessageCircleIcon, UsersIcon } from 'lucide-react';
+import { Chip, Avatar, Button } from '@heroui/react';
+import { HeartIcon, MessageCircleIcon, UsersIcon, BookmarkIcon } from 'lucide-react';
 
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
@@ -62,6 +62,16 @@ export function CampaignHeader() {
             <Chip color="primary" size="sm">
               Documentos verificados
             </Chip>
+          </div>
+
+          <div className="mt-4">
+            <Button
+              variant="light"
+              startContent={<BookmarkIcon size={16} />}
+              size="sm"
+            >
+              Seguir vaquinha para saber das novidades
+            </Button>
           </div>
         </div>
       </div>
