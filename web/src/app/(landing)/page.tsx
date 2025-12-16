@@ -10,6 +10,7 @@ import { CategoryNavigation } from './category-navigation';
 import { CallToAction } from './call-to-action';
 
 const mappedCampaigns: Campaign[] = campaigns.campaigns.map((c) => ({
+  slug: c.slug,
   title: c.title,
   category: c.category,
   daysRemaining: c.daysRemaining,
@@ -40,8 +41,8 @@ export default function Home() {
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredCampaigns.map((campaign, idx) => (
-            <CampaignCard campaign={campaign} key={idx} />
+          {filteredCampaigns.map((campaign) => (
+            <CampaignCard campaign={campaign} key={campaign.slug} />
           ))}
         </div>
       </div>

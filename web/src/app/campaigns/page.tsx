@@ -12,6 +12,7 @@ import type { Campaign } from '@/models/campaign';
 
 // Map raw data to Campaign model
 const mappedCampaigns: Campaign[] = rawCampaigns.campaigns.map(c => ({
+  slug: c.slug,
   title: c.title,
   category: c.category,
   daysRemaining: c.daysRemaining,
@@ -41,7 +42,7 @@ export default function CampaignsPage() {
 
   const handleApplyFilters = () => {
     // Apply filters logic if needed
-    onOpenChange(false);
+    onOpenChange();
   };
 
   return (
