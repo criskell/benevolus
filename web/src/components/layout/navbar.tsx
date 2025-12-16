@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -9,6 +11,8 @@ import {
 } from '@heroui/navbar';
 import { Link } from '@heroui/link';
 import { link as linkStyles } from '@heroui/theme';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/react';
+import { UserIcon, MessageCircle, Wallet, CreditCard, LogOut, ChevronDown } from 'lucide-react';
 import NextLink from 'next/link';
 import clsx from 'clsx';
 
@@ -55,6 +59,59 @@ export const Navbar = () => {
         justify="end"
       >
         <NavbarItem className="hidden lg:flex">{navbarSearchInput}</NavbarItem>
+        <NavbarItem>
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <button className="flex items-center gap-2 cursor-pointer outline-none">
+                <ChevronDown size={16} className="text-primary" />
+                <span className="text-primary font-medium">Minha conta</span>
+                <UserIcon size={20} className="text-primary" />
+              </button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Menu da conta"
+              variant="flat"
+              className="min-w-[200px]"
+            >
+              <DropdownItem
+                key="profile"
+                startContent={<UserIcon size={18} />}
+                as={NextLink}
+                href="/profile"
+              >
+                Perfil
+              </DropdownItem>
+              <DropdownItem
+                key="donations"
+                startContent={<MessageCircle size={18} />}
+                as={NextLink}
+                href="/profile/donations"
+              >
+                Minhas doações
+              </DropdownItem>
+              <DropdownItem
+                key="wallet"
+                startContent={<Wallet size={18} />}
+              >
+                Minha carteira
+              </DropdownItem>
+              <DropdownItem
+                key="cards"
+                startContent={<CreditCard size={18} />}
+              >
+                Cartões
+              </DropdownItem>
+              <DropdownItem
+                key="logout"
+                startContent={<LogOut size={18} />}
+                className="text-danger"
+                color="danger"
+              >
+                Sair
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
