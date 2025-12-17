@@ -21,7 +21,6 @@ export const ProfileSidebar = ({
     <aside className="w-80 shrink-0 space-y-6">
       <h1 className="text-2xl font-semibold">Perfil</h1>
 
-      {/* Avatar */}
       <div className="relative inline-block">
         <Avatar
           name={userName}
@@ -40,7 +39,6 @@ export const ProfileSidebar = ({
 
       <p className="text-lg font-medium">{userName}</p>
 
-      {/* Estatísticas */}
       <div className="space-y-3">
         <Card className="bg-primary text-white">
           <CardBody className="p-4">
@@ -57,7 +55,6 @@ export const ProfileSidebar = ({
         </Card>
       </div>
 
-      {/* Menu de navegação */}
       <nav className="space-y-1">
         {menuItems.map((item, index) => (
           <div key={index} className="relative">

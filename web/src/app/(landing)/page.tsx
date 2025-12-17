@@ -17,7 +17,7 @@ const mappedCampaigns: Campaign[] = campaigns.campaigns.map((c) => ({
   progress: c.progressPercent,
   currentAmount: Math.round(c.raised * 100), // convert to cents
   goalAmount: Math.round(c.goal * 100),
-  images: [c.image, c.image], // duplicate for array
+  image: c.image,
 }));
 
 const categories = ['Todos', ...new Set(campaigns.campaigns.map(c => c.category))];

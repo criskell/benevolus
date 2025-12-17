@@ -1,11 +1,12 @@
 import { Select, SelectItem } from '@heroui/react';
 import { StatusFilter, TimeFilter } from '../../types';
+import { Dispatch, SetStateAction } from 'react';
 
 interface SortMenuProps {
   statusFilter: StatusFilter;
-  setStatusFilter: (filter: StatusFilter) => void;
+  setStatusFilter: Dispatch<SetStateAction<StatusFilter>>;
   timeFilter: TimeFilter;
-  setTimeFilter: (filter: TimeFilter) => void;
+  setTimeFilter: Dispatch<SetStateAction<TimeFilter>>;
 }
 
 const statusOptions: StatusFilter[] = [
@@ -43,7 +44,7 @@ export const SortMenu = ({
         className="w-48"
       >
         {statusOptions.map((option) => (
-          <SelectItem key={option} value={option}>
+          <SelectItem key={option}>
             {option}
           </SelectItem>
         ))}
@@ -55,7 +56,7 @@ export const SortMenu = ({
         className="w-48"
       >
         {timeOptions.map((option) => (
-          <SelectItem key={option} value={option}>
+          <SelectItem key={option}>
             {option}
           </SelectItem>
         ))}

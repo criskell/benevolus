@@ -1,5 +1,6 @@
 "use client";
 import React, { FormEvent } from "react";
+import Link from "next/link";
 import {
   AuthCard,
   AuthInput,
@@ -40,7 +41,7 @@ export default function App() {
         <div className="flex flex-col gap-2">
           <AuthLink text="Não tem conta?" linkText="Criar conta" href="/auth/sign-up" />
           <p className="text-center text-small">
-            Esqueceu a senha? <a href="/auth/reset-password" className="text-primary">Recuperar aqui</a>
+            Esqueceu a senha? <Link href="/auth/reset-password" className="text-primary">Recuperar aqui</Link>
           </p>
         </div>
         <div className="flex gap-2 justify-end">

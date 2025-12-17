@@ -2,36 +2,36 @@
 
 import { Card, CardBody, Chip, Progress, Button, Image } from '@heroui/react';
 import Link from 'next/link';
-import { useState } from 'react';
-import { Heart } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import type { Campaign } from '@/models/campaign';
 import { formatMoney } from '@/lib/utils/format-money';
+import { FavoriteToggleButton } from '../donations/favorite-toggle-button';
 
 export type CampaignCardProps = {
   campaign: Campaign;
 };
 
 export const CampaignCard = ({ campaign }: CampaignCardProps) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const router = useRouter();
+
+  const handleDonate = () => {
+    router.push(`/doar?campaign=${campaign.slug}`);
+  };
 
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <CardBody className="p-0">
         <div className="relative w-full aspect-video">
           <Image
-            src={campaign.images[0]}
+            src={campaign.image}
             alt={campaign.title}
             className="w-[100dvw] h-full object-cover rounded-t-lg"
           />
-          <Button
-            isIconOnly
-            variant="solid"
-            className="absolute top-2 right-2 bg-white/80 z-10"
-            size="sm"
-            onPress={() => setIsLiked(!isLiked)}
-          >
-            <Heart className={`w-4 h-4 ${isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
-          </Button>
+          <FavoriteToggleButton
+            slug={campaign.slug || ''}
+            title={campaign.title}
+            image={campaign.image}
+          />
         </div>
         <div className="p-4">
           <Chip size="sm" variant="flat" className="mb-2">
@@ -51,6 +51,13 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
             <span>{formatMoney(campaign.currentAmount)}</span>
             <span>de {formatMoney(campaign.goalAmount)}</span>
           </div>
+          <Button
+            color="primary"
+            className="mt-4 w-full"
+            onPress={handleDonate}
+          >
+            Doar
+          </Button>
         </div>
       </CardBody>
     </Card>

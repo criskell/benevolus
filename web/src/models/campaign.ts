@@ -6,5 +6,6 @@ export type Campaign = {
   progress: number;
   currentAmount: number;
   goalAmount: number;
-  images: [string, string, ...string[]];
+  image: string;
+  images?: string[];
 };

@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Campaign } from '@/models/campaign';
+import { StatusFilter, TimeFilter } from '@/types';
 
 interface UseCampaignFiltersProps {
   campaigns: Campaign[];
@@ -14,30 +15,20 @@ export const useCampaignFilters = ({ campaigns }: UseCampaignFiltersProps) => {
 
   const filteredCampaigns = useMemo(() => {
     return campaigns.filter((campaign) => {
-      // Search query
       if (searchQuery && !campaign.title.toLowerCase().includes(searchQuery.toLowerCase())) {
         return false;
       }
 
-      // Categories
       if (selectedCategories.length > 0 && !selectedCategories.includes(campaign.category)) {
         return false;
       }
 
-      // Tags - assuming tags are in title or something, but for now, skip or mock
-      // Since tags are not in campaign data, perhaps skip for now
-
-      // Status filter - mock logic
       if (statusFilter === 'Abertas' && campaign.daysRemaining <= 0) return false;
       if (statusFilter === 'Encerradas' && campaign.daysRemaining > 0) return false;
-      // Add more logic as needed
-
-      // Time filter - mock, perhaps based on daysRemaining or something
-      // For simplicity, skip detailed time logic
 
       return true;
     });
-  }, [campaigns, searchQuery, selectedCategories, selectedTags, statusFilter, timeFilter]);
+  }, [campaigns, searchQuery, selectedCategories, statusFilter]);
 
   const clearFilters = () => {
     setSearchQuery('');

@@ -8,6 +8,8 @@ import { Navbar } from '@/components/layout/navbar';
 
 import './globals.css';
 import { Footer } from '@/components/layout/footer';
+import { DonationProvider } from '@/contexts/DonationContext';
+import { Provider } from 'jotai';
 
 const fontSans = Inter({
   variable: '--font-inter',
@@ -36,9 +38,13 @@ export default function RootLayout({
         )}
       >
         <NextIntlClientProvider>
-          <Navbar />
-          <div className="flex-1">{children}</div>
-          <Footer />
+          <Provider>
+            <DonationProvider>
+              <Navbar />
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </DonationProvider>
+          </Provider>
         </NextIntlClientProvider>
       </body>
     </html>

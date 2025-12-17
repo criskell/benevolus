@@ -3,14 +3,14 @@ import { Accordion, AccordionItem, CheckboxGroup, Checkbox, Input, Button, Chip 
 import { SearchIcon } from '../icons/search'; // Assuming search icon exists
 import { filters } from '../../data/filters';
 
-interface FiltersPanelProps {
+type FiltersPanelProps = {
   selectedCategories: string[];
   setSelectedCategories: (categories: string[]) => void;
   selectedTags: string[];
   setSelectedTags: (tags: string[]) => void;
   onApplyFilters: () => void;
   onClearFilters: () => void;
-}
+};
 
 export const FiltersPanel = ({
   selectedCategories,
