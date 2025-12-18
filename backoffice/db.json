@@ -1,0 +1,46 @@
+{
+  "categories": [
+    {
+      "id": "4",
+      "name": "Emergenciais",
+      "description": "Campanhas para situações de emergência e calamidade",
+      "created_at": "2025-12-04T10:00:00.000Z",
+      "updated_at": "2025-12-04T10:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "name": "Geração de Renda",
+      "description": "Campanhas para empreendimentos e projetos de renda",
+      "created_at": "2025-12-05T10:00:00.000Z",
+      "updated_at": "2025-12-05T10:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "name": "Esporte",
+      "description": "Campanhas para atletas, equipes e projetos esportivos",
+      "created_at": "2025-12-06T10:00:00.000Z",
+      "updated_at": "2025-12-06T10:00:00.000Z"
+    },
+    {
+      "id": "7",
+      "name": "Projetos Sociais",
+      "description": "Campanhas para ONG's e projetos sociais comunitários",
+      "created_at": "2025-12-07T10:00:00.000Z",
+      "updated_at": "2025-12-07T10:00:00.000Z"
+    },
+    {
+      "id": "8",
+      "name": "Empatia",
+      "description": "Campanhas para causas humanitárias e ajuda ao próximo",
+      "created_at": "2025-12-08T10:00:00.000Z",
+      "updated_at": "2025-12-08T10:00:00.000Z"
+    },
+    {
+      "id": "9",
+      "name": "Recorrente",
+      "description": "Campanhas contínuas e de apoio recorrente",
+      "created_at": "2025-12-09T10:00:00.000Z",
+      "updated_at": "2025-12-09T10:00:00.000Z"
+    }
+  ]
+}
