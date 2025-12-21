@@ -4,17 +4,60 @@ import { useState } from 'react';
 import { Progress, Button, Card, CardBody } from '@heroui/react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { Step1BasicInfo } from './components/step1-basic-info';
 
 const TOTAL_STEPS = 7;
 
+interface CampaignFormData {
+  title: string;
+  goalCents: number;
+  description: string;
+  expiresAt: string | null;
+}
+
 export default function CreateCampaignPage() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState<CampaignFormData>({
+    title: '',
+    goalCents: 0,
+    description: '',
+    expiresAt: null,
+  });
 
   const progress = (currentStep / TOTAL_STEPS) * 100;
 
   const handleNext = () => {
+    // Validação básica do Step 1
+    if (currentStep === 1) {
+      if (!formData.title.trim() || formData.goalCents < 100) {
+        return;
+      }
+    }
+
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <Step1BasicInfo
+            title={formData.title}
+            goalCents={formData.goalCents}
+            onTitleChange={(value) => setFormData({ ...formData, title: value })}
+            onGoalCentsChange={(value) => setFormData({ ...formData, goalCents: value })}
+          />
+        );
+      default:
+        return (
+          <div className="flex-1 flex items-center justify-center">
+            <p className="text-default-500">
+              Step {currentStep} content
+            </p>
+          </div>
+        );
     }
   };
 
@@ -40,36 +83,30 @@ export default function CreateCampaignPage() {
       <div className="max-w-2xl mx-auto">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold mb-2">
-            Comece a criar sua vaquinha
+            Comece a criar sua <span className="text-primary">vaquinha</span>
           </h1>
-          <p className="text-default-500">
+          <p className="text-default-500 text-base">
             Mais de duas mil pessoas escolhem o Benevolus para transformar suas histórias todos os dias.
           </p>
         </div>
 
-        <div className="mb-6">
+        <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm text-default-500">
               Passo {currentStep} de {TOTAL_STEPS}
             </span>
-            <span className="text-sm text-default-500">
-              {Math.round(progress)}%
-            </span>
           </div>
-          <Progress value={progress} className="w-full" />
+          <Progress value={progress} className="w-full" color="primary" />
         </div>
 
-        <Card>
-          <CardBody className="p-8">
+        <Card className="shadow-lg">
+          <CardBody className="p-10">
             <div className="min-h-[400px] flex flex-col">
-              {/* Conteúdo do step será renderizado aqui */}
-              <div className="flex-1 flex items-center justify-center">
-                <p className="text-default-500">
-                  Step {currentStep} content
-                </p>
+              <div className="flex-1 py-4">
+                {renderStepContent()}
               </div>
 
-              <div className="flex justify-between mt-8 pt-6 border-t border-divider">
+              <div className="flex justify-between mt-10 pt-6 border-t border-divider">
                 <Button
                   variant="light"
                   onPress={handlePrevious}
@@ -80,7 +117,10 @@ export default function CreateCampaignPage() {
                 <Button
                   color="primary"
                   onPress={handleNext}
-                  isDisabled={currentStep === TOTAL_STEPS}
+                  isDisabled={
+                    currentStep === TOTAL_STEPS ||
+                    (currentStep === 1 && (!formData.title.trim() || formData.goalCents < 100))
+                  }
                 >
                   {currentStep === TOTAL_STEPS ? 'Finalizar' : 'Continuar'}
                 </Button>
