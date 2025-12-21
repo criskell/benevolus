@@ -8,6 +8,7 @@ import { Step1BasicInfo } from './components/step1-basic-info';
 import { Step2ConfirmData } from './components/step2-confirm-data';
 import { Step3CampaignDetails } from './components/step3-campaign-details';
 import { Step4CampaignHistory } from './components/step4-campaign-history';
+import { Step5CampaignImage } from './components/step5-campaign-image';
 
 const TOTAL_STEPS = 7;
 
@@ -26,6 +27,7 @@ interface CampaignFormData {
   beneficiaryType: string;
   category: string;
   history: string;
+  image: File | null;
 }
 
 export default function CreateCampaignPage() {
@@ -45,6 +47,7 @@ export default function CreateCampaignPage() {
     beneficiaryType: '',
     category: '',
     history: '',
+    image: null,
   });
 
   const progress = (currentStep / TOTAL_STEPS) * 100;
@@ -131,6 +134,14 @@ export default function CreateCampaignPage() {
             onHistoryChange={(value) => setFormData({ ...formData, history: value })}
           />
         );
+      case 5:
+        return (
+          <Step5CampaignImage
+            image={formData.image}
+            imagePreview={formData.image ? URL.createObjectURL(formData.image) : null}
+            onImageChange={(file) => setFormData({ ...formData, image: file })}
+          />
+        );
       default:
         return (
           <div className="flex-1 flex items-center justify-center">
@@ -172,6 +183,9 @@ export default function CreateCampaignPage() {
     }
     if (currentStep === 4) {
       return formData.history.trim() !== '';
+    }
+    if (currentStep === 5) {
+      return true; // Image is optional
     }
     return true;
   };
