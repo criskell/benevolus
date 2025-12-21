@@ -16,6 +16,11 @@ interface CampaignFormData {
   expiresAt: string | null;
   cpf: string;
   email: string;
+  fullName: string;
+  phone: string;
+  password: string;
+  passwordConfirmation: string;
+  wantsNewsletter: boolean;
 }
 
 export default function CreateCampaignPage() {
@@ -27,23 +32,31 @@ export default function CreateCampaignPage() {
     expiresAt: null,
     cpf: '',
     email: '',
+    fullName: '',
+    phone: '',
+    password: '',
+    passwordConfirmation: '',
+    wantsNewsletter: false,
   });
 
   const progress = (currentStep / TOTAL_STEPS) * 100;
 
   const handleNext = () => {
-    // Validação básica do Step 1
     if (currentStep === 1) {
       if (!formData.title.trim() || formData.goalCents < 100) {
         return;
       }
     }
 
-    // Validação básica do Step 2
     if (currentStep === 2) {
       const cpfDigits = formData.cpf.replace(/\D/g, '');
       if (cpfDigits.length !== 11 || !formData.email.trim() || !formData.email.includes('@')) {
         return;
+      }
+      if (formData.fullName || formData.phone || formData.password) {
+        if (!formData.fullName.trim() || !formData.phone || !formData.password || formData.password !== formData.passwordConfirmation) {
+          return;
+        }
       }
     }
 
@@ -68,8 +81,18 @@ export default function CreateCampaignPage() {
           <Step2ConfirmData
             cpf={formData.cpf}
             email={formData.email}
+            fullName={formData.fullName}
+            phone={formData.phone}
+            password={formData.password}
+            passwordConfirmation={formData.passwordConfirmation}
+            wantsNewsletter={formData.wantsNewsletter}
             onCpfChange={(value) => setFormData({ ...formData, cpf: value })}
             onEmailChange={(value) => setFormData({ ...formData, email: value })}
+            onFullNameChange={(value) => setFormData({ ...formData, fullName: value })}
+            onPhoneChange={(value) => setFormData({ ...formData, phone: value })}
+            onPasswordChange={(value) => setFormData({ ...formData, password: value })}
+            onPasswordConfirmationChange={(value) => setFormData({ ...formData, passwordConfirmation: value })}
+            onWantsNewsletterChange={(value) => setFormData({ ...formData, wantsNewsletter: value })}
           />
         );
       default:
@@ -95,7 +118,18 @@ export default function CreateCampaignPage() {
     }
     if (currentStep === 2) {
       const cpfDigits = formData.cpf.replace(/\D/g, '');
-      return cpfDigits.length === 11 && formData.email.trim() && formData.email.includes('@');
+      if (cpfDigits.length !== 11 || !formData.email.trim() || !formData.email.includes('@')) {
+        return false;
+      }
+      if (formData.fullName || formData.phone || formData.password) {
+        return (
+          formData.fullName.trim() !== '' &&
+          formData.phone !== '' &&
+          formData.password !== '' &&
+          formData.password === formData.passwordConfirmation
+        );
+      }
+      return true;
     }
     return true;
   };
