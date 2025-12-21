@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { BreadcrumbItem, Breadcrumbs, Button, useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, Tabs, Tab } from '@heroui/react';
 import { Heart, ShoppingCart } from 'lucide-react';
+import Link from 'next/link';
 import { PageLayout } from '../../components/campaigns/page-layout';
 import { FiltersPanel } from '../../components/campaigns/filters-panel';
 import { SearchBar } from '../../components/campaigns/search-bar';
@@ -109,7 +110,7 @@ export default function CampaignsPage() {
                       timeFilter={timeFilter}
                       setTimeFilter={setTimeFilter}
                     />
-                    <Button color="primary">
+                    <Button color="primary" as={Link} href="/campaigns/create">
                       Criar vaquinha
                     </Button>
                   </div>
