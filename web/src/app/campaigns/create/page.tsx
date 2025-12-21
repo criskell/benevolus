@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Step1BasicInfo } from './components/step1-basic-info';
 import { Step2ConfirmData } from './components/step2-confirm-data';
 import { Step3CampaignDetails } from './components/step3-campaign-details';
+import { Step4CampaignHistory } from './components/step4-campaign-history';
 
 const TOTAL_STEPS = 7;
 
@@ -24,6 +25,7 @@ interface CampaignFormData {
   wantsNewsletter: boolean;
   beneficiaryType: string;
   category: string;
+  history: string;
 }
 
 export default function CreateCampaignPage() {
@@ -42,6 +44,7 @@ export default function CreateCampaignPage() {
     wantsNewsletter: false,
     beneficiaryType: '',
     category: '',
+    history: '',
   });
 
   const progress = (currentStep / TOTAL_STEPS) * 100;
@@ -67,6 +70,12 @@ export default function CreateCampaignPage() {
 
     if (currentStep === 3) {
       if (!formData.beneficiaryType || !formData.category) {
+        return;
+      }
+    }
+
+    if (currentStep === 4) {
+      if (!formData.history.trim()) {
         return;
       }
     }
@@ -115,6 +124,13 @@ export default function CreateCampaignPage() {
             onCategoryChange={(value) => setFormData({ ...formData, category: value })}
           />
         );
+      case 4:
+        return (
+          <Step4CampaignHistory
+            history={formData.history}
+            onHistoryChange={(value) => setFormData({ ...formData, history: value })}
+          />
+        );
       default:
         return (
           <div className="flex-1 flex items-center justify-center">
@@ -153,6 +169,9 @@ export default function CreateCampaignPage() {
     }
     if (currentStep === 3) {
       return formData.beneficiaryType !== '' && formData.category !== '';
+    }
+    if (currentStep === 4) {
+      return formData.history.trim() !== '';
     }
     return true;
   };
