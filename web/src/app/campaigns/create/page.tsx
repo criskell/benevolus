@@ -5,6 +5,7 @@ import { Progress, Button, Card, CardBody } from '@heroui/react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Step1BasicInfo } from './components/step1-basic-info';
+import { Step2ConfirmData } from './components/step2-confirm-data';
 
 const TOTAL_STEPS = 7;
 
@@ -13,6 +14,8 @@ interface CampaignFormData {
   goalCents: number;
   description: string;
   expiresAt: string | null;
+  cpf: string;
+  email: string;
 }
 
 export default function CreateCampaignPage() {
@@ -22,6 +25,8 @@ export default function CreateCampaignPage() {
     goalCents: 0,
     description: '',
     expiresAt: null,
+    cpf: '',
+    email: '',
   });
 
   const progress = (currentStep / TOTAL_STEPS) * 100;
@@ -30,6 +35,14 @@ export default function CreateCampaignPage() {
     // Validação básica do Step 1
     if (currentStep === 1) {
       if (!formData.title.trim() || formData.goalCents < 100) {
+        return;
+      }
+    }
+
+    // Validação básica do Step 2
+    if (currentStep === 2) {
+      const cpfDigits = formData.cpf.replace(/\D/g, '');
+      if (cpfDigits.length !== 11 || !formData.email.trim() || !formData.email.includes('@')) {
         return;
       }
     }
@@ -50,6 +63,15 @@ export default function CreateCampaignPage() {
             onGoalCentsChange={(value) => setFormData({ ...formData, goalCents: value })}
           />
         );
+      case 2:
+        return (
+          <Step2ConfirmData
+            cpf={formData.cpf}
+            email={formData.email}
+            onCpfChange={(value) => setFormData({ ...formData, cpf: value })}
+            onEmailChange={(value) => setFormData({ ...formData, email: value })}
+          />
+        );
       default:
         return (
           <div className="flex-1 flex items-center justify-center">
@@ -65,6 +87,17 @@ export default function CreateCampaignPage() {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
+  };
+
+  const isStepValid = () => {
+    if (currentStep === 1) {
+      return formData.title.trim() && formData.goalCents >= 100;
+    }
+    if (currentStep === 2) {
+      const cpfDigits = formData.cpf.replace(/\D/g, '');
+      return cpfDigits.length === 11 && formData.email.trim() && formData.email.includes('@');
+    }
+    return true;
   };
 
   return (
@@ -117,10 +150,7 @@ export default function CreateCampaignPage() {
                 <Button
                   color="primary"
                   onPress={handleNext}
-                  isDisabled={
-                    currentStep === TOTAL_STEPS ||
-                    (currentStep === 1 && (!formData.title.trim() || formData.goalCents < 100))
-                  }
+                  isDisabled={currentStep === TOTAL_STEPS || !isStepValid()}
                 >
                   {currentStep === TOTAL_STEPS ? 'Finalizar' : 'Continuar'}
                 </Button>
