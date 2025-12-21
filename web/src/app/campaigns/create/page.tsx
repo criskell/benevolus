@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Step1BasicInfo } from './components/step1-basic-info';
 import { Step2ConfirmData } from './components/step2-confirm-data';
+import { Step3CampaignDetails } from './components/step3-campaign-details';
 
 const TOTAL_STEPS = 7;
 
@@ -21,6 +22,8 @@ interface CampaignFormData {
   password: string;
   passwordConfirmation: string;
   wantsNewsletter: boolean;
+  beneficiaryType: string;
+  category: string;
 }
 
 export default function CreateCampaignPage() {
@@ -37,6 +40,8 @@ export default function CreateCampaignPage() {
     password: '',
     passwordConfirmation: '',
     wantsNewsletter: false,
+    beneficiaryType: '',
+    category: '',
   });
 
   const progress = (currentStep / TOTAL_STEPS) * 100;
@@ -57,6 +62,12 @@ export default function CreateCampaignPage() {
         if (!formData.fullName.trim() || !formData.phone || !formData.password || formData.password !== formData.passwordConfirmation) {
           return;
         }
+      }
+    }
+
+    if (currentStep === 3) {
+      if (!formData.beneficiaryType || !formData.category) {
+        return;
       }
     }
 
@@ -95,6 +106,15 @@ export default function CreateCampaignPage() {
             onWantsNewsletterChange={(value) => setFormData({ ...formData, wantsNewsletter: value })}
           />
         );
+      case 3:
+        return (
+          <Step3CampaignDetails
+            beneficiaryType={formData.beneficiaryType}
+            category={formData.category}
+            onBeneficiaryTypeChange={(value) => setFormData({ ...formData, beneficiaryType: value })}
+            onCategoryChange={(value) => setFormData({ ...formData, category: value })}
+          />
+        );
       default:
         return (
           <div className="flex-1 flex items-center justify-center">
@@ -130,6 +150,9 @@ export default function CreateCampaignPage() {
         );
       }
       return true;
+    }
+    if (currentStep === 3) {
+      return formData.beneficiaryType !== '' && formData.category !== '';
     }
     return true;
   };
