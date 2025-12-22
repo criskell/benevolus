@@ -1,5 +1,5 @@
 services:
-    laravel.test:
+    benevolus:
         build:
             context: "./vendor/laravel/sail/runtimes/8.4"
             dockerfile: Dockerfile
@@ -48,6 +48,20 @@ services:
                 - "-p${DB_PASSWORD}"
             retries: 3
             timeout: 5s
+    tigerbeetle:
+        image: ghcr.io/tigerbeetle/tigerbeetle
+        command: "start --addresses=0.0.0.0:3000 /data/0_0.tigerbeetle"
+        network_mode: host
+        ports:
+            - "3001:3000"
+        volumes:
+            - ./tigerbeetle-data:/data
+        security_opt:
+            # It's mandatory because of io_uring.
+            - "seccomp=unconfined"
+        cap_add:
+            # IPC_LOCK prevents locked memory errors.
+            - IPC_LOCK
 networks:
     sail:
         driver: bridge
