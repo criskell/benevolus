@@ -9,6 +9,8 @@ import { Step2ConfirmData } from './components/step2-confirm-data';
 import { Step3CampaignDetails } from './components/step3-campaign-details';
 import { Step4CampaignHistory } from './components/step4-campaign-history';
 import { Step5CampaignImage } from './components/step5-campaign-image';
+import { Step6CampaignSuccess } from './components/step6-campaign-success';
+import { Step7CampaignConfirmation } from './components/step7-campaign-confirmation';
 
 const TOTAL_STEPS = 7;
 
@@ -142,6 +144,19 @@ export default function CreateCampaignPage() {
             onImageChange={(file) => setFormData({ ...formData, image: file })}
           />
         );
+      case 6:
+        return (
+          <Step6CampaignSuccess
+            campaignTitle={formData.title}
+            campaignGoal={formData.goalCents}
+          />
+        );
+      case 7:
+        return (
+          <Step7CampaignConfirmation
+            campaignTitle={formData.title}
+          />
+        );
       default:
         return (
           <div className="flex-1 flex items-center justify-center">
@@ -186,6 +201,9 @@ export default function CreateCampaignPage() {
     }
     if (currentStep === 5) {
       return true; // Image is optional
+    }
+    if (currentStep === 6 || currentStep === 7) {
+      return true; // Confirmation steps
     }
     return true;
   };
