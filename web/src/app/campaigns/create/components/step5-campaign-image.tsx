@@ -2,11 +2,10 @@
 
 import { Button } from '@heroui/react';
 import { Upload } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface Step5CampaignImageProps {
   image: File | null;
-  imagePreview: string | null;
   onImageChange: (file: File | null) => void;
 }
 
@@ -14,11 +13,39 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 export function Step5CampaignImage({
   image,
-  imagePreview,
   onImageChange,
 }: Step5CampaignImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const objectUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (image) {
+      // Revoke old URL if it exists
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+      }
+      // Create new URL
+      const newUrl = URL.createObjectURL(image);
+      objectUrlRef.current = newUrl;
+      setImagePreview(newUrl);
+    } else {
+      // Cleanup when image is removed
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = null;
+      }
+      setImagePreview(null);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+      }
+    };
+  }, [image]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.[0];

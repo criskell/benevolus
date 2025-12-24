@@ -140,7 +140,6 @@ export default function CreateCampaignPage() {
         return (
           <Step5CampaignImage
             image={formData.image}
-            imagePreview={formData.image ? URL.createObjectURL(formData.image) : null}
             onImageChange={(file) => setFormData({ ...formData, image: file })}
           />
         );
