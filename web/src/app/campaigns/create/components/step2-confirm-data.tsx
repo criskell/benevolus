@@ -42,6 +42,14 @@ export function Step2ConfirmData({
 }: Step2ConfirmDataProps) {
   const phoneInputId = useId();
   const [emailExists, setEmailExists] = useState<boolean | null>(null);
+  const [errors, setErrors] = useState<{
+    cpf?: string;
+    email?: string;
+    fullName?: string;
+    phone?: string;
+    password?: string;
+    passwordConfirmation?: string;
+  }>({});
 
   useEffect(() => {
     const checkEmail = () => {
@@ -56,6 +64,65 @@ export function Step2ConfirmData({
     const timeoutId = setTimeout(checkEmail, 500);
     return () => clearTimeout(timeoutId);
   }, [email]);
+
+  const validateCpf = (value: string) => {
+    const cpfDigits = value.replace(/\D/g, '');
+    if (value && cpfDigits.length !== 11) {
+      return 'CPF deve ter 11 dígitos';
+    }
+    return '';
+  };
+
+  const validateEmail = (value: string) => {
+    if (value && !value.includes('@')) {
+      return 'Email inválido';
+    }
+    return '';
+  };
+
+  const handleCpfChange = (value: string) => {
+    onCpfChange(value);
+    setErrors((prev) => ({ ...prev, cpf: validateCpf(value) }));
+  };
+
+  const handleEmailChange = (value: string) => {
+    onEmailChange(value);
+    setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
+  };
+
+  const handleFullNameChange = (value: string) => {
+    onFullNameChange(value);
+    const error = value && !value.trim() ? 'Nome completo é obrigatório' : '';
+    setErrors((prev) => ({ ...prev, fullName: error }));
+  };
+
+  const handlePhoneChange = (value: string | undefined) => {
+    onPhoneChange(value || '');
+    const error = value && !value.trim() ? 'Telefone é obrigatório' : '';
+    setErrors((prev) => ({ ...prev, phone: error }));
+  };
+
+  const handlePasswordChange = (value: string) => {
+    onPasswordChange(value);
+    // Clear password confirmation error if it was set
+    if (errors.passwordConfirmation && passwordConfirmation) {
+      const confirmError =
+        value !== passwordConfirmation ? 'As senhas não conferem' : '';
+      setErrors((prev) => ({
+        ...prev,
+        password: '',
+        passwordConfirmation: confirmError,
+      }));
+    } else {
+      setErrors((prev) => ({ ...prev, password: '' }));
+    }
+  };
+
+  const handlePasswordConfirmationChange = (value: string) => {
+    onPasswordConfirmationChange(value);
+    const error = password && value !== password ? 'As senhas não conferem' : '';
+    setErrors((prev) => ({ ...prev, passwordConfirmation: error }));
+  };
 
   const showAdditionalFields = emailExists === false && email.trim() !== '';
 
@@ -72,9 +139,11 @@ export function Step2ConfirmData({
           label="CPF"
           placeholder="Insira o seu CPF"
           value={cpf}
-          onValueChange={(values) => onCpfChange(values.value)}
+          onValueChange={(values) => handleCpfChange(values.value)}
           className="w-full"
           size="lg"
+          isInvalid={!!errors.cpf}
+          errorMessage={errors.cpf}
         />
 
         <div className="mt-4 p-4 rounded-lg bg-primary-50 border border-primary-200 flex gap-3">
@@ -98,9 +167,11 @@ export function Step2ConfirmData({
           label="Email"
           placeholder="Insira o seu e-mail"
           value={email}
-          onChange={(e) => onEmailChange(e.target.value)}
+          onChange={(e) => handleEmailChange(e.target.value)}
           className="w-full"
           size="lg"
+          isInvalid={!!errors.email}
+          errorMessage={errors.email}
         />
       </div>
 
@@ -115,9 +186,11 @@ export function Step2ConfirmData({
             label="Insira seu nome completo"
             placeholder="Insira o seu nome completo"
             value={fullName}
-            onChange={(e) => onFullNameChange(e.target.value)}
+            onChange={(e) => handleFullNameChange(e.target.value)}
             className="w-full"
             size="lg"
+            isInvalid={!!errors.fullName}
+            errorMessage={errors.fullName}
           />
 
           <div>
@@ -125,13 +198,16 @@ export function Step2ConfirmData({
               international
               defaultCountry="BR"
               value={phone}
-              onChange={(value) => onPhoneChange(value || '')}
+              onChange={handlePhoneChange}
               inputComponent={Input}
               id={phoneInputId}
               countryCallingCodeEditable={false}
               label="Insira seu telefone (Whatsapp)"
               labelPlacement="outside-top"
             />
+            {errors.phone && (
+              <p className="text-xs text-danger mt-1">{errors.phone}</p>
+            )}
           </div>
 
           <Input
@@ -140,7 +216,7 @@ export function Step2ConfirmData({
             label="Crie uma senha"
             placeholder="Insira uma senha"
             value={password}
-            onChange={(e) => onPasswordChange(e.target.value)}
+            onChange={(e) => handlePasswordChange(e.target.value)}
             className="w-full"
             size="lg"
           />
@@ -151,9 +227,11 @@ export function Step2ConfirmData({
             label="Confirme sua senha"
             placeholder="Repetir a senha"
             value={passwordConfirmation}
-            onChange={(e) => onPasswordConfirmationChange(e.target.value)}
+            onChange={(e) => handlePasswordConfirmationChange(e.target.value)}
             className="w-full"
             size="lg"
+            isInvalid={!!errors.passwordConfirmation}
+            errorMessage={errors.passwordConfirmation}
           />
 
           <Checkbox
