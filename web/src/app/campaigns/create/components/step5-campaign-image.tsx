@@ -2,7 +2,7 @@
 
 import { Button } from '@heroui/react';
 import { Upload } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 interface Step5CampaignImageProps {
   image: File | null;
@@ -18,19 +18,21 @@ export function Step5CampaignImage({
   onImageChange,
 }: Step5CampaignImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.[0];
+    setError(null);
 
     if (!file) return;
 
     if (file.size > MAX_FILE_SIZE) {
-      alert('Arquivo muito grande! O tamanho máximo é 5MB.');
+      setError('Arquivo muito grande! O tamanho máximo é 5MB.');
       return;
     }
 
     if (!file.type.startsWith('image/')) {
-      alert('Por favor, selecione uma imagem válida.');
+      setError('Por favor, selecione uma imagem válida.');
       return;
     }
 
@@ -79,21 +81,29 @@ export function Step5CampaignImage({
             </Button>
           </div>
         ) : (
-          <div
-            onClick={handleClick}
-            className="w-full bg-default-100 border-2 border-dashed border-default-300 rounded-lg p-12 flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-primary transition-colors"
-          >
-            <Upload className="w-12 h-12 text-default-400" />
-            <Button
-              color="primary"
-              onPress={handleClick}
-              className="w-full"
+          <div className="w-full flex flex-col gap-4">
+            <div
+              onClick={handleClick}
+              className="w-full bg-default-100 border-2 border-dashed border-default-300 rounded-lg p-12 flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-primary transition-colors"
             >
-              Escolher imagem
-            </Button>
-            <p className="text-sm text-default-500 text-center">
-              Clique aqui para selecionar uma imagem (tamanho máximo: 5mb)
-            </p>
+              <Upload className="w-12 h-12 text-default-400" />
+              <Button
+                color="primary"
+                onPress={handleClick}
+                className="w-full"
+              >
+                Escolher imagem
+              </Button>
+              <p className="text-sm text-default-500 text-center">
+                Clique aqui para selecionar uma imagem (tamanho máximo: 5mb)
+              </p>
+            </div>
+            {error && (
+              <div className="w-full bg-danger-50 border border-danger-200 rounded-lg p-4 flex gap-3">
+                <div className="text-danger text-xl">⚠️</div>
+                <p className="text-sm text-danger">{error}</p>
+              </div>
+            )}
           </div>
         )}
       </div>
