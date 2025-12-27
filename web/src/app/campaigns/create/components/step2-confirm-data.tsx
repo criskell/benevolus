@@ -1,11 +1,62 @@
 'use client';
 
-import { useState, useEffect, useId } from 'react';
+import { useEffect, useId } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Input, Checkbox } from '@heroui/react';
 import { PatternFormat } from 'react-number-format';
 import { Info } from 'lucide-react';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+
+const step2Schema = z.object({
+  cpf: z.string()
+    .min(1, 'CPF é obrigatório')
+    .refine((val) => val.replace(/\D/g, '').length === 11, {
+      message: 'CPF deve ter 11 dígitos',
+    }),
+  email: z.string()
+    .min(1, 'Email é obrigatório')
+    .refine((val) => val.includes('@'), {
+      message: 'Email inválido',
+    }),
+  fullName: z.string().optional(),
+  phone: z.string().optional(),
+  password: z.string().optional(),
+  passwordConfirmation: z.string().optional(),
+  wantsNewsletter: z.boolean(),
+}).superRefine((data, ctx) => {
+  if (data.fullName !== undefined && data.fullName.trim().length > 0) {
+    if (!data.fullName.trim()) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['fullName'],
+        message: 'Nome completo é obrigatório',
+      });
+    }
+  }
+
+  if (data.phone !== undefined && data.phone.length > 0) {
+    if (!data.phone.trim()) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['phone'],
+        message: 'Telefone é obrigatório',
+      });
+    }
+  }
+
+  if (data.password !== undefined && data.passwordConfirmation !== undefined) {
+    if (data.password !== data.passwordConfirmation) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['passwordConfirmation'],
+        message: 'As senhas não conferem',
+      });
+    }
+  }
+});
 
 interface Step2ConfirmDataProps {
   cpf: string;
@@ -41,90 +92,39 @@ export function Step2ConfirmData({
   onWantsNewsletterChange,
 }: Step2ConfirmDataProps) {
   const phoneInputId = useId();
-  const [emailExists, setEmailExists] = useState<boolean | null>(null);
-  const [errors, setErrors] = useState<{
-    cpf?: string;
-    email?: string;
-    fullName?: string;
-    phone?: string;
-    password?: string;
-    passwordConfirmation?: string;
-  }>({});
+
+  const {
+    control,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm({
+    resolver: zodResolver(step2Schema),
+    mode: 'onChange',
+    defaultValues: {
+      cpf,
+      email,
+      fullName,
+      phone,
+      password,
+      passwordConfirmation,
+      wantsNewsletter,
+    },
+  });
+
+  const emailValue = watch('email');
 
   useEffect(() => {
-    const checkEmail = () => {
-      if (!email || !email.includes('@')) {
-        setEmailExists(null);
-        return;
-      }
+    setValue('cpf', cpf);
+    setValue('email', email);
+    setValue('fullName', fullName);
+    setValue('phone', phone);
+    setValue('password', password);
+    setValue('passwordConfirmation', passwordConfirmation);
+    setValue('wantsNewsletter', wantsNewsletter);
+  }, [cpf, email, fullName, phone, password, passwordConfirmation, wantsNewsletter, setValue]);
 
-      setEmailExists(false);
-    };
-
-    const timeoutId = setTimeout(checkEmail, 500);
-    return () => clearTimeout(timeoutId);
-  }, [email]);
-
-  const validateCpf = (value: string) => {
-    const cpfDigits = value.replace(/\D/g, '');
-    if (value && cpfDigits.length !== 11) {
-      return 'CPF deve ter 11 dígitos';
-    }
-    return '';
-  };
-
-  const validateEmail = (value: string) => {
-    if (value && !value.includes('@')) {
-      return 'Email inválido';
-    }
-    return '';
-  };
-
-  const handleCpfChange = (value: string) => {
-    onCpfChange(value);
-    setErrors((prev) => ({ ...prev, cpf: validateCpf(value) }));
-  };
-
-  const handleEmailChange = (value: string) => {
-    onEmailChange(value);
-    setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
-  };
-
-  const handleFullNameChange = (value: string) => {
-    onFullNameChange(value);
-    const error = value && !value.trim() ? 'Nome completo é obrigatório' : '';
-    setErrors((prev) => ({ ...prev, fullName: error }));
-  };
-
-  const handlePhoneChange = (value: string | undefined) => {
-    onPhoneChange(value || '');
-    const error = value && !value.trim() ? 'Telefone é obrigatório' : '';
-    setErrors((prev) => ({ ...prev, phone: error }));
-  };
-
-  const handlePasswordChange = (value: string) => {
-    onPasswordChange(value);
-    // Clear password confirmation error if it was set
-    if (errors.passwordConfirmation && passwordConfirmation) {
-      const confirmError =
-        value !== passwordConfirmation ? 'As senhas não conferem' : '';
-      setErrors((prev) => ({
-        ...prev,
-        password: '',
-        passwordConfirmation: confirmError,
-      }));
-    } else {
-      setErrors((prev) => ({ ...prev, password: '' }));
-    }
-  };
-
-  const handlePasswordConfirmationChange = (value: string) => {
-    onPasswordConfirmationChange(value);
-    const error = password && value !== password ? 'As senhas não conferem' : '';
-    setErrors((prev) => ({ ...prev, passwordConfirmation: error }));
-  };
-
-  const showAdditionalFields = emailExists === false && email.trim() !== '';
+  const showAdditionalFields = emailValue.includes('@') && emailValue.trim() !== '';
 
   return (
     <div className="space-y-8">
@@ -132,18 +132,27 @@ export function Step2ConfirmData({
         <h2 className="text-xl font-semibold mb-4">
           Confirme seu <span className="text-primary">CPF</span>
         </h2>
-        <PatternFormat
-          format="###.###.###-##"
-          mask="_"
-          customInput={Input}
-          label="CPF"
-          placeholder="Insira o seu CPF"
-          value={cpf}
-          onValueChange={(values) => handleCpfChange(values.value)}
-          className="w-full"
-          size="lg"
-          isInvalid={!!errors.cpf}
-          errorMessage={errors.cpf}
+        <Controller
+          name="cpf"
+          control={control}
+          render={({ field }) => (
+            <PatternFormat
+              format="###.###.###-##"
+              mask="_"
+              customInput={Input}
+              label="CPF"
+              placeholder="Insira o seu CPF"
+              value={field.value}
+              onValueChange={(values) => {
+                field.onChange(values.value);
+                onCpfChange(values.value);
+              }}
+              className="w-full"
+              size="lg"
+              isInvalid={!!errors.cpf}
+              errorMessage={errors.cpf?.message}
+            />
+          )}
         />
 
         <div className="mt-4 p-4 rounded-lg bg-primary-50 border border-primary-200 flex gap-3">
@@ -161,17 +170,26 @@ export function Step2ConfirmData({
         <h2 className="text-xl font-semibold mb-4">
           Confirme seu <span className="text-primary">Email</span>
         </h2>
-        <Input
-          isRequired
-          type="email"
-          label="Email"
-          placeholder="Insira o seu e-mail"
-          value={email}
-          onChange={(e) => handleEmailChange(e.target.value)}
-          className="w-full"
-          size="lg"
-          isInvalid={!!errors.email}
-          errorMessage={errors.email}
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <Input
+              isRequired
+              type="email"
+              label="Email"
+              placeholder="Insira o seu e-mail"
+              value={field.value}
+              onChange={(e) => {
+                field.onChange(e.target.value);
+                onEmailChange(e.target.value);
+              }}
+              className="w-full"
+              size="lg"
+              isInvalid={!!errors.email}
+              errorMessage={errors.email?.message}
+            />
+          )}
         />
       </div>
 
@@ -181,65 +199,112 @@ export function Step2ConfirmData({
             Finalize seus <span className="text-primary">dados</span>
           </h2>
 
-          <Input
-            isRequired
-            label="Insira seu nome completo"
-            placeholder="Insira o seu nome completo"
-            value={fullName}
-            onChange={(e) => handleFullNameChange(e.target.value)}
-            className="w-full"
-            size="lg"
-            isInvalid={!!errors.fullName}
-            errorMessage={errors.fullName}
-          />
-
-          <div>
-            <PhoneInput
-              international
-              defaultCountry="BR"
-              value={phone}
-              onChange={handlePhoneChange}
-              inputComponent={Input}
-              id={phoneInputId}
-              countryCallingCodeEditable={false}
-              label="Insira seu telefone (Whatsapp)"
-              labelPlacement="outside-top"
-            />
-            {errors.phone && (
-              <p className="text-xs text-danger mt-1">{errors.phone}</p>
+          <Controller
+            name="fullName"
+            control={control}
+            render={({ field }) => (
+              <Input
+                isRequired
+                label="Insira seu nome completo"
+                placeholder="Insira o seu nome completo"
+                value={field.value}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                  onFullNameChange(e.target.value);
+                }}
+                className="w-full"
+                size="lg"
+                isInvalid={!!errors.fullName}
+                errorMessage={errors.fullName?.message}
+              />
             )}
-          </div>
-
-          <Input
-            isRequired
-            type="password"
-            label="Crie uma senha"
-            placeholder="Insira uma senha"
-            value={password}
-            onChange={(e) => handlePasswordChange(e.target.value)}
-            className="w-full"
-            size="lg"
           />
 
-          <Input
-            isRequired
-            type="password"
-            label="Confirme sua senha"
-            placeholder="Repetir a senha"
-            value={passwordConfirmation}
-            onChange={(e) => handlePasswordConfirmationChange(e.target.value)}
-            className="w-full"
-            size="lg"
-            isInvalid={!!errors.passwordConfirmation}
-            errorMessage={errors.passwordConfirmation}
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field }) => (
+              <div>
+                <PhoneInput
+                  international
+                  defaultCountry="BR"
+                  value={field.value}
+                  onChange={(value) => {
+                    field.onChange(value || '');
+                    onPhoneChange(value || '');
+                  }}
+                  inputComponent={Input}
+                  id={phoneInputId}
+                  countryCallingCodeEditable={false}
+                  label="Insira seu telefone (Whatsapp)"
+                  labelPlacement="outside-top"
+                />
+                {errors.phone && (
+                  <p className="text-xs text-danger mt-1">{errors.phone.message}</p>
+                )}
+              </div>
+            )}
           />
 
-          <Checkbox
-            isSelected={wantsNewsletter}
-            onValueChange={onWantsNewsletterChange}
-          >
-            Quero receber informações do Benevolus
-          </Checkbox>
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <Input
+                isRequired
+                type="password"
+                label="Crie uma senha"
+                placeholder="Insira uma senha"
+                value={field.value}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                  onPasswordChange(e.target.value);
+                }}
+                className="w-full"
+                size="lg"
+                isInvalid={!!errors.password}
+                errorMessage={errors.password?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="passwordConfirmation"
+            control={control}
+            render={({ field }) => (
+              <Input
+                isRequired
+                type="password"
+                label="Confirme sua senha"
+                placeholder="Repetir a senha"
+                value={field.value}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                  onPasswordConfirmationChange(e.target.value);
+                }}
+                className="w-full"
+                size="lg"
+                isInvalid={!!errors.passwordConfirmation}
+                errorMessage={errors.passwordConfirmation?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="wantsNewsletter"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                isSelected={field.value}
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  onWantsNewsletterChange(value);
+                }}
+              >
+                Quero receber informações do Benevolus
+              </Checkbox>
+            )}
+          />
         </div>
       )}
     </div>
