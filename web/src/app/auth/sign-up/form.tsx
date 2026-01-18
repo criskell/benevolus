@@ -2,13 +2,10 @@
 
 import axios from "axios";
 import { useState } from "react";
-import {
-  AuthCard,
-  AuthInput,
-  AuthButton,
-  AuthForm,
-  AuthLink,
-} from "@/app/auth/_components";
+import Link from "next/link";
+import { Input, Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { LogoIcon } from "@/components/icons/logo";
 
 const api = axios.create({
   baseURL: "http://localhost",
@@ -37,45 +34,80 @@ export const SignUpForm = () => {
   };
 
   return (
-    <AuthCard title="Criar Conta">
-      <AuthForm onSubmit={handleSubmit}>
-        <AuthInput
-          label="Nome Completo"
-          name="name"
-          placeholder="Seu nome completo"
-          type="text"
-          value={formData.name}
-          onChange={handleChange}
-        />
-        <AuthInput
-          label="Email"
-          name="email"
-          placeholder="seu@email.com"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <AuthInput
-          label="Senha"
-          name="password"
-          placeholder="Crie uma senha forte"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <AuthInput
-          label="Confirmar Senha"
-          name="password_confirmation"
-          placeholder="Confirme sua senha"
-          type="password"
-          value={formData.password_confirmation}
-          onChange={handleChange}
-        />
-        <AuthLink text="Já tem uma conta?" linkText="Fazer login" href="/auth/login" />
-        <div className="flex gap-2 justify-end">
-          <AuthButton>Cadastrar</AuthButton>
+    <div className="flex min-h-screen items-center justify-center px-4 py-12">
+      <div className="w-full max-w-sm space-y-8">
+        <div className="flex flex-col items-center gap-4">
+          <LogoIcon size={48} className="text-primary" />
+          <div className="text-center">
+            <h1 className="text-2xl font-bold">Criar sua conta</h1>
+            <p className="text-default-500 text-sm mt-1">
+              Junte-se à nossa comunidade
+            </p>
+          </div>
         </div>
-      </AuthForm>
-    </AuthCard>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            label="Nome Completo"
+            name="name"
+            placeholder="Seu nome completo"
+            type="text"
+            isRequired
+            value={formData.name}
+            onChange={handleChange}
+            startContent={
+              <Icon icon="solar:user-linear" className="text-default-400" width={20} />
+            }
+          />
+          <Input
+            label="Email"
+            name="email"
+            placeholder="seu@email.com"
+            type="email"
+            isRequired
+            value={formData.email}
+            onChange={handleChange}
+            startContent={
+              <Icon icon="solar:letter-linear" className="text-default-400" width={20} />
+            }
+          />
+          <Input
+            label="Senha"
+            name="password"
+            placeholder="Crie uma senha forte"
+            type="password"
+            isRequired
+            value={formData.password}
+            onChange={handleChange}
+            startContent={
+              <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
+            }
+          />
+          <Input
+            label="Confirmar Senha"
+            name="password_confirmation"
+            placeholder="Confirme sua senha"
+            type="password"
+            isRequired
+            value={formData.password_confirmation}
+            onChange={handleChange}
+            startContent={
+              <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
+            }
+          />
+
+          <Button type="submit" color="primary" fullWidth size="lg">
+            Cadastrar
+          </Button>
+        </form>
+
+        <p className="text-center text-sm text-default-500">
+          Já tem uma conta?{" "}
+          <Link href="/auth/login" className="text-primary font-medium hover:underline">
+            Fazer login
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 };
