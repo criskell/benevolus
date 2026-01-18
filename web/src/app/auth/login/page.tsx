@@ -1,15 +1,12 @@
 "use client";
-import React, { FormEvent } from "react";
-import Link from "next/link";
-import {
-  AuthCard,
-  AuthInput,
-  AuthButton,
-  AuthForm,
-  AuthLink,
-} from "@/app/auth/_components";
 
-export default function App() {
+import { FormEvent } from "react";
+import Link from "next/link";
+import { Input, Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { LogoIcon } from "@/components/icons/logo";
+
+export default function LoginPage() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -24,30 +21,58 @@ export default function App() {
   };
 
   return (
-    <AuthCard title="Login">
-      <AuthForm onSubmit={handleSubmit}>
-        <AuthInput
-          label="Email"
-          name="email"
-          placeholder="seu@email.com"
-          type="email"
-        />
-        <AuthInput
-          label="Senha"
-          name="password"
-          placeholder="Digite sua senha"
-          type="password"
-        />
-        <div className="flex flex-col gap-2">
-          <AuthLink text="Não tem conta?" linkText="Criar conta" href="/auth/sign-up" />
-          <p className="text-center text-small">
-            Esqueceu a senha? <Link href="/auth/reset-password" className="text-primary">Recuperar aqui</Link>
-          </p>
+    <div className="flex min-h-screen items-center justify-center px-4 py-12">
+      <div className="w-full max-w-sm space-y-8">
+        <div className="flex flex-col items-center gap-4">
+          <LogoIcon size={48} className="text-primary" />
+          <div className="text-center">
+            <h1 className="text-2xl font-bold">Bem-vindo de volta</h1>
+            <p className="text-default-500 text-sm mt-1">
+              Entre na sua conta para continuar
+            </p>
+          </div>
         </div>
-        <div className="flex gap-2 justify-end">
-          <AuthButton>Entrar</AuthButton>
-        </div>
-      </AuthForm>
-    </AuthCard>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            label="Email"
+            name="email"
+            placeholder="seu@email.com"
+            type="email"
+            isRequired
+            startContent={
+              <Icon icon="solar:letter-linear" className="text-default-400" width={20} />
+            }
+          />
+          <Input
+            label="Senha"
+            name="password"
+            placeholder="Digite sua senha"
+            type="password"
+            isRequired
+            startContent={
+              <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
+            }
+          />
+
+          <div className="flex justify-end">
+            <Link href="/auth/reset-password" className="text-primary text-sm hover:underline">
+              Esqueceu a senha?
+            </Link>
+          </div>
+
+          <Button type="submit" color="primary" fullWidth size="lg">
+            Entrar
+          </Button>
+        </form>
+
+        <p className="text-center text-sm text-default-500">
+          Não tem conta?{" "}
+          <Link href="/auth/sign-up" className="text-primary font-medium hover:underline">
+            Criar conta
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 }
