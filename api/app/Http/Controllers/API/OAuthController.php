@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\OAuthService;
+use App\Services\User\OAuthService;
 
 class OAuthController extends Controller
 {

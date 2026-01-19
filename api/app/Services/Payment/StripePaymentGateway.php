@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Payment;
 
 use App\DTO\Donation\DonationDTO;
 use App\DTO\User\DonorDTO;
 use App\Exceptions\PaymentException;
-use App\Services\PaymentGatewayInterface;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;

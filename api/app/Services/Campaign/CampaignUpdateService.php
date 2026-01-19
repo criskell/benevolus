@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Campaign;
 
 use App\Models\CampaignUpdate;
 use App\Models\User;
+use App\Services\Donation\DonationService;
 
 final class CampaignUpdateService
 {

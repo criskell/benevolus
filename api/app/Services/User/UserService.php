@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\User;
 
 use App\DTO\User\DonorDTO;
 use App\Models\User;

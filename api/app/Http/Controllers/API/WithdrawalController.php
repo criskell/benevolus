@@ -7,8 +7,8 @@ use App\Http\Requests\StoreWithdrawalRequest;
 use App\Http\Resources\WithdrawalResource;
 use App\Models\Campaign;
 use App\Models\Withdrawal;
-use App\Services\WithdrawalProcessor;
-use App\Services\WithdrawalService;
+use App\Services\Withdrawal\WithdrawalProcessor;
+use App\Services\Withdrawal\WithdrawalService;
 
 class WithdrawalController extends Controller
 {

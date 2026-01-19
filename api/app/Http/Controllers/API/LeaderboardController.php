@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LeaderboardRankingResource;
-use App\Services\LeaderboardService;
+use App\Services\Leaderboard\LeaderboardService;
 use Illuminate\Http\Request;
 
 class LeaderboardController extends Controller

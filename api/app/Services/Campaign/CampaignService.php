@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Campaign;
 
 use App\Models\Campaign;
 use App\Models\User;
+use App\Services\Donation\DonationService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final class CampaignService

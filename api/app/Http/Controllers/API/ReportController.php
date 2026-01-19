@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Resources\ReportResource;
 use App\Models\Campaign;
-use App\Services\ReportService;
+use App\Services\Report\ReportService;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 // FIXME: Apply access control here.
@@ -22,8 +22,9 @@ class ReportController
 
     public function store(Campaign $campaign, StoreReportRequest $request): JsonResource
     {
-        return $this->reportService->create($request->user(), $campaign, $request->validated())
-            ->load(['campaign', 'user'])
-            ->toResource();
+        $report = $this->reportService->create($request->user(), $campaign, $request->validated())
+            ->load(['campaign', 'user']);
+
+        return new ReportResource($report);
     }
 }

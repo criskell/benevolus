@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCampaignUpdateRequest;
 use App\Http\Resources\CampaignUpdateResource;
 use App\Models\CampaignUpdate;
-use App\Services\CampaignUpdateService;
+use App\Services\Campaign\CampaignUpdateService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;

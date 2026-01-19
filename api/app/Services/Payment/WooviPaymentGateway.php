@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Payment;
 
 use App\DTO\Donation\DonationDTO;
-use App\Services\PaymentGatewayInterface;
 use OpenPix\PhpSdk\Client;
 use Illuminate\Support\Str;
 

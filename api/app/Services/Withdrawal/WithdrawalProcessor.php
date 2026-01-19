@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Withdrawal;
 
 use App\Models\Withdrawal;
 use Illuminate\Support\Str;

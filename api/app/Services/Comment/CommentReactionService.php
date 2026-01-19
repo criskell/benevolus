@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Comment;
 
 use App\Models\Comment;
 use App\Models\CommentReaction;

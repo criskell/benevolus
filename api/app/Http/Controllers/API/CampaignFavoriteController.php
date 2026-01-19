@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CampaignResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\Campaign;
-use App\Services\CampaignFavoriteService;
+use App\Services\Campaign\CampaignFavoriteService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
