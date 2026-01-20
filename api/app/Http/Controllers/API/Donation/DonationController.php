@@ -61,21 +61,7 @@ final class DonationController extends Controller
             ),
             new OA\Response(
                 response: 422,
-                description: "Validation error",
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: "message", type: "string", example: "The data provided is invalid"),
-                        new OA\Property(
-                            property: "errors",
-                            type: "object",
-                            additionalProperties: new OA\AdditionalProperties(
-                                type: "array",
-                                items: new OA\Items(type: "string")
-                            )
-                        ),
-                    ],
-                    type: "object"
-                )
+                ref: "#/components/responses/ValidationError"
             )
         ]
     )]

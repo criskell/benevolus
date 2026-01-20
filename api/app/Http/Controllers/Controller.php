@@ -21,6 +21,34 @@ use OpenApi\Attributes as OA;
 )]
 #[OA\Tag(name: "Donations", description: "Donations endpoints")]
 #[OA\Tag(name: "Campaigns", description: "Campaigns donations")]
+#[OA\Components(
+    schemas: [
+        new OA\Schema(
+            schema: "ValidationErrorResponse",
+            properties: [
+                new OA\Property(property: "message", type: "string", example: "The data provided is invalid"),
+                new OA\Property(
+                    property: "errors",
+                    type: "object",
+                    additionalProperties: new OA\AdditionalProperties(
+                        type: "array",
+                        items: new OA\Items(type: "string")
+                    )
+                ),
+            ],
+            type: "object"
+        ),
+    ],
+    responses: [
+        new OA\Response(
+            response: "ValidationError",
+            description: "Validation error",
+            content: new OA\JsonContent(
+                ref: "#/components/schemas/ValidationErrorResponse"
+            )
+        ),
+    ]
+)]
 abstract class Controller
 {
     //
