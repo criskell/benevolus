@@ -11,7 +11,7 @@ use App\Services\Withdrawal\WithdrawalProcessor;
 use App\Services\Withdrawal\WithdrawalService;
 use OpenApi\Attributes as OA;
 
-class WithdrawalController extends Controller
+final class WithdrawalController extends Controller
 {
     public function __construct(
         private WithdrawalService $withdrawalService,

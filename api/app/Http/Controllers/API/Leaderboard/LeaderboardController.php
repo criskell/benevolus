@@ -8,7 +8,7 @@ use App\Services\Leaderboard\LeaderboardService;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
-class LeaderboardController extends Controller
+final class LeaderboardController extends Controller
 {
     public function __construct(private LeaderboardService $leaderboardService) {}
 

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use OpenApi\Attributes as OA;
 
-class CommentReactionController extends Controller implements HasMiddleware
+final class CommentReactionController extends Controller implements HasMiddleware
 {
     public static function middleware()
     {

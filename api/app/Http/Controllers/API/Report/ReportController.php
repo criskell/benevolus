@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 // FIXME: Apply access control here.
-class ReportController extends Controller
+final class ReportController extends Controller
 {
     public function __construct(private ReportService $reportService) {}
 

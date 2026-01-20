@@ -13,7 +13,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use OpenApi\Attributes as OA;
 
-class CommentController extends Controller implements HasMiddleware
+final class CommentController extends Controller implements HasMiddleware
 {
     public function __construct(private CommentService $commentService) {}
 

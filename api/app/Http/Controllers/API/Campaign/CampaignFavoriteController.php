@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use OpenApi\Attributes as OA;
 
-class CampaignFavoriteController extends Controller implements HasMiddleware
+final class CampaignFavoriteController extends Controller implements HasMiddleware
 {
     public static function middleware()
     {

@@ -9,7 +9,7 @@ use App\Models\Campaign;
 use App\Services\Campaign\CampaignImageService;
 use OpenApi\Attributes as OA;
 
-class CampaignImageController extends Controller
+final class CampaignImageController extends Controller
 {
     public function __construct(private CampaignImageService $campaignImageService) {}
 

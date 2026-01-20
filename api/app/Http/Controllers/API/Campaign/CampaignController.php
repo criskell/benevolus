@@ -11,7 +11,7 @@ use App\Services\Campaign\CampaignService;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
-class CampaignController extends Controller
+final class CampaignController extends Controller
 {
     public function __construct(private CampaignService $campaignService) {}
 

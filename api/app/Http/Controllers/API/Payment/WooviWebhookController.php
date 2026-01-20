@@ -8,7 +8,7 @@ use App\Models\Donation;
 use Illuminate\Http\Request;
 use OpenPix\PhpSdk\Client;
 
-class WooviWebhookController extends Controller
+final class WooviWebhookController extends Controller
 {
     const SIGNATURE_HEADER = 'x-webhook-signature';
 

@@ -12,7 +12,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use OpenApi\Attributes as OA;
 
-class CampaignUpdateController extends Controller implements HasMiddleware
+final class CampaignUpdateController extends Controller implements HasMiddleware
 {
     public static function middleware()
     {

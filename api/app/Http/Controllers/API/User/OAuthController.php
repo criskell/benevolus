@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\User\OAuthService;
 use OpenApi\Attributes as OA;
 
-class OAuthController extends Controller
+final class OAuthController extends Controller
 {
     public function __construct(private OAuthService $oAuthService) {}
 
