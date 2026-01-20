@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Services\StripePaymentGateway;
-use App\Services\PaymentGatewayInterface;
-use App\Services\WooviPaymentGateway;
+use App\Services\Payment\StripePaymentGateway;
+use App\Services\Payment\PaymentGatewayInterface;
+use App\Services\Payment\WooviPaymentGateway;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

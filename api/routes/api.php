@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\API\CampaignController;
-use App\Http\Controllers\API\CampaignFavoriteController;
-use App\Http\Controllers\API\CampaignImageController;
-use App\Http\Controllers\API\CampaignUpdateController;
-use App\Http\Controllers\API\CommentController;
-use App\Http\Controllers\API\CommentReactionController;
-use App\Http\Controllers\API\DonationController;
-use App\Http\Controllers\API\LeaderboardController;
-use App\Http\Controllers\API\OAuthController;
-use App\Http\Controllers\API\ProfileController;
-use App\Http\Controllers\API\ReportController;
-use App\Http\Controllers\API\WithdrawalController;
-use App\Http\Controllers\API\WooviWebhookController;
+use App\Http\Controllers\API\Campaign\CampaignController;
+use App\Http\Controllers\API\Campaign\CampaignFavoriteController;
+use App\Http\Controllers\API\Campaign\CampaignImageController;
+use App\Http\Controllers\API\Campaign\CampaignUpdateController;
+use App\Http\Controllers\API\Comment\CommentController;
+use App\Http\Controllers\API\Comment\CommentReactionController;
+use App\Http\Controllers\API\Donation\DonationController;
+use App\Http\Controllers\API\Leaderboard\LeaderboardController;
+use App\Http\Controllers\API\Payment\WooviWebhookController;
+use App\Http\Controllers\API\Report\ReportController;
+use App\Http\Controllers\API\User\OAuthController;
+use App\Http\Controllers\API\User\ProfileController;
+use App\Http\Controllers\API\Withdrawal\WithdrawalController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/auth/{provider}/redirect', [OAuthController::class, 'redirect']);

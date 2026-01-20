@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Http\Responses\ApiResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Psr\Log\LoggerInterface;
@@ -34,11 +33,10 @@ class Handler extends ExceptionHandler
                     ]
                 );
 
-                return ApiResponse::error(
-                    message: $e->getMessage(),
-                    status: $e->getCode() ?: 422,
-                    errors: $e->getContext()
-                );
+                return response()->json([
+                    'message' => $e->getMessage(),
+                    'errors' => $e->getContext(),
+                ], $e->getCode() ?: 422);
             }
         });
 
@@ -52,26 +50,27 @@ class Handler extends ExceptionHandler
                     ]
                 );
 
-                return ApiResponse::error(
-                    message: $e->getMessage(),
-                    status: $e->getCode() ?: 422,
-                    errors: $e->getContext()
-                );
+                return response()->json([
+                    'message' => $e->getMessage(),
+                    'errors' => $e->getContext(),
+                ], $e->getCode() ?: 422);
             }
         });
 
         $this->renderable(function (ValidationException $e, $request) {
             if ($request->expectsJson()) {
-                return ApiResponse::validationError(
-                    errors: $e->errors(),
-                    message: 'The data provided is invalid',
-                );
+                return response()->json([
+                    'message' => 'The data provided is invalid',
+                    'errors' => $e->errors(),
+                ], 422);
             }
         });
 
         $this->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->expectsJson()) {
-                return ApiResponse::notFound('Resource not found');
+                return response()->json([
+                    'message' => 'Resource not found',
+                ], 404);
             }
         });
     }

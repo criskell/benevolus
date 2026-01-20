@@ -2,18 +2,11 @@
 
 namespace App\Support;
 
-class TaxId
+final class TaxId
 {
     public static function clean(string $taxId): string
     {
         return preg_replace('\D', '', $taxId);
-    }
-
-    public static function generatePlaceholderEmail(string $taxId): string
-    {
-        $clean = self::clean($taxId);
-
-        return "donor_{$clean}@placeholder.local";
     }
 
     public static function isValid(string $taxId): bool
@@ -24,16 +17,16 @@ class TaxId
             return false;
         }
 
-        for ($t = 9; $t < 11; $t++) {
-            $d = 0;
+        for ($digitPosition = 9; $digitPosition < 11; $digitPosition++) {
+            $sum = 0;
 
-            for ($c = 0; $c < $t; $c++) {
-                $d += $cpf[$c] * (($t + 1) - $c);
+            for ($index = 0; $index < $digitPosition; $index++) {
+                $sum += $cpf[$index] * (($digitPosition + 1) - $index);
             }
 
-            $d = ((10 * $d) % 11) % 10;
+            $calculatedDigit = ((10 * $sum) % 11) % 10;
 
-            if ($cpf[$c] != $d) {
+            if ($cpf[$digitPosition] != $calculatedDigit) {
                 return false;
             }
         }
