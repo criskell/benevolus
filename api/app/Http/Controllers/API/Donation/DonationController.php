@@ -8,7 +8,6 @@ use App\Http\Requests\Donation\DonateRequest;
 use App\Http\Resources\Campaign\CampaignDonationResource;
 use App\Http\Resources\Donation\DonationResource;
 use App\Http\Resources\Payment\PaymentResource;
-use App\Http\Responses\ApiResponse;
 use App\Models\Campaign;
 use App\Services\Donation\DonationProcessor;
 use App\Services\Donation\DonationService;
@@ -47,37 +46,35 @@ final class DonationController extends Controller
                 response: 201,
                 description: "Created",
                 content: new OA\JsonContent(
-                    allOf: [
-                        new OA\Schema(
-                            ref: "#/components/schemas/ApiSuccessResponse"
+                    properties: [
+                        new OA\Property(
+                            property: "donation",
+                            ref: "#/components/schemas/DonationResource"
                         ),
-                        new OA\Schema(
-                            description: "Donation",
-                            properties: [
-                                new OA\Property(
-                                    property: "data",
-                                    properties: [
-                                        new OA\Property(
-                                            property: "donation",
-                                            ref: "#/components/schemas/DonationResource"
-                                        ),
-                                        new OA\Property(
-                                            property: "payment",
-                                            ref: "#/components/schemas/PaymentResource"
-                                        ),
-                                    ],
-                                    type: "object"
-                                )
-                            ]
-                        )
-                    ]
+                        new OA\Property(
+                            property: "payment",
+                            ref: "#/components/schemas/PaymentResource"
+                        ),
+                    ],
+                    type: "object"
                 )
             ),
             new OA\Response(
                 response: 422,
                 description: "Validation error",
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/ApiErrorResponse"
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "The data provided is invalid"),
+                        new OA\Property(
+                            property: "errors",
+                            type: "object",
+                            additionalProperties: new OA\AdditionalProperties(
+                                type: "array",
+                                items: new OA\Items(type: "string")
+                            )
+                        ),
+                    ],
+                    type: "object"
                 )
             )
         ]
@@ -86,10 +83,10 @@ final class DonationController extends Controller
     {
         $result = $this->donationProcessor->process(DonationDTO::from($request->validated()));
 
-        return ApiResponse::created([
+        return response()->json([
             'donation' => new DonationResource($result['donation']),
             'payment' => new PaymentResource($result['payment']),
-        ]);
+        ], 201);
     }
 
     #[OA\Post(

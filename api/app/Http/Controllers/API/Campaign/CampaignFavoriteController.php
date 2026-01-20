@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\Campaign;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Campaign\CampaignResource;
-use App\Http\Responses\ApiResponse;
 use App\Models\Campaign;
 use App\Services\Campaign\CampaignFavoriteService;
 use Illuminate\Http\Request;
@@ -30,7 +29,7 @@ class CampaignFavoriteController extends Controller implements HasMiddleware
     {
         $favorited = $this->campaignFavoriteService->toggleFavorite($request->user(), $campaign);
 
-        return ApiResponse::success([
+        return response()->json([
             'favorited' => $favorited,
         ]);
     }
