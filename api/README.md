@@ -4,36 +4,20 @@ RESTful API backend for the Benevolus crowdfunding platform, built with Laravel 
 
 ## Technology Stack
 
-### Core Framework
-- **Laravel 12** - PHP web framework
-- **PHP 8.2** - Runtime environment
-
-### Authentication & Authorization
+- **Laravel 12** - Framework
 - **Laravel Sanctum** - API token authentication
 - **Laravel Fortify** - Authentication backend
 - **Laravel Socialite** - OAuth integration
-
-### Payment Processing
 - **OpenPix SDK** - Brazilian payment gateway (PIX, credit cards, boleto)
 - **Stripe** - International payment processing
-
-### Real-time Communication
 - **Laravel Reverb** - WebSocket server
 - **Laravel Echo** - Event broadcasting
-
-### Documentation
 - **L5-Swagger** - OpenAPI/Swagger documentation
-
-### Testing
 - **Pest** - PHP testing framework
 - **Pest Drift** - Migration testing
-
-### Development Tools
 - **Laravel Pint** - Code style fixer
 - **Laravel Sail** - Docker development environment
 - **Laravel Pail** - Log viewer
-
-### Infrastructure
 - **AWS S3** - File storage
 - **Guzzle** - HTTP client
 
