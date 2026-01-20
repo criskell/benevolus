@@ -10,6 +10,8 @@ export default function ResetPasswordPage() {
   const [step, setStep] = useState<"email" | "code" | "password">("email");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleEmailSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -136,20 +138,44 @@ export default function ResetPasswordPage() {
                 label="Nova Senha"
                 name="password"
                 placeholder="Digite sua nova senha"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 isRequired
                 startContent={
                   <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
+                }
+                endContent={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-default-400 hover:text-default-600 cursor-pointer"
+                  >
+                    <Icon
+                      icon={showPassword ? "solar:eye-closed-linear" : "solar:eye-linear"}
+                      width={20}
+                    />
+                  </button>
                 }
               />
               <Input
                 label="Confirmar Senha"
                 name="confirmPassword"
                 placeholder="Confirme a senha"
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 isRequired
                 startContent={
                   <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
+                }
+                endContent={
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="text-default-400 hover:text-default-600 cursor-pointer"
+                  >
+                    <Icon
+                      icon={showConfirmPassword ? "solar:eye-closed-linear" : "solar:eye-linear"}
+                      width={20}
+                    />
+                  </button>
                 }
               />
 
