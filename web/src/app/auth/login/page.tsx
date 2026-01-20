@@ -1,12 +1,14 @@
 "use client";
 
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -48,10 +50,22 @@ export default function LoginPage() {
             label="Senha"
             name="password"
             placeholder="Digite sua senha"
-            type="password"
+            type={showPassword ? "text" : "password"}
             isRequired
             startContent={
               <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
+            }
+            endContent={
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-default-400 hover:text-default-600 cursor-pointer"
+              >
+                <Icon
+                  icon={showPassword ? "solar:eye-closed-linear" : "solar:eye-linear"}
+                  width={20}
+                />
+              </button>
             }
           />
 

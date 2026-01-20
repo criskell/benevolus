@@ -20,6 +20,8 @@ export const SignUpForm = () => {
     password: "",
     password_confirmation: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -75,24 +77,48 @@ export const SignUpForm = () => {
             label="Senha"
             name="password"
             placeholder="Crie uma senha forte"
-            type="password"
+            type={showPassword ? "text" : "password"}
             isRequired
             value={formData.password}
             onChange={handleChange}
             startContent={
               <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
             }
+            endContent={
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-default-400 hover:text-default-600 cursor-pointer"
+              >
+                <Icon
+                  icon={showPassword ? "solar:eye-closed-linear" : "solar:eye-linear"}
+                  width={20}
+                />
+              </button>
+            }
           />
           <Input
             label="Confirmar Senha"
             name="password_confirmation"
             placeholder="Confirme sua senha"
-            type="password"
+            type={showConfirmPassword ? "text" : "password"}
             isRequired
             value={formData.password_confirmation}
             onChange={handleChange}
             startContent={
               <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
+            }
+            endContent={
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="text-default-400 hover:text-default-600 cursor-pointer"
+              >
+                <Icon
+                  icon={showConfirmPassword ? "solar:eye-closed-linear" : "solar:eye-linear"}
+                  width={20}
+                />
+              </button>
             }
           />
 
