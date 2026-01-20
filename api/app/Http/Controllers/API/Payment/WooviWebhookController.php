@@ -6,7 +6,6 @@ use App\Events\DonationPaid;
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use Illuminate\Http\Request;
-use OpenApi\Attributes as OA;
 use OpenPix\PhpSdk\Client;
 
 class WooviWebhookController extends Controller
@@ -21,88 +20,6 @@ class WooviWebhookController extends Controller
 
     public function __construct(protected Client $woovi) {}
 
-    #[OA\Post(
-        operationId: "receiveWooviWebhook",
-        path: "/api/woovi/webhook",
-        summary: "Receive Woovi webhook",
-        tags: ["Webhooks"],
-        parameters: [
-            new OA\Parameter(
-                name: "x-webhook-signature",
-                in: "header",
-                required: true,
-                schema: new OA\Schema(type: "string"),
-                description: "Webhook signature for verification"
-            ),
-        ],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                properties: [
-                    new OA\Property(property: "event", type: "string", example: "OPENPIX:CHARGE_COMPLETED"),
-                    new OA\Property(
-                        property: "charge",
-                        type: "object",
-                        properties: [
-                            new OA\Property(property: "correlationID", type: "string"),
-                            new OA\Property(property: "value", type: "integer"),
-                        ]
-                    ),
-                ],
-                type: "object"
-            )
-        ),
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: "Webhook processed successfully",
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: "message", type: "string", example: "Success."),
-                    ],
-                    type: "object"
-                )
-            ),
-            new OA\Response(
-                response: 400,
-                description: "Invalid webhook signature or type",
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: "errors",
-                            type: "array",
-                            items: new OA\Items(
-                                properties: [
-                                    new OA\Property(property: "message", type: "string"),
-                                ],
-                                type: "object"
-                            )
-                        ),
-                    ],
-                    type: "object"
-                )
-            ),
-            new OA\Response(
-                response: 404,
-                description: "Donation not found",
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: "errors",
-                            type: "array",
-                            items: new OA\Items(
-                                properties: [
-                                    new OA\Property(property: "message", type: "string"),
-                                ],
-                                type: "object"
-                            )
-                        ),
-                    ],
-                    type: "object"
-                )
-            ),
-        ]
-    )]
     public function receive(Request $request)
     {
         if ($response = $this->allowRequestOnlyFromWoovi($request)) return $response;

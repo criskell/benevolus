@@ -27,7 +27,6 @@ use OpenApi\Attributes as OA;
 #[OA\Tag(name: "Withdrawals", description: "Withdrawal management endpoints")]
 #[OA\Tag(name: "Reports", description: "Report management endpoints")]
 #[OA\Tag(name: "Leaderboard", description: "Leaderboard endpoints")]
-#[OA\Tag(name: "Webhooks", description: "Webhook endpoints")]
 #[OA\Components(
     schemas: [
         new OA\Schema(
