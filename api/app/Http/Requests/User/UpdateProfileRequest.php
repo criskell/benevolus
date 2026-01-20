@@ -3,7 +3,27 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: "UpdateProfileRequest",
+    properties: [
+        new OA\Property(property: "name", type: "string", maxLength: 255),
+        new OA\Property(property: "email", type: "string", format: "email", maxLength: 255),
+        new OA\Property(
+            property: "address",
+            type: "object",
+            properties: [
+                new OA\Property(property: "street", type: "string", maxLength: 255),
+                new OA\Property(property: "number", type: "string", maxLength: 20),
+                new OA\Property(property: "city", type: "string", maxLength: 100),
+                new OA\Property(property: "state", type: "string", maxLength: 50),
+                new OA\Property(property: "zipcode", type: "string", maxLength: 20),
+                new OA\Property(property: "country", type: "string", maxLength: 100),
+            ]
+        ),
+    ]
+)]
 class UpdateProfileRequest extends FormRequest
 {
     public function rules(): array

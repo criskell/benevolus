@@ -8,6 +8,7 @@ use App\Http\Resources\User\UserResource;
 use App\Services\User\ProfileService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use OpenApi\Attributes as OA;
 
 class ProfileController extends Controller implements HasMiddleware
 {
@@ -20,11 +21,44 @@ class ProfileController extends Controller implements HasMiddleware
 
     public function __construct(private ProfileService $profileService) {}
 
+    #[OA\Get(
+        operationId: "getProfile",
+        path: "/api/profile",
+        summary: "Get current user profile",
+        tags: ["Profile"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Profile retrieved successfully",
+                content: new OA\JsonContent(
+                    ref: "#/components/schemas/UserResource"
+                )
+            ),
+            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
+        ]
+    )]
     public function show(Request $request)
     {
         return new UserResource($request->user()->load('address'));
     }
 
+    #[OA\Put(
+        operationId: "updateProfile",
+        path: "/api/profile",
+        summary: "Update user profile",
+        tags: ["Profile"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                ref: "#/components/schemas/UpdateProfileRequest"
+            )
+        ),
+        responses: [
+            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
+            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
+            new OA\Response(response: 422, ref: "#/components/responses/ValidationError"),
+        ]
+    )]
     public function update(UpdateProfileRequest $request)
     {
         $this->profileService->updateProfile($request->user(), $request->validated());

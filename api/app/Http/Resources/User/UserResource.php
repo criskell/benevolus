@@ -10,6 +10,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
     properties: [
         new OA\Property(property: "id", type: "integer"),
         new OA\Property(property: "name", type: "string"),
+        new OA\Property(
+            property: "address",
+            type: "object",
+            nullable: true,
+            properties: [
+                new OA\Property(property: "street", type: "string", nullable: true),
+                new OA\Property(property: "number", type: "string", nullable: true),
+                new OA\Property(property: "city", type: "string", nullable: true),
+                new OA\Property(property: "state", type: "string", nullable: true),
+                new OA\Property(property: "zipcode", type: "string", nullable: true),
+                new OA\Property(property: "country", type: "string", nullable: true),
+            ]
+        ),
     ]
 )]
 class UserResource extends JsonResource

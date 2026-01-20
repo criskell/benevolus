@@ -22,6 +22,38 @@ final class DonationController extends Controller
         private DonationProcessor $donationProcessor
     ) {}
 
+    #[OA\Get(
+        operationId: "listCampaignDonations",
+        path: "/api/campaigns/{campaign}/donations",
+        summary: "List campaign donations",
+        tags: ["Donations"],
+        parameters: [
+            new OA\Parameter(
+                name: "campaign",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer"),
+                description: "Campaign ID"
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Donations retrieved successfully",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(
+                            property: "data",
+                            type: "array",
+                            items: new OA\Items(ref: "#/components/schemas/CampaignDonationResource")
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
+        ]
+    )]
     public function index(Campaign $campaign)
     {
         $donations = $this->donationService->listPaidDonationsByCampaign($campaign->id);
@@ -33,7 +65,6 @@ final class DonationController extends Controller
         operationId: "createDonation",
         path: "/api/donations",
         summary: "Create a new donation",
-        description: "Create a new donation with payment information",
         tags: ["Donations"],
         requestBody: new OA\RequestBody(
             required: true,
@@ -85,11 +116,13 @@ final class DonationController extends Controller
                 name: "id",
                 in: "path",
                 required: true,
-                schema: new OA\Schema(type: "integer")
+                schema: new OA\Schema(type: "string"),
+                description: "External reference ID"
             ),
         ],
         responses: [
-            new OA\Response(response: 204, description: "Donation payment confirmed successfully"),
+            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
+            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ],
     )]
     public function confirm(string $externalReferenceId): Response
