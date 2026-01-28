@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { Inter } from 'next/font/google';
 import { siteConfig } from '@/config/site';
+import NextTopLoader from 'nextjs-toploader';
 
 import { cn } from '@/lib/utils/cn';
 import { Navbar } from '@/components/layout/navbar';
@@ -37,6 +38,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <NextTopLoader color="hsl(var(--heroui-primary))" showSpinner={false} />
         <NextIntlClientProvider>
           <Provider>
             <DonationProvider>
