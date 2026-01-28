@@ -2,12 +2,16 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,6 +24,14 @@ export default function LoginPage() {
     };
 
     console.log(payload);
+
+    login({
+      id: "1",
+      name: payload.email?.toString().split("@")[0] || "Usuário",
+      email: payload.email?.toString() || "",
+    });
+
+    router.push("/");
   };
 
   return (

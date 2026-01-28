@@ -18,8 +18,11 @@ import clsx from 'clsx';
 import { siteConfig } from '@/config/site';
 import { LogoIcon } from '@/components/icons/logo';
 import { navbarSearchInput } from './navbar-search-input';
+import { useAuth } from '@/hooks/use-auth';
 
 export const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
+
   return (
     <HeroUINavbar
       maxWidth="xl"
@@ -61,62 +64,68 @@ export const Navbar = () => {
         justify="end"
       >
         <NavbarItem className="hidden lg:flex">{navbarSearchInput}</NavbarItem>
-        <NavbarItem><Link href="/auth/login">Login</Link></NavbarItem>
-        <NavbarItem>
-          <Dropdown placement="bottom-end">
-            <DropdownTrigger>
-              <button className="flex items-center gap-2 cursor-pointer outline-none">
-                <ChevronDown size={16} className="text-primary" />
-                <span className="text-primary font-medium">Minha conta</span>
-                <UserIcon size={20} className="text-primary" />
-              </button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Menu da conta"
-              variant="flat"
-              className="min-w-[200px]"
-            >
-              <DropdownItem
-                key="profile"
-                startContent={<UserIcon size={18} />}
-                as={NextLink}
-                href="/profile"
+        {!isAuthenticated ? (
+          <NavbarItem>
+            <Link href="/auth/login">Login</Link>
+          </NavbarItem>
+        ) : (
+          <NavbarItem>
+            <Dropdown placement="bottom-end">
+              <DropdownTrigger>
+                <button className="flex items-center gap-2 cursor-pointer outline-none">
+                  <ChevronDown size={16} className="text-primary" />
+                  <span className="text-primary font-medium">Minha conta</span>
+                  <UserIcon size={20} className="text-primary" />
+                </button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Menu da conta"
+                variant="flat"
+                className="min-w-[200px]"
               >
-                Perfil
-              </DropdownItem>
-              <DropdownItem
-                key="donations"
-                startContent={<MessageCircle size={18} />}
-                as={NextLink}
-                href="/profile/donations"
-              >
-                Minhas doações
-              </DropdownItem>
-              <DropdownItem
-                key="wallet"
-                startContent={<Wallet size={18} />}
-              >
-                Minha carteira
-              </DropdownItem>
-              <DropdownItem
-                key="cards"
-                startContent={<CreditCard size={18} />}
-                as={NextLink}
-                href="/profile/cards"
-              >
-                Cartões
-              </DropdownItem>
-              <DropdownItem
-                key="logout"
-                startContent={<LogOut size={18} />}
-                className="text-danger"
-                color="danger"
-              >
-                Sair
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </NavbarItem>
+                <DropdownItem
+                  key="profile"
+                  startContent={<UserIcon size={18} />}
+                  as={NextLink}
+                  href="/profile"
+                >
+                  Perfil
+                </DropdownItem>
+                <DropdownItem
+                  key="donations"
+                  startContent={<MessageCircle size={18} />}
+                  as={NextLink}
+                  href="/profile/donations"
+                >
+                  Minhas doações
+                </DropdownItem>
+                <DropdownItem
+                  key="wallet"
+                  startContent={<Wallet size={18} />}
+                >
+                  Minha carteira
+                </DropdownItem>
+                <DropdownItem
+                  key="cards"
+                  startContent={<CreditCard size={18} />}
+                  as={NextLink}
+                  href="/profile/cards"
+                >
+                  Cartões
+                </DropdownItem>
+                <DropdownItem
+                  key="logout"
+                  startContent={<LogOut size={18} />}
+                  className="text-danger"
+                  color="danger"
+                  onPress={logout}
+                >
+                  Sair
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </NavbarItem>
+        )}
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
