@@ -77,7 +77,7 @@ export const Navbar = () => {
         </NavbarItem>
         {!isAuthenticated ? (
           <NavbarItem>
-            <Link href="/auth/login">Login</Link>
+            <Link href="/auth/login">Entrar</Link>
           </NavbarItem>
         ) : (
           <NavbarItem>
@@ -146,23 +146,50 @@ export const Navbar = () => {
       <NavbarMenu>
         {navbarSearchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? 'primary'
-                    : index === siteConfig.navMenuItems.length - 1
-                    ? 'danger'
-                    : 'foreground'
-                }
-                href="#"
-                size="lg"
-              >
-                {item.label}
+          <NavbarMenuItem>
+            <Button
+              as={NextLink}
+              href="/campaigns/create"
+              color="primary"
+              fullWidth
+              startContent={<Plus size={18} />}
+            >
+              Criar campanha
+            </Button>
+          </NavbarMenuItem>
+          {!isAuthenticated ? (
+            <NavbarMenuItem>
+              <Link href="/auth/login" size="lg" className="w-full">
+                Entrar
               </Link>
             </NavbarMenuItem>
-          ))}
+          ) : (
+            <>
+              <NavbarMenuItem>
+                <Link href="/profile" size="lg" className="w-full">
+                  Perfil
+                </Link>
+              </NavbarMenuItem>
+              <NavbarMenuItem>
+                <Link href="/profile/donations" size="lg" className="w-full">
+                  Minhas doações
+                </Link>
+              </NavbarMenuItem>
+              <NavbarMenuItem>
+                <Link href="/profile/cards" size="lg" className="w-full">
+                  Cartões
+                </Link>
+              </NavbarMenuItem>
+              <NavbarMenuItem>
+                <button
+                  onClick={logout}
+                  className="w-full text-left text-lg text-danger"
+                >
+                  Sair
+                </button>
+              </NavbarMenuItem>
+            </>
+          )}
         </div>
       </NavbarMenu>
     </HeroUINavbar>
