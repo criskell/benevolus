@@ -26,16 +26,16 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
   const campaignMap = campaigns.campaigns.reduce((acc, c) => {
     acc[c.slug] = c;
     return acc;
-  }, {} as Record<string, Campaign>);
+  }, {} as Record<string, typeof campaigns.campaigns[0]>);
   const likedSlugs = favorites.favorites.map(f => f.slug);
-  const distributionSlugs = distributionType === 'category' ? [campaign.slug, ...relatedCampaigns.slice(0, 2).map(c => c.slug)] : likedSlugs;
+  const distributionSlugs = distributionType === 'category' ? [campaign.slug, ...relatedCampaigns.slice(0, 2).map(c => c.slug)].filter((s): s is string => !!s) : likedSlugs;
   const distribution = cart.autoSplit(totalAmount * 100, distributionSlugs, criteria);
 
   const handleDonate = () => {
     cart.addToCart({
       slug: campaign.slug || '',
       title: campaign.title,
-      image: campaign.images[0],
+      image: campaign.images?.[0] || campaign.image,
       amount: amount * 100,
     });
     onClose();
@@ -46,7 +46,7 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
     cart.addToCart({
       slug: relatedCampaign.slug || '',
       title: relatedCampaign.title,
-      image: relatedCampaign.images[0],
+      image: relatedCampaign.images?.[0] || relatedCampaign.image,
       amount: quickAmount,
     });
   };
@@ -59,7 +59,7 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
         cart.addToCart({
           slug: item.slug,
           title: camp.title,
-          image: camp.images[0],
+          image: camp.image,
           amount: item.amount,
         });
       }
@@ -77,7 +77,7 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
               <Image
-                src={campaign.images[0]}
+                src={campaign.images?.[0] || campaign.image}
                 alt={campaign.title}
                 className="w-20 h-20 object-cover rounded"
               />
@@ -203,7 +203,7 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3 flex-1">
                           <Image
-                            src={related.images[0]}
+                            src={related.images?.[0] || related.image}
                             alt={related.title}
                             className="w-12 h-12 object-cover rounded"
                           />

@@ -36,7 +36,7 @@ export const CategoryDonationTab = () => {
       cart.addToCart({
         slug: campaign.slug || '',
         title: campaign.title,
-        image: campaign.images[0],
+        image: campaign.images?.[0] || campaign.image,
         amount,
       });
     });
@@ -97,7 +97,7 @@ export const CategoryDonationTab = () => {
                 <CardBody className="p-0">
                   <div className="relative w-full aspect-video">
                     <Image
-                      src={campaign.images[0]}
+                      src={campaign.images?.[0] || campaign.image}
                       alt={campaign.title}
                       className="w-full h-full object-cover rounded-t-lg"
                     />

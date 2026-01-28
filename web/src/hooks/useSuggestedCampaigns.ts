@@ -14,6 +14,7 @@ export const useSuggestedCampaigns = () => {
         progress: c.progressPercent,
         currentAmount: Math.round(c.raised * 100),
         goalAmount: Math.round(c.goal * 100),
+        image: c.image || '',
         images: [c.image || '', c.image || ''] as [string, string],
       }));
 
@@ -32,6 +33,7 @@ export const useSuggestedCampaigns = () => {
         progress: c.progressPercent,
         currentAmount: Math.round(c.raised * 100),
         goalAmount: Math.round(c.goal * 100),
+        image: c.image || '',
         images: [c.image || '', c.image || ''] as [string, string],
       }));
   };

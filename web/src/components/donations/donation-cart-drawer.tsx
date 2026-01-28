@@ -38,7 +38,7 @@ export const DonationCartDrawer = ({ isOpen, onClose }: DonationCartDrawerProps)
             <p className="text-center text-gray-500">Lista vazia.</p>
           ) : (
             <div className="space-y-4">
-              {cart.cart.map((item) => (
+              {cart.cart.map((item, index) => (
                 <Card key={item.slug}>
                   <CardBody className="p-4">
                     <div className="flex items-center space-x-4">
@@ -54,14 +54,14 @@ export const DonationCartDrawer = ({ isOpen, onClose }: DonationCartDrawerProps)
                             isIconOnly
                             size="sm"
                             variant="light"
-                            onPress={() => cart.updateAmount(item.slug, Math.max(0, item.amount - 100))}
+                            onPress={() => cart.updateQuantity(index, Math.max(0, item.amount - 100))}
                           >
                             <Minus className="w-4 h-4" />
                           </Button>
                           <Input
                             type="number"
                             value={(item.amount / 100).toString()}
-                            onChange={(e) => cart.updateAmount(item.slug, parseFloat(e.target.value) * 100 || 0)}
+                            onChange={(e) => cart.updateQuantity(index, parseFloat(e.target.value) * 100 || 0)}
                             className="w-20"
                             size="sm"
                           />
@@ -69,7 +69,7 @@ export const DonationCartDrawer = ({ isOpen, onClose }: DonationCartDrawerProps)
                             isIconOnly
                             size="sm"
                             variant="light"
-                            onPress={() => cart.updateAmount(item.slug, item.amount + 100)}
+                            onPress={() => cart.updateQuantity(index, item.amount + 100)}
                           >
                             <Plus className="w-4 h-4" />
                           </Button>
@@ -82,7 +82,7 @@ export const DonationCartDrawer = ({ isOpen, onClose }: DonationCartDrawerProps)
                         isIconOnly
                         variant="light"
                         size="sm"
-                        onPress={() => cart.removeFromCart(item.slug)}
+                        onPress={() => cart.removeFromCart(index)}
                       >
                         <X className="w-4 h-4" />
                       </Button>

@@ -78,7 +78,7 @@ export function Step3CampaignDetails({
           size="lg"
         >
           {categories.map((cat) => (
-            <SelectItem key={cat} value={cat}>
+            <SelectItem key={cat}>
               {cat}
             </SelectItem>
           ))}

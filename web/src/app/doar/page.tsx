@@ -84,7 +84,7 @@ const DoarPage = () => {
   const campaignMap = campaigns.campaigns.reduce((acc, c) => {
     acc[c.slug] = c;
     return acc;
-  }, {} as Record<string, Campaign>);
+  }, {} as Record<string, typeof campaigns.campaigns[0]>);
 
   const handleAutoDistribute = useCallback(() => {
     cart.clearCart();
@@ -149,7 +149,7 @@ const DoarPage = () => {
             </div>
           </div>
 
-          <Tabs selectedKey={distributionType} onSelectionChange={(key) => { if (programmaticRef.current) { programmaticRef.current = false; return; } setDistributionType(key as 'category' | 'favorites'); }}>
+          <Tabs selectedKey={distributionType} onSelectionChange={(key) => setDistributionType(key as 'category' | 'favorites')}>
             <Tab key="favorites" title="Favoritos" isDisabled={likedSlugs.length < 2}>
               <p className="text-sm text-gray-600 mb-4">Distribua entre suas campanhas favoritadas ({likedSlugs.length} selecionadas)</p>
               <RadioGroup value={criteria} onValueChange={(value) => setCriteria(value as 'equal' | 'mixed' | 'integral')} className="mb-4">
@@ -218,7 +218,7 @@ const DoarPage = () => {
               <Card key={related.slug} className="hover:shadow-lg transition-shadow">
                 <CardBody className="p-0">
                   <Image
-                    src={related.images[0]}
+                    src={related.images?.[0] || related.image}
                     alt={related.title}
                     className="w-full h-32 object-cover rounded-t-lg"
                   />
