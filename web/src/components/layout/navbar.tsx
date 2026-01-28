@@ -10,8 +10,8 @@ import {
   NavbarMenuItem,
 } from '@heroui/navbar';
 
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Link } from '@heroui/react';
-import { UserIcon, MessageCircle, Wallet, CreditCard, LogOut, ChevronDown } from 'lucide-react';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Link, Button } from '@heroui/react';
+import { UserIcon, MessageCircle, Wallet, CreditCard, LogOut, ChevronDown, Plus } from 'lucide-react';
 import NextLink from 'next/link';
 import clsx from 'clsx';
 
@@ -64,6 +64,17 @@ export const Navbar = () => {
         justify="end"
       >
         <NavbarItem className="hidden lg:flex">{navbarSearchInput}</NavbarItem>
+        <NavbarItem>
+          <Button
+            as={NextLink}
+            href="/campaigns/create"
+            color="primary"
+            startContent={<Plus size={18} />}
+            className="font-medium"
+          >
+            Criar campanha
+          </Button>
+        </NavbarItem>
         {!isAuthenticated ? (
           <NavbarItem>
             <Link href="/auth/login">Login</Link>
