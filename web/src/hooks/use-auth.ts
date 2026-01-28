@@ -1,8 +1,10 @@
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/navigation';
 import { userAtom, User } from '@/atoms/auth';
 
 export function useAuth() {
   const [user, setUser] = useAtom(userAtom);
+  const router = useRouter();
 
   const login = (userData: User) => {
     setUser(userData);
@@ -10,6 +12,7 @@ export function useAuth() {
 
   const logout = () => {
     setUser(null);
+    router.push('/');
   };
 
   return {
