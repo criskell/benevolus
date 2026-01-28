@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { userAtom, User } from '@/atoms/auth';
 
 export function useAuth() {

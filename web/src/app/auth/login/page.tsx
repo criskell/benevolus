@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
