@@ -10,7 +10,6 @@ import {
   NavbarMenuItem,
 } from '@heroui/navbar';
 
-import { link as linkStyles } from '@heroui/theme';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Link } from '@heroui/react';
 import { UserIcon, MessageCircle, Wallet, CreditCard, LogOut, ChevronDown } from 'lucide-react';
 import NextLink from 'next/link';
@@ -25,15 +24,19 @@ export const Navbar = () => {
     <HeroUINavbar
       maxWidth="xl"
       position="sticky"
+      isBlurred
       classNames={{
-        wrapper: 'px-0',
+        wrapper: 'px-4 md:px-6',
+        base: 'bg-background/70 backdrop-blur-md border-b border-divider/50',
       }}
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
-            <LogoIcon />
-            <p className="font-bold text-inherit">{siteConfig.name}</p>
+          <NextLink className="flex justify-start items-center gap-2 group" href="/">
+            <div className="p-1.5 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+              <LogoIcon className="text-primary" size={24} />
+            </div>
+            <span className="font-bold text-lg">{siteConfig.name}</span>
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
@@ -41,10 +44,9 @@ export const Navbar = () => {
             <NavbarItem key={item.href}>
               <NextLink
                 className={clsx(
-                  linkStyles({ color: 'foreground' }),
-                  'data-[active=true]:text-primary data-[active=true]:font-medium'
+                  'text-foreground/70 hover:text-primary transition-colors text-sm font-medium',
+                  'data-[active=true]:text-primary'
                 )}
-                color="foreground"
                 href={item.href}
               >
                 {item.label}
