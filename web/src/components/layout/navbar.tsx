@@ -36,9 +36,7 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-2 group" href="/">
-            <div className="p-1.5 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-              <LogoIcon className="text-primary" size={24} />
-            </div>
+            <LogoIcon className="text-primary" size={32} />
             <span className="font-bold text-lg">{siteConfig.name}</span>
           </NextLink>
         </NavbarBrand>
@@ -77,7 +75,14 @@ export const Navbar = () => {
         </NavbarItem>
         {!isAuthenticated ? (
           <NavbarItem>
-            <Link href="/auth/login">Entrar</Link>
+            <Button
+              as={NextLink}
+              href="/auth/login"
+              variant="light"
+              color="primary"
+            >
+              Entrar
+            </Button>
           </NavbarItem>
         ) : (
           <NavbarItem>
@@ -159,9 +164,15 @@ export const Navbar = () => {
           </NavbarMenuItem>
           {!isAuthenticated ? (
             <NavbarMenuItem>
-              <Link href="/auth/login" size="lg" className="w-full">
+              <Button
+                as={NextLink}
+                href="/auth/login"
+                variant="light"
+                color="primary"
+                fullWidth
+              >
                 Entrar
-              </Link>
+              </Button>
             </NavbarMenuItem>
           ) : (
             <>
