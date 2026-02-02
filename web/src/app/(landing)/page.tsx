@@ -8,6 +8,7 @@ import { campaigns } from '@/data/campaigns';
 import { HeroSection } from './hero-section';
 import { CategoryNavigation } from './category-navigation';
 import { CallToAction } from './call-to-action';
+import { HowItWorks } from './how-it-works';
 
 const mappedCampaigns: Campaign[] = campaigns.campaigns.map((c) => ({
   slug: c.slug,
@@ -45,6 +46,7 @@ export default function Home() {
             <CampaignCard campaign={campaign} key={campaign.slug} />
           ))}
         </div>
+        <HowItWorks />
       </div>
       <CallToAction />
     </main>
