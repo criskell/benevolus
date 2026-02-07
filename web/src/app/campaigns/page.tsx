@@ -89,6 +89,7 @@ export default function CampaignsPage() {
               selectedKey={activeTab}
               onSelectionChange={(key) => setActiveTab(key as string)}
               className="mb-6"
+              variant="underlined"
             >
               <Tab key="explore" title="Explorar Vaquinhas">
                 <div className="flex flex-col lg:flex-row gap-4 mb-6 items-start lg:items-center justify-between">
