@@ -1,7 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { BreadcrumbItem, Breadcrumbs, Button, useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, Tabs, Tab } from '@heroui/react';
+import {
+  BreadcrumbItem,
+  Breadcrumbs,
+  Button,
+  useDisclosure,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  Tabs,
+  Tab,
+} from '@heroui/react';
 import { Heart, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { PageLayout } from '../../components/campaigns/page-layout';
@@ -17,7 +28,7 @@ import { CategoryDonationTab } from '../../components/donations/category-donatio
 import { useDonationContext } from '../../contexts/DonationContext';
 import type { Campaign } from '@/models/campaign';
 
-const mappedCampaigns: Campaign[] = rawCampaigns.campaigns.map(c => ({
+const mappedCampaigns: Campaign[] = rawCampaigns.campaigns.map((c) => ({
   slug: c.slug,
   title: c.title,
   category: c.category,
@@ -70,11 +81,9 @@ export default function CampaignsPage() {
         }
         main={
           <div className="p-6">
-            <Breadcrumbs className="mb-4">
-              <BreadcrumbItem>Início</BreadcrumbItem>
-              <BreadcrumbItem>Vaquinhas</BreadcrumbItem>
-            </Breadcrumbs>
-            <h1 className="text-3xl font-bold mb-6">Encontre todas nossas vaquinhas</h1>
+            <h1 className="text-3xl font-bold mb-6">
+              Encontre todas nossas vaquinhas
+            </h1>
 
             <Tabs
               selectedKey={activeTab}
@@ -84,7 +93,11 @@ export default function CampaignsPage() {
               <Tab key="explore" title="Explorar Vaquinhas">
                 <div className="flex flex-col lg:flex-row gap-4 mb-6 items-start lg:items-center justify-between">
                   <div className="flex items-center gap-4 w-full lg:w-auto">
-                    <Button onPress={onOpen} variant="bordered" className="lg:hidden">
+                    <Button
+                      onPress={onOpen}
+                      variant="bordered"
+                      className="lg:hidden"
+                    >
                       Filtros
                     </Button>
                     <SearchBar value={searchQuery} onChange={setSearchQuery} />
@@ -140,8 +153,14 @@ export default function CampaignsPage() {
           </ModalBody>
         </ModalContent>
       </Modal>
-      <FavoritesDrawer isOpen={favoritesOpen} onClose={() => setFavoritesOpen(false)} />
-      <DonationCartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <FavoritesDrawer
+        isOpen={favoritesOpen}
+        onClose={() => setFavoritesOpen(false)}
+      />
+      <DonationCartDrawer
+        isOpen={cartOpen}
+        onClose={() => setCartOpen(false)}
+      />
     </>
   );
 }
