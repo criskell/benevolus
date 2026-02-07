@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { ProfileSidebar } from '../components/profile-sidebar';
-import { DonationsFilters } from './components/donations-filters';
 import { DonationsTabs } from './components/donations-tabs';
 import { DonationCard } from './components/donation-card';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
@@ -21,10 +20,10 @@ type Donation = {
 };
 
 export default function DonationsPage() {
-  const [selectedFilter, setSelectedFilter] = useState('all');
-  const [activeTab, setActiveTab] = useState<'one-time' | 'monthly'>('one-time');
+  const [activeTab, setActiveTab] = useState<'one-time' | 'monthly'>(
+    'one-time'
+  );
 
-  // Dados mockados - serão substituídos por dados reais da API
   const userData = {
     name: 'Cristiano',
     followedCampaigns: 0,
@@ -94,22 +93,6 @@ export default function DonationsPage() {
     },
   ];
 
-  const filteredDonations = mockDonations.filter((donation) => {
-    if (activeTab === 'monthly' && !donation.isMonthly) return false;
-    if (activeTab === 'one-time' && donation.isMonthly) return false;
-
-    switch (selectedFilter) {
-      case 'approved':
-        return donation.status === 'approved';
-      case 'pending':
-        return donation.status === 'pending';
-      case 'rejected':
-        return donation.status === 'rejected';
-      default:
-        return true;
-    }
-  });
-
   const menuItems = [
     { label: 'Informações pessoais', active: false },
     { label: 'Comunicação', active: false },
@@ -135,19 +118,11 @@ export default function DonationsPage() {
           </div>
 
           <div className="flex gap-8">
-            <DonationsFilters
-              selectedFilter={selectedFilter}
-              onFilterChange={setSelectedFilter}
-            />
-
             <div className="flex-1 space-y-4">
-              <DonationsTabs
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-              />
+              <DonationsTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
-                {filteredDonations.map((donation) => (
+                {mockDonations.map((donation) => (
                   <DonationCard key={donation.id} donation={donation} />
                 ))}
               </div>
