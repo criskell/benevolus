@@ -7,14 +7,12 @@ interface PageLayoutProps {
 
 export const PageLayout = ({ sidebar, main }: PageLayoutProps) => {
   return (
-    <div className="flex h-screen">
-      <aside className="hidden lg:block w-80 bg-background border-r border-divider overflow-y-auto">
+    <div className="flex relative">
+      <aside className="hidden lg:block w-80 bg-background border-r border-divider">
         {sidebar}
       </aside>
 
-      <main className="flex-1 overflow-y-auto">
-        {main}
-      </main>
+      <main className="flex-1">{main}</main>
     </div>
   );
 };

@@ -42,6 +42,7 @@ const mappedCampaigns: Campaign[] = rawCampaigns.campaigns.map((c) => ({
 
 export default function CampaignsPage() {
   const { favorites, cart } = useDonationContext();
+
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('explore');

@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Accordion, AccordionItem, CheckboxGroup, Checkbox, Input, Button, Chip } from '@heroui/react';
+import {
+  Accordion,
+  AccordionItem,
+  CheckboxGroup,
+  Checkbox,
+  Input,
+  Button,
+  Chip,
+} from '@heroui/react';
 import { SearchIcon } from '../icons/search'; // Assuming search icon exists
 import { filters } from '../../data/filters';
 
@@ -22,15 +30,19 @@ export const FiltersPanel = ({
 }: FiltersPanelProps) => {
   const [tagSearch, setTagSearch] = useState('');
 
-  const filteredTags = filters.tags.filter(tag =>
+  const filteredTags = filters.tags.filter((tag) =>
     tag.toLowerCase().includes(tagSearch.toLowerCase())
   );
 
   return (
-    <div className="p-4">
+    <div className="p-4 sticky top-[4em]">
       <h2 className="text-lg font-semibold mb-4">Filtros</h2>
       <Accordion>
-        <AccordionItem key="categories" aria-label="Categorias" title="Categoria">
+        <AccordionItem
+          key="categories"
+          aria-label="Categorias"
+          title="Categoria"
+        >
           <CheckboxGroup
             value={selectedCategories}
             onValueChange={setSelectedCategories}
@@ -57,7 +69,7 @@ export const FiltersPanel = ({
                 variant={selectedTags.includes(tag) ? 'solid' : 'bordered'}
                 onClick={() => {
                   if (selectedTags.includes(tag)) {
-                    setSelectedTags(selectedTags.filter(t => t !== tag));
+                    setSelectedTags(selectedTags.filter((t) => t !== tag));
                   } else {
                     setSelectedTags([...selectedTags, tag]);
                   }

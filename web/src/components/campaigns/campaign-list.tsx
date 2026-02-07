@@ -9,10 +9,10 @@ interface CampaignListProps {
 }
 
 export const CampaignList = ({ campaigns }: CampaignListProps) => {
-  const [visibleCount, setVisibleCount] = useState(9); // Show 9 initially, 3x3 grid
+  const [visibleCount, setVisibleCount] = useState(9);
 
   const loadMore = () => {
-    setVisibleCount(prev => prev + 9);
+    setVisibleCount((prev) => prev + 9);
   };
 
   const visibleCampaigns = campaigns.slice(0, visibleCount);
