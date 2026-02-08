@@ -6,11 +6,20 @@ use App\Models\Withdrawal;
 use OpenPix\PhpSdk\Client;
 use OpenPix\PhpSdk\Resources\Payments;
 
-test('can list campaign withdrawals without authentication', function () {
+test('list campaign withdrawals requires authentication', function () {
+    $campaign = Campaign::factory()->open()->create();
+
+    $response = $this->getJson("/api/campaigns/{$campaign->id}/withdrawals");
+
+    $response->assertStatus(401);
+});
+
+test('can list campaign withdrawals when authenticated', function () {
+    $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
     Withdrawal::factory()->count(2)->for($campaign)->create();
 
-    $response = $this->getJson("/api/campaigns/{$campaign->id}/withdrawals");
+    $response = $this->actingAs($user)->getJson("/api/campaigns/{$campaign->id}/withdrawals");
 
     $response->assertStatus(200)
         ->assertJsonStructure([
@@ -31,20 +40,25 @@ test('can list campaign withdrawals without authentication', function () {
 });
 
 test('list campaign withdrawals returns only that campaign withdrawals', function () {
+    $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
     $otherCampaign = Campaign::factory()->open()->create();
+
     Withdrawal::factory()->for($campaign)->create();
     Withdrawal::factory()->for($otherCampaign)->create();
 
-    $response = $this->getJson("/api/campaigns/{$campaign->id}/withdrawals");
+    $response = $this->actingAs($user)->getJson("/api/campaigns/{$campaign->id}/withdrawals");
 
     $response->assertStatus(200);
+
     expect($response->json('data'))->toHaveCount(1);
     expect($response->json('data.0.campaignId'))->toBe($campaign->id);
 });
 
 test('list withdrawals returns 404 for non-existent campaign', function () {
-    $response = $this->getJson('/api/campaigns/99999/withdrawals');
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->getJson('/api/campaigns/99999/withdrawals');
 
     $response->assertStatus(404);
 });

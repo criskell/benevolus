@@ -18,7 +18,7 @@ final class WithdrawalController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:sanctum', only: ['store']),
+            new Middleware('auth:sanctum', only: ['index', 'store']),
         ];
     }
 
@@ -56,6 +56,7 @@ final class WithdrawalController extends Controller implements HasMiddleware
                     ]
                 )
             ),
+            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
             new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
