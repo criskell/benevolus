@@ -4,8 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { Card } from '@heroui/react';
+import { useTranslations } from 'next-intl';
 
 export function LiveDonationsCounter() {
+  const t = useTranslations('home.live_donations');
   const [totalDonations, setTotalDonations] = useState(1274650); // R$ 12.746,50 em centavos
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastDonation, setLastDonation] = useState(0);
@@ -185,15 +187,15 @@ export function LiveDonationsCounter() {
                   )}
                 </motion.div>
                 <span className="bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-700 bg-clip-text text-transparent">
-                  Atualizando em tempo real
+                  {t('badge')}
                 </span>
               </motion.div>
 
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-4 tracking-tight">
-                Total arrecadado na plataforma
+                {t('title')}
               </h2>
               <p className="text-default-600 text-base md:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed">
-                Cada centavo representa uma história de solidariedade e esperança que transforma vidas
+                {t('subtitle')}
               </p>
             </div>
 
@@ -243,7 +245,7 @@ export function LiveDonationsCounter() {
                   className="absolute -top-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-3 rounded-full shadow-2xl shadow-emerald-500/50 font-bold text-sm flex items-center gap-2 whitespace-nowrap"
                 >
                   <Icon icon="solar:add-circle-bold" width={20} />
-                  <span>+ R$ {(lastDonation / 100).toFixed(2)} recebidos</span>
+                  <span>{t('new_donation', { amount: (lastDonation / 100).toFixed(2) })}</span>
                   <Icon icon="solar:star-bold" width={16} />
                 </motion.div>
               )}
@@ -284,13 +286,13 @@ export function LiveDonationsCounter() {
                     }}
                   />
                 </div>
-                <span className="font-semibold text-default-700">Tempo real</span>
+                <span className="font-semibold text-default-700">{t('live_status')}</span>
               </div>
               
               <div className="w-1.5 h-1.5 rounded-full bg-default-300" />
               
               <span className="text-default-600 font-medium">
-                Última doação: {isUpdating ? 'agora mesmo' : 'há alguns segundos'}
+                {t('last_donation_label')}: {isUpdating ? t('last_donation_now') : t('last_donation_recent')}
               </span>
             </motion.div>
 
@@ -303,7 +305,7 @@ export function LiveDonationsCounter() {
               className="mt-10 text-center"
             >
               <p className="text-default-600 text-sm md:text-base font-medium max-w-2xl mx-auto">
-                Junte-se a milhares de pessoas que estão fazendo a diferença
+                {t('join_message')}
               </p>
             </motion.div>
           </div>

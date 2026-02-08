@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { CampaignCard } from '@/components/campaign/campaign-card';
 import type { Campaign } from '@/models/campaign';
 import { campaigns } from '@/data/campaigns';
+import { useTranslations } from 'next-intl';
 
 import { HeroSection } from './hero-section';
 import { LiveDonationsCounter } from './live-donations-counter';
@@ -29,16 +30,19 @@ const mappedCampaigns: Campaign[] = campaigns.campaigns.map((c) => ({
   image: c.image,
 }));
 
-const categories = [
-  'Todos',
-  ...new Set(campaigns.campaigns.map((c) => c.category)),
-];
-
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState('Todos');
+  const t = useTranslations('home');
+  const allCategoriesText = t('all_categories');
+  
+  const categories = [
+    allCategoriesText,
+    ...new Set(campaigns.campaigns.map((c) => c.category)),
+  ];
+  
+  const [selectedCategory, setSelectedCategory] = useState(allCategoriesText);
 
   const filteredCampaigns = (
-    selectedCategory === 'Todos'
+    selectedCategory === allCategoriesText
       ? mappedCampaigns
       : mappedCampaigns.filter((c) => c.category === selectedCategory)
   ).slice(0, 6);

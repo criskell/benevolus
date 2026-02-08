@@ -135,17 +135,17 @@ export function HeroSection() {
               </div>
             ))}
           </div>
-          <span className="font-medium">1.000+ doadores</span>
+          <span className="font-medium">{t('hero_trust_donors')}</span>
         </div>
 
         <div className="flex items-center gap-2">
           <Icon icon="solar:shield-check-bold" width={24} className="text-primary" />
-          <span className="font-medium">100% seguro</span>
+          <span className="font-medium">{t('hero_trust_secure')}</span>
         </div>
 
         <div className="flex items-center gap-2">
           <Icon icon="solar:star-bold" width={24} className="text-amber-500" />
-          <span className="font-medium">4.9/5 avaliação</span>
+          <span className="font-medium">{t('hero_trust_rating')}</span>
         </div>
       </motion.div>
 

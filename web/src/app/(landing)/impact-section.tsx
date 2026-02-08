@@ -77,7 +77,7 @@ export function ImpactSection() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6">
               <Icon icon="solar:chart-2-bold" width={20} />
-              <span>Nossa jornada</span>
+              <span>{t('badge')}</span>
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-4">
               {t('title')}

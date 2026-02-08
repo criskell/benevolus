@@ -4,8 +4,10 @@ import { Button } from "@heroui/button";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useTranslations } from 'next-intl';
 
 export const CallToAction = () => {
+  const t = useTranslations('home.call_to_action');
   return (
     <section className="py-20">
       <div className="container mx-auto px-6 md:px-8 max-w-6xl">
@@ -37,7 +39,7 @@ export const CallToAction = () => {
             transition={{ delay: 0.2 }}
           >
             <Icon icon="solar:star-outline" width={18} height={18} />
-            <span className="text-sm font-semibold">Comece agora</span>
+            <span className="text-sm font-semibold">{t('badge')}</span>
           </motion.div>
 
           {/* Título principal */}
@@ -48,7 +50,7 @@ export const CallToAction = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            Conte sua história
+            {t('title')}
           </motion.h2>
 
           {/* Subtítulo */}
@@ -59,7 +61,7 @@ export const CallToAction = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            Receba contribuição da nossa comunidade e transforme vidas
+            {t('subtitle')}
           </motion.p>
 
           {/* Botões */}
@@ -78,7 +80,7 @@ export const CallToAction = () => {
               className="text-base font-semibold px-8 h-12 min-w-[200px]"
               startContent={<Icon icon="solar:add-circle-outline" width={22} height={22} />}
             >
-              Crie sua campanha
+              {t('create_campaign')}
             </Button>
             <Button
               as={Link}
@@ -88,7 +90,7 @@ export const CallToAction = () => {
               className="text-base font-semibold px-8 h-12 min-w-[200px] border-default-300 hover:border-primary"
               endContent={<Icon icon="solar:arrow-right-outline" width={20} height={20} />}
             >
-              Ver campanhas
+              {t('view_campaigns')}
             </Button>
           </motion.div>
 
@@ -101,7 +103,7 @@ export const CallToAction = () => {
             transition={{ delay: 0.6 }}
           >
             <Icon icon="solar:shield-check-outline" width={18} height={18} className="text-primary" />
-            Zero taxas para doadores • Processo transparente • Seguro e confiável
+            {t('trust')}
           </motion.p>
         </motion.div>
         </div>

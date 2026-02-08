@@ -93,7 +93,7 @@ export function CategoriesSection() {
                 
                 {/* Indicador de link */}
                 <div className="flex items-center gap-2 text-sm font-semibold text-default-400 group-hover:text-primary transition-colors mt-auto">
-                  <span>Ver campanhas</span>
+                  <span>{t('view_campaigns')}</span>
                   <Icon icon="solar:arrow-right-outline" width={18} height={18} />
                 </div>
               </div>

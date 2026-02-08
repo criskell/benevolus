@@ -6,6 +6,10 @@
     "donate": "Hacer una donación",
     "create_campaign": "Crear una nueva campaña",
     "headline": "Cada contribución acerca sueños y ayuda a quienes más lo necesitan. Únete a una comunidad que marca la diferencia.",
+    "hero_trust_donors": "1.000+ donantes",
+    "hero_trust_secure": "100% seguro",
+    "hero_trust_rating": "4.9/5 valoración",
+    "all_categories": "Todos",
     "why": {
       "title": "Por qué Benevolus",
       "subtitle": "Una plataforma construida para conectar a quienes necesitan con quienes quieren ayudar",
@@ -19,6 +23,7 @@
     "impact": {
       "title": "Nuestro impacto hasta ahora",
       "subtitle": "Juntos estamos marcando la diferencia",
+      "badge": "Nuestro recorrido",
       "stat_0_value": "R$ 2M+",
       "stat_0_label": "Recaudados en donaciones",
       "stat_1_value": "50k+",
@@ -29,6 +34,8 @@
     "testimonials": {
       "title": "Lo que dicen de nosotros",
       "subtitle": "Historias de donantes y creadores de campañas",
+      "badge": "Testimonios",
+      "trust_message": "Más de 1.000 historias de éxito compartidas",
       "quote_0": "Donar a través de Benevolus fue muy simple. Saber que no hay comisiones y que el monto va directamente a la campaña me dio tranquilidad.",
       "name_0": "Ricardo M.",
       "role_0": "Donante",
@@ -61,6 +68,7 @@
     "categories": {
       "title": "Explorar por categoría",
       "subtitle": "Encuentra causas que te interesen",
+      "view_campaigns": "Ver campañas",
       "saude_slug": "Salud",
       "saude_title": "Salud",
       "saude_description": "Campañas para tratamientos, cirugías y atención médica.",
@@ -83,6 +91,38 @@
       "item_1_description": "Tus datos son tratados con cuidado y en conformidad con las leyes de protección de datos.",
       "item_2_title": "Proceso transparente",
       "item_2_description": "Sigue el uso de los recursos y el progreso de las campañas."
+    },
+    "how_it_works": {
+      "badge": "Simple y rápido",
+      "title": "Cómo funciona",
+      "subtitle": "Tres pasos simples para hacer realidad tu proyecto",
+      "step_0_title": "Crea tu campaña",
+      "step_0_description": "Cuenta tu historia y define tu meta de recaudación",
+      "step_1_title": "Comparte",
+      "step_1_description": "Difunde entre amigos, familia y redes sociales",
+      "step_2_title": "Recibe las donaciones",
+      "step_2_description": "Sigue el progreso y recibe el monto recaudado",
+      "cta_question": "¿Listo para comenzar?",
+      "cta_button": "Crear mi campaña"
+    },
+    "call_to_action": {
+      "badge": "Comienza ahora",
+      "title": "Cuenta tu historia",
+      "subtitle": "Recibe el apoyo de nuestra comunidad y transforma vidas",
+      "create_campaign": "Crea tu campaña",
+      "view_campaigns": "Ver campañas",
+      "trust": "Cero comisiones para donantes • Proceso transparente • Seguro y confiable"
+    },
+    "live_donations": {
+      "badge": "Actualizando en tiempo real",
+      "title": "Total recaudado en la plataforma",
+      "subtitle": "Cada centavo representa una historia de solidaridad y esperanza que transforma vidas",
+      "new_donation": "+ R$ {amount} recibidos",
+      "live_status": "Tiempo real",
+      "last_donation_now": "ahora mismo",
+      "last_donation_recent": "hace unos segundos",
+      "last_donation_label": "Última donación",
+      "join_message": "Únete a miles de personas que están marcando la diferencia"
     }
   },
   "aboutUs": {

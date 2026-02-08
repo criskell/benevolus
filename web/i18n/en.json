@@ -6,6 +6,10 @@
     "donate": "Make a donation",
     "create_campaign": "Create a new campaign",
     "headline": "Every contribution brings dreams closer and helps those who need it most. Join a community that makes a difference.",
+    "hero_trust_donors": "1,000+ donors",
+    "hero_trust_secure": "100% secure",
+    "hero_trust_rating": "4.9/5 rating",
+    "all_categories": "All",
     "why": {
       "title": "Why Benevolus",
       "subtitle": "A platform built to connect those in need with those who want to help",
@@ -19,6 +23,7 @@
     "impact": {
       "title": "Our impact so far",
       "subtitle": "Together we are making a difference",
+      "badge": "Our journey",
       "stat_0_value": "R$ 2M+",
       "stat_0_label": "Raised in donations",
       "stat_1_value": "50k+",
@@ -29,6 +34,8 @@
     "testimonials": {
       "title": "What people say about us",
       "subtitle": "Stories from donors and campaign creators",
+      "badge": "Testimonials",
+      "trust_message": "Over 1,000 success stories shared",
       "quote_0": "Donating through Benevolus was very simple. Knowing there are no fees and the amount goes straight to the campaign gave me peace of mind.",
       "name_0": "Ricardo M.",
       "role_0": "Donor",
@@ -61,6 +68,7 @@
     "categories": {
       "title": "Explore by category",
       "subtitle": "Find causes that match what you care about",
+      "view_campaigns": "View campaigns",
       "saude_slug": "Saúde",
       "saude_title": "Health",
       "saude_description": "Campaigns for treatments, surgery and medical care.",
@@ -83,6 +91,38 @@
       "item_1_description": "Your data is handled with care and in compliance with privacy laws.",
       "item_2_title": "Transparent process",
       "item_2_description": "Track how funds are used and how campaigns are progressing."
+    },
+    "how_it_works": {
+      "badge": "Simple and fast",
+      "title": "How it works",
+      "subtitle": "Three simple steps to make your project happen",
+      "step_0_title": "Create your campaign",
+      "step_0_description": "Tell your story and set your fundraising goal",
+      "step_1_title": "Share it",
+      "step_1_description": "Spread the word to friends, family and social media",
+      "step_2_title": "Receive donations",
+      "step_2_description": "Track progress and receive the funds raised",
+      "cta_question": "Ready to get started?",
+      "cta_button": "Create my campaign"
+    },
+    "call_to_action": {
+      "badge": "Start now",
+      "title": "Tell your story",
+      "subtitle": "Receive support from our community and transform lives",
+      "create_campaign": "Create your campaign",
+      "view_campaigns": "View campaigns",
+      "trust": "Zero fees for donors • Transparent process • Safe and reliable"
+    },
+    "live_donations": {
+      "badge": "Updating in real time",
+      "title": "Total raised on the platform",
+      "subtitle": "Every cent represents a story of solidarity and hope that transforms lives",
+      "new_donation": "+ R$ {amount} received",
+      "live_status": "Real time",
+      "last_donation_now": "just now",
+      "last_donation_recent": "a few seconds ago",
+      "last_donation_label": "Last donation",
+      "join_message": "Join thousands of people who are making a difference"
     }
   },
   "aboutUs": {

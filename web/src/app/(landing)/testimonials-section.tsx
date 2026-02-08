@@ -56,7 +56,7 @@ export function TestimonialsSection() {
       >
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6">
           <Icon icon="solar:chat-round-like-bold" width={20} />
-          <span>Depoimentos</span>
+          <span>{t('badge')}</span>
         </div>
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text">
           {t('title')}
@@ -255,7 +255,7 @@ export function TestimonialsSection() {
       >
         <p className="text-default-500 text-sm flex items-center justify-center gap-2">
           <Icon icon="solar:shield-check-bold" width={20} className="text-primary" />
-          <span>Mais de 1.000 histórias de sucesso compartilhadas</span>
+          <span>{t('trust_message')}</span>
         </p>
       </motion.div>
     </section>
