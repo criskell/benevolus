@@ -6,6 +6,7 @@ import { Provider } from 'jotai';
 
 import { cn } from '@/lib/utils/cn';
 import { Navbar } from '@/components/layout/navbar';
+import { detectLocale } from '@/lib/utils/locale';
 
 import './globals.css';
 import { siteConfig } from '@/config/site';
@@ -25,13 +26,20 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await detectLocale();
+  const langMap: Record<string, string> = {
+    pt: 'pt-BR',
+    en: 'en-US',
+    es: 'es-ES',
+  };
+
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang={langMap[locale] || 'en-US'} suppressHydrationWarning>
       <body
         className={cn(
           'antialiased text-foreground bg-background font-sans flex flex-col min-h-screen',

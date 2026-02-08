@@ -34,6 +34,7 @@ import { siteConfig } from '@/config/site';
 import { LogoIcon } from '@/components/icons/logo';
 import { navbarSearchInput } from './navbar-search-input';
 import { useAuth } from '@/hooks/use-auth';
+import { LanguageSwitcher } from './language-switcher';
 
 export const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -80,6 +81,9 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-3 !basis-auto !flex-grow-0">
+        <NavbarItem>
+          <LanguageSwitcher />
+        </NavbarItem>
         <NavbarItem>
           <Button
             as={NextLink}
@@ -170,6 +174,9 @@ export const Navbar = () => {
       <NavbarMenu>
         {navbarSearchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
+          <NavbarMenuItem className="flex justify-center py-2">
+            <LanguageSwitcher />
+          </NavbarMenuItem>
           <NavbarMenuItem>
             <Button
               as={NextLink}

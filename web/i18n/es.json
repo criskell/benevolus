@@ -1,0 +1,114 @@
+{
+  "home": {
+    "mission": "Nuestra misión",
+    "title_line_1": "La forma más",
+    "title_line_2": "fácil de marcar la diferencia",
+    "donate": "Hacer una donación",
+    "create_campaign": "Crear una nueva campaña",
+    "headline": "Cada contribución acerca sueños y ayuda a quienes más lo necesitan. Únete a una comunidad que marca la diferencia.",
+    "why": {
+      "title": "Por qué Benevolus",
+      "subtitle": "Una plataforma construida para conectar a quienes necesitan con quienes quieren ayudar",
+      "item_0_title": "Transparencia y seguridad",
+      "item_0_description": "Proceso claro y seguro. Tus donaciones llegan a quienes las necesitan.",
+      "item_1_title": "Cero comisiones para donantes",
+      "item_1_description": "El monto que donas va íntegramente a la campaña.",
+      "item_2_title": "Una comunidad que marca la diferencia",
+      "item_2_description": "Miles de personas ya han apoyado causas a través de nuestra plataforma."
+    },
+    "impact": {
+      "title": "Nuestro impacto hasta ahora",
+      "subtitle": "Juntos estamos marcando la diferencia",
+      "stat_0_value": "R$ 2M+",
+      "stat_0_label": "Recaudados en donaciones",
+      "stat_1_value": "50k+",
+      "stat_1_label": "Donantes en la plataforma",
+      "stat_2_value": "1.200+",
+      "stat_2_label": "Campañas apoyadas"
+    },
+    "testimonials": {
+      "title": "Lo que dicen de nosotros",
+      "subtitle": "Historias de donantes y creadores de campañas",
+      "quote_0": "Donar a través de Benevolus fue muy simple. Saber que no hay comisiones y que el monto va directamente a la campaña me dio tranquilidad.",
+      "name_0": "Ricardo M.",
+      "role_0": "Donante",
+      "quote_1": "Pude recaudar para el tratamiento de mi madre en pocas semanas. La plataforma es clara y el equipo responde rápido.",
+      "name_1": "Ana Paula S.",
+      "role_1": "Creadora de campaña",
+      "quote_2": "La uso siempre que quiero apoyar causas en las que creo. El proceso es transparente y me siento seguro contribuyendo.",
+      "name_2": "Fernando L.",
+      "role_2": "Donante"
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "subtitle": "Resuelve tus dudas sobre donaciones y campañas",
+      "q_0": "¿Cómo hago para donar?",
+      "a_0": "Elige una campaña en nuestra página, haz clic en \"Donar\" y completa el monto y la forma de pago. El proceso es rápido y seguro. El monto va íntegramente a la campaña.",
+      "q_1": "¿Hay comisión para donantes?",
+      "a_1": "No. Benevolus no cobra comisión a los donantes. El monto que contribuyes se transfiere por completo a la campaña elegida.",
+      "q_2": "¿Cómo creo una campaña?",
+      "a_2": "Inicia sesión o regístrate, accede a \"Crear campaña\" y sigue los pasos: cuenta tu historia, define la meta y la información de la campaña. Después de la revisión, tu campaña puede ser publicada.",
+      "q_3": "¿Cuándo recibe el creador de la campaña el monto?",
+      "a_3": "El monto recaudado puede ser solicitado por el creador según las reglas de la campaña. El proceso de retiro es transparente y monitoreado por la plataforma."
+    },
+    "newsletter": {
+      "title": "Mantente informado",
+      "subtitle": "Recibe novedades sobre campañas y cómo marcar la diferencia.",
+      "placeholder": "Tu correo electrónico",
+      "button": "Suscribirse",
+      "success": "¡Suscrito! Pronto recibirás nuestras novedades."
+    },
+    "categories": {
+      "title": "Explorar por categoría",
+      "subtitle": "Encuentra causas que te interesen",
+      "saude_slug": "Salud",
+      "saude_title": "Salud",
+      "saude_description": "Campañas para tratamientos, cirugías y atención médica.",
+      "emergenciais_slug": "Emergencias",
+      "emergenciais_title": "Emergencias",
+      "emergenciais_description": "Apoyo urgente en situaciones de crisis y vulnerabilidad.",
+      "educacao_slug": "Educación",
+      "educacao_title": "Educación",
+      "educacao_description": "Becas, material escolar y proyectos educativos.",
+      "animais_slug": "Animales",
+      "animais_title": "Animales",
+      "animais_description": "Protección, rescate y cuidado de animales."
+    },
+    "trust": {
+      "title": "Tus donaciones en buenas manos",
+      "subtitle": "Seguridad y transparencia en cada etapa",
+      "item_0_title": "Pago seguro",
+      "item_0_description": "Procesamiento de pago en ambiente cifrado y confiable.",
+      "item_1_title": "Datos protegidos",
+      "item_1_description": "Tus datos son tratados con cuidado y en conformidad con las leyes de protección de datos.",
+      "item_2_title": "Proceso transparente",
+      "item_2_description": "Sigue el uso de los recursos y el progreso de las campañas."
+    }
+  },
+  "aboutUs": {
+    "hero_badge": "Nuestra causa",
+    "title": "Misión y Valores",
+    "subtitle": "Conoce el propósito y los objetivos que guían a Benevolus.",
+    "mission_title": "Misión",
+    "mission_1": "Nuestra misión es crear un ecosistema basado en el altruismo, ofreciendo una plataforma para gestionar campañas de caridad y recursos esenciales para personas en situación de vulnerabilidad.",
+    "mission_2": "Buscamos crecer junto con organizaciones no gubernamentales y ayudar al máximo de personas posible, siempre guiados por el principio de construir de forma abierta y transparente, siguiendo la filosofía open-source.",
+    "mission_3": "Tu participación es esencial para hacer esta misión realidad.",
+    "mission_cta": "Tu participación es esencial para hacer esta misión realidad.",
+    "goals_title": "Nuestros Objetivos",
+    "goals": {
+      "goal_platform": "Construir una plataforma internacional, comenzando por Brasil.",
+      "goal_ai": "Usar inteligencia artificial para facilitar el uso de la plataforma (por ejemplo, con traducción automática de campañas).",
+      "goal_zero_fees": "Mantener cero comisiones, excepto para servicios de infraestructura.",
+      "goal_no_profit": "Actuar sin enfoque en lucro.",
+      "goal_tools": "Ofrecer herramientas que realmente mejoren la vida de las personas.",
+      "goal_transparent": "Garantizar un proceso administrativo claro y transparente.",
+      "goal_responsibility": "Asumir responsabilidad pública por nuestras acciones.",
+      "goal_community": "Crear una comunidad de desarrolladores comprometida con el ecosistema.",
+      "goal_feedback": "Desarrollar siempre basándose en el feedback y las necesidades de los usuarios."
+    },
+    "cta_title": "Forma parte",
+    "cta_description": "Únete a nosotros donando a campañas o creando la tuya. Cada acción cuenta.",
+    "cta_campaigns": "Ver campañas",
+    "cta_create": "Crear campaña"
+  }
+}
