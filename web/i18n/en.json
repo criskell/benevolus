@@ -125,6 +125,334 @@
       "join_message": "Join thousands of people who are making a difference"
     }
   },
+  "navbar": {
+    "campaigns": "Campaigns",
+    "mission": "Mission",
+    "create_campaign": "Create campaign",
+    "sign_in": "Sign in",
+    "my_account": "My account",
+    "profile": "Profile",
+    "my_donations": "My donations",
+    "my_wallet": "My wallet",
+    "cards": "Cards",
+    "logout": "Sign out",
+    "account_menu": "Account menu",
+    "search_placeholder": "Search campaigns...",
+    "search_label": "Search campaigns..."
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account to continue",
+      "email_label": "Email",
+      "email_placeholder": "your@email.com",
+      "password_label": "Password",
+      "password_placeholder": "Enter your password",
+      "forgot_password": "Forgot password?",
+      "submit_button": "Sign in",
+      "no_account": "Don't have an account?",
+      "create_account": "Create account"
+    },
+    "signup": {
+      "title": "Create your account",
+      "subtitle": "Join our community",
+      "name_label": "Full Name",
+      "name_placeholder": "Your full name",
+      "email_label": "Email",
+      "email_placeholder": "your@email.com",
+      "password_label": "Password",
+      "password_placeholder": "Create a strong password",
+      "confirm_password_label": "Confirm Password",
+      "confirm_password_placeholder": "Confirm your password",
+      "submit_button": "Sign up",
+      "have_account": "Already have an account?",
+      "login": "Sign in"
+    },
+    "reset_password": {
+      "title": "Reset password",
+      "subtitle": "Enter your email to receive a code",
+      "email_label": "Email",
+      "email_placeholder": "your@email.com",
+      "back_button": "Back",
+      "send_code_button": "Send code",
+      "verify_title": "Verify code",
+      "verify_subtitle": "Enter the code sent to {email}",
+      "code_label": "Verification Code",
+      "code_placeholder": "000000",
+      "verify_button": "Verify",
+      "new_password_title": "New password",
+      "new_password_subtitle": "Create a new password for your account",
+      "new_password_label": "New Password",
+      "new_password_placeholder": "Enter your new password",
+      "confirm_password_label": "Confirm Password",
+      "confirm_password_placeholder": "Confirm password",
+      "reset_button": "Reset password"
+    }
+  },
+  "campaigns": {
+    "create": {
+      "back_button": "Back",
+      "title": "Start creating your",
+      "title_highlight": "fundraiser",
+      "subtitle": "More than two thousand people choose Benevolus to transform their stories every day.",
+      "step_label": "Step {current} of {total}",
+      "previous_button": "Back",
+      "next_button": "Continue",
+      "finish_button": "Finish",
+      "step1": {
+        "title_label": "Give your fundraiser a name",
+        "title_placeholder": "E.g.: Help to buy a house",
+        "goal_label": "How much do you need?",
+        "goal_placeholder": "E.g.: 10,000.00",
+        "goal_min": "Minimum amount: $1.00",
+        "terms_text": "By clicking the button below you declare that you are over 18 years old, have read and agree to the",
+        "terms_link": "Terms, Fees, Deadlines and Regulations"
+      },
+      "step2": {
+        "cpf_title": "Confirm your",
+        "cpf_highlight": "ID",
+        "cpf_label": "ID",
+        "cpf_placeholder": "Enter your ID",
+        "cpf_required": "ID is required",
+        "cpf_invalid": "ID must have 11 digits",
+        "cpf_info_title": "IMPORTANT",
+        "cpf_info_text": "The withdrawal of raised funds will only be made to the Pix Key linked to your ID. Before withdrawing, make sure this Pix Key is registered with your bank.",
+        "email_title": "Confirm your",
+        "email_highlight": "Email",
+        "email_label": "Email",
+        "email_placeholder": "Enter your email",
+        "email_required": "Email is required",
+        "email_invalid": "Invalid email",
+        "complete_title": "Complete your",
+        "complete_highlight": "information",
+        "fullname_label": "Enter your full name",
+        "fullname_placeholder": "Enter your full name",
+        "fullname_required": "Full name is required",
+        "phone_label": "Enter your phone (WhatsApp)",
+        "phone_required": "Phone is required",
+        "password_label": "Create a password",
+        "password_placeholder": "Enter a password",
+        "password_required": "Password is required",
+        "password_confirmation_label": "Confirm your password",
+        "password_confirmation_placeholder": "Repeat password",
+        "password_mismatch": "Passwords do not match",
+        "newsletter_label": "I want to receive information from Benevolus"
+      },
+      "step3": {
+        "beneficiary_title": "This fundraiser is to help",
+        "beneficiary_highlight": "who?",
+        "beneficiary_myself": "I need the money myself",
+        "beneficiary_pet": "For my pet",
+        "beneficiary_family": "For a family member",
+        "beneficiary_friend": "For a friend in need",
+        "beneficiary_company": "For a company or institution",
+        "category_title": "In which",
+        "category_highlight": "category",
+        "category_subtitle": "does your fundraiser fit?",
+        "category_label": "Select a category",
+        "category_placeholder": "Select a category",
+        "category_animals": "Animals / Pets",
+        "category_education": "Education",
+        "category_emergency": "Emergency",
+        "category_empathy": "Empathy",
+        "category_sports": "Sports",
+        "category_income": "Income generation",
+        "category_housing": "Housing",
+        "category_social": "Social projects",
+        "category_recurring": "Recurring",
+        "category_health": "Health"
+      },
+      "step4": {
+        "title": "Tell your",
+        "title_highlight": "story",
+        "subtitle": "Explain why you need to raise donations, how you will use the funds raised, and how important it is to receive donations.",
+        "label": "Your story",
+        "placeholder": "E.g.: I am John, and I created this fundraiser because I need to raise $13,000.00 to buy a prosthesis for my daughter Luiza who had an accident. To learn more about our story you can follow our Instagram page: @luiza_prosthesis."
+      },
+      "step5": {
+        "title": "Images speak",
+        "title_highlight": "for you",
+        "subtitle": "Inspire your donors with an image that will help illustrate your cause. A good photo is very important to",
+        "subtitle_bold": "create a connection between your fundraiser and those who will donate.",
+        "choose_image": "Choose image",
+        "click_to_select": "Click here to select an image (maximum size: 5mb)",
+        "remove_image": "Remove image",
+        "error_too_large": "File too large! Maximum size is 5MB.",
+        "error_invalid": "Please select a valid image."
+      },
+      "step6": {
+        "title": "Your fundraiser has been created! Time to share!",
+        "subtitle": "Now just share and start raising funds! Send the link to friends and family and watch your fundraiser gain momentum.",
+        "card_tagline": "Your support can change everything!",
+        "goal_label": "Goal",
+        "status_active": "Active",
+        "view_campaign": "View my fundraiser",
+        "tips_title": "Tips on how to highlight your fundraiser",
+        "tip_pix_title": "Share your Pix key",
+        "tip_pix_description": "Share your exclusive Pix key to convey trust and count donations directly towards your goal."
+      },
+      "step7": {
+        "title": "You have a recent fundraiser!",
+        "subtitle": "Test, you recently created a fundraiser.",
+        "subtitle_bold": "You can edit or share your fundraiser.",
+        "status_active": "Active",
+        "edit_campaign": "Edit fundraiser",
+        "share_campaign": "Share fundraiser",
+        "create_new_title": "Still want to create a new fundraiser?",
+        "create_new_button": "Create new fundraiser",
+        "back_to_campaigns": "Back to campaigns"
+      }
+    },
+    "list": {
+      "title": "Find all our campaigns",
+      "tab_explore": "Explore Campaigns",
+      "tab_donate_by_cause": "Donate by Cause",
+      "filters_button": "Filters",
+      "favorites_button": "Favorites ({count})",
+      "cart_button": "Cart ({count})",
+      "create_button": "Create campaign",
+      "filters": {
+        "title": "Filters",
+        "category_title": "Category",
+        "tags_title": "Tags",
+        "tags_search": "Search tags...",
+        "clear_button": "Clear filters",
+        "apply_button": "Apply filters"
+      },
+      "search": {
+        "placeholder": "What are you looking for?"
+      },
+      "sort": {
+        "status_label": "Status",
+        "period_label": "Period",
+        "status_open": "Open",
+        "status_recent": "Recent",
+        "status_closing_soon": "Closing soon",
+        "status_closed": "Closed",
+        "status_goal_reached": "Goals reached",
+        "status_highest_raised": "Highest raised",
+        "status_all": "All",
+        "period_all_time": "All time",
+        "period_last_7_days": "Last 7 days",
+        "period_last_14_days": "Last 14 days",
+        "period_last_month": "Last month",
+        "period_this_month": "This month",
+        "period_last_3_months": "Last 3 months",
+        "period_this_year": "This year"
+      }
+    },
+    "card": {
+      "days": "days",
+      "raised_label": "Raised",
+      "goal_label": "Goal",
+      "donate_button": "Make a donation"
+    },
+    "distribute": {
+      "error_missing_param": "Missing parameter",
+      "error_missing_param_text": "The 'campaign' parameter was not provided in the URL.",
+      "error_not_found": "Campaign not found",
+      "error_not_found_text": "Campaign with slug '{slug}' was not found.",
+      "error_no_image": "Missing image",
+      "error_no_image_text": "This campaign has no image.",
+      "donate_to": "Donate to",
+      "subtitle": "Your donation will make a difference! Help this cause and transform lives with your generosity.",
+      "progress_label": "Progress",
+      "goal_prefix": "Goal:",
+      "smart_distribution": {
+        "title": "Smart Distribution",
+        "subtitle": "Donate an amount and distribute automatically",
+        "amount_label": "Total Donation Amount",
+        "other_amount": "Other amount",
+        "total_to_donate": "Total to donate",
+        "tab_favorites": "Favorites ({count})",
+        "tab_related": "Related",
+        "favorites_description": "Distribute among your favorite campaigns",
+        "related_description": "Distribute among {category} campaigns",
+        "criteria_equal_title": "Split equally",
+        "criteria_equal_description": "Same amount for all",
+        "criteria_mixed_title": "Smart distribution",
+        "criteria_mixed_description": "80% main, 20% split",
+        "criteria_integral_title": "Full amount",
+        "criteria_integral_description": "100% to the main campaign",
+        "preview_title": "Distribution Preview",
+        "preview_percentage": "{percentage}% of total"
+      },
+      "related": {
+        "title": "Related campaigns"
+      },
+      "cart": {
+        "title": "Your Donation List",
+        "empty_message": "No donations added yet",
+        "edit_button": "Edit",
+        "total_label": "Total",
+        "checkout_button": "Complete Donation",
+        "secure_payment": "100% secure payment"
+      },
+      "summary": {
+        "title": "Donation Summary",
+        "qr_code_label": "QR Code for payment",
+        "qr_code_placeholder": "QR Code will be generated here",
+        "your_donations": "Your donations",
+        "total_to_pay": "Total to pay:",
+        "receipt_info": "After payment, you will receive a receipt by email"
+      }
+    }
+  },
+  "campaign": {
+    "header": {
+      "created_ago": "Created this campaign {days} days ago",
+      "follow_button": "Follow",
+      "follow_campaign_button": "Follow campaign",
+      "verified_badge": "Verified campaign",
+      "documents_badge": "Verified documents",
+      "likes": "{count} likes",
+      "donors": "{count} donors",
+      "comments": "{count} comments",
+      "main_image_alt": "Main campaign image"
+    },
+    "gallery": {
+      "title": "Image gallery",
+      "photos_count": "{count} photos",
+      "image_alt": "Image {index}"
+    },
+    "story": {
+      "title": "Campaign story"
+    },
+    "updates": {
+      "title": "Updates",
+      "empty_message": "No updates for this campaign yet.",
+      "empty_message_line2": "Stay tuned, updates will always be shared."
+    },
+    "donors": {
+      "title": "Donors",
+      "view_all_button": "View all donors",
+      "time_ago_hour": "about {count} hour ago",
+      "time_ago_hours": "about {count} hours ago"
+    },
+    "comments": {
+      "title": "Comments",
+      "reply_button": "Reply"
+    },
+    "sidebar": {
+      "raised_label": "Raised",
+      "of": "of",
+      "completed_percent": "{percent}% completed",
+      "remaining_percent": "{percent}% remaining",
+      "donors_label": "Donors",
+      "days_remaining": "Days remaining",
+      "donate_button": "Make a donation",
+      "secure_payment": "100% secure and protected payment",
+      "trust_title": "Why trust",
+      "trust_identity_title": "Verified identity",
+      "trust_identity_description": "We validate the creator's identity and documents to ensure transparency.",
+      "trust_transparency_title": "Total transparency",
+      "trust_transparency_description": "Continuous monitoring with reports and updates on how funds are used.",
+      "trust_security_title": "Secure payment",
+      "trust_security_description": "Data encryption, secure protocols, and verification certificates.",
+      "share_title": "Share",
+      "share_description": "Help spread this campaign"
+    }
+  },
   "aboutUs": {
     "hero_badge": "Our cause",
     "title": "Mission & Values",

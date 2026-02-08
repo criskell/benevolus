@@ -3,6 +3,7 @@
 import { Button } from '@heroui/react';
 import { Upload } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Step5CampaignImageProps {
   image: File | null;
@@ -15,6 +16,7 @@ export function Step5CampaignImage({
   image,
   onImageChange,
 }: Step5CampaignImageProps) {
+  const t = useTranslations('campaigns.create.step5');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -54,12 +56,12 @@ export function Step5CampaignImage({
     if (!file) return;
 
     if (file.size > MAX_FILE_SIZE) {
-      setError('Arquivo muito grande! O tamanho máximo é 5MB.');
+      setError(t('error_too_large'));
       return;
     }
 
     if (!file.type.startsWith('image/')) {
-      setError('Por favor, selecione uma imagem válida.');
+      setError(t('error_invalid'));
       return;
     }
 
@@ -81,11 +83,10 @@ export function Step5CampaignImage({
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-semibold mb-2">
-          Imagens falam <span className="text-primary">por você</span>
+          {t('title')} <span className="text-primary">{t('title_highlight')}</span>
         </h2>
         <p className="text-default-500">
-          Inspire seus doadores com uma imagem que vai ajudar a ilustrar a sua causa. Uma boa foto
-          é muito importante para <span className="font-semibold text-foreground">criar conexão entre a sua vaquinha e quem vai doar.</span>
+          {t('subtitle')} <span className="font-semibold text-foreground">{t('subtitle_bold')}</span>
         </p>
       </div>
 
@@ -104,7 +105,7 @@ export function Step5CampaignImage({
               size="sm"
               onPress={handleRemoveImage}
             >
-              Remover imagem
+              {t('remove_image')}
             </Button>
           </div>
         ) : (
@@ -119,10 +120,10 @@ export function Step5CampaignImage({
                 onPress={handleClick}
                 className="w-full"
               >
-                Escolher imagem
+                {t('choose_image')}
               </Button>
               <p className="text-sm text-default-500 text-center">
-                Clique aqui para selecionar uma imagem (tamanho máximo: 5mb)
+                {t('click_to_select')}
               </p>
             </div>
             {error && (

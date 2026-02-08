@@ -4,6 +4,7 @@ import { Card, CardBody, Chip, Progress, Button } from '@heroui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 import type { Campaign } from '@/models/campaign';
 import { formatMoney } from '@/lib/utils/format-money';
 import { FavoriteToggleButton } from '../donations/favorite-toggle-button';
@@ -13,6 +14,7 @@ export type CampaignCardProps = {
 };
 
 export const CampaignCard = ({ campaign }: CampaignCardProps) => {
+  const t = useTranslations('campaigns.card');
   const router = useRouter();
 
   const handleDonate = () => {
@@ -64,7 +66,7 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-1.5 text-sm text-default-600">
               <Icon icon="solar:clock-circle-bold" width={18} className="text-primary" />
-              <span className="font-medium">{campaign.daysRemaining} dias</span>
+              <span className="font-medium">{campaign.daysRemaining} {t('days')}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-2xl font-black bg-gradient-to-br from-primary to-primary-600 bg-clip-text text-transparent">
@@ -86,13 +88,13 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
           {/* Amount Info */}
           <div className="flex items-end justify-between mb-4">
             <div>
-              <p className="text-xs text-default-500 mb-1">Arrecadado</p>
+              <p className="text-xs text-default-500 mb-1">{t('raised_label')}</p>
               <p className="text-lg font-bold text-foreground">
                 {formatMoney(campaign.currentAmount)}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xs text-default-500 mb-1">Meta</p>
+              <p className="text-xs text-default-500 mb-1">{t('goal_label')}</p>
               <p className="text-sm font-semibold text-default-700">
                 {formatMoney(campaign.goalAmount)}
               </p>
@@ -107,7 +109,7 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
             startContent={<Icon icon="solar:heart-bold" width={20} />}
             size="lg"
           >
-            Fazer doação
+            {t('donate_button')}
           </Button>
         </div>
 

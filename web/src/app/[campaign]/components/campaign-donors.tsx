@@ -1,9 +1,13 @@
+'use client';
+
 import { formatMoney } from '@/lib/utils/format-money';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 import { Avatar, Badge, Button, Card } from '@heroui/react';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 
 export function CampaignDonors() {
+  const t = useTranslations('campaign.donors');
   const donations = [
     {
       donor: { name: 'Anônimo' },
@@ -42,7 +46,7 @@ export function CampaignDonors() {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
           <Icon icon="solar:users-group-rounded-bold" width={28} className="text-primary" />
-          Doadores
+          {t('title')}
         </h2>
         <Badge 
           content="427" 
@@ -110,7 +114,7 @@ export function CampaignDonors() {
         size="lg"
         endContent={<Icon icon="solar:arrow-down-bold" width={20} />}
       >
-        Ver todos os doadores
+        {t('view_all_button')}
       </Button>
     </Card>
   );

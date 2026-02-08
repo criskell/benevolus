@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
+import { useTranslations } from 'next-intl';
 
 const api = axios.create({
   baseURL: "http://localhost",
@@ -14,6 +15,7 @@ const api = axios.create({
 });
 
 export const SignUpForm = () => {
+  const t = useTranslations('auth.signup');
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,18 +43,18 @@ export const SignUpForm = () => {
         <div className="flex flex-col items-center gap-4">
           <LogoIcon size={48} className="text-primary" />
           <div className="text-center">
-            <h1 className="text-2xl font-bold">Criar sua conta</h1>
+            <h1 className="text-2xl font-bold">{t('title')}</h1>
             <p className="text-default-500 text-sm mt-1">
-              Junte-se à nossa comunidade
+              {t('subtitle')}
             </p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            label="Nome Completo"
+            label={t('name_label')}
             name="name"
-            placeholder="Seu nome completo"
+            placeholder={t('name_placeholder')}
             type="text"
             isRequired
             value={formData.name}
@@ -62,9 +64,9 @@ export const SignUpForm = () => {
             }
           />
           <Input
-            label="Email"
+            label={t('email_label')}
             name="email"
-            placeholder="seu@email.com"
+            placeholder={t('email_placeholder')}
             type="email"
             isRequired
             value={formData.email}
@@ -74,9 +76,9 @@ export const SignUpForm = () => {
             }
           />
           <Input
-            label="Senha"
+            label={t('password_label')}
             name="password"
-            placeholder="Crie uma senha forte"
+            placeholder={t('password_placeholder')}
             type={showPassword ? "text" : "password"}
             isRequired
             value={formData.password}
@@ -98,9 +100,9 @@ export const SignUpForm = () => {
             }
           />
           <Input
-            label="Confirmar Senha"
+            label={t('confirm_password_label')}
             name="password_confirmation"
-            placeholder="Confirme sua senha"
+            placeholder={t('confirm_password_placeholder')}
             type={showConfirmPassword ? "text" : "password"}
             isRequired
             value={formData.password_confirmation}
@@ -123,14 +125,14 @@ export const SignUpForm = () => {
           />
 
           <Button type="submit" color="primary" fullWidth size="lg">
-            Cadastrar
+            {t('submit_button')}
           </Button>
         </form>
 
         <p className="text-center text-sm text-default-500">
-          Já tem uma conta?{" "}
+          {t('have_account')}{" "}
           <Link href="/auth/login" className="text-primary font-medium hover:underline">
-            Fazer login
+            {t('login')}
           </Link>
         </p>
       </div>

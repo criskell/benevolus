@@ -2,6 +2,7 @@
 
 import { Input, Link } from '@heroui/react';
 import { NumericFormat } from 'react-number-format';
+import { useTranslations } from 'next-intl';
 
 interface Step1BasicInfoProps {
   title: string;
@@ -16,6 +17,7 @@ export function Step1BasicInfo({
   onTitleChange,
   onGoalCentsChange,
 }: Step1BasicInfoProps) {
+  const t = useTranslations('campaigns.create.step1');
   const handleGoalChange = (values: { floatValue?: number }) => {
     const value = values.floatValue || 0;
     // Converte reais para centavos
@@ -27,8 +29,8 @@ export function Step1BasicInfo({
       <div>
         <Input
           isRequired
-          label="Dê um nome para sua vaquinha"
-          placeholder="Ex.: Ajuda para comprar uma casa"
+          label={t('title_label')}
+          placeholder={t('title_placeholder')}
           value={title}
           onChange={(e) => onTitleChange(e.target.value)}
           className="w-full"
@@ -40,8 +42,8 @@ export function Step1BasicInfo({
         <NumericFormat
           customInput={Input}
           isRequired
-          label="De quanto você precisa?"
-          placeholder="Ex.: 10.000,00"
+          label={t('goal_label')}
+          placeholder={t('goal_placeholder')}
           value={goalCents > 0 ? goalCents / 100 : undefined}
           onValueChange={handleGoalChange}
           thousandSeparator="."
@@ -54,14 +56,14 @@ export function Step1BasicInfo({
           size="lg"
         />
         <p className="text-sm text-default-500 mt-2">
-          Valor mínimo: R$ 1,00
+          {t('goal_min')}
         </p>
       </div>
 
       <p className="text-sm text-default-500 text-center pt-4">
-        Ao clicar no botão abaixo você declara que é maior de 18 anos, leu e está de acordo com os{' '}
+        {t('terms_text')}{' '}
         <Link href="/terms" className="text-primary">
-          Termos, Taxas, Prazos e Regulamentos
+          {t('terms_link')}
         </Link>
         .
       </p>

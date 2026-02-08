@@ -20,6 +20,7 @@ import {
 } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useCart } from '@/hooks/useCart';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useSuggestedCampaigns } from '@/hooks/useSuggestedCampaigns';
@@ -34,6 +35,7 @@ export default function DistributePage({
 }) {
   const params = use(paramsPromise);
   const campaignSlug = params.slug;
+  const t = useTranslations('campaigns.distribute');
 
   const cart = useCart();
   const { favorites } = useFavorites();
@@ -115,9 +117,9 @@ export default function DistributePage({
             width={64}
             className="text-warning mx-auto mb-4"
           />
-          <h2 className="text-xl font-bold mb-2">Parâmetro ausente</h2>
+          <h2 className="text-xl font-bold mb-2">{t('error_missing_param')}</h2>
           <p className="text-default-600">
-            O parâmetro &apos;campaign&apos; não foi fornecido na URL.
+            {t('error_missing_param_text')}
           </p>
         </Card>
       </div>
@@ -136,9 +138,9 @@ export default function DistributePage({
             width={64}
             className="text-danger mx-auto mb-4"
           />
-          <h2 className="text-xl font-bold mb-2">Campanha não encontrada</h2>
+          <h2 className="text-xl font-bold mb-2">{t('error_not_found')}</h2>
           <p className="text-default-600">
-            Campanha com slug &apos;{campaignSlug}&apos; não foi encontrada.
+            {t('error_not_found_text', { slug: campaignSlug })}
           </p>
         </Card>
       </div>
@@ -157,8 +159,8 @@ export default function DistributePage({
             width={64}
             className="text-default-400 mx-auto mb-4"
           />
-          <h2 className="text-xl font-bold mb-2">Imagem ausente</h2>
-          <p className="text-default-600">Esta campanha não possui imagem.</p>
+          <h2 className="text-xl font-bold mb-2">{t('error_no_image')}</h2>
+          <p className="text-default-600">{t('error_no_image_text')}</p>
         </Card>
       </div>
     );
@@ -250,7 +252,7 @@ export default function DistributePage({
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-default-600 font-medium mb-1">
-                        Doe para
+                        {t('donate_to')}
                       </p>
                       <h1 className="text-2xl md:text-3xl font-black text-foreground leading-tight">
                         {campaign.title}
@@ -259,15 +261,14 @@ export default function DistributePage({
                   </div>
 
                   <p className="text-default-700 leading-relaxed mb-6">
-                    Sua doação fará a diferença! Ajude esta causa e transforme
-                    vidas com sua generosidade.
+                    {t('subtitle')}
                   </p>
 
                   {/* Campaign Progress */}
                   <div className="bg-default-50 border border-default-200 rounded-2xl p-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-semibold text-default-700">
-                        Progresso
+                        {t('progress_label')}
                       </span>
                       <span className="text-sm font-bold text-primary">
                         {campaign.progressPercent}%
@@ -289,7 +290,7 @@ export default function DistributePage({
                         })}
                       </span>
                       <span>
-                        Meta: R${' '}
+                        {t('goal_prefix')} R${' '}
                         {campaign.goal.toLocaleString('pt-BR', {
                           minimumFractionDigits: 2,
                         })}
@@ -326,10 +327,10 @@ export default function DistributePage({
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-foreground">
-                        Distribuição Inteligente
+                        {t('smart_distribution.title')}
                       </h3>
                       <p className="text-sm text-default-600">
-                        Doe um valor e distribua automaticamente
+                        {t('smart_distribution.subtitle')}
                       </p>
                     </div>
                   </div>
@@ -337,7 +338,7 @@ export default function DistributePage({
                   {/* Amount Input */}
                   <div className="mb-6">
                     <label className="block text-sm font-semibold text-default-700 mb-3">
-                      Valor Total da Doação
+                      {t('smart_distribution.amount_label')}
                     </label>
                     <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4">
                       {quickAmounts.map((amount) => (
@@ -363,7 +364,7 @@ export default function DistributePage({
                       }
                       min="1"
                       step="0.01"
-                      placeholder="Outro valor"
+                      placeholder={t('smart_distribution.other_amount')}
                       size="lg"
                       startContent={
                         <span className="text-default-600 font-semibold">
@@ -376,7 +377,7 @@ export default function DistributePage({
                     />
                     <div className="mt-4 text-center p-4 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
                       <p className="text-sm text-default-600 mb-1">
-                        Total a doar
+                        {t('smart_distribution.total_to_donate')}
                       </p>
                       <p className="text-3xl font-black bg-gradient-to-br from-primary to-primary-600 bg-clip-text text-transparent">
                         {formatMoney(totalAmount * 100)}
@@ -402,14 +403,14 @@ export default function DistributePage({
                       title={
                         <div className="flex items-center gap-2">
                           <Icon icon="solar:bookmark-bold" width={20} />
-                          <span>Favoritos ({likedSlugs.length})</span>
+                          <span>{t('smart_distribution.tab_favorites', { count: likedSlugs.length })}</span>
                         </div>
                       }
                       isDisabled={likedSlugs.length < 2}
                     >
                       <div className="mt-6">
                         <p className="text-sm text-default-600 mb-4">
-                          Distribua entre suas campanhas favoritadas
+                          {t('smart_distribution.favorites_description')}
                         </p>
                         <RadioGroup
                           value={criteria}
@@ -426,10 +427,10 @@ export default function DistributePage({
                           >
                             <div>
                               <p className="font-semibold">
-                                Dividir igualmente
+                                {t('smart_distribution.criteria_equal_title')}
                               </p>
                               <p className="text-xs text-default-500">
-                                Mesmo valor para todas
+                                {t('smart_distribution.criteria_equal_description')}
                               </p>
                             </div>
                           </Radio>
@@ -439,10 +440,10 @@ export default function DistributePage({
                           >
                             <div>
                               <p className="font-semibold">
-                                Distribuição inteligente
+                                {t('smart_distribution.criteria_mixed_title')}
                               </p>
                               <p className="text-xs text-default-500">
-                                80% principal, 20% dividido
+                                {t('smart_distribution.criteria_mixed_description')}
                               </p>
                             </div>
                           </Radio>
@@ -451,9 +452,9 @@ export default function DistributePage({
                             classNames={{ label: 'text-sm' }}
                           >
                             <div>
-                              <p className="font-semibold">Valor integral</p>
+                              <p className="font-semibold">{t('smart_distribution.criteria_integral_title')}</p>
                               <p className="text-xs text-default-500">
-                                100% para a campanha principal
+                                {t('smart_distribution.criteria_integral_description')}
                               </p>
                             </div>
                           </Radio>
@@ -467,7 +468,7 @@ export default function DistributePage({
                                 width={20}
                                 className="text-primary"
                               />
-                              Prévia da Distribuição
+                              {t('smart_distribution.preview_title')}
                             </h5>
                             <div className="space-y-2">
                               {distribution.map((item) => {
@@ -486,7 +487,7 @@ export default function DistributePage({
                                         {camp?.title}
                                       </p>
                                       <p className="text-xs text-default-500">
-                                        {percentage}% do total
+                                        {t('smart_distribution.preview_percentage', { percentage })}
                                       </p>
                                     </div>
                                     <span className="text-base font-bold text-primary whitespace-nowrap">
@@ -505,13 +506,13 @@ export default function DistributePage({
                       title={
                         <div className="flex items-center gap-2">
                           <Icon icon="solar:folder-bold" width={20} />
-                          <span>Relacionadas</span>
+                          <span>{t('smart_distribution.tab_related')}</span>
                         </div>
                       }
                     >
                       <div className="mt-6">
                         <p className="text-sm text-default-600 mb-4">
-                          Distribua entre campanhas de {campaign.category}
+                          {t('smart_distribution.related_description', { category: campaign.category })}
                         </p>
                         <RadioGroup
                           value={criteria}
@@ -528,10 +529,10 @@ export default function DistributePage({
                           >
                             <div>
                               <p className="font-semibold">
-                                Dividir igualmente
+                                {t('smart_distribution.criteria_equal_title')}
                               </p>
                               <p className="text-xs text-default-500">
-                                Mesmo valor para todas
+                                {t('smart_distribution.criteria_equal_description')}
                               </p>
                             </div>
                           </Radio>
@@ -541,10 +542,10 @@ export default function DistributePage({
                           >
                             <div>
                               <p className="font-semibold">
-                                Distribuição inteligente
+                                {t('smart_distribution.criteria_mixed_title')}
                               </p>
                               <p className="text-xs text-default-500">
-                                80% principal, 20% dividido
+                                {t('smart_distribution.criteria_mixed_description')}
                               </p>
                             </div>
                           </Radio>
@@ -553,9 +554,9 @@ export default function DistributePage({
                             classNames={{ label: 'text-sm' }}
                           >
                             <div>
-                              <p className="font-semibold">Valor integral</p>
+                              <p className="font-semibold">{t('smart_distribution.criteria_integral_title')}</p>
                               <p className="text-xs text-default-500">
-                                100% para a campanha principal
+                                {t('smart_distribution.criteria_integral_description')}
                               </p>
                             </div>
                           </Radio>
@@ -569,7 +570,7 @@ export default function DistributePage({
                                 width={20}
                                 className="text-primary"
                               />
-                              Prévia da Distribuição
+                              {t('smart_distribution.preview_title')}
                             </h5>
                             <div className="space-y-2">
                               {distribution.map((item) => {
@@ -588,7 +589,7 @@ export default function DistributePage({
                                         {camp?.title}
                                       </p>
                                       <p className="text-xs text-default-500">
-                                        {percentage}% do total
+                                        {t('smart_distribution.preview_percentage', { percentage })}
                                       </p>
                                     </div>
                                     <span className="text-base font-bold text-primary whitespace-nowrap">
@@ -622,7 +623,7 @@ export default function DistributePage({
                         width={28}
                         className="text-primary"
                       />
-                      Campanhas relacionadas
+                      {t('related.title')}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {relatedCampaigns.slice(0, 3).map((related) => (
@@ -696,7 +697,7 @@ export default function DistributePage({
                         width={24}
                         className="text-primary"
                       />
-                      Sua Lista de Doações
+                      {t('cart.title')}
                     </h3>
 
                     {cart.cart.length === 0 ? (
@@ -707,7 +708,7 @@ export default function DistributePage({
                           className="text-default-300 mx-auto mb-3"
                         />
                         <p className="text-default-500 text-sm">
-                          Nenhuma doação adicionada ainda
+                          {t('cart.empty_message')}
                         </p>
                       </div>
                     ) : (
@@ -787,7 +788,7 @@ export default function DistributePage({
                                       setEditedAmount(item.amount / 100);
                                     }}
                                   >
-                                    Editar
+                                    {t('cart.edit_button')}
                                   </Button>
                                 </div>
                               )}
@@ -798,7 +799,7 @@ export default function DistributePage({
                         <div className="pt-4 border-t border-default-200 mb-4">
                           <div className="flex items-center justify-between mb-2">
                             <span className="font-semibold text-default-700">
-                              Total
+                              {t('cart.total_label')}
                             </span>
                             <span className="text-2xl font-black bg-gradient-to-br from-primary to-primary-600 bg-clip-text text-transparent">
                               {formatMoney(
@@ -820,7 +821,7 @@ export default function DistributePage({
                           }
                           onPress={() => setShowDonationSummary(true)}
                         >
-                          Finalizar Doação
+                          {t('cart.checkout_button')}
                         </Button>
 
                         <div className="mt-4 flex items-center gap-2 text-xs text-default-600 bg-emerald-50 p-3 rounded-xl border border-emerald-200">
@@ -830,7 +831,7 @@ export default function DistributePage({
                             className="text-emerald-600 flex-shrink-0"
                           />
                           <span className="font-medium">
-                            Pagamento 100% seguro
+                            {t('cart.secure_payment')}
                           </span>
                         </div>
                       </div>
@@ -860,13 +861,13 @@ export default function DistributePage({
                 width={28}
                 className="text-primary"
               />
-              Resumo da Doação
+              {t('summary.title')}
             </h3>
           </ModalHeader>
           <ModalBody className="py-6">
             <div className="text-center mb-6">
               <p className="text-sm text-default-600 mb-3 font-medium">
-                QR Code para pagamento
+                {t('summary.qr_code_label')}
               </p>
               <div className="w-48 h-48 bg-gradient-to-br from-default-100 to-default-200 mx-auto flex items-center justify-center rounded-2xl border-2 border-dashed border-default-300">
                 <div className="text-center">
@@ -876,7 +877,7 @@ export default function DistributePage({
                     className="text-default-400 mx-auto mb-2"
                   />
                   <span className="text-xs text-default-500 font-medium">
-                    QR Code será gerado aqui
+                    {t('summary.qr_code_placeholder')}
                   </span>
                 </div>
               </div>
@@ -889,7 +890,7 @@ export default function DistributePage({
                   width={20}
                   className="text-primary"
                 />
-                Suas doações
+                {t('summary.your_donations')}
               </h4>
               <div className="space-y-2">
                 {cart.cart.map((item, index) => (
@@ -911,7 +912,7 @@ export default function DistributePage({
             <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-2xl p-4">
               <div className="flex justify-between items-center">
                 <span className="font-bold text-foreground">
-                  Total a pagar:
+                  {t('summary.total_to_pay')}
                 </span>
                 <span className="text-3xl font-black bg-gradient-to-br from-primary to-primary-600 bg-clip-text text-transparent">
                   {formatMoney(
@@ -928,7 +929,7 @@ export default function DistributePage({
                 className="text-primary"
               />
               <span>
-                Após o pagamento, você receberá um comprovante por e-mail
+                {t('summary.receipt_info')}
               </span>
             </div>
           </ModalBody>

@@ -1,13 +1,18 @@
+'use client';
+
 import { Avatar, Badge, Button, Card } from '@heroui/react';
 import { HeartIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 
 export function CampaignComments() {
+  const t = useTranslations('campaign.comments');
+  
   return (
     <Card className="p-12 border border-divider" shadow="none">
       <div className="text-lg font-semibold mb-6 flex items-center gap-6">
-        Comentários
+        {t('title')}
         <Badge content="2"> </Badge>
       </div>
 
@@ -41,7 +46,7 @@ export function CampaignComments() {
                 <HeartIcon className="text-red-500" />
 
                 <Button size="sm" color="primary">
-                  Responder
+                  {t('reply_button')}
                 </Button>
               </div>
             </div>

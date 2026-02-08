@@ -1,12 +1,17 @@
+'use client';
+
 import { Card } from '@heroui/react';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 
 export function ImageGallery() {
+  const t = useTranslations('campaign.gallery');
+  
   const images = Array.from({ length: 6 }, (_, index) => ({
     id: index,
     src: placeholderImage1.src,
-    alt: `Imagem ${index + 1}`
+    alt: t('image_alt', { index: index + 1 })
   }));
 
   return (
@@ -14,9 +19,9 @@ export function ImageGallery() {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
           <Icon icon="solar:gallery-bold" width={28} className="text-primary" />
-          Galeria de imagens
+          {t('title')}
         </h2>
-        <span className="text-sm text-default-600 font-medium">{images.length} fotos</span>
+        <span className="text-sm text-default-600 font-medium">{t('photos_count', { count: images.length })}</span>
       </div>
 
       {/* Grid Layout */}

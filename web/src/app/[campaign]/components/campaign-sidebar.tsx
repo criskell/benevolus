@@ -1,7 +1,12 @@
+'use client';
+
 import { Button, Card, Progress } from '@heroui/react';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 
 export function CampaignSidebar() {
+  const t = useTranslations('campaign.sidebar');
+  
   return (
     <div className="space-y-6">
       {/* Main Donation Card */}
@@ -12,12 +17,12 @@ export function CampaignSidebar() {
         <div className="space-y-6">
           {/* Amount Section */}
           <div className="text-center">
-            <p className="text-sm text-default-600 mb-2 font-medium">Arrecadado</p>
+            <p className="text-sm text-default-600 mb-2 font-medium">{t('raised_label')}</p>
             <p className="text-4xl font-black bg-gradient-to-br from-primary to-primary-600 bg-clip-text text-transparent mb-1">
               R$ 6.934,51
             </p>
             <p className="text-sm text-default-600 font-medium">
-              de <span className="text-foreground font-semibold">R$ 50.000,00</span>
+              {t('of')} <span className="text-foreground font-semibold">R$ 50.000,00</span>
             </p>
           </div>
 
@@ -32,8 +37,8 @@ export function CampaignSidebar() {
               }}
             />
             <div className="flex items-center justify-between mt-2">
-              <span className="text-xs text-default-600 font-medium">14% concluído</span>
-              <span className="text-xs font-bold text-primary">86% restante</span>
+              <span className="text-xs text-default-600 font-medium">{t('completed_percent', { percent: 14 })}</span>
+              <span className="text-xs font-bold text-primary">{t('remaining_percent', { percent: 86 })}</span>
             </div>
           </div>
 
@@ -41,11 +46,11 @@ export function CampaignSidebar() {
           <div className="grid grid-cols-2 gap-4 py-4 border-y border-default-200">
             <div className="text-center">
               <p className="text-2xl font-bold text-foreground">567</p>
-              <p className="text-xs text-default-600 font-medium mt-1">Doadores</p>
+              <p className="text-xs text-default-600 font-medium mt-1">{t('donors_label')}</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-foreground">23</p>
-              <p className="text-xs text-default-600 font-medium mt-1">Dias restantes</p>
+              <p className="text-xs text-default-600 font-medium mt-1">{t('days_remaining')}</p>
             </div>
           </div>
 
@@ -56,13 +61,13 @@ export function CampaignSidebar() {
             size="lg"
             startContent={<Icon icon="solar:heart-bold" width={24} />}
           >
-            Fazer doação
+            {t('donate_button')}
           </Button>
 
           {/* Security Badge */}
           <div className="flex items-center gap-2 text-xs text-default-600 bg-default-50 p-3 rounded-xl">
             <Icon icon="solar:shield-check-bold" width={20} className="text-primary flex-shrink-0" />
-            <span className="font-medium">Pagamento 100% seguro e protegido</span>
+            <span className="font-medium">{t('secure_payment')}</span>
           </div>
         </div>
       </Card>
@@ -71,7 +76,7 @@ export function CampaignSidebar() {
       <Card className="p-6 border border-default-200" shadow="none">
         <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
           <Icon icon="solar:shield-star-bold" width={24} className="text-primary" />
-          Por que confiar
+          {t('trust_title')}
         </h3>
 
         <div className="space-y-4">
@@ -81,9 +86,9 @@ export function CampaignSidebar() {
             </div>
 
             <div>
-              <p className="font-semibold text-sm mb-1">Identidade verificada</p>
+              <p className="font-semibold text-sm mb-1">{t('trust_identity_title')}</p>
               <p className="text-xs text-default-600 leading-relaxed">
-                Validamos a identidade e documentos do criador da campanha para garantir transparência.
+                {t('trust_identity_description')}
               </p>
             </div>
           </div>
@@ -94,9 +99,9 @@ export function CampaignSidebar() {
             </div>
 
             <div>
-              <p className="font-semibold text-sm mb-1">Transparência total</p>
+              <p className="font-semibold text-sm mb-1">{t('trust_transparency_title')}</p>
               <p className="text-xs text-default-600 leading-relaxed">
-                Acompanhamento contínuo com relatórios e atualizações sobre o uso dos recursos.
+                {t('trust_transparency_description')}
               </p>
             </div>
           </div>
@@ -107,9 +112,9 @@ export function CampaignSidebar() {
             </div>
 
             <div>
-              <p className="font-semibold text-sm mb-1">Pagamento seguro</p>
+              <p className="font-semibold text-sm mb-1">{t('trust_security_title')}</p>
               <p className="text-xs text-default-600 leading-relaxed">
-                Criptografia de dados, protocolos seguros e certificados de verificação.
+                {t('trust_security_description')}
               </p>
             </div>
           </div>
@@ -120,9 +125,9 @@ export function CampaignSidebar() {
       <Card className="p-6 border border-default-200" shadow="none">
         <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
           <Icon icon="solar:share-bold" width={24} className="text-primary" />
-          Compartilhar
+          {t('share_title')}
         </h3>
-        <p className="text-sm text-default-600 mb-4">Ajude divulgando esta campanha</p>
+        <p className="text-sm text-default-600 mb-4">{t('share_description')}</p>
         
         <div className="flex gap-2">
           <Button 

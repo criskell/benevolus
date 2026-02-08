@@ -125,6 +125,334 @@
       "join_message": "Junte-se a milhares de pessoas que estão fazendo a diferença"
     }
   },
+  "navbar": {
+    "campaigns": "Campanhas",
+    "mission": "Missão",
+    "create_campaign": "Criar campanha",
+    "sign_in": "Entrar",
+    "my_account": "Minha conta",
+    "profile": "Perfil",
+    "my_donations": "Minhas doações",
+    "my_wallet": "Minha carteira",
+    "cards": "Cartões",
+    "logout": "Sair",
+    "account_menu": "Menu da conta",
+    "search_placeholder": "Pesquisar campanhas...",
+    "search_label": "Pesquisar campanhas..."
+  },
+  "auth": {
+    "login": {
+      "title": "Bem-vindo de volta",
+      "subtitle": "Entre na sua conta para continuar",
+      "email_label": "Email",
+      "email_placeholder": "seu@email.com",
+      "password_label": "Senha",
+      "password_placeholder": "Digite sua senha",
+      "forgot_password": "Esqueceu a senha?",
+      "submit_button": "Entrar",
+      "no_account": "Não tem conta?",
+      "create_account": "Criar conta"
+    },
+    "signup": {
+      "title": "Criar sua conta",
+      "subtitle": "Junte-se à nossa comunidade",
+      "name_label": "Nome Completo",
+      "name_placeholder": "Seu nome completo",
+      "email_label": "Email",
+      "email_placeholder": "seu@email.com",
+      "password_label": "Senha",
+      "password_placeholder": "Crie uma senha forte",
+      "confirm_password_label": "Confirmar Senha",
+      "confirm_password_placeholder": "Confirme sua senha",
+      "submit_button": "Cadastrar",
+      "have_account": "Já tem uma conta?",
+      "login": "Fazer login"
+    },
+    "reset_password": {
+      "title": "Recuperar senha",
+      "subtitle": "Digite seu email para receber um código",
+      "email_label": "Email",
+      "email_placeholder": "seu@email.com",
+      "back_button": "Voltar",
+      "send_code_button": "Enviar código",
+      "verify_title": "Verificar código",
+      "verify_subtitle": "Digite o código enviado para {email}",
+      "code_label": "Código de Verificação",
+      "code_placeholder": "000000",
+      "verify_button": "Verificar",
+      "new_password_title": "Nova senha",
+      "new_password_subtitle": "Crie uma nova senha para sua conta",
+      "new_password_label": "Nova Senha",
+      "new_password_placeholder": "Digite sua nova senha",
+      "confirm_password_label": "Confirmar Senha",
+      "confirm_password_placeholder": "Confirme a senha",
+      "reset_button": "Redefinir senha"
+    }
+  },
+  "campaigns": {
+    "create": {
+      "back_button": "Voltar",
+      "title": "Comece a criar sua",
+      "title_highlight": "vaquinha",
+      "subtitle": "Mais de duas mil pessoas escolhem o Benevolus para transformar suas histórias todos os dias.",
+      "step_label": "Passo {current} de {total}",
+      "previous_button": "Voltar",
+      "next_button": "Continuar",
+      "finish_button": "Finalizar",
+      "step1": {
+        "title_label": "Dê um nome para sua vaquinha",
+        "title_placeholder": "Ex.: Ajuda para comprar uma casa",
+        "goal_label": "De quanto você precisa?",
+        "goal_placeholder": "Ex.: 10.000,00",
+        "goal_min": "Valor mínimo: R$ 1,00",
+        "terms_text": "Ao clicar no botão abaixo você declara que é maior de 18 anos, leu e está de acordo com os",
+        "terms_link": "Termos, Taxas, Prazos e Regulamentos"
+      },
+      "step2": {
+        "cpf_title": "Confirme seu",
+        "cpf_highlight": "CPF",
+        "cpf_label": "CPF",
+        "cpf_placeholder": "Insira o seu CPF",
+        "cpf_required": "CPF é obrigatório",
+        "cpf_invalid": "CPF deve ter 11 dígitos",
+        "cpf_info_title": "IMPORTANTE",
+        "cpf_info_text": "O saque dos valores arrecadados será executado apenas para a Chave Pix vinculada ao seu CPF. Antes de sacar, certifique-se de que esta Chave Pix CPF está cadastrada junto ao seu banco.",
+        "email_title": "Confirme seu",
+        "email_highlight": "Email",
+        "email_label": "Email",
+        "email_placeholder": "Insira o seu e-mail",
+        "email_required": "Email é obrigatório",
+        "email_invalid": "Email inválido",
+        "complete_title": "Finalize seus",
+        "complete_highlight": "dados",
+        "fullname_label": "Insira seu nome completo",
+        "fullname_placeholder": "Insira o seu nome completo",
+        "fullname_required": "Nome completo é obrigatório",
+        "phone_label": "Insira seu telefone (Whatsapp)",
+        "phone_required": "Telefone é obrigatório",
+        "password_label": "Crie uma senha",
+        "password_placeholder": "Insira uma senha",
+        "password_required": "Senha é obrigatória",
+        "password_confirmation_label": "Confirme sua senha",
+        "password_confirmation_placeholder": "Repetir a senha",
+        "password_mismatch": "As senhas não conferem",
+        "newsletter_label": "Quero receber informações do Benevolus"
+      },
+      "step3": {
+        "beneficiary_title": "Essa vaquinha é para ajudar",
+        "beneficiary_highlight": "quem?",
+        "beneficiary_myself": "Eu mesmo(a) preciso do valor",
+        "beneficiary_pet": "Para meu animal de estimação",
+        "beneficiary_family": "Para alguém da família",
+        "beneficiary_friend": "Para um(a) amigo(a) que está precisando",
+        "beneficiary_company": "Para uma empresa ou instituição",
+        "category_title": "Em qual",
+        "category_highlight": "categoria",
+        "category_subtitle": "sua vaquinha se enquadra?",
+        "category_label": "Selecione uma categoria",
+        "category_placeholder": "Selecione uma categoria",
+        "category_animals": "Animais / Pets",
+        "category_education": "Educação",
+        "category_emergency": "Emergenciais",
+        "category_empathy": "Empatia",
+        "category_sports": "Esporte",
+        "category_income": "Geração de renda",
+        "category_housing": "Moradia",
+        "category_social": "Projetos sociais",
+        "category_recurring": "Recorrente",
+        "category_health": "Saúde"
+      },
+      "step4": {
+        "title": "Conte sua",
+        "title_highlight": "história",
+        "subtitle": "Explique o motivo pelo qual você precisa arrecadar doações, como vai utilizar o valor arrecadado, e o quão importante é receber doações.",
+        "label": "Sua história",
+        "placeholder": "Ex.: Eu sou o João, e criei essa vaquinha pois preciso arrecadar R$13.000,00 para comprar uma prótese para minha filha Luiza que sofreu um acidente. Para saber mais da nossa história você pode seguir a nossa página no Instagram: @luiza_protese."
+      },
+      "step5": {
+        "title": "Imagens falam",
+        "title_highlight": "por você",
+        "subtitle": "Inspire seus doadores com uma imagem que vai ajudar a ilustrar a sua causa. Uma boa foto é muito importante para",
+        "subtitle_bold": "criar conexão entre a sua vaquinha e quem vai doar.",
+        "choose_image": "Escolher imagem",
+        "click_to_select": "Clique aqui para selecionar uma imagem (tamanho máximo: 5mb)",
+        "remove_image": "Remover imagem",
+        "error_too_large": "Arquivo muito grande! O tamanho máximo é 5MB.",
+        "error_invalid": "Por favor, selecione uma imagem válida."
+      },
+      "step6": {
+        "title": "Sua vaquinha foi criada! É hora de divulgar!",
+        "subtitle": "Agora é só compartilhar e começar a arrecadar! Envie o link para amigos e familiares e veja sua vaquinha ganhar força.",
+        "card_tagline": "Seu apoio pode mudar tudo!",
+        "goal_label": "Meta",
+        "status_active": "Ativa",
+        "view_campaign": "Ver minha vaquinha",
+        "tips_title": "Dicas de como destacar sua vaquinha",
+        "tip_pix_title": "Compartilhe sua chave Pix",
+        "tip_pix_description": "Compartilhe sua chave Pix exclusiva para transmitir confiança e contabilizar doações direto na sua meta."
+      },
+      "step7": {
+        "title": "Você tem uma vaquinha recente!",
+        "subtitle": "Teste, recentemente você criou uma vaquinha.",
+        "subtitle_bold": "Você pode editar ou divulgar sua vaquinha.",
+        "status_active": "Ativa",
+        "edit_campaign": "Editar vaquinha",
+        "share_campaign": "Compartilhar vaquinha",
+        "create_new_title": "Ainda deseja criar uma nova vaquinha?",
+        "create_new_button": "Criar nova vaquinha",
+        "back_to_campaigns": "Voltar para campanhas"
+      }
+    },
+    "list": {
+      "title": "Encontre todas nossas vaquinhas",
+      "tab_explore": "Explorar Vaquinhas",
+      "tab_donate_by_cause": "Doar por Causa",
+      "filters_button": "Filtros",
+      "favorites_button": "Favoritos ({count})",
+      "cart_button": "Carrinho ({count})",
+      "create_button": "Criar vaquinha",
+      "filters": {
+        "title": "Filtros",
+        "category_title": "Categoria",
+        "tags_title": "Tags",
+        "tags_search": "Buscar tags...",
+        "clear_button": "Limpar filtros",
+        "apply_button": "Aplicar filtros"
+      },
+      "search": {
+        "placeholder": "O que você deseja buscar?"
+      },
+      "sort": {
+        "status_label": "Status",
+        "period_label": "Período",
+        "status_open": "Abertas",
+        "status_recent": "Recentes",
+        "status_closing_soon": "Perto de encerrar",
+        "status_closed": "Encerradas",
+        "status_goal_reached": "Metas batidas",
+        "status_highest_raised": "Maiores arrecadações",
+        "status_all": "Todas",
+        "period_all_time": "Desde o início",
+        "period_last_7_days": "Últimos 7 dias",
+        "period_last_14_days": "Últimos 14 dias",
+        "period_last_month": "Mês passado",
+        "period_this_month": "Este mês",
+        "period_last_3_months": "Últimos 3 meses",
+        "period_this_year": "Este ano"
+      }
+    },
+    "card": {
+      "days": "dias",
+      "raised_label": "Arrecadado",
+      "goal_label": "Meta",
+      "donate_button": "Fazer doação"
+    },
+    "distribute": {
+      "error_missing_param": "Parâmetro ausente",
+      "error_missing_param_text": "O parâmetro 'campaign' não foi fornecido na URL.",
+      "error_not_found": "Campanha não encontrada",
+      "error_not_found_text": "Campanha com slug '{slug}' não foi encontrada.",
+      "error_no_image": "Imagem ausente",
+      "error_no_image_text": "Esta campanha não possui imagem.",
+      "donate_to": "Doe para",
+      "subtitle": "Sua doação fará a diferença! Ajude esta causa e transforme vidas com sua generosidade.",
+      "progress_label": "Progresso",
+      "goal_prefix": "Meta:",
+      "smart_distribution": {
+        "title": "Distribuição Inteligente",
+        "subtitle": "Doe um valor e distribua automaticamente",
+        "amount_label": "Valor Total da Doação",
+        "other_amount": "Outro valor",
+        "total_to_donate": "Total a doar",
+        "tab_favorites": "Favoritos ({count})",
+        "tab_related": "Relacionadas",
+        "favorites_description": "Distribua entre suas campanhas favoritadas",
+        "related_description": "Distribua entre campanhas de {category}",
+        "criteria_equal_title": "Dividir igualmente",
+        "criteria_equal_description": "Mesmo valor para todas",
+        "criteria_mixed_title": "Distribuição inteligente",
+        "criteria_mixed_description": "80% principal, 20% dividido",
+        "criteria_integral_title": "Valor integral",
+        "criteria_integral_description": "100% para a campanha principal",
+        "preview_title": "Prévia da Distribuição",
+        "preview_percentage": "{percentage}% do total"
+      },
+      "related": {
+        "title": "Campanhas relacionadas"
+      },
+      "cart": {
+        "title": "Sua Lista de Doações",
+        "empty_message": "Nenhuma doação adicionada ainda",
+        "edit_button": "Editar",
+        "total_label": "Total",
+        "checkout_button": "Finalizar Doação",
+        "secure_payment": "Pagamento 100% seguro"
+      },
+      "summary": {
+        "title": "Resumo da Doação",
+        "qr_code_label": "QR Code para pagamento",
+        "qr_code_placeholder": "QR Code será gerado aqui",
+        "your_donations": "Suas doações",
+        "total_to_pay": "Total a pagar:",
+        "receipt_info": "Após o pagamento, você receberá um comprovante por e-mail"
+      }
+    }
+  },
+  "campaign": {
+    "header": {
+      "created_ago": "Criou esta campanha há {days} dias",
+      "follow_button": "Seguir",
+      "follow_campaign_button": "Seguir campanha",
+      "verified_badge": "Campanha verificada",
+      "documents_badge": "Documentos verificados",
+      "likes": "{count} curtidas",
+      "donors": "{count} doadores",
+      "comments": "{count} comentários",
+      "main_image_alt": "Imagem principal da campanha"
+    },
+    "gallery": {
+      "title": "Galeria de imagens",
+      "photos_count": "{count} fotos",
+      "image_alt": "Imagem {index}"
+    },
+    "story": {
+      "title": "História da campanha"
+    },
+    "updates": {
+      "title": "Atualizações",
+      "empty_message": "Por enquanto não temos atualizações desta campanha.",
+      "empty_message_line2": "Fique de olho, atualizações serão sempre divulgadas."
+    },
+    "donors": {
+      "title": "Doadores",
+      "view_all_button": "Ver todos os doadores",
+      "time_ago_hour": "há cerca de {count} hora",
+      "time_ago_hours": "há cerca de {count} horas"
+    },
+    "comments": {
+      "title": "Comentários",
+      "reply_button": "Responder"
+    },
+    "sidebar": {
+      "raised_label": "Arrecadado",
+      "of": "de",
+      "completed_percent": "{percent}% concluído",
+      "remaining_percent": "{percent}% restante",
+      "donors_label": "Doadores",
+      "days_remaining": "Dias restantes",
+      "donate_button": "Fazer doação",
+      "secure_payment": "Pagamento 100% seguro e protegido",
+      "trust_title": "Por que confiar",
+      "trust_identity_title": "Identidade verificada",
+      "trust_identity_description": "Validamos a identidade e documentos do criador da campanha para garantir transparência.",
+      "trust_transparency_title": "Transparência total",
+      "trust_transparency_description": "Acompanhamento contínuo com relatórios e atualizações sobre o uso dos recursos.",
+      "trust_security_title": "Pagamento seguro",
+      "trust_security_description": "Criptografia de dados, protocolos seguros e certificados de verificação.",
+      "share_title": "Compartilhar",
+      "share_description": "Ajude divulgando esta campanha"
+    }
+  },
   "aboutUs": {
     "hero_badge": "Nossa causa",
     "title": "Missão e Valores",

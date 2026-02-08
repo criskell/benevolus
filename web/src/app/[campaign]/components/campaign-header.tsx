@@ -3,10 +3,13 @@
 import { Card } from '@heroui/card';
 import { Chip, Avatar, Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 
 export function CampaignHeader() {
+  const t = useTranslations('campaign.header');
+  
   return (
     <div className="space-y-6">
       {/* Creator Info & Title */}
@@ -28,7 +31,7 @@ export function CampaignHeader() {
               <p className="font-semibold text-foreground">Fulana Santos</p>
               <Icon icon="solar:verified-check-bold" width={20} className="text-primary flex-shrink-0" />
             </div>
-            <p className="text-sm text-default-600">Criou esta campanha há 5 dias</p>
+            <p className="text-sm text-default-600">{t('created_ago', { days: 5 })}</p>
           </div>
 
           {/* Follow Button - Desktop */}
@@ -38,7 +41,7 @@ export function CampaignHeader() {
             startContent={<Icon icon="solar:bookmark-bold" width={18} />}
             className="hidden md:flex border-default-300 hover:border-primary hover:text-primary transition-colors"
           >
-            Seguir
+            {t('follow_button')}
           </Button>
         </div>
 
@@ -58,7 +61,7 @@ export function CampaignHeader() {
               base: "font-semibold"
             }}
           >
-            Campanha verificada
+            {t('verified_badge')}
           </Chip>
           <Chip 
             color="primary" 
@@ -69,7 +72,7 @@ export function CampaignHeader() {
               base: "font-semibold"
             }}
           >
-            Documentos verificados
+            {t('documents_badge')}
           </Chip>
         </div>
 
@@ -77,17 +80,17 @@ export function CampaignHeader() {
         <div className="flex flex-wrap items-center gap-6 text-sm text-default-600">
           <div className="flex items-center gap-2">
             <Icon icon="solar:heart-bold" width={20} className="text-rose-500" />
-            <span className="font-medium">1.234 curtidas</span>
+            <span className="font-medium">{t('likes', { count: 1234 })}</span>
           </div>
           
           <div className="flex items-center gap-2">
             <Icon icon="solar:users-group-rounded-bold" width={20} className="text-primary" />
-            <span className="font-medium">567 doadores</span>
+            <span className="font-medium">{t('donors', { count: 567 })}</span>
           </div>
           
           <div className="flex items-center gap-2">
             <Icon icon="solar:chat-round-dots-bold" width={20} className="text-amber-500" />
-            <span className="font-medium">89 comentários</span>
+            <span className="font-medium">{t('comments', { count: 89 })}</span>
           </div>
         </div>
 
@@ -99,7 +102,7 @@ export function CampaignHeader() {
           startContent={<Icon icon="solar:bookmark-bold" width={18} />}
           className="md:hidden mt-6 border-default-300 hover:border-primary hover:text-primary transition-colors"
         >
-          Seguir campanha
+          {t('follow_campaign_button')}
         </Button>
       </Card>
 
@@ -108,7 +111,7 @@ export function CampaignHeader() {
         <div className="relative w-full aspect-video md:aspect-[21/9] overflow-hidden bg-default-100">
           <img
             src={placeholderImage1.src}
-            alt="Imagem principal da campanha"
+            alt={t('main_image_alt')}
             className="w-full h-full object-cover"
           />
           {/* Gradient overlay for depth */}

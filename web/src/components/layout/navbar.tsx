@@ -32,12 +32,14 @@ import clsx from 'clsx';
 
 import { siteConfig } from '@/config/site';
 import { LogoIcon } from '@/components/icons/logo';
-import { navbarSearchInput } from './navbar-search-input';
+import { NavbarSearchInput } from './navbar-search-input';
 import { useAuth } from '@/hooks/use-auth';
 import { LanguageSwitcher } from './language-switcher';
+import { useTranslations } from 'next-intl';
 
 export const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
+  const t = useTranslations();
 
   return (
     <HeroUINavbar
@@ -70,13 +72,13 @@ export const Navbar = () => {
                 )}
                 href={item.href}
               >
-                {item.label}
+                {t(item.labelKey)}
               </NextLink>
             </NavbarItem>
           ))}
         </ul>
         <NavbarItem className="hidden lg:flex flex-1 ml-8 min-w-0">
-          {navbarSearchInput}
+          <NavbarSearchInput />
         </NavbarItem>
       </NavbarContent>
 
@@ -93,7 +95,7 @@ export const Navbar = () => {
             startContent={<Plus size={20} />}
             className="font-medium"
           >
-            Criar campanha
+            {t('navbar.create_campaign')}
           </Button>
         </NavbarItem>
         {!isAuthenticated ? (
@@ -105,7 +107,7 @@ export const Navbar = () => {
               color="primary"
               size="lg"
             >
-              Entrar
+              {t('navbar.sign_in')}
             </Button>
           </NavbarItem>
         ) : (
@@ -115,13 +117,13 @@ export const Navbar = () => {
                 <button className="flex items-center gap-2 cursor-pointer outline-none">
                   <ChevronDown size={18} className="text-primary" />
                   <span className="text-primary font-medium text-base">
-                    Minha conta
+                    {t('navbar.my_account')}
                   </span>
                   <UserIcon size={24} className="text-primary" />
                 </button>
               </DropdownTrigger>
               <DropdownMenu
-                aria-label="Menu da conta"
+                aria-label={t('navbar.account_menu')}
                 variant="flat"
                 className="min-w-[200px]"
               >
@@ -131,7 +133,7 @@ export const Navbar = () => {
                   as={NextLink}
                   href="/profile"
                 >
-                  Perfil
+                  {t('navbar.profile')}
                 </DropdownItem>
                 <DropdownItem
                   key="donations"
@@ -139,10 +141,10 @@ export const Navbar = () => {
                   as={NextLink}
                   href="/profile/donations"
                 >
-                  Minhas doações
+                  {t('navbar.my_donations')}
                 </DropdownItem>
                 <DropdownItem key="wallet" startContent={<Wallet size={18} />}>
-                  Minha carteira
+                  {t('navbar.my_wallet')}
                 </DropdownItem>
                 <DropdownItem
                   key="cards"
@@ -150,7 +152,7 @@ export const Navbar = () => {
                   as={NextLink}
                   href="/profile/cards"
                 >
-                  Cartões
+                  {t('navbar.cards')}
                 </DropdownItem>
                 <DropdownItem
                   key="logout"
@@ -159,7 +161,7 @@ export const Navbar = () => {
                   color="danger"
                   onPress={logout}
                 >
-                  Sair
+                  {t('navbar.logout')}
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -172,7 +174,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarMenu>
-        {navbarSearchInput}
+        <NavbarSearchInput />
         <div className="mx-4 mt-2 flex flex-col gap-2">
           <NavbarMenuItem className="flex justify-center py-2">
             <LanguageSwitcher />
@@ -185,7 +187,7 @@ export const Navbar = () => {
               fullWidth
               startContent={<Plus size={18} />}
             >
-              Criar campanha
+              {t('navbar.create_campaign')}
             </Button>
           </NavbarMenuItem>
           {!isAuthenticated ? (
@@ -197,24 +199,24 @@ export const Navbar = () => {
                 color="primary"
                 fullWidth
               >
-                Entrar
+                {t('navbar.sign_in')}
               </Button>
             </NavbarMenuItem>
           ) : (
             <>
               <NavbarMenuItem>
                 <Link href="/profile" size="lg" className="w-full">
-                  Perfil
+                  {t('navbar.profile')}
                 </Link>
               </NavbarMenuItem>
               <NavbarMenuItem>
                 <Link href="/profile/donations" size="lg" className="w-full">
-                  Minhas doações
+                  {t('navbar.my_donations')}
                 </Link>
               </NavbarMenuItem>
               <NavbarMenuItem>
                 <Link href="/profile/cards" size="lg" className="w-full">
-                  Cartões
+                  {t('navbar.cards')}
                 </Link>
               </NavbarMenuItem>
               <NavbarMenuItem>
@@ -222,7 +224,7 @@ export const Navbar = () => {
                   onClick={logout}
                   className="w-full text-left text-lg text-danger"
                 >
-                  Sair
+                  {t('navbar.logout')}
                 </button>
               </NavbarMenuItem>
             </>

@@ -1,4 +1,5 @@
 import { Input } from '@heroui/react';
+import { useTranslations } from 'next-intl';
 import { SearchIcon } from '../icons/search';
 
 interface SearchBarProps {
@@ -7,9 +8,11 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ value, onChange }: SearchBarProps) => {
+  const t = useTranslations('campaigns.list.search');
+  
   return (
     <Input
-      placeholder="O que você deseja buscar?"
+      placeholder={t('placeholder')}
       startContent={<SearchIcon />}
       value={value}
       onValueChange={onChange}

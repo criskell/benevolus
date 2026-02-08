@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Progress, Button, Card, CardBody } from '@heroui/react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Step1BasicInfo } from './components/step1-basic-info';
 import { Step2ConfirmData } from './components/step2-confirm-data';
 import { Step3CampaignDetails } from './components/step3-campaign-details';
@@ -33,6 +34,7 @@ interface CampaignFormData {
 }
 
 export default function CreateCampaignPage() {
+  const t = useTranslations('campaigns.create');
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<CampaignFormData>({
     title: '',
@@ -215,7 +217,7 @@ export default function CreateCampaignPage() {
             variant="light"
             startContent={<ArrowLeft className="w-4 h-4" />}
           >
-            Voltar
+            {t('back_button')}
           </Button>
         </Link>
       </div>
@@ -223,17 +225,17 @@ export default function CreateCampaignPage() {
       <div className="max-w-2xl mx-auto">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold mb-2">
-            Comece a criar sua <span className="text-primary">vaquinha</span>
+            {t('title')} <span className="text-primary">{t('title_highlight')}</span>
           </h1>
           <p className="text-default-500 text-base">
-            Mais de duas mil pessoas escolhem o Benevolus para transformar suas histórias todos os dias.
+            {t('subtitle')}
           </p>
         </div>
 
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm text-default-500">
-              Passo {currentStep} de {TOTAL_STEPS}
+              {t('step_label', { current: currentStep, total: TOTAL_STEPS })}
             </span>
           </div>
           <Progress value={progress} className="w-full" color="primary" />
@@ -252,14 +254,14 @@ export default function CreateCampaignPage() {
                   onPress={handlePrevious}
                   isDisabled={currentStep === 1}
                 >
-                  Voltar
+                  {t('previous_button')}
                 </Button>
                 <Button
                   color="primary"
                   onPress={handleNext}
                   isDisabled={currentStep === TOTAL_STEPS || !isStepValid()}
                 >
-                  {currentStep === TOTAL_STEPS ? 'Finalizar' : 'Continuar'}
+                  {currentStep === TOTAL_STEPS ? t('finish_button') : t('next_button')}
                 </Button>
               </div>
             </div>

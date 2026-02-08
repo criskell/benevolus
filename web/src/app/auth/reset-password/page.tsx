@@ -5,8 +5,10 @@ import Link from "next/link";
 import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
+import { useTranslations } from 'next-intl';
 
 export default function ResetPasswordPage() {
+  const t = useTranslations('auth.reset_password');
   const [step, setStep] = useState<"email" | "code" | "password">("email");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -45,17 +47,17 @@ export default function ResetPasswordPage() {
         {step === "email" && (
           <>
             <div className="text-center">
-              <h1 className="text-2xl font-bold">Recuperar senha</h1>
+              <h1 className="text-2xl font-bold">{t('title')}</h1>
               <p className="text-default-500 text-sm mt-1">
-                Digite seu email para receber um código
+                {t('subtitle')}
               </p>
             </div>
 
             <form onSubmit={handleEmailSubmit} className="space-y-4">
               <Input
-                label="Email"
+                label={t('email_label')}
                 name="email"
-                placeholder="seu@email.com"
+                placeholder={t('email_placeholder')}
                 type="email"
                 isRequired
                 value={email}
@@ -73,10 +75,10 @@ export default function ResetPasswordPage() {
                   fullWidth
                   size="lg"
                 >
-                  Voltar
+                  {t('back_button')}
                 </Button>
                 <Button type="submit" color="primary" fullWidth size="lg">
-                  Enviar código
+                  {t('send_code_button')}
                 </Button>
               </div>
             </form>
@@ -86,17 +88,17 @@ export default function ResetPasswordPage() {
         {step === "code" && (
           <>
             <div className="text-center">
-              <h1 className="text-2xl font-bold">Verificar código</h1>
+              <h1 className="text-2xl font-bold">{t('verify_title')}</h1>
               <p className="text-default-500 text-sm mt-1">
-                Digite o código enviado para {email}
+                {t('verify_subtitle', { email })}
               </p>
             </div>
 
             <form onSubmit={handleCodeSubmit} className="space-y-4">
               <Input
-                label="Código de Verificação"
+                label={t('code_label')}
                 name="code"
-                placeholder="000000"
+                placeholder={t('code_placeholder')}
                 type="text"
                 isRequired
                 value={code}
@@ -114,10 +116,10 @@ export default function ResetPasswordPage() {
                   size="lg"
                   onPress={() => setStep("email")}
                 >
-                  Voltar
+                  {t('back_button')}
                 </Button>
                 <Button type="submit" color="primary" fullWidth size="lg">
-                  Verificar
+                  {t('verify_button')}
                 </Button>
               </div>
             </form>
@@ -127,17 +129,17 @@ export default function ResetPasswordPage() {
         {step === "password" && (
           <>
             <div className="text-center">
-              <h1 className="text-2xl font-bold">Nova senha</h1>
+              <h1 className="text-2xl font-bold">{t('new_password_title')}</h1>
               <p className="text-default-500 text-sm mt-1">
-                Crie uma nova senha para sua conta
+                {t('new_password_subtitle')}
               </p>
             </div>
 
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
               <Input
-                label="Nova Senha"
+                label={t('new_password_label')}
                 name="password"
-                placeholder="Digite sua nova senha"
+                placeholder={t('new_password_placeholder')}
                 type={showPassword ? "text" : "password"}
                 isRequired
                 startContent={
@@ -157,9 +159,9 @@ export default function ResetPasswordPage() {
                 }
               />
               <Input
-                label="Confirmar Senha"
+                label={t('confirm_password_label')}
                 name="confirmPassword"
-                placeholder="Confirme a senha"
+                placeholder={t('confirm_password_placeholder')}
                 type={showConfirmPassword ? "text" : "password"}
                 isRequired
                 startContent={
@@ -180,7 +182,7 @@ export default function ResetPasswordPage() {
               />
 
               <Button type="submit" color="primary" fullWidth size="lg">
-                Redefinir senha
+                {t('reset_button')}
               </Button>
             </form>
           </>

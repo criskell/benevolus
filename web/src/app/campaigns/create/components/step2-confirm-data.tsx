@@ -8,18 +8,19 @@ import { Input, Checkbox } from '@heroui/react';
 import { PatternFormat } from 'react-number-format';
 import { Info } from 'lucide-react';
 import PhoneInput from 'react-phone-number-input';
+import { useTranslations } from 'next-intl';
 import 'react-phone-number-input/style.css';
 
-const step2Schema = z.object({
+const createStep2Schema = (t: (key: string) => string) => z.object({
   cpf: z.string()
-    .min(1, 'CPF é obrigatório')
+    .min(1, t('cpf_required'))
     .refine((val) => val.replace(/\D/g, '').length === 11, {
-      message: 'CPF deve ter 11 dígitos',
+      message: t('cpf_invalid'),
     }),
   email: z.string()
-    .min(1, 'Email é obrigatório')
+    .min(1, t('email_required'))
     .refine((val) => val.includes('@'), {
-      message: 'Email inválido',
+      message: t('email_invalid'),
     }),
   fullName: z.string().optional(),
   phone: z.string().optional(),
@@ -32,7 +33,7 @@ const step2Schema = z.object({
       ctx.addIssue({
         code: 'custom',
         path: ['fullName'],
-        message: 'Nome completo é obrigatório',
+        message: t('fullname_required'),
       });
     }
   }
@@ -42,7 +43,7 @@ const step2Schema = z.object({
       ctx.addIssue({
         code: 'custom',
         path: ['phone'],
-        message: 'Telefone é obrigatório',
+        message: t('phone_required'),
       });
     }
   }
@@ -52,7 +53,7 @@ const step2Schema = z.object({
       ctx.addIssue({
         code: 'custom',
         path: ['passwordConfirmation'],
-        message: 'As senhas não conferem',
+        message: t('password_mismatch'),
       });
     }
   }
@@ -91,6 +92,7 @@ export function Step2ConfirmData({
   onPasswordConfirmationChange,
   onWantsNewsletterChange,
 }: Step2ConfirmDataProps) {
+  const t = useTranslations('campaigns.create.step2');
   const phoneInputId = useId();
 
   const {
@@ -99,7 +101,7 @@ export function Step2ConfirmData({
     setValue,
     watch,
   } = useForm({
-    resolver: zodResolver(step2Schema),
+    resolver: zodResolver(createStep2Schema(t)),
     mode: 'onChange',
     defaultValues: {
       cpf,
@@ -130,7 +132,7 @@ export function Step2ConfirmData({
     <div className="space-y-8">
       <div>
         <h2 className="text-xl font-semibold mb-4">
-          Confirme seu <span className="text-primary">CPF</span>
+          {t('cpf_title')} <span className="text-primary">{t('cpf_highlight')}</span>
         </h2>
         <Controller
           name="cpf"
@@ -140,8 +142,8 @@ export function Step2ConfirmData({
               format="###.###.###-##"
               mask="_"
               customInput={Input}
-              label="CPF"
-              placeholder="Insira o seu CPF"
+              label={t('cpf_label')}
+              placeholder={t('cpf_placeholder')}
               value={field.value}
               onValueChange={(values) => {
                 field.onChange(values.value);
@@ -158,9 +160,9 @@ export function Step2ConfirmData({
         <div className="mt-4 p-4 rounded-lg bg-primary-50 border border-primary-200 flex gap-3">
           <Info className="text-primary shrink-0 mt-0.5" size={20} />
           <div className="flex-1">
-            <p className="font-semibold text-primary text-sm mb-1">IMPORTANTE</p>
+            <p className="font-semibold text-primary text-sm mb-1">{t('cpf_info_title')}</p>
             <p className="text-sm text-default-700 leading-relaxed">
-              O saque dos valores arrecadados será executado apenas para a Chave Pix vinculada ao seu CPF. Antes de sacar, certifique-se de que esta Chave Pix CPF está cadastrada junto ao seu banco.
+              {t('cpf_info_text')}
             </p>
           </div>
         </div>
@@ -168,7 +170,7 @@ export function Step2ConfirmData({
 
       <div>
         <h2 className="text-xl font-semibold mb-4">
-          Confirme seu <span className="text-primary">Email</span>
+          {t('email_title')} <span className="text-primary">{t('email_highlight')}</span>
         </h2>
         <Controller
           name="email"
@@ -177,8 +179,8 @@ export function Step2ConfirmData({
             <Input
               isRequired
               type="email"
-              label="Email"
-              placeholder="Insira o seu e-mail"
+              label={t('email_label')}
+              placeholder={t('email_placeholder')}
               value={field.value}
               onChange={(e) => {
                 field.onChange(e.target.value);
@@ -196,7 +198,7 @@ export function Step2ConfirmData({
       {showAdditionalFields && (
         <div className="space-y-6 pt-4 border-t border-divider">
           <h2 className="text-xl font-semibold">
-            Finalize seus <span className="text-primary">dados</span>
+            {t('complete_title')} <span className="text-primary">{t('complete_highlight')}</span>
           </h2>
 
           <Controller
@@ -205,8 +207,8 @@ export function Step2ConfirmData({
             render={({ field }) => (
               <Input
                 isRequired
-                label="Insira seu nome completo"
-                placeholder="Insira o seu nome completo"
+                label={t('fullname_label')}
+                placeholder={t('fullname_placeholder')}
                 value={field.value}
                 onChange={(e) => {
                   field.onChange(e.target.value);
@@ -236,7 +238,7 @@ export function Step2ConfirmData({
                   inputComponent={Input}
                   id={phoneInputId}
                   countryCallingCodeEditable={false}
-                  label="Insira seu telefone (Whatsapp)"
+                  label={t('phone_label')}
                   labelPlacement="outside-top"
                 />
                 {errors.phone && (
@@ -253,8 +255,8 @@ export function Step2ConfirmData({
               <Input
                 isRequired
                 type="password"
-                label="Crie uma senha"
-                placeholder="Insira uma senha"
+                label={t('password_label')}
+                placeholder={t('password_placeholder')}
                 value={field.value}
                 onChange={(e) => {
                   field.onChange(e.target.value);
@@ -275,8 +277,8 @@ export function Step2ConfirmData({
               <Input
                 isRequired
                 type="password"
-                label="Confirme sua senha"
-                placeholder="Repetir a senha"
+                label={t('password_confirmation_label')}
+                placeholder={t('password_confirmation_placeholder')}
                 value={field.value}
                 onChange={(e) => {
                   field.onChange(e.target.value);
@@ -301,7 +303,7 @@ export function Step2ConfirmData({
                   onWantsNewsletterChange(value);
                 }}
               >
-                Quero receber informações do Benevolus
+                {t('newsletter_label')}
               </Checkbox>
             )}
           />

@@ -6,11 +6,11 @@ export const siteConfig = {
     'Una forças e ajude quem mais precisa. Cada gota faz a chuva acontecer.',
   navItems: [
     {
-      label: 'Campanhas',
+      labelKey: 'navbar.campaigns',
       href: '/campaigns',
     },
     {
-      label: 'Missão',
+      labelKey: 'navbar.mission',
       href: '/mission',
     },
   ],

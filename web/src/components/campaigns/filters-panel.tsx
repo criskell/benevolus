@@ -8,6 +8,7 @@ import {
   Button,
   Chip,
 } from '@heroui/react';
+import { useTranslations } from 'next-intl';
 import { SearchIcon } from '../icons/search'; // Assuming search icon exists
 import { filters } from '../../data/filters';
 
@@ -28,6 +29,7 @@ export const FiltersPanel = ({
   onApplyFilters,
   onClearFilters,
 }: FiltersPanelProps) => {
+  const t = useTranslations('campaigns.list.filters');
   const [tagSearch, setTagSearch] = useState('');
 
   const filteredTags = filters.tags.filter((tag) =>
@@ -36,12 +38,12 @@ export const FiltersPanel = ({
 
   return (
     <div className="p-4 sticky top-[4em]">
-      <h2 className="text-lg font-semibold mb-4">Filtros</h2>
+      <h2 className="text-lg font-semibold mb-4">{t('title')}</h2>
       <Accordion>
         <AccordionItem
           key="categories"
-          aria-label="Categorias"
-          title="Categoria"
+          aria-label={t('category_title')}
+          title={t('category_title')}
         >
           <CheckboxGroup
             value={selectedCategories}
@@ -54,9 +56,9 @@ export const FiltersPanel = ({
             ))}
           </CheckboxGroup>
         </AccordionItem>
-        <AccordionItem key="tags" aria-label="Tags" title="Tags">
+        <AccordionItem key="tags" aria-label={t('tags_title')} title={t('tags_title')}>
           <Input
-            placeholder="Buscar tags..."
+            placeholder={t('tags_search')}
             startContent={<SearchIcon />}
             value={tagSearch}
             onValueChange={setTagSearch}
@@ -84,10 +86,10 @@ export const FiltersPanel = ({
       </Accordion>
       <div className="mt-4 space-y-2">
         <Button onPress={onClearFilters} variant="light" fullWidth>
-          Limpar filtros
+          {t('clear_button')}
         </Button>
         <Button onPress={onApplyFilters} color="primary" fullWidth>
-          Aplicar filtros
+          {t('apply_button')}
         </Button>
       </div>
     </div>

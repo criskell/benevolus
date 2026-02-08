@@ -2,6 +2,7 @@
 
 import { Button, Card, CardBody, Chip } from '@heroui/react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 interface Step7CampaignConfirmationProps {
   campaignTitle: string;
@@ -12,13 +13,15 @@ export function Step7CampaignConfirmation({
   campaignTitle,
   campaignId = '5857894',
 }: Step7CampaignConfirmationProps) {
+  const t = useTranslations('campaigns.create.step7');
+  
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-bold mb-2">Você tem uma vaquinha recente!</h2>
+        <h2 className="text-3xl font-bold mb-2">{t('title')}</h2>
         <p className="text-default-500 text-lg">
-          Teste, recentemente você criou uma vaquinha.{' '}
-          <span className="font-semibold text-foreground">Você pode editar ou divulgar sua vaquinha.</span>
+          {t('subtitle')}{' '}
+          <span className="font-semibold text-foreground">{t('subtitle_bold')}</span>
         </p>
       </div>
 
@@ -29,7 +32,7 @@ export function Step7CampaignConfirmation({
               <p className="text-sm text-default-500">Data: 21/12/2025</p>
             </div>
             <Chip color="success" variant="flat" className="text-foreground">
-              Ativa
+              {t('status_active')}
             </Chip>
           </div>
 
@@ -43,7 +46,7 @@ export function Step7CampaignConfirmation({
 
           <div className="space-y-3">
             <Button fullWidth color="primary" size="lg" className="font-semibold">
-              Editar vaquinha
+              {t('edit_campaign')}
             </Button>
             <Button
               fullWidth
@@ -52,14 +55,14 @@ export function Step7CampaignConfirmation({
               size="lg"
               className="font-semibold"
             >
-              Compartilhar vaquinha
+              {t('share_campaign')}
             </Button>
           </div>
         </CardBody>
       </Card>
 
       <div className="space-y-4">
-        <h3 className="text-xl font-bold">Ainda deseja criar uma nova vaquinha?</h3>
+        <h3 className="text-xl font-bold">{t('create_new_title')}</h3>
         <Button
           fullWidth
           variant="bordered"
@@ -67,14 +70,14 @@ export function Step7CampaignConfirmation({
           size="lg"
           className="font-semibold"
         >
-          Criar nova vaquinha
+          {t('create_new_button')}
         </Button>
       </div>
 
       <div className="pt-4 border-t border-divider">
         <Link href="/campaigns">
           <Button fullWidth variant="light" size="lg">
-            Voltar para campanhas
+            {t('back_to_campaigns')}
           </Button>
         </Link>
       </div>

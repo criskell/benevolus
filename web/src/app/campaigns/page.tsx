@@ -15,6 +15,7 @@ import {
 } from '@heroui/react';
 import { Heart, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { PageLayout } from '../../components/campaigns/page-layout';
 import { FiltersPanel } from '../../components/campaigns/filters-panel';
 import { SearchBar } from '../../components/campaigns/search-bar';
@@ -41,6 +42,7 @@ const mappedCampaigns: Campaign[] = rawCampaigns.campaigns.map((c) => ({
 }));
 
 export default function CampaignsPage() {
+  const t = useTranslations('campaigns.list');
   const { favorites, cart } = useDonationContext();
 
   const [favoritesOpen, setFavoritesOpen] = useState(false);
@@ -83,7 +85,7 @@ export default function CampaignsPage() {
         main={
           <div className="p-6">
             <h1 className="text-3xl font-bold mb-6">
-              Encontre todas nossas vaquinhas
+              {t('title')}
             </h1>
 
             <Tabs
@@ -92,7 +94,7 @@ export default function CampaignsPage() {
               className="mb-6"
               variant="underlined"
             >
-              <Tab key="explore" title="Explorar Vaquinhas">
+              <Tab key="explore" title={t('tab_explore')}>
                 <div className="flex flex-col lg:flex-row gap-4 mb-6 items-start lg:items-center justify-between">
                   <div className="flex items-center gap-4 w-full lg:w-auto">
                     <Button
@@ -100,7 +102,7 @@ export default function CampaignsPage() {
                       variant="bordered"
                       className="lg:hidden"
                     >
-                      Filtros
+                      {t('filters_button')}
                     </Button>
                     <SearchBar value={searchQuery} onChange={setSearchQuery} />
                   </div>
@@ -110,14 +112,14 @@ export default function CampaignsPage() {
                       startContent={<Heart className="w-4 h-4" />}
                       onPress={() => setFavoritesOpen(true)}
                     >
-                      Favoritos ({favorites.favorites.length})
+                      {t('favorites_button', { count: favorites.favorites.length })}
                     </Button>
                     <Button
                       variant="light"
                       startContent={<ShoppingCart className="w-4 h-4" />}
                       onPress={() => setCartOpen(true)}
                     >
-                      Carrinho ({cart.cart.length})
+                      {t('cart_button', { count: cart.cart.length })}
                     </Button>
                     <SortMenu
                       statusFilter={statusFilter}
@@ -126,14 +128,14 @@ export default function CampaignsPage() {
                       setTimeFilter={setTimeFilter}
                     />
                     <Button color="primary" as={Link} href="/campaigns/create">
-                      Criar vaquinha
+                      {t('create_button')}
                     </Button>
                   </div>
                 </div>
                 <CampaignList campaigns={filteredCampaigns} />
               </Tab>
 
-              <Tab key="donate-by-cause" title="Doar por Causa">
+              <Tab key="donate-by-cause" title={t('tab_donate_by_cause')}>
                 <CategoryDonationTab />
               </Tab>
             </Tabs>
@@ -142,7 +144,7 @@ export default function CampaignsPage() {
       />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="lg">
         <ModalContent>
-          <ModalHeader>Filtros</ModalHeader>
+          <ModalHeader>{t('filters.title')}</ModalHeader>
           <ModalBody>
             <FiltersPanel
               selectedCategories={selectedCategories}

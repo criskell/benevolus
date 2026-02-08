@@ -1,6 +1,7 @@
 'use client';
 
 import { RadioGroup, Radio, Select, SelectItem } from '@heroui/react';
+import { useTranslations } from 'next-intl';
 
 interface Step3CampaignDetailsProps {
   beneficiaryType: string;
@@ -9,26 +10,8 @@ interface Step3CampaignDetailsProps {
   onCategoryChange: (value: string) => void;
 }
 
-const beneficiaryOptions = [
-  { value: 'myself', label: 'Eu mesmo(a) preciso do valor' },
-  { value: 'pet', label: 'Para meu animal de estimação' },
-  { value: 'family', label: 'Para alguém da família' },
-  { value: 'friend', label: 'Para um(a) amigo(a) que está precisando' },
-  { value: 'company', label: 'Para uma empresa ou instituição' },
-];
-
-const categories = [
-  'Animais / Pets',
-  'Educação',
-  'Emergenciais',
-  'Empatia',
-  'Esporte',
-  'Geração de renda',
-  'Moradia',
-  'Projetos sociais',
-  'Recorrente',
-  'Saúde',
-];
+const beneficiaryValues = ['myself', 'pet', 'family', 'friend', 'company'];
+const categoryKeys = ['animals', 'education', 'emergency', 'empathy', 'sports', 'income', 'housing', 'social', 'recurring', 'health'];
 
 export function Step3CampaignDetails({
   beneficiaryType,
@@ -36,27 +19,28 @@ export function Step3CampaignDetails({
   onBeneficiaryTypeChange,
   onCategoryChange,
 }: Step3CampaignDetailsProps) {
+  const t = useTranslations('campaigns.create.step3');
   return (
     <div className="space-y-8">
       <div>
         <h2 className="text-xl font-semibold mb-4">
-          Essa vaquinha é para ajudar <span className="text-primary">quem?</span>
+          {t('beneficiary_title')} <span className="text-primary">{t('beneficiary_highlight')}</span>
         </h2>
         <RadioGroup
           value={beneficiaryType}
           onValueChange={onBeneficiaryTypeChange}
           className="space-y-3"
         >
-          {beneficiaryOptions.map((option) => (
+          {beneficiaryValues.map((value) => (
             <Radio
-              key={option.value}
-              value={option.value}
+              key={value}
+              value={value}
               classNames={{
                 base: 'max-w-full',
                 wrapper: 'border-2 border-primary',
               }}
             >
-              {option.label}
+              {t(`beneficiary_${value}`)}
             </Radio>
           ))}
         </RadioGroup>
@@ -64,11 +48,11 @@ export function Step3CampaignDetails({
 
       <div>
         <h2 className="text-xl font-semibold mb-4">
-          Em qual <span className="text-primary">categoria</span> sua vaquinha se enquadra?
+          {t('category_title')} <span className="text-primary">{t('category_highlight')}</span> {t('category_subtitle')}
         </h2>
         <Select
-          label="Selecione uma categoria"
-          placeholder="Selecione uma categoria"
+          label={t('category_label')}
+          placeholder={t('category_placeholder')}
           selectedKeys={category ? [category] : []}
           onSelectionChange={(keys) => {
             const selected = Array.from(keys)[0] as string;
@@ -77,9 +61,9 @@ export function Step3CampaignDetails({
           className="w-full"
           size="lg"
         >
-          {categories.map((cat) => (
-            <SelectItem key={cat}>
-              {cat}
+          {categoryKeys.map((key) => (
+            <SelectItem key={t(`category_${key}`)}>
+              {t(`category_${key}`)}
             </SelectItem>
           ))}
         </Select>
