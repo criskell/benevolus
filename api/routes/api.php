@@ -26,7 +26,7 @@ Route::apiResource('campaigns.donations', DonationController::class)->shallow()-
 
 Route::apiResource('campaigns', CampaignController::class);
 
-Route::post('/campaigns/{campaign}/images', [CampaignImageController::class, 'store']);
+Route::post('/campaigns/{campaign}/images', [CampaignImageController::class, 'store'])->middleware('auth:sanctum');
 Route::apiResource('campaigns.withdrawals', WithdrawalController::class)->shallow()->except(['destroy', 'update']);
 Route::apiResource('campaigns.updates', CampaignUpdateController::class)->shallow()->except(['update']);
 Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);

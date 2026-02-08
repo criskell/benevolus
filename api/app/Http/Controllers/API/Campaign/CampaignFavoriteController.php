@@ -27,7 +27,6 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Favorited campaigns retrieved successfully",
                 content: new OA\JsonContent(
                     type: "object",
                     properties: [
@@ -66,7 +65,6 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Favorite status toggled successfully",
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: "favorited", type: "boolean"),

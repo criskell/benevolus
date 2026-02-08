@@ -5,7 +5,7 @@ use Pest\Concerns\Expectable;
 use Pest\PendingCalls\BeforeEachCall;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
-use Tests\TestCase;
+use Tests\IntegrationTestCase as TestCase;
 
 /**
  * Runs the given closure before all tests in the current file.

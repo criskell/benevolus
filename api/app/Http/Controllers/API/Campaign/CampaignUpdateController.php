@@ -10,6 +10,7 @@ use App\Services\Campaign\CampaignUpdateService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 use OpenApi\Attributes as OA;
 
 final class CampaignUpdateController extends Controller implements HasMiddleware
@@ -85,7 +86,6 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
         responses: [
             new OA\Response(
                 response: 201,
-                description: "Campaign update created successfully",
                 content: new OA\JsonContent(
                     ref: "#/components/schemas/CampaignUpdateResource"
                 )
@@ -161,6 +161,7 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
     )]
     public function destroy(CampaignUpdate $update)
     {
+        Gate::authorize('delete', $update);
         $this->campaignUpdateService->delete($update);
 
         return response()->noContent();
