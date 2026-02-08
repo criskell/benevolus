@@ -5,7 +5,85 @@
     "title_line_2": "to make a difference",
     "donate": "Make a donation",
     "create_campaign": "Create a new campaign",
-    "headline": "Every contribution brings dreams closer and helps those who need it most. Join a community that makes a difference."
+    "headline": "Every contribution brings dreams closer and helps those who need it most. Join a community that makes a difference.",
+    "why": {
+      "title": "Why Benevolus",
+      "subtitle": "A platform built to connect those in need with those who want to help",
+      "item_0_title": "Transparency and security",
+      "item_0_description": "Clear and secure process. Your donations reach those who need them.",
+      "item_1_title": "Zero fees for donors",
+      "item_1_description": "The amount you donate goes entirely to the campaign.",
+      "item_2_title": "A community that makes a difference",
+      "item_2_description": "Thousands of people have already supported causes through our platform."
+    },
+    "impact": {
+      "title": "Our impact so far",
+      "subtitle": "Together we are making a difference",
+      "stat_0_value": "R$ 2M+",
+      "stat_0_label": "Raised in donations",
+      "stat_1_value": "50k+",
+      "stat_1_label": "Donors on the platform",
+      "stat_2_value": "1,200+",
+      "stat_2_label": "Campaigns supported"
+    },
+    "testimonials": {
+      "title": "What people say about us",
+      "subtitle": "Stories from donors and campaign creators",
+      "quote_0": "Donating through Benevolus was very simple. Knowing there are no fees and the amount goes straight to the campaign gave me peace of mind.",
+      "name_0": "Ricardo M.",
+      "role_0": "Donor",
+      "quote_1": "I was able to raise funds for my mother's treatment in a few weeks. The platform is clear and the team responds quickly.",
+      "name_1": "Ana Paula S.",
+      "role_1": "Campaign creator",
+      "quote_2": "I use it whenever I want to support causes I believe in. The process is transparent and I feel safe contributing.",
+      "name_2": "Fernando L.",
+      "role_2": "Donor"
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "subtitle": "Get answers about donations and campaigns",
+      "q_0": "How do I donate?",
+      "a_0": "Choose a campaign on our page, click \"Donate\" and enter the amount and payment method. The process is quick and secure. The full amount goes to the campaign.",
+      "q_1": "Is there a fee for donors?",
+      "a_1": "No. Benevolus does not charge donors. The amount you contribute is passed in full to the chosen campaign.",
+      "q_2": "How do I create a campaign?",
+      "a_2": "Log in or sign up, go to \"Create campaign\" and follow the steps: tell your story, set the goal and campaign details. After review, your campaign can be published.",
+      "q_3": "When does the campaign creator receive the funds?",
+      "a_3": "Funds raised can be requested by the creator according to the campaign rules. The withdrawal process is transparent and monitored by the platform."
+    },
+    "newsletter": {
+      "title": "Stay in the loop",
+      "subtitle": "Get updates on campaigns and how to make a difference.",
+      "placeholder": "Your email",
+      "button": "Subscribe",
+      "success": "Subscribed! You'll hear from us soon."
+    },
+    "categories": {
+      "title": "Explore by category",
+      "subtitle": "Find causes that match what you care about",
+      "saude_slug": "Saúde",
+      "saude_title": "Health",
+      "saude_description": "Campaigns for treatments, surgery and medical care.",
+      "emergenciais_slug": "Emergenciais",
+      "emergenciais_title": "Emergency",
+      "emergenciais_description": "Urgent support in crisis and vulnerable situations.",
+      "educacao_slug": "Educação",
+      "educacao_title": "Education",
+      "educacao_description": "Scholarships, school supplies and educational projects.",
+      "animais_slug": "Animais",
+      "animais_title": "Animals",
+      "animais_description": "Protection, rescue and care for animals."
+    },
+    "trust": {
+      "title": "Your donations in good hands",
+      "subtitle": "Security and transparency at every step",
+      "item_0_title": "Secure payment",
+      "item_0_description": "Payment processing in an encrypted and trusted environment.",
+      "item_1_title": "Protected data",
+      "item_1_description": "Your data is handled with care and in compliance with privacy laws.",
+      "item_2_title": "Transparent process",
+      "item_2_description": "Track how funds are used and how campaigns are progressing."
+    }
   },
   "aboutUs": {
     "hero_badge": "Our cause",

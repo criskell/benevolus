@@ -9,6 +9,13 @@ import { HeroSection } from './hero-section';
 import { CategoryNavigation } from './category-navigation';
 import { CallToAction } from './call-to-action';
 import { HowItWorks } from './how-it-works';
+import { WhyBenevolus } from './why-benevolus';
+import { ImpactSection } from './impact-section';
+import { TestimonialsSection } from './testimonials-section';
+import { FaqSection } from './faq-section';
+import { NewsletterSection } from './newsletter-section';
+import { CategoriesSection } from './categories-section';
+import { TrustSection } from './trust-section';
 
 const mappedCampaigns: Campaign[] = campaigns.campaigns.map((c) => ({
   slug: c.slug,
@@ -47,6 +54,13 @@ export default function Home() {
           ))}
         </div>
         <HowItWorks />
+        <CategoriesSection />
+        <WhyBenevolus />
+        <ImpactSection />
+        <TrustSection />
+        <TestimonialsSection />
+        <FaqSection />
+        <NewsletterSection />
       </div>
       <CallToAction />
     </main>

@@ -5,7 +5,85 @@
     "title_line_2": "fácil de fazer a diferença",
     "donate": "Faça uma doação",
     "create_campaign": "Crie uma nova campanha",
-    "headline": "Cada contribuição aproxima sonhos e ajuda quem mais precisa. Junte-se a uma comunidade que faz a diferença."
+    "headline": "Cada contribuição aproxima sonhos e ajuda quem mais precisa. Junte-se a uma comunidade que faz a diferença.",
+    "why": {
+      "title": "Por que o Benevolus",
+      "subtitle": "Uma plataforma feita para conectar quem precisa a quem quer ajudar",
+      "item_0_title": "Transparência e segurança",
+      "item_0_description": "Processo claro e seguro. Suas doações chegam a quem precisa.",
+      "item_1_title": "Zero taxas para doadores",
+      "item_1_description": "O valor que você doa vai integralmente para a campanha.",
+      "item_2_title": "Comunidade que faz a diferença",
+      "item_2_description": "Milhares de pessoas já apoiaram causas através da nossa plataforma."
+    },
+    "impact": {
+      "title": "O impacto até agora",
+      "subtitle": "Juntos estamos fazendo a diferença",
+      "stat_0_value": "R$ 2M+",
+      "stat_0_label": "Arrecadados em doações",
+      "stat_1_value": "50k+",
+      "stat_1_label": "Doadores na plataforma",
+      "stat_2_value": "1.200+",
+      "stat_2_label": "Campanhas apoiadas"
+    },
+    "testimonials": {
+      "title": "O que dizem sobre nós",
+      "subtitle": "Histórias de quem doa e de quem recebe",
+      "quote_0": "Doar pelo Benevolus foi muito simples. Saber que não há taxas e que o valor vai direto para a campanha me deixou tranquilo.",
+      "name_0": "Ricardo M.",
+      "role_0": "Doador",
+      "quote_1": "Consegui arrecadar para o tratamento da minha mãe em poucas semanas. A plataforma é clara e a equipe responde rápido.",
+      "name_1": "Ana Paula S.",
+      "role_1": "Criadora de campanha",
+      "quote_2": "Uso sempre que quero apoiar causas que acredito. O processo é transparente e me sinto seguro em contribuir.",
+      "name_2": "Fernando L.",
+      "role_2": "Doador"
+    },
+    "faq": {
+      "title": "Perguntas frequentes",
+      "subtitle": "Tire suas dúvidas sobre doações e campanhas",
+      "q_0": "Como faço para doar?",
+      "a_0": "Escolha uma campanha na nossa página, clique em \"Doar\" e preencha o valor e a forma de pagamento. O processo é rápido e seguro. O valor vai integralmente para a campanha.",
+      "q_1": "Existe taxa para doadores?",
+      "a_1": "Não. O Benevolus não cobra taxa dos doadores. O valor que você contribui é repassado por completo para a campanha escolhida.",
+      "q_2": "Como crio uma campanha?",
+      "a_2": "Faça login ou cadastre-se, acesse \"Criar campanha\" e siga o passo a passo: conte sua história, defina a meta e as informações da campanha. Após a análise, sua campanha pode ser publicada.",
+      "q_3": "Quando o criador da campanha recebe o valor?",
+      "a_3": "O valor arrecadado pode ser solicitado pelo criador conforme as regras da campanha. O processo de saque é transparente e acompanhado pela plataforma."
+    },
+    "newsletter": {
+      "title": "Fique por dentro",
+      "subtitle": "Receba novidades sobre campanhas e como fazer a diferença.",
+      "placeholder": "Seu e-mail",
+      "button": "Inscrever",
+      "success": "Inscrito! Em breve você receberá nossas novidades."
+    },
+    "categories": {
+      "title": "Explore por categoria",
+      "subtitle": "Encontre causas que combinam com você",
+      "saude_slug": "Saúde",
+      "saude_title": "Saúde",
+      "saude_description": "Campanhas para tratamentos, cirurgias e cuidados médicos.",
+      "emergenciais_slug": "Emergenciais",
+      "emergenciais_title": "Emergenciais",
+      "emergenciais_description": "Apoio urgente em situações de crise e vulnerabilidade.",
+      "educacao_slug": "Educação",
+      "educacao_title": "Educação",
+      "educacao_description": "Bolsas, material escolar e projetos educativos.",
+      "animais_slug": "Animais",
+      "animais_title": "Animais",
+      "animais_description": "Proteção, resgate e cuidados com animais."
+    },
+    "trust": {
+      "title": "Suas doações em boas mãos",
+      "subtitle": "Segurança e transparência em cada etapa",
+      "item_0_title": "Pagamento seguro",
+      "item_0_description": "Processamento de pagamento em ambiente criptografado e confiável.",
+      "item_1_title": "Dados protegidos",
+      "item_1_description": "Seus dados são tratados com cuidado e em conformidade com a LGPD.",
+      "item_2_title": "Processo transparente",
+      "item_2_description": "Acompanhe o uso dos recursos e o andamento das campanhas."
+    }
   },
   "aboutUs": {
     "hero_badge": "Nossa causa",
