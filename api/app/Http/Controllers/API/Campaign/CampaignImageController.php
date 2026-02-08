@@ -7,6 +7,7 @@ use App\Http\Requests\Campaign\UploadCampaignImageRequest;
 use App\Http\Resources\Campaign\CampaignMediaAssetResource;
 use App\Models\Campaign;
 use App\Services\Campaign\CampaignImageService;
+use Illuminate\Support\Facades\Gate;
 use OpenApi\Attributes as OA;
 
 final class CampaignImageController extends Controller
@@ -60,6 +61,8 @@ final class CampaignImageController extends Controller
     )]
     public function store(Campaign $campaign, UploadCampaignImageRequest $request)
     {
+        Gate::authorize('update', $campaign);
+
         $image = $this->campaignImageService->store($campaign, $request->file('image'));
 
         return new CampaignMediaAssetResource($image);

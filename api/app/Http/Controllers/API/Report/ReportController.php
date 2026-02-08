@@ -8,11 +8,19 @@ use App\Http\Resources\Report\ReportResource;
 use App\Models\Campaign;
 use App\Services\Report\ReportService;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use OpenApi\Attributes as OA;
 
-// FIXME: Apply access control here.
-final class ReportController extends Controller
+final class ReportController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:sanctum', only: ['index', 'store']),
+        ];
+    }
+
     public function __construct(private ReportService $reportService) {}
 
     #[OA\Get(
@@ -23,7 +31,6 @@ final class ReportController extends Controller
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Reports retrieved successfully",
                 content: new OA\JsonContent(
                     type: "object",
                     properties: [
@@ -68,7 +75,6 @@ final class ReportController extends Controller
         responses: [
             new OA\Response(
                 response: 201,
-                description: "Report created successfully",
                 content: new OA\JsonContent(
                     ref: "#/components/schemas/ReportResource"
                 )
