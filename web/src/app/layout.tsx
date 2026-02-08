@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { Inter } from 'next/font/google';
-import { siteConfig } from '@/config/site';
 import NextTopLoader from 'nextjs-toploader';
+import { Provider } from 'jotai';
 
 import { cn } from '@/lib/utils/cn';
 import { Navbar } from '@/components/layout/navbar';
 
 import './globals.css';
+import { siteConfig } from '@/config/site';
 import { Footer } from '@/components/layout/footer';
 import { DonationProvider } from '@/contexts/DonationContext';
-import { Provider } from 'jotai';
 
 const fontSans = Inter({
   variable: '--font-inter',
