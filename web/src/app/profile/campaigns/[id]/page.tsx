@@ -2,7 +2,7 @@
 
 import { use } from 'react';
 import { Button, Card, CardBody, Chip, Progress, Divider } from '@heroui/react';
-import { ArrowLeft, Pencil, Megaphone, Wallet, ExternalLink, Users, TrendingUp, Calendar } from 'lucide-react';
+import { ArrowLeft, Pencil, Megaphone, Wallet, ExternalLink, Users, TrendingUp, Calendar, Receipt } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -195,6 +195,14 @@ export default function CampaignDashboardPage({ params }: { params: Promise<{ id
               startContent={<Pencil size={18} />}
             >
               Editar campanha
+            </Button>
+            <Button
+              as={Link}
+              href={`/profile/campaigns/${id}/statement`}
+              variant="flat"
+              startContent={<Receipt size={18} />}
+            >
+              Ver extrato
             </Button>
             <Button
               as={Link}

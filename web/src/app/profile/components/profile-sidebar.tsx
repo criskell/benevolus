@@ -1,7 +1,7 @@
 'use client';
 
 import { Avatar, Button, Card, CardBody } from '@heroui/react';
-import { CameraIcon, Heart, Megaphone, User, CreditCard, Bell } from 'lucide-react';
+import { CameraIcon, Heart, Megaphone, User, CreditCard, Bell, Receipt } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
@@ -16,6 +16,7 @@ type ProfileSidebarProps = {
 const navigationItems = [
   { label: 'Minhas Campanhas', href: '/profile/campaigns', icon: Megaphone },
   { label: 'Minhas Doações', href: '/profile/donations', icon: Heart },
+  { label: 'Extrato', href: '/profile/statement', icon: Receipt },
   { label: 'Notificações', href: '/profile/notifications', icon: Bell },
   { label: 'Meus Cartões', href: '/profile/cards', icon: CreditCard },
   { label: 'Meus Dados', href: '/profile', icon: User },
