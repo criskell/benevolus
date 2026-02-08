@@ -4,29 +4,27 @@ RESTful API backend for the Benevolus crowdfunding platform, built with Laravel 
 
 ## Technology Stack
 
-- **Laravel 12** - Framework
-- **Laravel Sanctum** - API token authentication
-- **Laravel Fortify** - Authentication backend
-- **Laravel Socialite** - OAuth integration
-- **OpenPix SDK** - Brazilian payment gateway (PIX, credit cards, boleto)
-- **Stripe** - International payment processing
-- **Laravel Reverb** - WebSocket server
-- **Laravel Echo** - Event broadcasting
-- **L5-Swagger** - OpenAPI/Swagger documentation
-- **Pest** - PHP testing framework
-- **Pest Drift** - Migration testing
-- **Laravel Pint** - Code style fixer
-- **Laravel Sail** - Docker development environment
-- **Laravel Pail** - Log viewer
-- **AWS S3** - File storage
-- **Guzzle** - HTTP client
+-   **Laravel** - Web Framework
+-   **Laravel Sanctum** - Authentication via API tokens
+-   **Laravel Fortify** - Authentication backend
+-   **Laravel Socialite** - OAuth integration
+-   [**Woovi PHP SDK**](https://github.com/woovibr/php-sdk) - Brazilian payment gateway
+-   **Stripe** - International payment processing
+-   **Laravel Reverb** - WebSocket server
+-   **Laravel Echo** - Event broadcasting
+-   **Pest** - PHP testing framework
+-   **Laravel Pint** - Code style fixer
+-   **Laravel Sail** - Docker development environment
+-   **Laravel Pail** - Log viewer
+-   **AWS S3** - File storage
+-   **Guzzle** - HTTP client
 
 ## Requirements
 
-- PHP 8.2+
-- Composer
-- Node.js and npm
-- Database (MySQL, PostgreSQL, or SQLite)
+-   PHP 8.2+
+-   Composer
+-   Node.js and npm
+-   Database (MySQL, PostgreSQL, or SQLite)
 
 ## Installation
 
@@ -59,13 +57,13 @@ http://localhost:8000/api/documentation
 
 ## Project Structure
 
-- `app/Http/Controllers/API/` - API controllers
-- `app/Services/` - Business logic
-- `app/Models/` - Eloquent models
-- `app/DTO/` - Data Transfer Objects
-- `app/Http/Resources/` - API resources
-- `app/Http/Requests/` - Form requests
-- `routes/api.php` - API routes
+-   `app/Http/Controllers/API/` - API controllers
+-   `app/Services/` - Business logic
+-   `app/Models/` - Eloquent models
+-   `app/DTO/` - Data Transfer Objects
+-   `app/Http/Resources/` - API resources
+-   `app/Http/Requests/` - Form requests
+-   `routes/api.php` - API routes
 
 ## License
 
