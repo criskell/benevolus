@@ -46,7 +46,7 @@ final class LeaderboardController extends Controller
     )]
     public function topCampaigns(Request $request)
     {
-        $limit = $request->get('limit', 15);
+        $limit = (int) $request->get('limit', 15);
         $campaigns = $this->leaderboardService->getTopCampaigns($limit);
 
         return LeaderboardRankingResource::collection($campaigns);
@@ -85,7 +85,7 @@ final class LeaderboardController extends Controller
     )]
     public function topDonors(Request $request)
     {
-        $limit = $request->get('limit', 15);
+        $limit = (int) $request->get('limit', 15);
         $donors = $this->leaderboardService->getTopDonors($limit);
 
         return LeaderboardRankingResource::collection($donors);
@@ -124,7 +124,7 @@ final class LeaderboardController extends Controller
     )]
     public function topCreators(Request $request)
     {
-        $limit = $request->get('limit', 15);
+        $limit = (int) $request->get('limit', 15);
         $creators = $this->leaderboardService->getTopCreators($limit);
 
         return LeaderboardRankingResource::collection($creators);
