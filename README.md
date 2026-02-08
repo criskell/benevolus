@@ -15,6 +15,14 @@ Our goal is to provide a platform with 0% platform fee, ensuring that donations 
 - Payments: Woovi and Stripe Connect for processing donations
 - Infrastructure: Terraform and AWS for deployment
 
+## The Engine
+
+Our engine is made with the following components:
+
+- `api`: It provides a RESTful API with business operations.
+- `web`: It provides a web interface for the RESTful API.
+- `backoffice`: It provides a web interface for the RESTful API, but focuses on platform administration operations.
+
 ## Getting started
 
 Make sure you have Docker installed (for Laravel Sail) and pnpm for the frontend.
