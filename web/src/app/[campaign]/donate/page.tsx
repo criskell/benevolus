@@ -5,11 +5,13 @@ import {
   BreadcrumbItem,
 } from '@heroui/react';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 
 import { CampaignAside } from './components/campaign-aside';
 import { DonateForm } from './components/donate-form';
 
 export default function CampaignDonatePage() {
+  const t = useTranslations('donate');
   return (
     <div className="min-h-screen">
       <div className="max-w-[1400px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -18,10 +20,10 @@ export default function CampaignDonatePage() {
           <BreadcrumbItem 
             startContent={<Icon icon="solar:home-2-bold" width={18} />}
           >
-            Início
+            {t('breadcrumb_home')}
           </BreadcrumbItem>
-          <BreadcrumbItem>Campanha</BreadcrumbItem>
-          <BreadcrumbItem>Doar</BreadcrumbItem>
+          <BreadcrumbItem>{t('breadcrumb_campaign')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('breadcrumb_donate')}</BreadcrumbItem>
         </Breadcrumbs>
 
         {/* Header */}
@@ -32,10 +34,10 @@ export default function CampaignDonatePage() {
             </div>
             <div>
               <h1 className="text-3xl md:text-4xl font-black text-foreground">
-                Fazer doação
+                {t('page_title')}
               </h1>
               <p className="text-default-600 text-sm md:text-base mt-1">
-                Sua contribuição faz a diferença
+                {t('page_subtitle')}
               </p>
             </div>
           </div>

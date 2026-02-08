@@ -1,3 +1,5 @@
+'use client';
+
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { PatternFormat } from 'react-number-format';
@@ -13,6 +15,7 @@ import {
 } from '@heroui/react';
 import { useId, useState } from 'react';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 import { PixIcon } from '@/components/icons/pix';
 import { BarcodeIcon, CreditCardIcon } from 'lucide-react';
 import { PayPalIcon } from '@/components/icons/paypal';
@@ -20,6 +23,7 @@ import { BitcoinIcon } from '@/components/icons/bitcoin';
 import { PaymentMethodButton } from './payment-method-button';
 
 export function DonateForm() {
+  const t = useTranslations('donate');
   const phoneInputId = useId();
   const [phone, setPhone] = useState<any>();
   const [country, setCountry] = useState<any>();
@@ -46,7 +50,7 @@ export function DonateForm() {
           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
             <Icon icon="solar:wallet-money-bold" width={24} className="text-primary" />
           </div>
-          <h2 className="text-xl font-bold text-foreground">Valor da contribuição</h2>
+          <h2 className="text-xl font-bold text-foreground">{t('amount_title')}</h2>
         </div>
 
         {/* Quick Amount Buttons */}
@@ -73,7 +77,7 @@ export function DonateForm() {
 
         {/* Custom Amount Input */}
         <div>
-          <p className="text-sm font-semibold text-default-700 mb-2">Ou digite outro valor</p>
+          <p className="text-sm font-semibold text-default-700 mb-2">{t('amount_custom')}</p>
           <Input
             type="number"
             placeholder="0,00"
@@ -98,9 +102,9 @@ export function DonateForm() {
           <div className="flex items-start gap-3">
             <Icon icon="solar:check-circle-bold" width={24} className="text-emerald-600 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-emerald-900 text-sm mb-1">Seu impacto</p>
+              <p className="font-semibold text-emerald-900 text-sm mb-1">{t('impact_title')}</p>
               <p className="text-xs text-emerald-700 leading-relaxed">
-                Sua doação ajudará diretamente esta família e fará uma diferença real em suas vidas.
+                {t('impact_description')}
               </p>
             </div>
           </div>
@@ -113,23 +117,23 @@ export function DonateForm() {
           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
             <Icon icon="solar:user-bold" width={24} className="text-primary" />
           </div>
-          <h2 className="text-xl font-bold text-foreground">Dados pessoais</h2>
+          <h2 className="text-xl font-bold text-foreground">{t('personal_info_title')}</h2>
         </div>
 
         <div className="space-y-4">
           <Input 
-            label="Nome completo" 
+            label={t('full_name_label')}
             labelPlacement="outside" 
-            placeholder="Digite seu nome"
+            placeholder={t('full_name_placeholder')}
             size="lg"
             startContent={<Icon icon="solar:user-linear" width={20} className="text-default-400" />}
           />
           
           <Input 
-            label="E-mail" 
+            label={t('email_label')}
             labelPlacement="outside" 
             type="email"
-            placeholder="seu@email.com"
+            placeholder={t('email_placeholder')}
             size="lg"
             startContent={<Icon icon="solar:letter-linear" width={20} className="text-default-400" />}
           />
@@ -138,9 +142,9 @@ export function DonateForm() {
             format="###.###.###-##"
             mask="_"
             customInput={Input}
-            label="CPF"
+            label={t('tax_id_label')}
             labelPlacement="outside"
-            placeholder="000.000.000-00"
+            placeholder={t('tax_id_placeholder')}
             size="lg"
             startContent={<Icon icon="solar:document-linear" width={20} className="text-default-400" />}
           />
@@ -152,7 +156,7 @@ export function DonateForm() {
               }).label()}
               htmlFor={phoneInputId}
             >
-              Telefone
+              {t('phone_label')}
             </label>
 
             <PhoneInput
@@ -167,7 +171,7 @@ export function DonateForm() {
           </div>
 
           <Checkbox size="sm" className="mt-2">
-            <span className="text-sm">Sou estrangeiro ou moro fora do Brasil</span>
+            <span className="text-sm">{t('foreign_checkbox')}</span>
           </Checkbox>
 
           {/* Anonymous Donation */}
@@ -176,8 +180,8 @@ export function DonateForm() {
               <div className="flex items-center gap-3">
                 <Icon icon="solar:incognito-bold" width={24} className="text-default-600" />
                 <div>
-                  <p className="font-semibold text-sm text-foreground">Doação anônima</p>
-                  <p className="text-xs text-default-600 mt-0.5">Seu nome não será exibido</p>
+                  <p className="font-semibold text-sm text-foreground">{t('anonymous_title')}</p>
+                  <p className="text-xs text-default-600 mt-0.5">{t('anonymous_description')}</p>
                 </div>
               </div>
               <Switch size="lg" />
@@ -192,38 +196,38 @@ export function DonateForm() {
           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
             <Icon icon="solar:card-bold" width={24} className="text-primary" />
           </div>
-          <h2 className="text-xl font-bold text-foreground">Forma de pagamento</h2>
+          <h2 className="text-xl font-bold text-foreground">{t('payment_method_title')}</h2>
         </div>
 
-        <p className="text-sm text-default-600 mb-4 font-medium">Escolha como deseja doar</p>
+        <p className="text-sm text-default-600 mb-4 font-medium">{t('payment_method_subtitle')}</p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
           <PaymentMethodButton
             icon={<PixIcon width={28} height={28} />}
-            title="Pix"
+            title={t('payment_pix')}
           />
           <PaymentMethodButton
             icon={<CreditCardIcon width={28} height={28} />}
-            title="Cartão"
+            title={t('payment_card')}
           />
           <PaymentMethodButton
             icon={<BarcodeIcon width={28} height={28} />}
-            title="Boleto"
+            title={t('payment_bank_slip')}
           />
           <PaymentMethodButton
             icon={<BitcoinIcon height={28} width={28} />}
-            title="Bitcoin"
+            title={t('payment_bitcoin')}
           />
           <PaymentMethodButton
             icon={<PayPalIcon width={28} height={28} />}
-            title="PayPal"
+            title={t('payment_paypal')}
           />
         </div>
 
         {/* Security Badge */}
         <div className="mt-6 flex items-center gap-2 text-xs text-default-600 bg-emerald-50 p-3 rounded-xl border border-emerald-200">
           <Icon icon="solar:shield-check-bold" width={20} className="text-emerald-600" />
-          <span className="font-medium">Transação 100% segura e criptografada</span>
+          <span className="font-medium">{t('secure_transaction')}</span>
         </div>
       </Card>
 
@@ -236,14 +240,14 @@ export function DonateForm() {
             className="font-bold text-base shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 w-full sm:w-auto px-12"
             startContent={<Icon icon="solar:heart-bold" width={24} />}
           >
-            Realizar doação
+            {t('complete_button')}
           </Button>
           
           <p className="text-xs text-default-600 leading-relaxed">
-            Ao realizar o pagamento, você concorda com nossos{' '}
-            <a href="#" className="text-primary hover:underline font-medium">termos de uso</a>
-            {' '}e{' '}
-            <a href="#" className="text-primary hover:underline font-medium">política de privacidade</a>.
+            {t('terms_text')}{' '}
+            <a href="#" className="text-primary hover:underline font-medium">{t('terms_link')}</a>
+            {' '}{t('terms_and')}{' '}
+            <a href="#" className="text-primary hover:underline font-medium">{t('privacy_link')}</a>.
           </p>
         </div>
       </Card>

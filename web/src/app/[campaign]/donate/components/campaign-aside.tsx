@@ -1,8 +1,12 @@
+'use client';
+
 import { Card, Progress, Chip } from '@heroui/react';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 import placeholder from '@/assets/images/placeholder1.jpg';
 
 export function CampaignAside() {
+  const t = useTranslations('donate');
   return (
     <aside className="w-full lg:w-[380px] xl:w-[420px]">
       <div className="lg:sticky lg:top-24 space-y-6">
@@ -13,7 +17,7 @@ export function CampaignAside() {
           
           <div className="flex items-center gap-2 mb-4">
             <Icon icon="solar:bookmark-bold" width={20} className="text-primary" />
-            <h3 className="text-lg font-bold text-foreground">Resumo da campanha</h3>
+            <h3 className="text-lg font-bold text-foreground">{t('campaign_summary')}</h3>
           </div>
 
           {/* Campaign Image */}
@@ -31,27 +35,27 @@ export function CampaignAside() {
                 className="bg-emerald-500/90 backdrop-blur-md text-white font-semibold shadow-lg"
                 startContent={<Icon icon="solar:shield-check-bold" width={14} />}
               >
-                Verificada
+                {t('verified_badge')}
               </Chip>
             </div>
           </div>
 
           {/* Campaign Title */}
           <h4 className="font-bold text-foreground leading-snug mb-4">
-            Campanha para Fulana, mãe solo que cria sozinha seus gêmeos prematuros
+            {t('campaign_title_example')}
           </h4>
 
           {/* Progress Info */}
           <div className="space-y-3 mb-4">
             <div className="flex items-baseline justify-between">
               <div>
-                <p className="text-sm text-default-600 mb-1">Arrecadado</p>
+                <p className="text-sm text-default-600 mb-1">{t('raised_label')}</p>
                 <p className="text-2xl font-black bg-gradient-to-br from-primary to-primary-600 bg-clip-text text-transparent">
                   R$ 6.934,51
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-sm text-default-600 mb-1">Meta</p>
+                <p className="text-sm text-default-600 mb-1">{t('goal_label')}</p>
                 <p className="text-lg font-bold text-foreground">
                   R$ 50.000,00
                 </p>
@@ -67,8 +71,8 @@ export function CampaignAside() {
             />
 
             <div className="flex items-center justify-between text-xs font-medium">
-              <span className="text-default-600">14% concluído</span>
-              <span className="text-primary">86% restante</span>
+              <span className="text-default-600">{t('progress_complete', { percent: 14 })}</span>
+              <span className="text-primary">{t('progress_remaining', { percent: 86 })}</span>
             </div>
           </div>
 
@@ -80,7 +84,7 @@ export function CampaignAside() {
               </div>
               <div>
                 <p className="text-lg font-bold text-foreground">567</p>
-                <p className="text-xs text-default-600">Doadores</p>
+                <p className="text-xs text-default-600">{t('donors_count')}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -89,7 +93,7 @@ export function CampaignAside() {
               </div>
               <div>
                 <p className="text-lg font-bold text-foreground">23</p>
-                <p className="text-xs text-default-600">Dias restantes</p>
+                <p className="text-xs text-default-600">{t('days_remaining')}</p>
               </div>
             </div>
           </div>
@@ -103,10 +107,10 @@ export function CampaignAside() {
             </div>
             <div>
               <h3 className="font-bold text-foreground mb-2">
-                Proteção ao doador
+                {t('donor_protection_title')}
               </h3>
               <p className="text-xs text-default-600 leading-relaxed">
-                Suas doações estão protegidas. Monitoramos todas as campanhas e garantimos transparência total no uso dos recursos.
+                {t('donor_protection_description')}
               </p>
             </div>
           </div>
@@ -120,16 +124,16 @@ export function CampaignAside() {
             </div>
             <div>
               <h3 className="font-semibold text-foreground mb-2 text-sm">
-                Precisa de ajuda?
+                {t('need_help_title')}
               </h3>
               <p className="text-xs text-default-600 leading-relaxed mb-3">
-                Entre em contato com nossa equipe de suporte.
+                {t('need_help_description')}
               </p>
               <a 
                 href="#" 
                 className="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
               >
-                Falar com suporte
+                {t('contact_support')}
                 <Icon icon="solar:arrow-right-linear" width={16} />
               </a>
             </div>
