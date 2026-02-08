@@ -9,8 +9,10 @@ import {
   input,
   Input,
   Switch,
+  Chip,
 } from '@heroui/react';
 import { useId, useState } from 'react';
+import { Icon } from '@iconify/react';
 import { PixIcon } from '@/components/icons/pix';
 import { BarcodeIcon, CreditCardIcon } from 'lucide-react';
 import { PayPalIcon } from '@/components/icons/paypal';
@@ -19,80 +21,134 @@ import { PaymentMethodButton } from './payment-method-button';
 
 export function DonateForm() {
   const phoneInputId = useId();
-
   const [phone, setPhone] = useState<any>();
   const [country, setCountry] = useState<any>();
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+  const [customAmount, setCustomAmount] = useState('');
+
+  const quickAmounts = [
+    { value: 10, label: 'R$ 10' },
+    { value: 30, label: 'R$ 30' },
+    { value: 50, label: 'R$ 50' },
+    { value: 100, label: 'R$ 100' },
+    { value: 200, label: 'R$ 200' },
+    { value: 500, label: 'R$ 500' },
+  ];
 
   return (
-    <div className="space-y-8 grow">
-      <h1 className="text-3xl font-semibold">
-        Vamos contribuir com a campanha
-      </h1>
+    <div className="space-y-6 flex-1">
+      {/* Amount Selection Card */}
+      <Card className="p-6 md:p-8 border border-default-200 overflow-hidden relative" shadow="none">
+        {/* Decorative background */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-3xl -z-10" />
+        
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Icon icon="solar:wallet-money-bold" width={24} className="text-primary" />
+          </div>
+          <h2 className="text-xl font-bold text-foreground">Valor da contribuição</h2>
+        </div>
 
-      <Card className="p-12 border border-divider" shadow="none">
-        <p className="text-sm font-medium mb-1">Valor da contribuição</p>
+        {/* Quick Amount Buttons */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+          {quickAmounts.map((amount) => (
+            <Button
+              key={amount.value}
+              variant={selectedAmount === amount.value ? 'solid' : 'bordered'}
+              color={selectedAmount === amount.value ? 'primary' : 'default'}
+              className={`font-semibold h-14 ${
+                selectedAmount === amount.value 
+                  ? 'shadow-lg shadow-primary/30' 
+                  : 'border-default-300 hover:border-primary'
+              }`}
+              onPress={() => {
+                setSelectedAmount(amount.value);
+                setCustomAmount('');
+              }}
+            >
+              {amount.label}
+            </Button>
+          ))}
+        </div>
 
-        <Input
-          type="number"
-          startContent={
-            <div className="pointer-events-none flex items-center">
-              <span className="text-default-400 text-small">$</span>
+        {/* Custom Amount Input */}
+        <div>
+          <p className="text-sm font-semibold text-default-700 mb-2">Ou digite outro valor</p>
+          <Input
+            type="number"
+            placeholder="0,00"
+            value={customAmount}
+            onValueChange={(value) => {
+              setCustomAmount(value);
+              setSelectedAmount(null);
+            }}
+            startContent={
+              <span className="text-default-600 font-semibold">R$</span>
+            }
+            size="lg"
+            classNames={{
+              input: "text-lg font-semibold",
+              inputWrapper: "border-2 border-default-300 hover:border-primary data-[focus=true]:border-primary"
+            }}
+          />
+        </div>
+
+        {/* Impact Message */}
+        <div className="mt-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+          <div className="flex items-start gap-3">
+            <Icon icon="solar:check-circle-bold" width={24} className="text-emerald-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-semibold text-emerald-900 text-sm mb-1">Seu impacto</p>
+              <p className="text-xs text-emerald-700 leading-relaxed">
+                Sua doação ajudará diretamente esta família e fará uma diferença real em suas vidas.
+              </p>
             </div>
-          }
-          className="mb-1"
-        />
-
-        <div className="flex gap-2 mt-2 font-medium">
-          <Button
-            variant="bordered"
-            className="border-default-100"
-            radius="full"
-          >
-            R$ 10,00
-          </Button>
-          <Button
-            variant="bordered"
-            className="border-default-100"
-            radius="full"
-          >
-            R$ 30,00
-          </Button>
-          <Button
-            variant="bordered"
-            className="border-default-100"
-            radius="full"
-          >
-            R$ 100,00
-          </Button>
-          <Button
-            variant="bordered"
-            className="border-default-100"
-            radius="full"
-          >
-            R$ 200,00
-          </Button>
+          </div>
         </div>
       </Card>
 
-      <Card className="p-12 border border-divider space-y-6" shadow="none">
-        <p className="text-lg font-semibold">Dados pessoais</p>
+      {/* Personal Data Card */}
+      <Card className="p-6 md:p-8 border border-default-200" shadow="none">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Icon icon="solar:user-bold" width={24} className="text-primary" />
+          </div>
+          <h2 className="text-xl font-bold text-foreground">Dados pessoais</h2>
+        </div>
 
-        <div className="flex flex-col gap-4">
-          <Input label="Nome" labelPlacement="outside-top" />
-          <Input label="E-mail" labelPlacement="outside-top" />
+        <div className="space-y-4">
+          <Input 
+            label="Nome completo" 
+            labelPlacement="outside" 
+            placeholder="Digite seu nome"
+            size="lg"
+            startContent={<Icon icon="solar:user-linear" width={20} className="text-default-400" />}
+          />
+          
+          <Input 
+            label="E-mail" 
+            labelPlacement="outside" 
+            type="email"
+            placeholder="seu@email.com"
+            size="lg"
+            startContent={<Icon icon="solar:letter-linear" width={20} className="text-default-400" />}
+          />
 
           <PatternFormat
             format="###.###.###-##"
             mask="_"
             customInput={Input}
             label="CPF"
-            labelPlacement="outside-top"
+            labelPlacement="outside"
+            placeholder="000.000.000-00"
+            size="lg"
+            startContent={<Icon icon="solar:document-linear" width={20} className="text-default-400" />}
           />
 
           <div>
             <label
               className={input({
-                labelPlacement: 'outside-top',
+                labelPlacement: 'outside',
               }).label()}
               htmlFor={phoneInputId}
             >
@@ -110,62 +166,85 @@ export function DonateForm() {
             />
           </div>
 
-          <Checkbox>
-            Sou estrangeiro / Sou brasileiro, mas moro fora do Brasil
+          <Checkbox size="sm" className="mt-2">
+            <span className="text-sm">Sou estrangeiro ou moro fora do Brasil</span>
           </Checkbox>
-        </div>
 
-        <Alert
-          hideIcon
-          classNames={{
-            mainWrapper: 'flex-row justify-between items-center',
-          }}
-          className="text-sm font-medium"
-        >
-          Fazer doação anônima?
-          <Switch />
-        </Alert>
+          {/* Anonymous Donation */}
+          <div className="mt-6 p-4 rounded-xl border border-default-200">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Icon icon="solar:incognito-bold" width={24} className="text-default-600" />
+                <div>
+                  <p className="font-semibold text-sm text-foreground">Doação anônima</p>
+                  <p className="text-xs text-default-600 mt-0.5">Seu nome não será exibido</p>
+                </div>
+              </div>
+              <Switch size="lg" />
+            </div>
+          </div>
+        </div>
       </Card>
 
-      <Card className="p-12 border border-divider space-y-6" shadow="none">
-        <p className="text-lg font-semibold">Pagamento</p>
-        <p className="text-sm font-medium text-zinc-700 mb-4">
-          Formas de pagamento
-        </p>
+      {/* Payment Methods Card */}
+      <Card className="p-6 md:p-8 border border-default-200" shadow="none">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Icon icon="solar:card-bold" width={24} className="text-primary" />
+          </div>
+          <h2 className="text-xl font-bold text-foreground">Forma de pagamento</h2>
+        </div>
 
-        <div className="flex gap-3 flex-wrap">
+        <p className="text-sm text-default-600 mb-4 font-medium">Escolha como deseja doar</p>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
           <PaymentMethodButton
-            icon={<PixIcon width={24} height={24} />}
+            icon={<PixIcon width={28} height={28} />}
             title="Pix"
           />
           <PaymentMethodButton
-            icon={<CreditCardIcon width={24} height={24} />}
-            title="Cartão de crédito ou débito"
+            icon={<CreditCardIcon width={28} height={28} />}
+            title="Cartão"
           />
           <PaymentMethodButton
-            icon={<BarcodeIcon width={24} height={24} />}
+            icon={<BarcodeIcon width={28} height={28} />}
             title="Boleto"
           />
           <PaymentMethodButton
-            icon={<BitcoinIcon height={24} width={24} />}
+            icon={<BitcoinIcon height={28} width={28} />}
             title="Bitcoin"
           />
           <PaymentMethodButton
-            icon={<PayPalIcon width={24} height={24} />}
-            title="Paypal"
+            icon={<PayPalIcon width={28} height={28} />}
+            title="PayPal"
           />
+        </div>
+
+        {/* Security Badge */}
+        <div className="mt-6 flex items-center gap-2 text-xs text-default-600 bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+          <Icon icon="solar:shield-check-bold" width={20} className="text-emerald-600" />
+          <span className="font-medium">Transação 100% segura e criptografada</span>
         </div>
       </Card>
 
-      <Card className="p-12 border border-divider space-y-6" shadow="none">
-        <div className="flex items-center gap-4 flex-wrap">
-          <Button color="primary" className="max-w-40 w-full">
-            Contribuir
+      {/* Submit Card */}
+      <Card className="p-6 md:p-8 border-2 border-primary/20" shadow="none">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <Button 
+            color="primary" 
+            size="lg"
+            className="font-bold text-base shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 w-full sm:w-auto px-12"
+            startContent={<Icon icon="solar:heart-bold" width={24} />}
+          >
+            Realizar doação
           </Button>
-          <span className="text-neutral-500 font-medium text-sm">
-            Ao realizar o pagamento, você concorda com nossos termos e
-            condições.
-          </span>
+          
+          <p className="text-xs text-default-600 leading-relaxed">
+            Ao realizar o pagamento, você concorda com nossos{' '}
+            <a href="#" className="text-primary hover:underline font-medium">termos de uso</a>
+            {' '}e{' '}
+            <a href="#" className="text-primary hover:underline font-medium">política de privacidade</a>.
+          </p>
         </div>
       </Card>
     </div>

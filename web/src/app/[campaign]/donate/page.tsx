@@ -1,34 +1,51 @@
 'use client';
 
 import {
-  Alert,
-  BreadcrumbItem,
   Breadcrumbs,
-  Button,
-  Card,
-  Checkbox,
-  input,
-  Input,
-  Switch,
+  BreadcrumbItem,
 } from '@heroui/react';
-import { useId, useState } from 'react';
+import { Icon } from '@iconify/react';
 
-import placeholder from '@/assets/images/placeholder1.jpg';
-import { PixIcon } from '@/components/icons/pix';
 import { CampaignAside } from './components/campaign-aside';
 import { DonateForm } from './components/donate-form';
 
 export default function CampaignDonatePage() {
   return (
-    <div className="max-w-[1280px] mx-auto w-full my-10">
-      <Breadcrumbs>
-        <BreadcrumbItem>Campanha</BreadcrumbItem>
-        <BreadcrumbItem>Doar</BreadcrumbItem>
-      </Breadcrumbs>
+    <div className="min-h-screen">
+      <div className="max-w-[1400px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        {/* Breadcrumbs */}
+        <Breadcrumbs className="mb-8">
+          <BreadcrumbItem 
+            startContent={<Icon icon="solar:home-2-bold" width={18} />}
+          >
+            Início
+          </BreadcrumbItem>
+          <BreadcrumbItem>Campanha</BreadcrumbItem>
+          <BreadcrumbItem>Doar</BreadcrumbItem>
+        </Breadcrumbs>
 
-      <div className="flex gap-12 mt-8">
-        <DonateForm />
-        <CampaignAside />
+        {/* Header */}
+        <div className="mb-8 md:mb-12">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-primary-600 flex items-center justify-center shadow-lg shadow-primary/25">
+              <Icon icon="solar:heart-bold" width={28} className="text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-black text-foreground">
+                Fazer doação
+              </h1>
+              <p className="text-default-600 text-sm md:text-base mt-1">
+                Sua contribuição faz a diferença
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          <DonateForm />
+          <CampaignAside />
+        </div>
       </div>
     </div>
   );
