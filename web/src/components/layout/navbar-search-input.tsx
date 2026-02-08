@@ -46,6 +46,19 @@ export const NavbarSearchInput = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Atalho de teclado Command + K (ou Ctrl + K)
+  useEffect(() => {
+    const handleKeyboardShortcut = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyboardShortcut);
+    return () => document.removeEventListener('keydown', handleKeyboardShortcut);
+  }, []);
+
   // Lidar com navegação por teclado
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen || filteredCampaigns.length === 0) return;
