@@ -16,7 +16,7 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
   const router = useRouter();
 
   const handleDonate = () => {
-    router.push(`/doar?campaign=${campaign.slug}`);
+    router.push(`/distribute/${campaign.slug}`);
   };
 
   return (
