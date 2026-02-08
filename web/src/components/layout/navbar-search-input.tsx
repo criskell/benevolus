@@ -7,8 +7,9 @@ export const navbarSearchInput = (
   <Input
     aria-label="Pesquisar campanhas..."
     classNames={{
-      inputWrapper: "bg-default-100",
-      input: "text-sm",
+      base: "w-full",
+      inputWrapper: "bg-default-100 h-12",
+      input: "text-base",
     }}
     endContent={
       <Kbd className="hidden lg:inline-block" keys={["command"]}>
@@ -17,8 +18,9 @@ export const navbarSearchInput = (
     }
     labelPlacement="outside"
     placeholder="Pesquisar campanhas..."
+    size="lg"
     startContent={
-      <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+      <SearchIcon className="text-lg text-default-400 pointer-events-none flex-shrink-0" />
     }
     type="search"
   />

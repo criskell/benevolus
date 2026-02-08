@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import { CampaignCard } from '@/components/campaign/campaign-card';
@@ -28,14 +28,19 @@ const mappedCampaigns: Campaign[] = campaigns.campaigns.map((c) => ({
   image: c.image,
 }));
 
-const categories = ['Todos', ...new Set(campaigns.campaigns.map(c => c.category))];
+const categories = [
+  'Todos',
+  ...new Set(campaigns.campaigns.map((c) => c.category)),
+];
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
 
-  const filteredCampaigns = selectedCategory === 'Todos'
-    ? mappedCampaigns
-    : mappedCampaigns.filter(c => c.category === selectedCategory);
+  const filteredCampaigns = (
+    selectedCategory === 'Todos'
+      ? mappedCampaigns
+      : mappedCampaigns.filter((c) => c.category === selectedCategory)
+  ).slice(0, 6);
 
   return (
     <main className="space-y-16">

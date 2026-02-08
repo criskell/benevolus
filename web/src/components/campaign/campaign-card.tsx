@@ -19,7 +19,7 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="transition-shadow shadow-none border border-default-200">
       <CardBody className="p-0">
         <div className="relative w-full aspect-video">
           <Image

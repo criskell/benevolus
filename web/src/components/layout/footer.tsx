@@ -1,3 +1,8 @@
+'use client';
+
+import Link from 'next/link';
+import { Icon } from '@iconify/react';
+
 const sobreListLinks = [
   { link: "/mission", text: "Quem somos" },
   { link: "#", text: "Como funciona" },
@@ -10,56 +15,127 @@ const suporteListLinks = [
   { link: "#", text: "FAQ" },
 ];
 
-const socialListLinks = [
-  { link: "#", text: "Facebook" },
-  { link: "#", text: "Instagram" },
-  { link: "#", text: "Twitter" },
+const socialLinks = [
+  { link: "#", icon: "mdi:facebook", label: "Facebook" },
+  { link: "#", icon: "mdi:instagram", label: "Instagram" },
+  { link: "#", icon: "mdi:twitter", label: "Twitter" },
+  { link: "#", icon: "mdi:linkedin", label: "LinkedIn" },
 ];
 
 export const Footer = () => {
   return (
-    <footer className="bg-default-50 py-8 text-sm">
-      <div className="max-w-6xl mx-auto space-y-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Sobre</h3>
-            <ul className="space-y-1">
-              {sobreListLinks.map((item, index) => (
-                <li key={index}>
-                  <a href={item.link}>{item.text}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <footer className="relative border-t border-default-200 bg-gradient-to-b from-default-50 to-default-100/50">
+      <div className="max-w-7xl mx-auto px-6 md:px-8">
+        {/* Seção principal */}
+        <div className="py-16 md:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
+            {/* Coluna da marca/logo */}
+            <div className="md:col-span-5 lg:col-span-4">
+              <Link href="/" className="inline-block mb-4">
+                <span className="text-2xl font-bold text-foreground tracking-tight">
+                  Benevolus
+                </span>
+              </Link>
+              <p className="text-default-600 leading-relaxed mb-6 max-w-sm">
+                A maneira mais fácil de fazer a diferença. Conectando quem precisa a quem quer ajudar.
+              </p>
+              {/* Ícones sociais */}
+              <div className="flex items-center gap-3">
+                {socialLinks.map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.link}
+                    aria-label={social.label}
+                    className="flex items-center justify-center w-10 h-10 rounded-xl bg-default-100 hover:bg-primary hover:text-white text-default-600 transition-all duration-300 hover:scale-110"
+                  >
+                    <Icon icon={social.icon} width={20} height={20} />
+                  </a>
+                ))}
+              </div>
+            </div>
 
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Suporte</h3>
-            <ul className="space-y-1">
-              {suporteListLinks.map((item, index) => (
-                <li key={index}>
-                  <a href={item.link}>{item.text}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Colunas de links */}
+            <div className="md:col-span-7 lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8 lg:gap-12">
+              <div>
+                <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">
+                  Sobre
+                </h3>
+                <ul className="space-y-3">
+                  {sobreListLinks.map((item, index) => (
+                    <li key={index}>
+                      <a 
+                        href={item.link}
+                        className="text-default-600 hover:text-primary transition-colors duration-200"
+                      >
+                        {item.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Redes sociais</h3>
-            <ul className="space-y-1">
-              {socialListLinks.map((item, index) => (
-                <li key={index}>
-                  <a href={item.link}>{item.text}</a>
-                </li>
-              ))}
-            </ul>
+              <div>
+                <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">
+                  Suporte
+                </h3>
+                <ul className="space-y-3">
+                  {suporteListLinks.map((item, index) => (
+                    <li key={index}>
+                      <a 
+                        href={item.link}
+                        className="text-default-600 hover:text-primary transition-colors duration-200"
+                      >
+                        {item.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">
+                  Campanhas
+                </h3>
+                <ul className="space-y-3">
+                  <li>
+                    <Link href="/campaigns" className="text-default-600 hover:text-primary transition-colors duration-200">
+                      Ver todas
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/campaigns/create" className="text-default-600 hover:text-primary transition-colors duration-200">
+                      Criar campanha
+                    </Link>
+                  </li>
+                  <li>
+                    <a href="#" className="text-default-600 hover:text-primary transition-colors duration-200">
+                      Como funciona
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="text-center">
-          <p className="mt-4">
-            &copy; {new Date().getFullYear()} Benevolus. Todos os direitos
-            reservados.
-          </p>
+        {/* Barra inferior */}
+        <div className="border-t border-default-200 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-default-500 text-sm text-center md:text-left">
+              &copy; {new Date().getFullYear()} Benevolus. Todos os direitos reservados.
+            </p>
+            <div className="flex items-center gap-6 text-sm">
+              <a href="#" className="text-default-500 hover:text-foreground transition-colors">
+                Privacidade
+              </a>
+              <a href="#" className="text-default-500 hover:text-foreground transition-colors">
+                Termos
+              </a>
+              <a href="#" className="text-default-500 hover:text-foreground transition-colors">
+                Cookies
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

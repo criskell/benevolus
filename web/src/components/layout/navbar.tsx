@@ -10,8 +10,23 @@ import {
   NavbarMenuItem,
 } from '@heroui/navbar';
 
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Link, Button } from '@heroui/react';
-import { UserIcon, MessageCircle, Wallet, CreditCard, LogOut, ChevronDown, Plus } from 'lucide-react';
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Link,
+  Button,
+} from '@heroui/react';
+import {
+  UserIcon,
+  MessageCircle,
+  Wallet,
+  CreditCard,
+  LogOut,
+  ChevronDown,
+  Plus,
+} from 'lucide-react';
 import NextLink from 'next/link';
 import clsx from 'clsx';
 
@@ -28,24 +43,28 @@ export const Navbar = () => {
       maxWidth="xl"
       position="sticky"
       isBlurred
+      height="5rem"
       classNames={{
-        wrapper: 'px-4 md:px-6',
-        base: 'bg-background/70 backdrop-blur-md border-b border-divider/50',
+        wrapper: 'px-6 md:px-8 py-4',
+        base: 'bg-background/70 backdrop-blur-md border-b border-divider/50 h-20',
       }}
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-2 group" href="/">
-            <LogoIcon className="text-primary" size={32} />
-            <span className="font-bold text-lg">{siteConfig.name}</span>
+          <NextLink
+            className="flex justify-start items-center gap-3 group"
+            href="/"
+          >
+            <LogoIcon className="text-primary" size={40} />
+            <span className="font-bold text-xl">{siteConfig.name}</span>
           </NextLink>
         </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+        <ul className="hidden lg:flex gap-6 justify-start ml-4 flex-shrink-0">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <NextLink
                 className={clsx(
-                  'text-foreground/70 hover:text-primary transition-colors text-sm font-medium',
+                  'text-foreground/70 hover:text-primary transition-colors text-base font-medium whitespace-nowrap',
                   'data-[active=true]:text-primary'
                 )}
                 href={item.href}
@@ -55,19 +74,19 @@ export const Navbar = () => {
             </NavbarItem>
           ))}
         </ul>
+        <NavbarItem className="hidden lg:flex flex-1 ml-8 min-w-0">
+          {navbarSearchInput}
+        </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden lg:flex">{navbarSearchInput}</NavbarItem>
+      <NavbarContent className="hidden sm:flex gap-3 !basis-auto !flex-grow-0">
         <NavbarItem>
           <Button
             as={NextLink}
             href="/campaigns/create"
             color="primary"
-            startContent={<Plus size={18} />}
+            size="lg"
+            startContent={<Plus size={20} />}
             className="font-medium"
           >
             Criar campanha
@@ -80,6 +99,7 @@ export const Navbar = () => {
               href="/auth/login"
               variant="light"
               color="primary"
+              size="lg"
             >
               Entrar
             </Button>
@@ -89,9 +109,11 @@ export const Navbar = () => {
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
                 <button className="flex items-center gap-2 cursor-pointer outline-none">
-                  <ChevronDown size={16} className="text-primary" />
-                  <span className="text-primary font-medium">Minha conta</span>
-                  <UserIcon size={20} className="text-primary" />
+                  <ChevronDown size={18} className="text-primary" />
+                  <span className="text-primary font-medium text-base">
+                    Minha conta
+                  </span>
+                  <UserIcon size={24} className="text-primary" />
                 </button>
               </DropdownTrigger>
               <DropdownMenu
@@ -115,10 +137,7 @@ export const Navbar = () => {
                 >
                   Minhas doações
                 </DropdownItem>
-                <DropdownItem
-                  key="wallet"
-                  startContent={<Wallet size={18} />}
-                >
+                <DropdownItem key="wallet" startContent={<Wallet size={18} />}>
                   Minha carteira
                 </DropdownItem>
                 <DropdownItem
