@@ -28,16 +28,12 @@ jobs:
           
       - name: Install API dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
-        working-directory: ./api
 
       - name: Install environment variables
         run: cp .env.example .env
-        working-directory: ./api
 
       - name: Build application key
         run: php artisan key:generate
-        working-directory: ./api
 
       - name: Run test suite
         run: ./vendor/bin/pest
-        working-directory: ./api
