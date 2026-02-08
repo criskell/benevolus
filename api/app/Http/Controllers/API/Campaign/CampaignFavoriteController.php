@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\Campaign;
@@ -28,6 +29,7 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
         responses: [
             new OA\Response(
                 response: 200,
+                description: "List of favorited campaigns",
                 content: new OA\JsonContent(
                     type: "object",
                     properties: [
@@ -65,6 +67,7 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
         responses: [
             new OA\Response(
                 response: 200,
+                description: "Favorite toggled successfully",
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: "favorited", type: "boolean"),

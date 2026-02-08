@@ -86,6 +86,7 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
         responses: [
             new OA\Response(
                 response: 201,
+                description: "Campaign update created successfully",
                 content: new OA\JsonContent(
                     ref: "#/components/schemas/CampaignUpdateResource"
                 )
@@ -149,7 +150,7 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
             ),
         ],
         responses: [
-            new OA\Response(response: 204),
+            new OA\Response(response: 204, description: "Campaign update deleted successfully"),
         ]
     )]
     public function destroy(CampaignUpdate $update)

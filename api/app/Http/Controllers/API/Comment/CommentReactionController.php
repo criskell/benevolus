@@ -34,7 +34,7 @@ final class CommentReactionController extends Controller implements HasMiddlewar
             ),
         ],
         responses: [
-            new OA\Response(response: 204),
+            new OA\Response(response: 204, description: "Reaction toggled successfully"),
         ]
     )]
     public function toggle(Request $request, Comment $comment)

@@ -154,7 +154,7 @@ final class CommentController extends Controller implements HasMiddleware
             ),
         ],
         responses: [
-            new OA\Response(response: 204),
+            new OA\Response(response: 204, description: "Comment deleted successfully"),
         ]
     )]
     public function destroy(Comment $comment)

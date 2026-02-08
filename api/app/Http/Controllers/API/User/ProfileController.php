@@ -54,7 +54,7 @@ final class ProfileController extends Controller implements HasMiddleware
             )
         ),
         responses: [
-            new OA\Response(response: 204),
+            new OA\Response(response: 204, description: "Profile updated successfully"),
         ]
     )]
     public function update(UpdateProfileRequest $request)

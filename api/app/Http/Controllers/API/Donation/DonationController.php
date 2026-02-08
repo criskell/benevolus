@@ -117,7 +117,7 @@ final class DonationController extends Controller
             ),
         ],
         responses: [
-            new OA\Response(response: 204),
+            new OA\Response(response: 204, description: "Donation confirmed successfully"),
         ],
     )]
     public function confirm(string $externalReferenceId): Response

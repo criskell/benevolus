@@ -12,13 +12,650 @@
         }
     ],
     "paths": {
+        "/api/campaigns": {
+            "get": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "List campaigns",
+                "operationId": "listCampaigns",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by campaign status",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Filter by user ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search term",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Campaigns retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CampaignResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Create a new campaign",
+                "operationId": "createCampaign",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCampaignRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Campaign created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/campaigns/{id}": {
+            "get": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Get campaign by ID",
+                "operationId": "getCampaign",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Campaign retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Update campaign",
+                "operationId": "updateCampaign",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCampaignRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Campaign updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Delete campaign",
+                "operationId": "deleteCampaign",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Campaign deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/profile/campaigns/favorited": {
+            "get": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "List favorited campaigns",
+                "operationId": "listFavoritedCampaigns",
+                "responses": {
+                    "200": {
+                        "description": "List of favorited campaigns",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CampaignResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/campaigns/{campaign}/favorite": {
+            "post": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Toggle campaign favorite",
+                "operationId": "toggleCampaignFavorite",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Favorite toggled successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "favorited": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/campaigns/{campaign}/images": {
+            "post": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Upload campaign image",
+                "operationId": "uploadCampaignImage",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "description": "Image file (jpg, jpeg, png, max 4MB)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Image uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignMediaAssetResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/campaigns/{campaign}/updates": {
+            "get": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "List campaign updates",
+                "operationId": "listCampaignUpdates",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Campaign updates retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CampaignUpdateResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Create campaign update",
+                "operationId": "createCampaignUpdate",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCampaignUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Campaign update created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignUpdateResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/updates/{update}": {
+            "get": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Get campaign update",
+                "operationId": "getCampaignUpdate",
+                "parameters": [
+                    {
+                        "name": "update",
+                        "in": "path",
+                        "description": "Update ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Campaign update retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignUpdateResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Delete campaign update",
+                "operationId": "deleteCampaignUpdate",
+                "parameters": [
+                    {
+                        "name": "update",
+                        "in": "path",
+                        "description": "Update ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Campaign update deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/campaigns/{campaign}/comments": {
+            "get": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "List campaign comments",
+                "operationId": "listCampaignComments",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comments retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CommentResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Create a comment",
+                "operationId": "createComment",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommentStoreRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Comment created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommentResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comments/{comment}": {
+            "put": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Update comment",
+                "operationId": "updateComment",
+                "parameters": [
+                    {
+                        "name": "comment",
+                        "in": "path",
+                        "description": "Comment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommentUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comment updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommentResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Delete comment",
+                "operationId": "deleteComment",
+                "parameters": [
+                    {
+                        "name": "comment",
+                        "in": "path",
+                        "description": "Comment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Comment deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/comments/{comment}/react": {
+            "post": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Toggle comment reaction",
+                "operationId": "toggleCommentReaction",
+                "parameters": [
+                    {
+                        "name": "comment",
+                        "in": "path",
+                        "description": "Comment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Reaction toggled successfully"
+                    }
+                }
+            }
+        },
+        "/api/campaigns/{campaign}/donations": {
+            "get": {
+                "tags": [
+                    "Donations"
+                ],
+                "summary": "List campaign donations",
+                "operationId": "listCampaignDonations",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Donations retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CampaignDonationResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/donations": {
             "post": {
                 "tags": [
                     "Donations"
                 ],
                 "summary": "Create a new donation",
-                "description": "Create a new donation with payment information",
                 "operationId": "createDonation",
                 "requestBody": {
                     "required": true,
@@ -36,38 +673,15 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/ApiSuccessResponse"
+                                    "properties": {
+                                        "donation": {
+                                            "$ref": "#/components/schemas/DonationResource"
                                         },
-                                        {
-                                            "description": "Donation",
-                                            "properties": {
-                                                "data": {
-                                                    "properties": {
-                                                        "donation": {
-                                                            "$ref": "#/components/schemas/DonationResource"
-                                                        },
-                                                        "payment": {
-                                                            "$ref": "#/components/schemas/PaymentResource"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
+                                        "payment": {
+                                            "$ref": "#/components/schemas/PaymentResource"
                                         }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiErrorResponse"
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -86,6 +700,343 @@
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "External reference ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Donation confirmed successfully"
+                    }
+                }
+            }
+        },
+        "/api/leaderboard/campaigns": {
+            "get": {
+                "tags": [
+                    "Leaderboard"
+                ],
+                "summary": "Get top campaigns",
+                "operationId": "getTopCampaigns",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results to return",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15,
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Top campaigns retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/LeaderboardRankingResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/leaderboard/donors": {
+            "get": {
+                "tags": [
+                    "Leaderboard"
+                ],
+                "summary": "Get top donors",
+                "operationId": "getTopDonors",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results to return",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15,
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Top donors retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/LeaderboardRankingResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/leaderboard/creators": {
+            "get": {
+                "tags": [
+                    "Leaderboard"
+                ],
+                "summary": "Get top creators",
+                "operationId": "getTopCreators",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results to return",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15,
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Top creators retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/LeaderboardRankingResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reports": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "List reports",
+                "operationId": "listReports",
+                "responses": {
+                    "200": {
+                        "description": "Reports retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ReportResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/campaigns/{campaign}/reports": {
+            "post": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Create report",
+                "operationId": "createReport",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreReportRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Report created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReportResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/{provider}/redirect": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Redirect to OAuth provider",
+                "operationId": "oauthRedirect",
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "description": "OAuth provider name",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "google"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirect to OAuth provider"
+                    }
+                }
+            }
+        },
+        "/api/auth/{provider}/callback": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "OAuth callback",
+                "operationId": "oauthCallback",
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "description": "OAuth provider name",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "google"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OAuth callback processed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abc123..."
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/profile": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Get current user profile",
+                "operationId": "getProfile",
+                "responses": {
+                    "200": {
+                        "description": "Profile retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Update user profile",
+                "operationId": "updateProfile",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProfileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Profile updated successfully"
+                    }
+                }
+            }
+        },
+        "/api/campaigns/{campaign}/withdrawals": {
+            "get": {
+                "tags": [
+                    "Withdrawals"
+                ],
+                "summary": "List campaign withdrawals",
+                "operationId": "listWithdrawals",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -93,8 +1044,88 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "Withdrawals retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/WithdrawalResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Withdrawals"
+                ],
+                "summary": "Create withdrawal",
+                "operationId": "createWithdrawal",
+                "parameters": [
+                    {
+                        "name": "campaign",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreWithdrawalRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
                     "204": {
-                        "description": "Donation payment confirmed successfully"
+                        "description": "Withdrawal request created successfully"
+                    }
+                }
+            }
+        },
+        "/api/withdrawals/{withdrawal}": {
+            "get": {
+                "tags": [
+                    "Withdrawals"
+                ],
+                "summary": "Get withdrawal by ID",
+                "operationId": "getWithdrawal",
+                "parameters": [
+                    {
+                        "name": "withdrawal",
+                        "in": "path",
+                        "description": "Withdrawal ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Withdrawal retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WithdrawalResource"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -102,6 +1133,101 @@
     },
     "components": {
         "schemas": {
+            "StoreCampaignRequest": {
+                "required": [
+                    "title",
+                    "description",
+                    "goalCents"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "goalCents": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "expiresAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCampaignUpdateRequest": {
+                "required": [
+                    "title",
+                    "content",
+                    "visibleToDonorsOnly"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "visibleToDonorsOnly": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCampaignRequest": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "goalCents": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "in_review",
+                            "open",
+                            "closed",
+                            "rejected",
+                            "finished"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "CommentStoreRequest": {
+                "required": [
+                    "content",
+                    "is_anonymous"
+                ],
+                "properties": {
+                    "content": {
+                        "type": "string"
+                    },
+                    "is_anonymous": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "CommentUpdateRequest": {
+                "properties": {
+                    "content": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "DonorRequest": {
                 "required": [
                     "name",
@@ -162,6 +1288,127 @@
                 },
                 "type": "object"
             },
+            "StoreReportRequest": {
+                "required": [
+                    "type",
+                    "reason",
+                    "description"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "personal_rights",
+                            "terms_violations"
+                        ]
+                    },
+                    "reason": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 10
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateProfileRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255
+                    },
+                    "address": {
+                        "properties": {
+                            "street": {
+                                "type": "string",
+                                "maxLength": 255
+                            },
+                            "number": {
+                                "type": "string",
+                                "maxLength": 20
+                            },
+                            "city": {
+                                "type": "string",
+                                "maxLength": 100
+                            },
+                            "state": {
+                                "type": "string",
+                                "maxLength": 50
+                            },
+                            "zipcode": {
+                                "type": "string",
+                                "maxLength": 20
+                            },
+                            "country": {
+                                "type": "string",
+                                "maxLength": 100
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreWithdrawalRequest": {
+                "required": [
+                    "amountCents",
+                    "pixKey",
+                    "pixKeyType"
+                ],
+                "properties": {
+                    "amountCents": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "pixKey": {
+                        "type": "string"
+                    },
+                    "pixKeyType": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignDonationResource": {
+                "properties": {
+                    "donor_name": {
+                        "type": "string"
+                    },
+                    "amount_cents": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignMediaAssetResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "CampaignResource": {
                 "properties": {
                     "id": {
@@ -181,6 +1428,67 @@
                     },
                     "status": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignUpdateResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "campaignId": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "visibleToDonorsOnly": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CommentResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "campaignId": {
+                        "type": "integer"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "isAnonymous": {
+                        "type": "boolean"
+                    },
+                    "likes": {
+                        "type": "integer"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/UserResource"
+                            }
+                        ],
+                        "nullable": true,
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -286,22 +1594,24 @@
                 },
                 "type": "object"
             },
-            "DonorResource": {
+            "LeaderboardRankingResource": {
                 "properties": {
                     "id": {
-                        "type": "integer"
+                        "type": "integer",
+                        "nullable": true
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
-                    "email": {
-                        "type": "string"
+                    "totalDonated": {
+                        "description": "Total donated in cents",
+                        "type": "integer",
+                        "nullable": true
                     },
-                    "taxId": {
-                        "type": "string"
-                    },
-                    "phoneNumber": {
-                        "type": "string"
+                    "totalCampaigns": {
+                        "type": "integer",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -326,39 +1636,161 @@
                 },
                 "type": "object"
             },
-            "ApiSuccessResponse": {
+            "ReportResource": {
                 "properties": {
-                    "success": {
-                        "type": "boolean",
-                        "example": true
+                    "id": {
+                        "type": "integer"
                     },
-                    "message": {
+                    "reason": {
                         "type": "string"
                     },
-                    "data": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "campaign": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/CampaignResource"
+                            }
+                        ],
+                        "nullable": true,
+                        "type": "object"
+                    },
+                    "user": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/UserResource"
+                            }
+                        ],
+                        "nullable": true,
                         "type": "object"
                     }
                 },
                 "type": "object"
             },
-            "ApiErrorResponse": {
+            "AddressResource": {
                 "properties": {
-                    "success": {
-                        "type": "boolean",
-                        "example": false
+                    "id": {
+                        "type": "integer"
                     },
-                    "message": {
-                        "type": "string",
-                        "example": "Validation error"
+                    "street": {
+                        "type": "string"
                     },
-                    "errors": {
-                        "type": "object",
-                        "additionalProperties": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
+                    "number": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "zipcode": {
+                        "type": "string"
+                    },
+                    "country": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "DonorResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "properties": {
+                            "street": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "number": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "city": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "state": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "zipcode": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "country": {
+                                "type": "string",
+                                "nullable": true
                             }
-                        }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "WithdrawalResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "campaignId": {
+                        "type": "integer"
+                    },
+                    "amountCents": {
+                        "type": "integer"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "pixKey": {
+                        "type": "string"
+                    },
+                    "pixKeyType": {
+                        "type": "string"
+                    },
+                    "paidAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "campaign": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/CampaignResource"
+                            }
+                        ],
+                        "nullable": true,
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -374,8 +1806,36 @@
     },
     "tags": [
         {
+            "name": "Authentication",
+            "description": "OAuth authentication endpoints"
+        },
+        {
+            "name": "Profile",
+            "description": "User profile management"
+        },
+        {
+            "name": "Campaigns",
+            "description": "Campaign management endpoints"
+        },
+        {
             "name": "Donations",
-            "description": "Donations endpoints"
+            "description": "Donation endpoints"
+        },
+        {
+            "name": "Comments",
+            "description": "Comment management endpoints"
+        },
+        {
+            "name": "Withdrawals",
+            "description": "Withdrawal management endpoints"
+        },
+        {
+            "name": "Reports",
+            "description": "Report management endpoints"
+        },
+        {
+            "name": "Leaderboard",
+            "description": "Leaderboard endpoints"
         }
     ]
 }

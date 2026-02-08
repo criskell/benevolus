@@ -87,7 +87,7 @@ final class WithdrawalController extends Controller implements HasMiddleware
             )
         ),
         responses: [
-            new OA\Response(response: 204),
+            new OA\Response(response: 204, description: "Withdrawal request created successfully"),
         ]
     )]
     public function store(Campaign $campaign, StoreWithdrawalRequest $request)

@@ -159,7 +159,7 @@ final class CampaignController extends Controller implements HasMiddleware
             )
         ),
         responses: [
-            new OA\Response(response: 204),
+            new OA\Response(response: 204, description: "Campaign updated successfully"),
         ]
     )]
     public function update(UpdateCampaignRequest $request, Campaign $campaign)
@@ -186,7 +186,7 @@ final class CampaignController extends Controller implements HasMiddleware
             ),
         ],
         responses: [
-            new OA\Response(response: 204),
+            new OA\Response(response: 204, description: "Campaign deleted successfully"),
         ]
     )]
     public function destroy(Campaign $campaign)

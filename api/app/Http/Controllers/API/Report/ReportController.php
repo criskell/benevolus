@@ -32,6 +32,7 @@ final class ReportController extends Controller implements HasMiddleware
         responses: [
             new OA\Response(
                 response: 200,
+                description: "Reports retrieved successfully",
                 content: new OA\JsonContent(
                     type: "object",
                     properties: [
@@ -75,6 +76,7 @@ final class ReportController extends Controller implements HasMiddleware
         responses: [
             new OA\Response(
                 response: 201,
+                description: "Report created successfully",
                 content: new OA\JsonContent(
                     ref: "#/components/schemas/ReportResource"
                 )
