@@ -46,6 +46,44 @@ composer run dev
 
 This command runs the Laravel server, queue worker, log viewer, and Vite dev server concurrently.
 
+## Daily operations
+
+### OpenAPI
+
+After changing routes, controllers, or OpenAPI annotations, regenerate the docs:
+
+```bash
+composer run swagger:generate
+```
+
+This runs `php artisan l5-swagger:generate` and updates `public/api-docs.json` used by Scalar. The interactive docs are at `http://localhost/scalar` (or your environment URL).
+
+### Migrations
+
+Create a migration:
+
+```bash
+php artisan make:migration migration_name
+```
+
+Run migrations:
+
+```bash
+php artisan migrate
+```
+
+Roll back the last migration:
+
+```bash
+php artisan migrate:rollback
+```
+
+### Tests
+
+```bash
+./vendor/bin/pest
+```
+
 ## API Documentation
 
 Interactive API documentation available at:
