@@ -37,11 +37,11 @@ export const LanguageSwitcher = () => {
       <DropdownTrigger>
         <Button
           variant="light"
-          isIconOnly
-          className="text-foreground/70 hover:text-primary"
+          className="text-foreground/70 hover:text-primary gap-2"
           aria-label="Selecionar idioma"
         >
           <Globe size={20} />
+          <span className="text-xl">{currentLanguage?.flag}</span>
         </Button>
       </DropdownTrigger>
       <DropdownMenu
