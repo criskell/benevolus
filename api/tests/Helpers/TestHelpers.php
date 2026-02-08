@@ -12,7 +12,7 @@ class TestHelpers
     {
         $campaign = Campaign::factory()
             ->for($user)
-            ->approved()
+            ->open()
             ->create($campaignAttributes);
 
         Donation::factory()
@@ -31,7 +31,7 @@ class TestHelpers
         Campaign::factory()
             ->count($campaignCount)
             ->for($user)
-            ->approved()
+            ->open()
             ->create();
 
         return $user->fresh();

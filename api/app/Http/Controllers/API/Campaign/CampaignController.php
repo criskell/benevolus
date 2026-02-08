@@ -9,10 +9,20 @@ use App\Http\Resources\Campaign\CampaignResource;
 use App\Models\Campaign;
 use App\Services\Campaign\CampaignService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 use OpenApi\Attributes as OA;
 
-final class CampaignController extends Controller
+final class CampaignController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth:sanctum', only: ['store', 'update', 'destroy']),
+        ];
+    }
+
     public function __construct(private CampaignService $campaignService) {}
 
     #[OA\Get(
@@ -160,6 +170,8 @@ final class CampaignController extends Controller
     )]
     public function update(UpdateCampaignRequest $request, Campaign $campaign)
     {
+        Gate::authorize('update', $campaign);
+
         $this->campaignService->update($campaign, $request->validated());
 
         return response()->noContent();
@@ -188,6 +200,8 @@ final class CampaignController extends Controller
     )]
     public function destroy(Campaign $campaign)
     {
+        Gate::authorize('delete', $campaign);
+
         $this->campaignService->delete($campaign);
 
         return response()->noContent();

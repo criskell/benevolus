@@ -17,15 +17,29 @@ class CampaignFactory extends Factory
             'title' => fake()->sentence(),
             'description' => fake()->paragraphs(3, true),
             'goal_cents' => fake()->numberBetween(10000, 10000000),
-            'status' => Campaign::STATUS_PENDING,
+            'status' => Campaign::STATUS_OPEN,
             'expires_at' => now()->addDays(30),
         ];
     }
 
-    public function approved(): static
+    public function open(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => Campaign::STATUS_APPROVED,
+            'status' => Campaign::STATUS_OPEN,
+        ]);
+    }
+
+    public function inReview(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => Campaign::STATUS_IN_REVIEW,
+        ]);
+    }
+
+    public function closed(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => Campaign::STATUS_CLOSED,
         ]);
     }
 
@@ -43,9 +57,15 @@ class CampaignFactory extends Factory
         ]);
     }
 
+    /** @deprecated Use open() instead; kept for backward compatibility */
+    public function approved(): static
+    {
+        return $this->open();
+    }
+
     public function expired(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'expires_at' => now()->subDay(),
         ]);
     }

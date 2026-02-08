@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Psr\Log\LoggerInterface;
@@ -71,6 +72,14 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'message' => 'Resource not found',
                 ], 404);
+            }
+        });
+
+        $this->renderable(function (AuthorizationException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => $e->getMessage() ?: 'Forbidden',
+                ], 403);
             }
         });
     }

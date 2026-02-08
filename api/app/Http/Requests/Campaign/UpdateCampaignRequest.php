@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "title", type: "string", maxLength: 255),
         new OA\Property(property: "description", type: "string"),
         new OA\Property(property: "goalCents", type: "integer", minimum: 1),
-        new OA\Property(property: "status", type: "string", enum: ["approved", "pending", "rejected"]),
+        new OA\Property(property: "status", type: "string", enum: ["in_review", "open", "closed", "rejected", "finished"]),
     ]
 )]
 class UpdateCampaignRequest extends FormRequest
@@ -22,7 +22,7 @@ class UpdateCampaignRequest extends FormRequest
             'title' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|required|string',
             'goalCents' => 'sometimes|required|numeric|min:1',
-            'status' => 'sometimes|required|in:approved,pending,rejected',
+            'status' => 'sometimes|required|in:in_review,open,closed,rejected,finished',
         ];
     }
 }

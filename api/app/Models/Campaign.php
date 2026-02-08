@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Campaign extends Model
 {
     use HasFactory;
-    const STATUS_PENDING = 'pending';
-    const STATUS_APPROVED = 'approved';
+
+    const STATUS_IN_REVIEW = 'in_review';
+    const STATUS_OPEN = 'open';
+    const STATUS_CLOSED = 'closed';
     const STATUS_REJECTED = 'rejected';
     const STATUS_FINISHED = 'finished';
 
@@ -20,6 +22,7 @@ class Campaign extends Model
         'description',
         'goal_cents',
         'expires_at',
+        'status',
     ];
 
     protected $casts = [
@@ -29,8 +32,9 @@ class Campaign extends Model
     public static function validStatuses(): array
     {
         return [
-            self::STATUS_PENDING,
-            self::STATUS_APPROVED,
+            self::STATUS_IN_REVIEW,
+            self::STATUS_OPEN,
+            self::STATUS_CLOSED,
             self::STATUS_REJECTED,
             self::STATUS_FINISHED,
         ];

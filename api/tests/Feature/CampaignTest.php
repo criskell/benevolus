@@ -3,14 +3,11 @@
 use App\Models\Campaign;
 use App\Models\User;
 
-beforeEach(function () {
-    $this->user = User::factory()->create();
-});
-
 test('can list campaigns', function () {
-    Campaign::factory()->count(5)->approved()->create();
+    $user = User::factory()->create();
+    Campaign::factory()->count(5)->open()->create();
 
-    $response = $this->jsonAs($this->user, 'GET', '/api/campaigns');
+    $response = $this->actingAs($user)->getJson('/api/campaigns');
 
     $response->assertStatus(200)
         ->assertJsonStructure([
@@ -19,7 +16,7 @@ test('can list campaigns', function () {
                     'id',
                     'title',
                     'description',
-                    'goal_cents',
+                    'goalCents',
                     'status',
                 ],
             ],
@@ -27,14 +24,16 @@ test('can list campaigns', function () {
 });
 
 test('can create a campaign', function () {
+    $user = User::factory()->create();
+
     $campaignData = [
         'title' => 'Test Campaign',
         'description' => 'This is a test campaign description',
-        'goal_cents' => 100000,
-        'expires_at' => now()->addDays(30)->toIso8601String(),
+        'goalCents' => 100000,
+        'expiresAt' => now()->addDays(30)->toIso8601String(),
     ];
 
-    $response = $this->jsonAs($this->user, 'POST', '/api/campaigns', $campaignData);
+    $response = $this->actingAs($user)->postJson('/api/campaigns', $campaignData);
 
     $response->assertStatus(201)
         ->assertJsonStructure([
@@ -42,21 +41,25 @@ test('can create a campaign', function () {
                 'id',
                 'title',
                 'description',
-                'goal_cents',
+                'goalCents',
+                'status',
             ],
         ]);
 
+    expect($response->json('data.title'))->toBe('Test Campaign');
+
     $this->assertDatabaseHas('campaigns', [
-        'user_id' => $this->user->id,
+        'user_id' => $user->id,
         'title' => 'Test Campaign',
-        'status' => Campaign::STATUS_PENDING,
+        'status' => Campaign::STATUS_IN_REVIEW,
     ]);
 });
 
 test('can view a specific campaign', function () {
-    $campaign = Campaign::factory()->approved()->create();
+    $user = User::factory()->create();
+    $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->jsonAs($this->user, 'GET', "/api/campaigns/{$campaign->id}");
+    $response = $this->actingAs($user)->getJson("/api/campaigns/{$campaign->id}");
 
     $response->assertStatus(200)
         ->assertJson([
@@ -68,16 +71,19 @@ test('can view a specific campaign', function () {
 });
 
 test('can update own campaign', function () {
-    $campaign = Campaign::factory()->for($this->user)->create();
+    $user = User::factory()->create();
+    $campaign = Campaign::factory()->for($user)->open()->create();
 
     $updateData = [
         'title' => 'Updated Title',
         'description' => 'Updated description',
+        'goalCents' => $campaign->goal_cents,
+        'status' => Campaign::STATUS_OPEN,
     ];
 
-    $response = $this->jsonAs($this->user, 'PUT', "/api/campaigns/{$campaign->id}", $updateData);
+    $response = $this->actingAs($user)->putJson("/api/campaigns/{$campaign->id}", $updateData);
 
-    $response->assertStatus(200);
+    $response->assertStatus(204);
 
     $this->assertDatabaseHas('campaigns', [
         'id' => $campaign->id,
@@ -86,22 +92,27 @@ test('can update own campaign', function () {
 });
 
 test('cannot update another users campaign', function () {
+    $user = User::factory()->create();
     $otherUser = User::factory()->create();
     $campaign = Campaign::factory()->for($otherUser)->create();
 
     $updateData = [
         'title' => 'Hacked Title',
+        'description' => $campaign->description,
+        'goalCents' => $campaign->goal_cents,
+        'status' => Campaign::STATUS_OPEN,
     ];
 
-    $response = $this->jsonAs($this->user, 'PUT', "/api/campaigns/{$campaign->id}", $updateData);
+    $response = $this->actingAs($user)->putJson("/api/campaigns/{$campaign->id}", $updateData);
 
     $response->assertStatus(403);
 });
 
 test('can delete own campaign', function () {
-    $campaign = Campaign::factory()->for($this->user)->create();
+    $user = User::factory()->create();
+    $campaign = Campaign::factory()->for($user)->create();
 
-    $response = $this->jsonAs($this->user, 'DELETE', "/api/campaigns/{$campaign->id}");
+    $response = $this->actingAs($user)->deleteJson("/api/campaigns/{$campaign->id}");
 
     $response->assertStatus(204);
 
@@ -114,22 +125,24 @@ test('campaign creation requires authentication', function () {
     $campaignData = [
         'title' => 'Test Campaign',
         'description' => 'This is a test campaign description',
-        'goal_cents' => 100000,
+        'goalCents' => 100000,
     ];
 
-    $response = $this->json('POST', '/api/campaigns', $campaignData);
+    $response = $this->postJson('/api/campaigns', $campaignData);
 
     $response->assertStatus(401);
 });
 
 test('campaign validation fails with invalid data', function () {
+    $user = User::factory()->create();
+
     $invalidData = [
         'title' => '',
         'goal_cents' => -100,
     ];
 
-    $response = $this->jsonAs($this->user, 'POST', '/api/campaigns', $invalidData);
+    $response = $this->actingAs($user)->postJson('/api/campaigns', $invalidData);
 
     $response->assertStatus(422)
-        ->assertJsonValidationErrors(['title', 'goal_cents']);
+        ->assertJsonValidationErrors(['title', 'description', 'goalCents']);
 });

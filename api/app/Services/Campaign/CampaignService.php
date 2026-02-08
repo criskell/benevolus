@@ -61,6 +61,7 @@ final class CampaignService
     public function create(array $data, User $user): Campaign
     {
         $data = $this->mapPersistentEntity($data);
+        $data['status'] = Campaign::STATUS_IN_REVIEW;
 
         return $user->campaigns()->create($data)->refresh();
     }
@@ -81,10 +82,11 @@ final class CampaignService
     private function mapPersistentEntity(array $data): array
     {
         return [
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'goal_cents' => $data['goalCents'],
-            'expires_at' => $data['expiresAt'],
+            'title' => $data['title'] ?? null,
+            'description' => $data['description'] ?? null,
+            'goal_cents' => $data['goalCents'] ?? null,
+            'expires_at' => $data['expiresAt'] ?? null,
+            'status' => $data['status'] ?? null,
         ];
     }
 }
