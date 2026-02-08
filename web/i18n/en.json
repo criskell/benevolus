@@ -127,6 +127,7 @@
   },
   "navbar": {
     "campaigns": "Campaigns",
+    "leaderboard": "Leaderboard",
     "blog": "Blog",
     "mission": "Mission",
     "create_campaign": "Create campaign",
@@ -689,5 +690,37 @@
     "need_help_title": "Need help?",
     "need_help_description": "Contact our support team.",
     "contact_support": "Contact support"
+  },
+  "leaderboard": {
+    "hero_badge": "Rankings",
+    "title": "Donor Leaderboard",
+    "subtitle": "Celebrate the generosity of our community's biggest supporters",
+    "tabs": {
+      "donors": "Donors",
+      "campaigns": "Campaigns",
+      "creators": "Creators"
+    },
+    "donors_title": "Top Donors",
+    "donors_subtitle": "The most generous hearts on our platform",
+    "campaigns_title": "Top Campaigns",
+    "campaigns_subtitle": "The campaigns that raised the most",
+    "creators_title": "Top Creators",
+    "creators_subtitle": "Who created the most campaigns",
+    "rank_label": "Rank",
+    "name_label": "Name",
+    "total_donated_label": "Total donated",
+    "total_campaigns_label": "Campaigns created",
+    "you_label": "You",
+    "loading": "Loading leaderboard...",
+    "error": "Error loading leaderboard",
+    "no_data": "No data available yet",
+    "medal_gold": "Gold medal",
+    "medal_silver": "Silver medal",
+    "medal_bronze": "Bronze medal",
+    "stats": {
+      "total_donors": "Donors",
+      "total_donated": "Total donated",
+      "average_donation": "Average per donation"
+    }
   }
 }

@@ -127,6 +127,7 @@
   },
   "navbar": {
     "campaigns": "Campañas",
+    "leaderboard": "Clasificación",
     "blog": "Blog",
     "mission": "Misión",
     "create_campaign": "Crear campaña",
@@ -689,5 +690,37 @@
     "need_help_title": "¿Necesitas ayuda?",
     "need_help_description": "Contacta con nuestro equipo de soporte.",
     "contact_support": "Contactar con soporte"
+  },
+  "leaderboard": {
+    "hero_badge": "Clasificación",
+    "title": "Clasificación de Donantes",
+    "subtitle": "Celebra la generosidad de los mayores apoyadores de nuestra comunidad",
+    "tabs": {
+      "donors": "Donantes",
+      "campaigns": "Campañas",
+      "creators": "Creadores"
+    },
+    "donors_title": "Top Donantes",
+    "donors_subtitle": "Los corazones más generosos de nuestra plataforma",
+    "campaigns_title": "Top Campañas",
+    "campaigns_subtitle": "Las campañas que más recaudaron",
+    "creators_title": "Top Creadores",
+    "creators_subtitle": "Quienes más crearon campañas",
+    "rank_label": "Posición",
+    "name_label": "Nombre",
+    "total_donated_label": "Total donado",
+    "total_campaigns_label": "Campañas creadas",
+    "you_label": "Tú",
+    "loading": "Cargando clasificación...",
+    "error": "Error al cargar la clasificación",
+    "no_data": "Aún no hay datos disponibles",
+    "medal_gold": "Medalla de oro",
+    "medal_silver": "Medalla de plata",
+    "medal_bronze": "Medalla de bronce",
+    "stats": {
+      "total_donors": "Donantes",
+      "total_donated": "Total donado",
+      "average_donation": "Promedio por donación"
+    }
   }
 }
