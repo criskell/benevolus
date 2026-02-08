@@ -141,7 +141,8 @@
     "logout": "Sair",
     "account_menu": "Menu da conta",
     "search_placeholder": "Pesquisar campanhas...",
-    "search_label": "Pesquisar campanhas..."
+    "search_label": "Pesquisar campanhas...",
+    "search_no_results": "Nenhuma campanha encontrada"
   },
   "auth": {
     "login": {

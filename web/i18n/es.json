@@ -141,7 +141,8 @@
     "logout": "Cerrar sesión",
     "account_menu": "Menú de la cuenta",
     "search_placeholder": "Buscar campañas...",
-    "search_label": "Buscar campañas..."
+    "search_label": "Buscar campañas...",
+    "search_no_results": "No se encontraron campañas"
   },
   "auth": {
     "login": {

@@ -141,7 +141,8 @@
     "logout": "Sign out",
     "account_menu": "Account menu",
     "search_placeholder": "Search campaigns...",
-    "search_label": "Search campaigns..."
+    "search_label": "Search campaigns...",
+    "search_no_results": "No campaigns found"
   },
   "auth": {
     "login": {
