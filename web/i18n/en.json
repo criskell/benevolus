@@ -487,6 +487,7 @@
     "about_who_we_are": "Who we are",
     "about_how_it_works": "How it works",
     "about_terms_of_use": "Terms of use",
+    "about_changelog": "Updates",
     "support_title": "Support",
     "support_help_center": "Help center",
     "support_contact": "Contact",
@@ -499,6 +500,69 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "cookies": "Cookies"
+  },
+  "common": {
+    "locale": "en-US"
+  },
+  "changelog": {
+    "hero_badge": "Update history",
+    "title": "System Updates",
+    "subtitle": "Follow all the news, improvements and fixes to the Benevolus platform",
+    "latest": "Latest",
+    "filter_all": "All",
+    "stats": {
+      "versions": "Versions",
+      "features": "Features",
+      "fixes": "Fixes"
+    },
+    "types": {
+      "feature": "New Feature",
+      "bugfix": "Bug Fix",
+      "improvement": "Improvement",
+      "breaking": "Breaking Change"
+    },
+    "footer": {
+      "title": "Stay tuned for upcoming updates",
+      "description": "We are always working to improve your experience. Follow this page to learn about all the news."
+    },
+    "v2_5_0": {
+      "feature_1": "Smart donation distribution system across multiple campaigns",
+      "feature_2": "New changelog page with complete update history",
+      "improvement_1": "Redesigned donation cart interface with better usability",
+      "bugfix_1": "Fixed currency formatting issue for different currencies"
+    },
+    "v2_4_0": {
+      "feature_1": "Favorites system for campaigns allowing bulk donations",
+      "feature_2": "Implementation of advanced filters by category and tags",
+      "improvement_1": "Optimized performance in campaign image loading",
+      "bugfix_1": "Fixed error in progress percentage calculation",
+      "bugfix_2": "Fixed authentication issue on mobile devices"
+    },
+    "v2_3_0": {
+      "feature_1": "Image gallery for campaigns with support for multiple photos",
+      "feature_2": "Comment system and interaction between donors",
+      "improvement_1": "Enhanced responsive design for tablets",
+      "improvement_2": "Accessibility improvements with screen reader support"
+    },
+    "v2_2_0": {
+      "feature_1": "Integration with multiple payment methods (Pix, Card, Bank Slip)",
+      "improvement_1": "Simplified campaign creation process in 7 steps",
+      "bugfix_1": "Fixed timezone issue in campaign dates"
+    },
+    "v2_1_0": {
+      "feature_1": "Creator dashboard with detailed statistics",
+      "feature_2": "Real-time notification system",
+      "improvement_1": "Optimized home page loading time",
+      "bugfix_1": "Fixed issue with large image uploads",
+      "bugfix_2": "Fixed error in ID validation"
+    },
+    "v2_0_0": {
+      "breaking_1": "New platform architecture with migration to Next.js 16",
+      "feature_1": "Complete internationalization system (PT, EN, ES)",
+      "feature_2": "New visual identity with light and dark theme",
+      "feature_3": "Advanced search system with smart filters",
+      "improvement_1": "Overall application performance increased by 60%"
+    }
   },
   "donate": {
     "breadcrumb_home": "Home",

@@ -75,6 +75,14 @@ export const Footer = () => {
                       {t('about_terms_of_use')}
                     </a>
                   </li>
+                  <li>
+                    <Link 
+                      href="/changelog"
+                      className="text-default-600 hover:text-primary transition-colors duration-200"
+                    >
+                      {t('about_changelog')}
+                    </Link>
+                  </li>
                 </ul>
               </div>
 

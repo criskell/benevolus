@@ -487,6 +487,7 @@
     "about_who_we_are": "Quiénes somos",
     "about_how_it_works": "Cómo funciona",
     "about_terms_of_use": "Términos de uso",
+    "about_changelog": "Actualizaciones",
     "support_title": "Soporte",
     "support_help_center": "Centro de ayuda",
     "support_contact": "Contacto",
@@ -499,6 +500,69 @@
     "privacy": "Privacidad",
     "terms": "Términos",
     "cookies": "Cookies"
+  },
+  "common": {
+    "locale": "es-ES"
+  },
+  "changelog": {
+    "hero_badge": "Historial de actualizaciones",
+    "title": "Actualizaciones del Sistema",
+    "subtitle": "Sigue todas las novedades, mejoras y correcciones de la plataforma Benevolus",
+    "latest": "Más Reciente",
+    "filter_all": "Todos",
+    "stats": {
+      "versions": "Versiones",
+      "features": "Funcionalidades",
+      "fixes": "Correcciones"
+    },
+    "types": {
+      "feature": "Nueva Funcionalidad",
+      "bugfix": "Corrección de Error",
+      "improvement": "Mejora",
+      "breaking": "Cambio Importante"
+    },
+    "footer": {
+      "title": "Mantente atento a las próximas actualizaciones",
+      "description": "Siempre estamos trabajando para mejorar tu experiencia. Sigue esta página para conocer todas las novedades."
+    },
+    "v2_5_0": {
+      "feature_1": "Sistema de distribución inteligente de donaciones entre múltiples campañas",
+      "feature_2": "Nueva página de changelog con historial completo de actualizaciones",
+      "improvement_1": "Interfaz del carrito de donaciones rediseñada con mejor usabilidad",
+      "bugfix_1": "Corregido problema de formato de valores en diferentes monedas"
+    },
+    "v2_4_0": {
+      "feature_1": "Sistema de favoritos para campañas permitiendo donaciones en lote",
+      "feature_2": "Implementación de filtros avanzados por categoría y etiquetas",
+      "improvement_1": "Rendimiento optimizado en la carga de imágenes de campañas",
+      "bugfix_1": "Resuelto error en el cálculo del porcentaje de progreso",
+      "bugfix_2": "Corregido problema con autenticación en dispositivos móviles"
+    },
+    "v2_3_0": {
+      "feature_1": "Galería de imágenes para campañas con soporte para múltiples fotos",
+      "feature_2": "Sistema de comentarios e interacción entre donantes",
+      "improvement_1": "Diseño responsivo mejorado para tablets",
+      "improvement_2": "Mejoras en accesibilidad con soporte para lectores de pantalla"
+    },
+    "v2_2_0": {
+      "feature_1": "Integración con múltiples métodos de pago (Pix, Tarjeta, Boleta)",
+      "improvement_1": "Proceso de creación de campaña simplificado en 7 pasos",
+      "bugfix_1": "Corrección de zona horaria en fechas de campañas"
+    },
+    "v2_1_0": {
+      "feature_1": "Panel de control del creador con estadísticas detalladas",
+      "feature_2": "Sistema de notificaciones en tiempo real",
+      "improvement_1": "Optimización del tiempo de carga de la página principal",
+      "bugfix_1": "Resuelto problema con la carga de imágenes grandes",
+      "bugfix_2": "Corregido error en la validación de ID"
+    },
+    "v2_0_0": {
+      "breaking_1": "Nueva arquitectura de la plataforma con migración a Next.js 16",
+      "feature_1": "Sistema completo de internacionalización (PT, EN, ES)",
+      "feature_2": "Nueva identidad visual con tema claro y oscuro",
+      "feature_3": "Sistema de búsqueda avanzada con filtros inteligentes",
+      "improvement_1": "Rendimiento general de la aplicación aumentado en 60%"
+    }
   },
   "donate": {
     "breadcrumb_home": "Inicio",
