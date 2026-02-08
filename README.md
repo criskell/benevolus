@@ -1,19 +1,30 @@
 # benevolus
 
-Charity and donation campaign management application.
+A platform for managing charity campaigns and processing donations.
 
-## Technology stack
+## What it does
 
-- Laravel
-- Laravel Sail
-- Next.js
-- HeroUI + HeroUI Pro
-- Woovi
-- Stripe Connect
-- Terraform
-- AWS
+Benevolus provides the tools needed to create and manage donation campaigns, handle payments securely, and keep track of contributions. It's built to be straightforward for campaign organizers while offering a smooth experience for donors.
 
-## Running
+Our goal is to provide a platform with 0% platform fee, ensuring that donations go directly to the causes that need them most.
 
-- `cd api && ./vendor/bin/sail up`
-- `cd frontend && pnpm run dev`
+## Tech stack
+
+**Backend:** Laravel (PHP) with Sail for local development  
+**Frontend:** Next.js with HeroUI components  
+**Payments:** Woovi and Stripe Connect for processing donations  
+**Infrastructure:** Terraform and AWS for deployment
+
+## Getting started
+
+Make sure you have Docker installed (for Laravel Sail) and pnpm for the frontend.
+
+1. Start the API:
+   ```bash
+   cd api && ./vendor/bin/sail up
+   ```
+
+2. Start the frontend:
+   ```bash
+   cd web && pnpm run dev
+   ```
