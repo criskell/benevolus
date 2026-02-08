@@ -25,7 +25,7 @@ jobs:
           php-version: '8.4'
           tools: composer:v2
           coverage: xdebug
-          
+
       - name: Prepare Node.js
         uses: actions/setup-node@v4
         with:
@@ -40,8 +40,11 @@ jobs:
       - name: Install environment variables
         run: cp .env.example .env
 
-      - name: Build application key
+      - name: Generate application key
         run: php artisan key:generate
+
+      - name: Build frontend
+        run: npm run build
 
       - name: Run test suite
         run: ./vendor/bin/pest
