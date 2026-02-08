@@ -24,43 +24,37 @@ class CampaignFactory extends Factory
 
     public function open(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => Campaign::STATUS_OPEN,
         ]);
     }
 
     public function inReview(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => Campaign::STATUS_IN_REVIEW,
         ]);
     }
 
     public function closed(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => Campaign::STATUS_CLOSED,
         ]);
     }
 
     public function rejected(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => Campaign::STATUS_REJECTED,
         ]);
     }
 
     public function finished(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => Campaign::STATUS_FINISHED,
         ]);
-    }
-
-    /** @deprecated Use open() instead; kept for backward compatibility */
-    public function approved(): static
-    {
-        return $this->open();
     }
 
     public function expired(): static
