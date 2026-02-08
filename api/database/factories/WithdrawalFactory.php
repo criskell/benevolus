@@ -15,6 +15,7 @@ class WithdrawalFactory extends Factory
         return [
             'campaign_id' => Campaign::factory(),
             'amountCents' => fake()->numberBetween(10000, 1000000),
+            'status' => 'pending',
             'pix_key' => fake()->email(),
             'pix_key_type' => 'email',
             'paid_at' => null,

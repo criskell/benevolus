@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Withdrawal;
 
+use App\Models\Campaign;
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
@@ -16,6 +17,17 @@ use OpenApi\Attributes as OA;
 )]
 class StoreWithdrawalRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        $campaign = $this->route('campaign');
+
+        if (!$campaign instanceof Campaign) {
+            $campaign = Campaign::find($campaign);
+        }
+
+        return $campaign && $this->user()?->can('update', $campaign);
+    }
+
     public function rules(): array
     {
         return [

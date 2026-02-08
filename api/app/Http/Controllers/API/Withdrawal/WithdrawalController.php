@@ -9,10 +9,19 @@ use App\Models\Campaign;
 use App\Models\Withdrawal;
 use App\Services\Withdrawal\WithdrawalProcessor;
 use App\Services\Withdrawal\WithdrawalService;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use OpenApi\Attributes as OA;
 
-final class WithdrawalController extends Controller
+final class WithdrawalController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:sanctum', only: ['store']),
+        ];
+    }
+
     public function __construct(
         private WithdrawalService $withdrawalService,
         private WithdrawalProcessor $withdrawalProcessor
@@ -50,9 +59,9 @@ final class WithdrawalController extends Controller
             new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
-    public function index()
+    public function index(Campaign $campaign)
     {
-        $withdrawals = $this->withdrawalService->list();
+        $withdrawals = $this->withdrawalService->listByCampaign($campaign);
 
         return WithdrawalResource::collection($withdrawals);
     }

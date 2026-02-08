@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Comment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\CommentStoreRequest;
 use App\Http\Requests\Comment\CommentUpdateRequest;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Campaign;
 use App\Models\Comment;
@@ -56,9 +57,9 @@ final class CommentController extends Controller implements HasMiddleware
             new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
-    public function index(int $campaign)
+    public function index(Campaign $campaign)
     {
-        $comments = Comment::withCount('likes')->where('campaign_id', $campaign)->latest()->paginate();
+        $comments = Comment::withCount('likes')->where('campaign_id', $campaign->id)->latest()->paginate();
 
         return CommentResource::collection($comments);
     }
@@ -139,6 +140,7 @@ final class CommentController extends Controller implements HasMiddleware
     )]
     public function update(CommentUpdateRequest $request, Comment $comment)
     {
+        Gate::authorize('update', $comment);
         $updated = $this->commentService->update($comment, $request->validated());
 
         return new CommentResource($updated);
@@ -167,6 +169,7 @@ final class CommentController extends Controller implements HasMiddleware
     )]
     public function destroy(Comment $comment)
     {
+        Gate::authorize('delete', $comment);
         $this->commentService->delete($comment);
 
         return response()->noContent();

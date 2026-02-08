@@ -13,9 +13,14 @@ final class WithdrawalService
         return Withdrawal::with('campaign')->paginate();
     }
 
+    public function listByCampaign(Campaign $campaign): LengthAwarePaginator
+    {
+        return $campaign->withdrawals()->with('campaign')->paginate();
+    }
+
     public function create(Campaign $campaign, array $data): Withdrawal
     {
-        return $campaign->withdrawals()->create($data);
+        return $campaign->withdrawals()->create(array_merge($data, ['status' => 'pending']));
     }
 
     public function find(Withdrawal $withdrawal): Withdrawal

@@ -11,6 +11,7 @@ class Withdrawal extends Model
     protected $fillable = [
         'campaign_id',
         'amountCents',
+        'status',
         'pix_key',
         'pix_key_type',
     ];
