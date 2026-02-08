@@ -26,6 +26,7 @@ import {
   LogOut,
   ChevronDown,
   Plus,
+  Bell,
 } from 'lucide-react';
 import NextLink from 'next/link';
 import clsx from 'clsx';
@@ -155,6 +156,14 @@ export const Navbar = () => {
                   {t('navbar.cards')}
                 </DropdownItem>
                 <DropdownItem
+                  key="notifications"
+                  startContent={<Bell size={18} />}
+                  as={NextLink}
+                  href="/profile/notifications"
+                >
+                  {t('navbar.notifications')}
+                </DropdownItem>
+                <DropdownItem
                   key="logout"
                   startContent={<LogOut size={18} />}
                   className="text-danger"
@@ -217,6 +226,11 @@ export const Navbar = () => {
               <NavbarMenuItem>
                 <Link href="/profile/cards" size="lg" className="w-full">
                   {t('navbar.cards')}
+                </Link>
+              </NavbarMenuItem>
+              <NavbarMenuItem>
+                <Link href="/profile/notifications" size="lg" className="w-full">
+                  {t('navbar.notifications')}
                 </Link>
               </NavbarMenuItem>
               <NavbarMenuItem>
