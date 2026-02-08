@@ -2,7 +2,7 @@
 
 import { use } from 'react';
 import { Button, Card, CardBody, Chip, Progress, Divider } from '@heroui/react';
-import { ArrowLeft, Pencil, Megaphone, Wallet, ExternalLink, Users, TrendingUp, Calendar, Receipt } from 'lucide-react';
+import { ArrowLeft, Pencil, Megaphone, Wallet, ExternalLink, Users, TrendingUp, Calendar, Receipt, Heart } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -37,6 +37,9 @@ type Donation = {
   amountCents: number;
   createdAt: string;
   isAnonymous: boolean;
+  thanked?: boolean;
+  thankYouMessage?: string;
+  thankYouSentAt?: string;
 };
 
 const statusConfig: Record<CampaignStatus, { label: string; color: 'success' | 'warning' | 'danger' | 'default' }> = {
@@ -72,11 +75,11 @@ export default function CampaignDashboardPage({ params }: { params: Promise<{ id
   };
 
   const recentDonations: Donation[] = [
-    { id: '1', donorName: 'João Silva', amountCents: 5000, createdAt: '2025-01-14T10:30:00', isAnonymous: false },
-    { id: '2', donorName: null, amountCents: 10000, createdAt: '2025-01-14T09:15:00', isAnonymous: true },
-    { id: '3', donorName: 'Maria Santos', amountCents: 2500, createdAt: '2025-01-13T18:45:00', isAnonymous: false },
-    { id: '4', donorName: 'Pedro Oliveira', amountCents: 15000, createdAt: '2025-01-13T14:20:00', isAnonymous: false },
-    { id: '5', donorName: null, amountCents: 5000, createdAt: '2025-01-12T11:00:00', isAnonymous: true },
+    { id: '1', donorName: 'João Silva', amountCents: 5000, createdAt: '2025-01-14T10:30:00', isAnonymous: false, thanked: false },
+    { id: '2', donorName: null, amountCents: 10000, createdAt: '2025-01-14T09:15:00', isAnonymous: true, thanked: false },
+    { id: '3', donorName: 'Maria Santos', amountCents: 2500, createdAt: '2025-01-13T18:45:00', isAnonymous: false, thanked: true, thankYouMessage: 'Muito obrigado Maria!', thankYouSentAt: '2025-01-13T19:00:00' },
+    { id: '4', donorName: 'Pedro Oliveira', amountCents: 15000, createdAt: '2025-01-13T14:20:00', isAnonymous: false, thanked: false },
+    { id: '5', donorName: null, amountCents: 5000, createdAt: '2025-01-12T11:00:00', isAnonymous: true, thanked: false },
   ];
 
   const progress = Math.round((campaign.currentAmountCents / campaign.goalAmountCents) * 100);
@@ -206,6 +209,15 @@ export default function CampaignDashboardPage({ params }: { params: Promise<{ id
             </Button>
             <Button
               as={Link}
+              href={`/profile/campaigns/${id}/thank-donors`}
+              variant="flat"
+              color="secondary"
+              startContent={<Heart size={18} />}
+            >
+              Agradecer doadores
+            </Button>
+            <Button
+              as={Link}
               href={`/profile/campaigns/${id}/updates`}
               variant="flat"
               startContent={<Megaphone size={18} />}
@@ -227,7 +239,21 @@ export default function CampaignDashboardPage({ params }: { params: Promise<{ id
           <Divider />
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Doações recentes</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">Doações recentes</h3>
+              {recentDonations.some(d => !d.thanked && !d.isAnonymous) && (
+                <Button
+                  as={Link}
+                  href={`/profile/campaigns/${id}/thank-donors`}
+                  size="sm"
+                  variant="flat"
+                  color="primary"
+                  startContent={<Heart size={16} />}
+                >
+                  Ver todos os doadores
+                </Button>
+              )}
+            </div>
             <RecentDonationsList donations={recentDonations} />
           </div>
         </main>
