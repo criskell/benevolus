@@ -2,6 +2,7 @@
 
 import { Badge, Card, CardBody, Button } from '@heroui/react';
 import { MessageCircleIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { formatMoney } from '@/lib/utils/format-money';
 
 type Donation = {
@@ -32,7 +33,8 @@ const statusColors = {
 } as const;
 
 export const DonationCard = ({ donation }: DonationCardProps) => {
-  const { images, campaignTitle, category, amount, paymentMethod, date, status } =
+  const router = useRouter();
+  const { id, images, campaignTitle, category, amount, paymentMethod, date, status } =
     donation;
   const formattedAmount = formatMoney(amount);
 
@@ -90,6 +92,7 @@ export const DonationCard = ({ donation }: DonationCardProps) => {
             size="md"
             className="w-full justify-start text-default-600"
             startContent={<MessageCircleIcon size={18} />}
+            onPress={() => router.push(`/profile/donations/${id}`)}
           >
             Ver detalhes
           </Button>
