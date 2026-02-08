@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Exceptions;
@@ -24,7 +25,7 @@ class DonationException extends Exception
     public static function notFound(int $donationId): self
     {
         return new self(
-            message: 'Donatio not found',
+            message: 'Donation not found',
             context: ['donation_id' => $donationId],
             code: 404
         );
