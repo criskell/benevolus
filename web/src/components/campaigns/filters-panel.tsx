@@ -37,7 +37,7 @@ export const FiltersPanel = ({
   );
 
   return (
-    <div className="p-4 sticky top-[4em]">
+    <div className="p-4 sticky top-20">
       <h2 className="text-lg font-semibold mb-4">{t('title')}</h2>
       <Accordion>
         <AccordionItem
@@ -56,7 +56,11 @@ export const FiltersPanel = ({
             ))}
           </CheckboxGroup>
         </AccordionItem>
-        <AccordionItem key="tags" aria-label={t('tags_title')} title={t('tags_title')}>
+        <AccordionItem
+          key="tags"
+          aria-label={t('tags_title')}
+          title={t('tags_title')}
+        >
           <Input
             placeholder={t('tags_search')}
             startContent={<SearchIcon />}
