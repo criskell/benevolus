@@ -14,10 +14,9 @@ RESTful API backend for the Benevolus crowdfunding platform, built with Laravel 
 -   **Laravel Echo** - Event broadcasting
 -   **Pest** - PHP testing framework
 -   **Laravel Pint** - Code style fixer
--   **Laravel Sail** - Docker development environment
+-   **Laravel Sail** - Docker
 -   **Laravel Pail** - Log viewer
 -   **AWS S3** - File storage
--   **Guzzle** - HTTP client
 
 ## Requirements
 
@@ -52,19 +51,5 @@ This command runs the Laravel server, queue worker, log viewer, and Vite dev ser
 Interactive API documentation available at:
 
 ```
-http://localhost:8000/api/documentation
+http://localhost/scalar
 ```
-
-## Project Structure
-
--   `app/Http/Controllers/API/` - API controllers
--   `app/Services/` - Business logic
--   `app/Models/` - Eloquent models
--   `app/DTO/` - Data Transfer Objects
--   `app/Http/Resources/` - API resources
--   `app/Http/Requests/` - Form requests
--   `routes/api.php` - API routes
-
-## License
-
-MIT License
