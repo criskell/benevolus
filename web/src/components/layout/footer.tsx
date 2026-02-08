@@ -1,5 +1,5 @@
 const sobreListLinks = [
-  { link: "#", text: "Quem somos" },
+  { link: "/mission", text: "Quem somos" },
   { link: "#", text: "Como funciona" },
   { link: "#", text: "Termos de uso" },
 ];

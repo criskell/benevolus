@@ -14,8 +14,8 @@ export const siteConfig = {
       href: "/campaigns",
     },
     {
-      label: "Sobre nós",
-      href: "/about-us",
+      label: "Missão",
+      href: "/mission",
     },
     {
       label: "Dúvidas?",

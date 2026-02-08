@@ -11,6 +11,8 @@ export function HeroSection() {
   return (
     <section className="z-20 flex flex-col items-center justify-center gap-[18px] sm:gap-6">
       <Button
+        as={Link}
+        href="/mission"
         className="border-default-100 bg-default-50 text-small text-default-500 h-9 overflow-hidden border-1 px-[18px] py-2 leading-5 font-normal"
         endContent={
           <Icon

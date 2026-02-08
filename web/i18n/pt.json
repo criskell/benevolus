@@ -6,5 +6,31 @@
     "donate": "Faça uma doação",
     "create_campaign": "Crie uma nova campanha",
     "headline": "Cada contribuição aproxima sonhos e ajuda quem mais precisa. Junte-se a uma comunidade que faz a diferença."
+  },
+  "aboutUs": {
+    "hero_badge": "Nossa causa",
+    "title": "Missão e Valores",
+    "subtitle": "Conheça o propósito e os objetivos que guiam o Benevolus.",
+    "mission_title": "Missão",
+    "mission_1": "Nossa missão é criar um ecossistema baseado no altruísmo, oferecendo uma plataforma para gerenciar campanhas de caridade e recursos essenciais para pessoas em situação de vulnerabilidade.",
+    "mission_2": "Buscamos crescer junto com organizações não governamentais e ajudar o máximo de pessoas possível, sempre guiados pelo princípio de construir de forma aberta e transparente, seguindo a filosofia open-source.",
+    "mission_3": "Sua participação é essencial para tornar esta missão uma realidade.",
+    "mission_cta": "Sua participação é essencial para tornar esta missão uma realidade.",
+    "goals_title": "Nossos Objetivos",
+    "goals": {
+      "goal_platform": "Construir uma plataforma internacional, começando pelo Brasil.",
+      "goal_ai": "Usar inteligência artificial para facilitar o uso da plataforma (por exemplo, com tradução automática de campanhas).",
+      "goal_zero_fees": "Manter zero taxas, exceto para serviços de infraestrutura.",
+      "goal_no_profit": "Atuar sem foco em lucro.",
+      "goal_tools": "Oferecer ferramentas que realmente melhorem a vida das pessoas.",
+      "goal_transparent": "Garantir um processo administrativo claro e transparente.",
+      "goal_responsibility": "Assumir responsabilidade pública por nossas ações.",
+      "goal_community": "Criar uma comunidade de desenvolvedores engajada em torno do ecossistema.",
+      "goal_feedback": "Desenvolver sempre com base no feedback e nas necessidades dos usuários."
+    },
+    "cta_title": "Faça parte",
+    "cta_description": "Junte-se a nós doando para campanhas ou criando a sua. Cada ação conta.",
+    "cta_campaigns": "Ver campanhas",
+    "cta_create": "Criar campanha"
   }
 }

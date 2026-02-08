@@ -6,5 +6,31 @@
     "donate": "Make a donation",
     "create_campaign": "Create a new campaign",
     "headline": "Every contribution brings dreams closer and helps those who need it most. Join a community that makes a difference."
+  },
+  "aboutUs": {
+    "hero_badge": "Our cause",
+    "title": "Mission & Values",
+    "subtitle": "Learn about the purpose and goals that guide Benevolus.",
+    "mission_title": "Mission",
+    "mission_1": "Our mission is to create an ecosystem based on altruism, providing a platform to manage charity campaigns and essential resources for people in vulnerable situations.",
+    "mission_2": "We aim to grow alongside non-governmental organizations and help as many people as possible, always guided by the principle of building openly and transparently, following the open-source philosophy.",
+    "mission_3": "Your participation is essential to make this mission a reality.",
+    "mission_cta": "Your participation is essential to make this mission a reality.",
+    "goals_title": "Our Goals",
+    "goals": {
+      "goal_platform": "Build an international platform, starting with Brazil.",
+      "goal_ai": "Use artificial intelligence to make the platform easier to use (e.g., with automatic campaign translation).",
+      "goal_zero_fees": "Keep zero fees, except for infrastructure services.",
+      "goal_no_profit": "Operate without a profit focus.",
+      "goal_tools": "Provide tools that genuinely improve people's lives.",
+      "goal_transparent": "Ensure a clear and transparent administrative process.",
+      "goal_responsibility": "Take public responsibility for our actions.",
+      "goal_community": "Create an engaged developer community around the ecosystem.",
+      "goal_feedback": "Develop always based on user feedback and needs."
+    },
+    "cta_title": "Join us",
+    "cta_description": "Donate to campaigns or create your own. Every action counts.",
+    "cta_campaigns": "View campaigns",
+    "cta_create": "Create campaign"
   }
 }
