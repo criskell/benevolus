@@ -34,9 +34,7 @@ final class CommentReactionController extends Controller implements HasMiddlewar
             ),
         ],
         responses: [
-            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
+            new OA\Response(response: 204),
         ]
     )]
     public function toggle(Request $request, Comment $comment)

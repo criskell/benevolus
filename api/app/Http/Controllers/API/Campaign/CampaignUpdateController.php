@@ -54,7 +54,6 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
                     ]
                 )
             ),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
     public function index(Request $request, int $campaignId)
@@ -91,9 +90,6 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
                     ref: "#/components/schemas/CampaignUpdateResource"
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
-            new OA\Response(response: 422, ref: "#/components/responses/ValidationError"),
         ]
     )]
     public function store(StoreCampaignUpdateRequest $request, int $campaignId)
@@ -125,7 +121,6 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
                     ref: "#/components/schemas/CampaignUpdateResource"
                 )
             ),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
     public function show(Request $request, int $updateId)
@@ -154,10 +149,7 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
             ),
         ],
         responses: [
-            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 403, ref: "#/components/responses/Forbidden"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
+            new OA\Response(response: 204),
         ]
     )]
     public function destroy(CampaignUpdate $update)

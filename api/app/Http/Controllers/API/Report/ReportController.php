@@ -43,7 +43,6 @@ final class ReportController extends Controller implements HasMiddleware
                     ]
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
         ]
     )]
     public function index()
@@ -80,9 +79,6 @@ final class ReportController extends Controller implements HasMiddleware
                     ref: "#/components/schemas/ReportResource"
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
-            new OA\Response(response: 422, ref: "#/components/responses/ValidationError"),
         ]
     )]
     public function store(Campaign $campaign, StoreReportRequest $request): JsonResource

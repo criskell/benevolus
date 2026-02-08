@@ -52,7 +52,6 @@ final class DonationController extends Controller
                     ]
                 )
             ),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
     public function index(Campaign $campaign)
@@ -91,10 +90,6 @@ final class DonationController extends Controller
                     type: "object"
                 )
             ),
-            new OA\Response(
-                response: 422,
-                ref: "#/components/responses/ValidationError"
-            )
         ]
     )]
     public function store(DonateRequest $request): JsonResponse
@@ -122,8 +117,7 @@ final class DonationController extends Controller
             ),
         ],
         responses: [
-            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
+            new OA\Response(response: 204),
         ],
     )]
     public function confirm(string $externalReferenceId): Response

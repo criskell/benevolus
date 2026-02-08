@@ -101,7 +101,6 @@ final class CampaignController extends Controller implements HasMiddleware
                     ref: "#/components/schemas/CampaignResource"
                 )
             ),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
     public function show(int $id)
@@ -130,8 +129,6 @@ final class CampaignController extends Controller implements HasMiddleware
                     ref: "#/components/schemas/CampaignResource"
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 422, ref: "#/components/responses/ValidationError"),
         ]
     )]
     public function store(StoreCampaignRequest $request)
@@ -162,11 +159,7 @@ final class CampaignController extends Controller implements HasMiddleware
             )
         ),
         responses: [
-            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 403, ref: "#/components/responses/Forbidden"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
-            new OA\Response(response: 422, ref: "#/components/responses/ValidationError"),
+            new OA\Response(response: 204),
         ]
     )]
     public function update(UpdateCampaignRequest $request, Campaign $campaign)
@@ -193,10 +186,7 @@ final class CampaignController extends Controller implements HasMiddleware
             ),
         ],
         responses: [
-            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 403, ref: "#/components/responses/Forbidden"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
+            new OA\Response(response: 204),
         ]
     )]
     public function destroy(Campaign $campaign)

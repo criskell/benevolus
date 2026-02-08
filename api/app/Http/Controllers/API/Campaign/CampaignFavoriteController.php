@@ -39,7 +39,6 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
                     ]
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
         ]
     )]
     public function index(Request $request)
@@ -73,8 +72,6 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
                     type: "object"
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
     public function toggle(Request $request, Campaign $campaign)

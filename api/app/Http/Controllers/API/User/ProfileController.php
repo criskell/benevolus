@@ -35,7 +35,6 @@ final class ProfileController extends Controller implements HasMiddleware
                     ref: "#/components/schemas/UserResource"
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
         ]
     )]
     public function show(Request $request)
@@ -55,9 +54,7 @@ final class ProfileController extends Controller implements HasMiddleware
             )
         ),
         responses: [
-            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 422, ref: "#/components/responses/ValidationError"),
+            new OA\Response(response: 204),
         ]
     )]
     public function update(UpdateProfileRequest $request)

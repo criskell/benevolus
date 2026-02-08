@@ -57,8 +57,6 @@ final class WithdrawalController extends Controller implements HasMiddleware
                     ]
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
     public function index(Campaign $campaign)
@@ -89,11 +87,7 @@ final class WithdrawalController extends Controller implements HasMiddleware
             )
         ),
         responses: [
-            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 403, ref: "#/components/responses/Forbidden"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
-            new OA\Response(response: 422, ref: "#/components/responses/ValidationError"),
+            new OA\Response(response: 204),
         ]
     )]
     public function store(Campaign $campaign, StoreWithdrawalRequest $request)
@@ -138,7 +132,6 @@ final class WithdrawalController extends Controller implements HasMiddleware
                     ref: "#/components/schemas/WithdrawalResource"
                 )
             ),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
     public function show(Withdrawal $withdrawal)

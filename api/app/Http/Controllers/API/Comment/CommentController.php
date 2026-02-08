@@ -55,7 +55,6 @@ final class CommentController extends Controller implements HasMiddleware
                     ]
                 )
             ),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
         ]
     )]
     public function index(Campaign $campaign)
@@ -93,9 +92,6 @@ final class CommentController extends Controller implements HasMiddleware
                     ref: "#/components/schemas/CommentResource"
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
-            new OA\Response(response: 422, ref: "#/components/responses/ValidationError"),
         ]
     )]
     public function store(Campaign $campaign, CommentStoreRequest $request)
@@ -133,10 +129,6 @@ final class CommentController extends Controller implements HasMiddleware
                     ref: "#/components/schemas/CommentResource"
                 )
             ),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 403, ref: "#/components/responses/Forbidden"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
-            new OA\Response(response: 422, ref: "#/components/responses/ValidationError"),
         ]
     )]
     public function update(CommentUpdateRequest $request, Comment $comment)
@@ -162,10 +154,7 @@ final class CommentController extends Controller implements HasMiddleware
             ),
         ],
         responses: [
-            new OA\Response(response: 204, ref: "#/components/responses/NoContent"),
-            new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
-            new OA\Response(response: 403, ref: "#/components/responses/Forbidden"),
-            new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
+            new OA\Response(response: 204),
         ]
     )]
     public function destroy(Comment $comment)
