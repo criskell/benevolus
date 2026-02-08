@@ -6,6 +6,7 @@ import type { Campaign } from '@/models/campaign';
 import { campaigns } from '@/data/campaigns';
 
 import { HeroSection } from './hero-section';
+import { LiveDonationsCounter } from './live-donations-counter';
 import { CategoryNavigation } from './category-navigation';
 import { CallToAction } from './call-to-action';
 import { HowItWorks } from './how-it-works';
@@ -46,6 +47,7 @@ export default function Home() {
     <main className="space-y-16">
       <div className="container max-w-[1280px] mx-auto flex-1 flex flex-col items-center justify-center px-8 my-16 space-y-16">
         <HeroSection />
+        <LiveDonationsCounter />
         <div className="max-w-full">
           <CategoryNavigation
             categories={categories}
