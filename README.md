@@ -10,16 +10,17 @@ Our goal is to provide a platform with 0% platform fee, ensuring that donations 
 
 ## Tech stack
 
-**Backend:** Laravel (PHP) with Sail for local development  
-**Frontend:** Next.js with HeroUI components  
-**Payments:** Woovi and Stripe Connect for processing donations  
-**Infrastructure:** Terraform and AWS for deployment
+- Backend: Laravel framework
+- Frontend: Next.js with HeroUI components
+- Payments: Woovi and Stripe Connect for processing donations
+- Infrastructure: Terraform and AWS for deployment
 
 ## Getting started
 
 Make sure you have Docker installed (for Laravel Sail) and pnpm for the frontend.
 
 1. Start the API:
+
    ```bash
    cd api && ./vendor/bin/sail up
    ```
