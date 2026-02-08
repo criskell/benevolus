@@ -478,5 +478,24 @@
     "cta_description": "Donate to campaigns or create your own. Every action counts.",
     "cta_campaigns": "View campaigns",
     "cta_create": "Create campaign"
+  },
+  "footer": {
+    "brand_description": "The easiest way to make a difference. Connecting those in need with those who want to help.",
+    "about_title": "About",
+    "about_who_we_are": "Who we are",
+    "about_how_it_works": "How it works",
+    "about_terms_of_use": "Terms of use",
+    "support_title": "Support",
+    "support_help_center": "Help center",
+    "support_contact": "Contact",
+    "support_faq": "FAQ",
+    "campaigns_title": "Campaigns",
+    "campaigns_view_all": "View all",
+    "campaigns_create": "Create campaign",
+    "campaigns_how_it_works": "How it works",
+    "copyright": "Benevolus. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookies": "Cookies"
   }
 }

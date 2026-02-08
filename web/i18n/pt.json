@@ -478,5 +478,24 @@
     "cta_description": "Junte-se a nós doando para campanhas ou criando a sua. Cada ação conta.",
     "cta_campaigns": "Ver campanhas",
     "cta_create": "Criar campanha"
+  },
+  "footer": {
+    "brand_description": "A maneira mais fácil de fazer a diferença. Conectando quem precisa a quem quer ajudar.",
+    "about_title": "Sobre",
+    "about_who_we_are": "Quem somos",
+    "about_how_it_works": "Como funciona",
+    "about_terms_of_use": "Termos de uso",
+    "support_title": "Suporte",
+    "support_help_center": "Central de ajuda",
+    "support_contact": "Contato",
+    "support_faq": "FAQ",
+    "campaigns_title": "Campanhas",
+    "campaigns_view_all": "Ver todas",
+    "campaigns_create": "Criar campanha",
+    "campaigns_how_it_works": "Como funciona",
+    "copyright": "Benevolus. Todos os direitos reservados.",
+    "privacy": "Privacidade",
+    "terms": "Termos",
+    "cookies": "Cookies"
   }
 }

@@ -2,18 +2,7 @@
 
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
-
-const sobreListLinks = [
-  { link: "/mission", text: "Quem somos" },
-  { link: "#", text: "Como funciona" },
-  { link: "#", text: "Termos de uso" },
-];
-
-const suporteListLinks = [
-  { link: "#", text: "Central de ajuda" },
-  { link: "#", text: "Contato" },
-  { link: "#", text: "FAQ" },
-];
+import { useTranslations } from 'next-intl';
 
 const socialLinks = [
   { link: "#", icon: "mdi:facebook", label: "Facebook" },
@@ -23,6 +12,7 @@ const socialLinks = [
 ];
 
 export const Footer = () => {
+  const t = useTranslations('footer');
   return (
     <footer className="relative border-t border-default-200 bg-gradient-to-b from-default-50 to-default-100/50">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -37,7 +27,7 @@ export const Footer = () => {
                 </span>
               </Link>
               <p className="text-default-600 leading-relaxed mb-6 max-w-sm">
-                A maneira mais fácil de fazer a diferença. Conectando quem precisa a quem quer ajudar.
+                {t('brand_description')}
               </p>
               {/* Ícones sociais */}
               <div className="flex items-center gap-3">
@@ -58,58 +48,86 @@ export const Footer = () => {
             <div className="md:col-span-7 lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8 lg:gap-12">
               <div>
                 <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">
-                  Sobre
+                  {t('about_title')}
                 </h3>
                 <ul className="space-y-3">
-                  {sobreListLinks.map((item, index) => (
-                    <li key={index}>
-                      <a 
-                        href={item.link}
-                        className="text-default-600 hover:text-primary transition-colors duration-200"
-                      >
-                        {item.text}
-                      </a>
-                    </li>
-                  ))}
+                  <li>
+                    <Link 
+                      href="/mission"
+                      className="text-default-600 hover:text-primary transition-colors duration-200"
+                    >
+                      {t('about_who_we_are')}
+                    </Link>
+                  </li>
+                  <li>
+                    <a 
+                      href="#"
+                      className="text-default-600 hover:text-primary transition-colors duration-200"
+                    >
+                      {t('about_how_it_works')}
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="#"
+                      className="text-default-600 hover:text-primary transition-colors duration-200"
+                    >
+                      {t('about_terms_of_use')}
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               <div>
                 <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">
-                  Suporte
+                  {t('support_title')}
                 </h3>
                 <ul className="space-y-3">
-                  {suporteListLinks.map((item, index) => (
-                    <li key={index}>
-                      <a 
-                        href={item.link}
-                        className="text-default-600 hover:text-primary transition-colors duration-200"
-                      >
-                        {item.text}
-                      </a>
-                    </li>
-                  ))}
+                  <li>
+                    <a 
+                      href="#"
+                      className="text-default-600 hover:text-primary transition-colors duration-200"
+                    >
+                      {t('support_help_center')}
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="#"
+                      className="text-default-600 hover:text-primary transition-colors duration-200"
+                    >
+                      {t('support_contact')}
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="#"
+                      className="text-default-600 hover:text-primary transition-colors duration-200"
+                    >
+                      {t('support_faq')}
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               <div>
                 <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">
-                  Campanhas
+                  {t('campaigns_title')}
                 </h3>
                 <ul className="space-y-3">
                   <li>
                     <Link href="/campaigns" className="text-default-600 hover:text-primary transition-colors duration-200">
-                      Ver todas
+                      {t('campaigns_view_all')}
                     </Link>
                   </li>
                   <li>
                     <Link href="/campaigns/create" className="text-default-600 hover:text-primary transition-colors duration-200">
-                      Criar campanha
+                      {t('campaigns_create')}
                     </Link>
                   </li>
                   <li>
                     <a href="#" className="text-default-600 hover:text-primary transition-colors duration-200">
-                      Como funciona
+                      {t('campaigns_how_it_works')}
                     </a>
                   </li>
                 </ul>
@@ -122,17 +140,17 @@ export const Footer = () => {
         <div className="border-t border-default-200 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-default-500 text-sm text-center md:text-left">
-              &copy; {new Date().getFullYear()} Benevolus. Todos os direitos reservados.
+              &copy; {new Date().getFullYear()} {t('copyright')}
             </p>
             <div className="flex items-center gap-6 text-sm">
               <a href="#" className="text-default-500 hover:text-foreground transition-colors">
-                Privacidade
+                {t('privacy')}
               </a>
               <a href="#" className="text-default-500 hover:text-foreground transition-colors">
-                Termos
+                {t('terms')}
               </a>
               <a href="#" className="text-default-500 hover:text-foreground transition-colors">
-                Cookies
+                {t('cookies')}
               </a>
             </div>
           </div>
