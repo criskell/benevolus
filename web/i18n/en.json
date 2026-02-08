@@ -127,6 +127,7 @@
   },
   "navbar": {
     "campaigns": "Campaigns",
+    "blog": "Blog",
     "mission": "Mission",
     "create_campaign": "Create campaign",
     "sign_in": "Sign in",
@@ -480,6 +481,81 @@
     "cta_description": "Donate to campaigns or create your own. Every action counts.",
     "cta_campaigns": "View campaigns",
     "cta_create": "Create campaign"
+  },
+  "blog": {
+    "hero_badge": "Blog",
+    "title": "Benevolus Blog",
+    "subtitle": "Stories, tips and news about donations and solidarity campaigns",
+    "search_placeholder": "Search articles...",
+    "back_to_blog": "Back to blog",
+    "share_post": "Share this article",
+    "related_posts": "Related articles",
+    "no_posts_found": "No articles found",
+    "no_posts_description": "Try adjusting your filters or searching for other terms",
+    "categories": {
+      "all": "All",
+      "tips": "Tips",
+      "impact": "Impact",
+      "platform": "Platform",
+      "stories": "Stories",
+      "technology": "Technology"
+    },
+    "newsletter": {
+      "title": "Subscribe to our newsletter",
+      "description": "Receive the best articles and news directly in your email",
+      "placeholder": "Your best email",
+      "button": "Subscribe"
+    },
+    "posts": {
+      "post_1": {
+        "title": "How to create a successful campaign on Benevolus",
+        "excerpt": "Learn the best practices and strategies to create a campaign that reaches your fundraising goals and engages donors."
+      },
+      "post_2": {
+        "title": "The impact of donations in our community",
+        "excerpt": "Discover how small donations transform lives and strengthen communities across Brazil."
+      },
+      "post_3": {
+        "title": "Transparency: our platform's commitment",
+        "excerpt": "Understand how we ensure security and transparency in all donations made through the platform."
+      },
+      "post_4": {
+        "title": "Success stories: transformations in 2025",
+        "excerpt": "Learn about real stories of people who had their lives transformed through solidarity campaigns."
+      },
+      "post_5": {
+        "title": "Technology in the service of social good",
+        "excerpt": "How we use innovation and technology to facilitate donations and maximize social impact."
+      },
+      "post_6": {
+        "title": "Tips to promote your campaign on social media",
+        "excerpt": "Practical and efficient strategies to promote your campaign and reach more donors through social media."
+      },
+      "como-criar-campanha-sucesso": {
+        "title": "How to create a successful campaign on Benevolus",
+        "content": "Creating a successful campaign goes beyond just setting a goal. In this comprehensive guide, we share the most effective strategies.\n\nStart with an authentic and exciting story. Donors want to connect with real people and understand the impact of their contribution.\n\nEstablish realistic and transparent goals. Explain in detail how the resources will be used."
+      },
+      "impacto-doacoes-comunidade": {
+        "title": "The impact of donations in our community",
+        "content": "Donations through Benevolus have created a real and measurable impact on communities throughout Brazil. Each contribution, no matter how small, represents hope and transformation.\n\nOver the past 12 months, more than 1,200 campaigns have been successfully funded, directly benefiting thousands of families. From medical treatments to educational projects, the reach is immense.\n\nThe most inspiring thing is seeing how solidarity multiplies. When one person is helped, they often become a donor in the future, creating a virtuous cycle of generosity."
+      },
+      "transparencia-plataforma": {
+        "title": "Transparency: our platform's commitment",
+        "content": "Transparency is the fundamental pillar of Benevolus. Each campaign goes through a rigorous verification process before being published.\n\nWe use cutting-edge technology to track and document each donation, ensuring resources reach exactly where they should. Our detailed reports show the complete flow of each contribution.\n\nAdditionally, we maintain constant communication with campaign creators and donors, promoting an environment of mutual trust. Accountability is taken seriously at every stage."
+      },
+      "historias-sucesso-2025": {
+        "title": "Success stories: transformations in 2025",
+        "content": "The year 2025 was marked by inspiring stories of overcoming and solidarity. Through Benevolus, dozens of lives were transformed in extraordinary ways.\n\nMeet Maria's story, a single mother who secured resources for her son's treatment. Or João, who fulfilled his dream of opening his own business after losing his job in the pandemic.\n\nEach story is unique, but they all share a common element: the generosity of people who believed and contributed to making these dreams come true."
+      },
+      "tecnologia-bem-social": {
+        "title": "Technology in the service of social good",
+        "content": "At Benevolus, we believe that technology can be a powerful ally in building a more supportive and fair world.\n\nOur platform uses intelligent algorithms to connect donors to causes most aligned with their values. Artificial intelligence helps us prevent fraud and ensure campaign authenticity.\n\nAdditionally, we are constantly innovating with new features, such as instant payments, automated reports, and communication tools that bring donors and beneficiaries closer together."
+      },
+      "dicas-divulgacao-campanha": {
+        "title": "Tips to promote your campaign on social media",
+        "content": "Social media are powerful tools to expand the reach of your campaign. With the right strategies, you can significantly multiply your chances of success.\n\nStart by creating attractive and shareable visual content. Short videos and impactful images generate much more engagement than long texts. Use relevant hashtags and tag influential people who can support your cause.\n\nMaintain a constant presence, but without overdoing it. Post regular updates about campaign progress, publicly thank donors, and share stories about how donations are making a difference."
+      }
+    }
   },
   "footer": {
     "brand_description": "The easiest way to make a difference. Connecting those in need with those who want to help.",

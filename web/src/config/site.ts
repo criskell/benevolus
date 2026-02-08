@@ -10,6 +10,10 @@ export const siteConfig = {
       href: '/campaigns',
     },
     {
+      labelKey: 'navbar.blog',
+      href: '/blog',
+    },
+    {
       labelKey: 'navbar.mission',
       href: '/mission',
     },

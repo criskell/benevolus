@@ -134,9 +134,9 @@ export const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <a href="#" className="text-default-600 hover:text-primary transition-colors duration-200">
-                      {t('campaigns_how_it_works')}
-                    </a>
+                    <Link href="/blog" className="text-default-600 hover:text-primary transition-colors duration-200">
+                      Blog
+                    </Link>
                   </li>
                 </ul>
               </div>

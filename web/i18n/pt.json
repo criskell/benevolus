@@ -127,6 +127,7 @@
   },
   "navbar": {
     "campaigns": "Campanhas",
+    "blog": "Blog",
     "mission": "Missão",
     "create_campaign": "Criar campanha",
     "sign_in": "Entrar",
@@ -480,6 +481,81 @@
     "cta_description": "Junte-se a nós doando para campanhas ou criando a sua. Cada ação conta.",
     "cta_campaigns": "Ver campanhas",
     "cta_create": "Criar campanha"
+  },
+  "blog": {
+    "hero_badge": "Blog",
+    "title": "Blog Benevolus",
+    "subtitle": "Histórias, dicas e novidades sobre doações e campanhas solidárias",
+    "search_placeholder": "Buscar artigos...",
+    "back_to_blog": "Voltar ao blog",
+    "share_post": "Compartilhar este artigo",
+    "related_posts": "Artigos relacionados",
+    "no_posts_found": "Nenhum artigo encontrado",
+    "no_posts_description": "Tente ajustar seus filtros ou buscar por outros termos",
+    "categories": {
+      "all": "Todos",
+      "tips": "Dicas",
+      "impact": "Impacto",
+      "platform": "Plataforma",
+      "stories": "Histórias",
+      "technology": "Tecnologia"
+    },
+    "newsletter": {
+      "title": "Assine nossa newsletter",
+      "description": "Receba os melhores artigos e novidades diretamente no seu e-mail",
+      "placeholder": "Seu melhor e-mail",
+      "button": "Assinar"
+    },
+    "posts": {
+      "post_1": {
+        "title": "Como criar uma campanha de sucesso no Benevolus",
+        "excerpt": "Aprenda as melhores práticas e estratégias para criar uma campanha que alcance suas metas de arrecadação e engaje doadores."
+      },
+      "post_2": {
+        "title": "O impacto das doações em nossa comunidade",
+        "excerpt": "Descubra como pequenas doações transformam vidas e fortalecem comunidades ao redor do Brasil."
+      },
+      "post_3": {
+        "title": "Transparência: o compromisso da nossa plataforma",
+        "excerpt": "Entenda como garantimos a segurança e transparência em todas as doações realizadas através da plataforma."
+      },
+      "post_4": {
+        "title": "Histórias de sucesso: transformações em 2025",
+        "excerpt": "Conheça histórias reais de pessoas que tiveram suas vidas transformadas através de campanhas solidárias."
+      },
+      "post_5": {
+        "title": "Tecnologia a serviço do bem social",
+        "excerpt": "Como usamos inovação e tecnologia para facilitar doações e maximizar o impacto social."
+      },
+      "post_6": {
+        "title": "Dicas para divulgar sua campanha nas redes sociais",
+        "excerpt": "Estratégias práticas e eficientes para promover sua campanha e alcançar mais doadores através das redes sociais."
+      },
+      "como-criar-campanha-sucesso": {
+        "title": "Como criar uma campanha de sucesso no Benevolus",
+        "content": "Criar uma campanha de sucesso vai além de apenas definir uma meta. Neste guia completo, compartilhamos as estratégias mais eficazes.\n\nComece com uma história autêntica e emocionante. Os doadores querem se conectar com pessoas reais e entender o impacto de sua contribuição.\n\nEstabeleça metas realistas e transparentes. Explique detalhadamente como os recursos serão utilizados."
+      },
+      "impacto-doacoes-comunidade": {
+        "title": "O impacto das doações em nossa comunidade",
+        "content": "As doações através do Benevolus têm criado um impacto real e mensurável em comunidades por todo o Brasil. Cada contribuição, por menor que seja, representa esperança e transformação.\n\nNos últimos 12 meses, mais de 1.200 campanhas foram financiadas com sucesso, beneficiando diretamente milhares de famílias. Desde tratamentos médicos até projetos educacionais, o alcance é imenso.\n\nO mais inspirador é ver como a solidariedade se multiplica. Quando uma pessoa é ajudada, ela frequentemente se torna um doador no futuro, criando um ciclo virtuoso de generosidade."
+      },
+      "transparencia-plataforma": {
+        "title": "Transparência: o compromisso da nossa plataforma",
+        "content": "A transparência é o pilar fundamental do Benevolus. Cada campanha passa por um rigoroso processo de verificação antes de ser publicada.\n\nUtilizamos tecnologia de ponta para rastrear e documentar cada doação, garantindo que os recursos cheguem exatamente onde devem. Nossos relatórios detalhados mostram o fluxo completo de cada contribuição.\n\nAlém disso, mantemos comunicação constante com criadores de campanhas e doadores, promovendo um ambiente de confiança mútua. A prestação de contas é levada a sério em todas as etapas."
+      },
+      "historias-sucesso-2025": {
+        "title": "Histórias de sucesso: transformações em 2025",
+        "content": "O ano de 2025 foi marcado por histórias inspiradoras de superação e solidariedade. Através do Benevolus, dezenas de vidas foram transformadas de maneiras extraordinárias.\n\nConheça a história de Maria, mãe solo que conseguiu recursos para o tratamento de seu filho. Ou de João, que realizou o sonho de abrir seu próprio negócio após perder o emprego na pandemia.\n\nCada história é única, mas todas compartilham um elemento comum: a generosidade de pessoas que acreditaram e contribuíram para tornar esses sonhos realidade."
+      },
+      "tecnologia-bem-social": {
+        "title": "Tecnologia a serviço do bem social",
+        "content": "No Benevolus, acreditamos que a tecnologia pode ser uma poderosa aliada na construção de um mundo mais solidário e justo.\n\nNossa plataforma utiliza algoritmos inteligentes para conectar doadores às causas mais alinhadas com seus valores. A inteligência artificial nos ajuda a prevenir fraudes e garantir a autenticidade das campanhas.\n\nAlém disso, estamos constantemente inovando com novos recursos, como pagamentos instantâneos, relatórios automatizados e ferramentas de comunicação que aproximam doadores e beneficiários."
+      },
+      "dicas-divulgacao-campanha": {
+        "title": "Dicas para divulgar sua campanha nas redes sociais",
+        "content": "As redes sociais são ferramentas poderosas para ampliar o alcance da sua campanha. Com as estratégias certas, você pode multiplicar significativamente suas chances de sucesso.\n\nComece criando conteúdo visual atraente e compartilhável. Vídeos curtos e imagens impactantes geram muito mais engajamento do que textos longos. Use hashtags relevantes e marque pessoas influentes que possam apoiar sua causa.\n\nMantenha uma presença constante, mas sem exageros. Poste atualizações regulares sobre o progresso da campanha, agradeça publicamente aos doadores e compartilhe histórias sobre como as doações estão fazendo diferença."
+      }
+    }
   },
   "footer": {
     "brand_description": "A maneira mais fácil de fazer a diferença. Conectando quem precisa a quem quer ajudar.",

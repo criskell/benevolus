@@ -127,6 +127,7 @@
   },
   "navbar": {
     "campaigns": "Campañas",
+    "blog": "Blog",
     "mission": "Misión",
     "create_campaign": "Crear campaña",
     "sign_in": "Iniciar sesión",
@@ -480,6 +481,81 @@
     "cta_description": "Únete a nosotros donando a campañas o creando la tuya. Cada acción cuenta.",
     "cta_campaigns": "Ver campañas",
     "cta_create": "Crear campaña"
+  },
+  "blog": {
+    "hero_badge": "Blog",
+    "title": "Blog Benevolus",
+    "subtitle": "Historias, consejos y noticias sobre donaciones y campañas solidarias",
+    "search_placeholder": "Buscar artículos...",
+    "back_to_blog": "Volver al blog",
+    "share_post": "Compartir este artículo",
+    "related_posts": "Artículos relacionados",
+    "no_posts_found": "No se encontraron artículos",
+    "no_posts_description": "Intenta ajustar tus filtros o buscar otros términos",
+    "categories": {
+      "all": "Todos",
+      "tips": "Consejos",
+      "impact": "Impacto",
+      "platform": "Plataforma",
+      "stories": "Historias",
+      "technology": "Tecnología"
+    },
+    "newsletter": {
+      "title": "Suscríbete a nuestro boletín",
+      "description": "Recibe los mejores artículos y noticias directamente en tu correo electrónico",
+      "placeholder": "Tu mejor correo",
+      "button": "Suscribirse"
+    },
+    "posts": {
+      "post_1": {
+        "title": "Cómo crear una campaña exitosa en Benevolus",
+        "excerpt": "Aprende las mejores prácticas y estrategias para crear una campaña que alcance tus metas de recaudación y atraiga donantes."
+      },
+      "post_2": {
+        "title": "El impacto de las donaciones en nuestra comunidad",
+        "excerpt": "Descubre cómo pequeñas donaciones transforman vidas y fortalecen comunidades en todo Brasil."
+      },
+      "post_3": {
+        "title": "Transparencia: el compromiso de nuestra plataforma",
+        "excerpt": "Entiende cómo garantizamos la seguridad y transparencia en todas las donaciones realizadas a través de la plataforma."
+      },
+      "post_4": {
+        "title": "Historias de éxito: transformaciones en 2025",
+        "excerpt": "Conoce historias reales de personas que tuvieron sus vidas transformadas a través de campañas solidarias."
+      },
+      "post_5": {
+        "title": "Tecnología al servicio del bien social",
+        "excerpt": "Cómo usamos innovación y tecnología para facilitar donaciones y maximizar el impacto social."
+      },
+      "post_6": {
+        "title": "Consejos para promocionar tu campaña en redes sociales",
+        "excerpt": "Estrategias prácticas y eficientes para promover tu campaña y alcanzar más donantes a través de las redes sociales."
+      },
+      "como-criar-campanha-sucesso": {
+        "title": "Cómo crear una campaña exitosa en Benevolus",
+        "content": "Crear una campaña exitosa va más allá de solo establecer una meta. En esta guía completa, compartimos las estrategias más efectivas.\n\nComienza con una historia auténtica y emocionante. Los donantes quieren conectarse con personas reales y entender el impacto de su contribución.\n\nEstablece metas realistas y transparentes. Explica en detalle cómo se utilizarán los recursos."
+      },
+      "impacto-doacoes-comunidade": {
+        "title": "El impacto de las donaciones en nuestra comunidad",
+        "content": "Las donaciones a través de Benevolus han creado un impacto real y medible en comunidades de todo Brasil. Cada contribución, por pequeña que sea, representa esperanza y transformación.\n\nEn los últimos 12 meses, más de 1.200 campañas se han financiado con éxito, beneficiando directamente a miles de familias. Desde tratamientos médicos hasta proyectos educativos, el alcance es inmenso.\n\nLo más inspirador es ver cómo la solidaridad se multiplica. Cuando una persona es ayudada, a menudo se convierte en un donante en el futuro, creando un ciclo virtuoso de generosidad."
+      },
+      "transparencia-plataforma": {
+        "title": "Transparencia: el compromiso de nuestra plataforma",
+        "content": "La transparencia es el pilar fundamental de Benevolus. Cada campaña pasa por un riguroso proceso de verificación antes de ser publicada.\n\nUtilizamos tecnología de vanguardia para rastrear y documentar cada donación, asegurando que los recursos lleguen exactamente a donde deben. Nuestros informes detallados muestran el flujo completo de cada contribución.\n\nAdemás, mantenemos comunicación constante con creadores de campañas y donantes, promoviendo un ambiente de confianza mutua. La rendición de cuentas se toma en serio en todas las etapas."
+      },
+      "historias-sucesso-2025": {
+        "title": "Historias de éxito: transformaciones en 2025",
+        "content": "El año 2025 estuvo marcado por historias inspiradoras de superación y solidaridad. A través de Benevolus, decenas de vidas se transformaron de maneras extraordinarias.\n\nConoce la historia de María, madre soltera que consiguió recursos para el tratamiento de su hijo. O de Juan, que cumplió su sueño de abrir su propio negocio después de perder su empleo en la pandemia.\n\nCada historia es única, pero todas comparten un elemento común: la generosidad de personas que creyeron y contribuyeron para hacer realidad estos sueños."
+      },
+      "tecnologia-bem-social": {
+        "title": "Tecnología al servicio del bien social",
+        "content": "En Benevolus, creemos que la tecnología puede ser una poderosa aliada en la construcción de un mundo más solidario y justo.\n\nNuestra plataforma utiliza algoritmos inteligentes para conectar donantes con las causas más alineadas con sus valores. La inteligencia artificial nos ayuda a prevenir fraudes y garantizar la autenticidad de las campañas.\n\nAdemás, estamos constantemente innovando con nuevas funciones, como pagos instantáneos, informes automatizados y herramientas de comunicación que acercan a donantes y beneficiarios."
+      },
+      "dicas-divulgacao-campanha": {
+        "title": "Consejos para promocionar tu campaña en redes sociales",
+        "content": "Las redes sociales son herramientas poderosas para ampliar el alcance de tu campaña. Con las estrategias correctas, puedes multiplicar significativamente tus posibilidades de éxito.\n\nComienza creando contenido visual atractivo y compartible. Videos cortos e imágenes impactantes generan mucho más compromiso que textos largos. Usa hashtags relevantes y etiqueta a personas influyentes que puedan apoyar tu causa.\n\nMantén una presencia constante, pero sin excesos. Publica actualizaciones regulares sobre el progreso de la campaña, agradece públicamente a los donantes y comparte historias sobre cómo las donaciones están haciendo la diferencia."
+      }
+    }
   },
   "footer": {
     "brand_description": "La forma más fácil de marcar la diferencia. Conectando a quienes necesitan con quienes quieren ayudar.",
