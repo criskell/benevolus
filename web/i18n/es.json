@@ -130,6 +130,7 @@
     "leaderboard": "Clasificación",
     "blog": "Blog",
     "mission": "Misión",
+    "help": "Ayuda",
     "create_campaign": "Crear campaña",
     "sign_in": "Iniciar sesión",
     "my_account": "Mi cuenta",
@@ -573,11 +574,13 @@
     "campaigns_title": "Campañas",
     "campaigns_view_all": "Ver todas",
     "campaigns_create": "Crear campaña",
+    "campaigns_leaderboard": "Clasificación",
+    "campaigns_blog": "Blog",
     "campaigns_how_it_works": "Cómo funciona",
     "copyright": "Benevolus. Todos los derechos reservados.",
     "privacy": "Privacidad",
     "terms": "Términos",
-    "cookies": "Cookies"
+    "contact": "Contacto"
   },
   "common": {
     "locale": "es-ES"
@@ -721,6 +724,293 @@
       "total_donors": "Donantes",
       "total_donated": "Total donado",
       "average_donation": "Promedio por donación"
+    }
+  },
+  "contact": {
+    "hero_badge": "Contáctanos",
+    "title": "Ponte en Contacto",
+    "subtitle": "Estamos aquí para ayudarte. Contáctanos y te responderemos lo antes posible.",
+    "methods": {
+      "email": {
+        "title": "Correo electrónico",
+        "description": "Envíanos un correo"
+      },
+      "phone": {
+        "title": "Teléfono",
+        "description": "Llámanos"
+      },
+      "social": {
+        "title": "Redes Sociales",
+        "description": "Síguenos en redes"
+      }
+    },
+    "form": {
+      "title": "Envía tu Mensaje",
+      "subtitle": "Completa el formulario y nos pondremos en contacto",
+      "name_label": "Nombre completo",
+      "name_placeholder": "Ingresa tu nombre",
+      "email_label": "Correo electrónico",
+      "email_placeholder": "tu@email.com",
+      "subject_label": "Asunto",
+      "subject_placeholder": "¿De qué quieres hablar?",
+      "message_label": "Mensaje",
+      "message_placeholder": "Escribe tu mensaje aquí...",
+      "submit": "Enviar mensaje",
+      "sending": "Enviando...",
+      "success_message": "¡Mensaje enviado con éxito! Te responderemos pronto."
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "subtitle": "Tal vez tu pregunta ya esté respondida aquí",
+      "q1": "¿Cuál es el tiempo de respuesta?",
+      "a1": "Respondemos todos los mensajes en un plazo de 24 horas hábiles. En casos urgentes, contáctanos por teléfono.",
+      "q2": "¿Puedo agendar una reunión?",
+      "a2": "¡Sí! Contáctanos por correo o teléfono para agendar una conversación con nuestro equipo.",
+      "q3": "¿Ofrecen soporte en otros idiomas?",
+      "a3": "Actualmente ofrecemos soporte en Portugués, Inglés y Español. Indica tu idioma preferido al contactarnos."
+    }
+  },
+  "terms": {
+    "hero_badge": "Términos Legales",
+    "title": "Términos de Uso",
+    "last_updated": "Última actualización",
+    "last_updated_date": "9 de febrero de 2026",
+    "introduction": "Bienvenido a Benevolus. Estos Términos de Uso establecen las condiciones generales aplicables al uso de la plataforma Benevolus. Al acceder o usar nuestros servicios, aceptas cumplir con estos términos. Lee atentamente antes de usar la plataforma.",
+    "sections": {
+      "acceptance": {
+        "title": "Aceptación de los Términos",
+        "content": "Al acceder y usar la plataforma Benevolus, aceptas y accedes a estar vinculado a estos Términos de Uso y todas las leyes y regulaciones aplicables. Si no estás de acuerdo con alguno de estos términos, tienes prohibido usar o acceder a este sitio. Los materiales contenidos en este sitio están protegidos por las leyes de derechos de autor y marcas comerciales aplicables."
+      },
+      "registration": {
+        "title": "Registro y Cuenta de Usuario",
+        "content": "Para utilizar ciertas funcionalidades de la plataforma, necesitarás crear una cuenta. Aceptas proporcionar información verdadera, precisa, actual y completa durante el proceso de registro. Eres responsable de mantener la confidencialidad de tu contraseña y cuenta, y de todas las actividades que ocurran bajo tu cuenta. Notifícanos inmediatamente sobre cualquier uso no autorizado de tu cuenta o cualquier otra violación de seguridad."
+      },
+      "campaigns": {
+        "title": "Creación y Gestión de Campañas",
+        "content": "Los usuarios pueden crear campañas de recaudación siempre que cumplan con nuestras directrices y políticas. Todas las campañas están sujetas a revisión y aprobación por nuestro equipo. Te comprometes a proporcionar información verdadera sobre tu campaña y a usar los fondos recaudados exclusivamente para los fines declarados. Benevolus se reserva el derecho de eliminar o suspender campañas que violen estos términos o nuestras políticas de contenido."
+      },
+      "donations": {
+        "title": "Donaciones",
+        "content": "Las donaciones realizadas a través de la plataforma se procesan de forma segura por nuestros socios de pago. Todas las donaciones son finales y no reembolsables, excepto en casos de fraude comprobado o error en el procesamiento. Benevolus no cobra comisiones a los donantes. Los creadores de campañas pueden estar sujetos a comisiones de procesamiento de pagos y tarifas de plataforma, según se especifica en nuestra política de tarifas."
+      },
+      "responsibilities": {
+        "title": "Responsabilidades y Limitaciones",
+        "content": "Benevolus actúa como plataforma intermediaria entre donantes y creadores de campañas. No somos responsables del uso final de los recursos recaudados, de la veracidad de la información proporcionada por los creadores, o de disputas entre usuarios. Animamos a todos los usuarios a realizar su propia investigación antes de contribuir a cualquier campaña. Benevolus se reserva el derecho de intervenir en casos de sospecha de fraude o mala conducta."
+      },
+      "intellectual_property": {
+        "title": "Propiedad Intelectual",
+        "content": "El contenido de la plataforma Benevolus, incluyendo textos, gráficos, logotipos, iconos, imágenes, clips de audio y software, es propiedad de Benevolus o de sus proveedores de contenido y está protegido por las leyes brasileñas e internacionales de derechos de autor. El contenido enviado por los usuarios sigue siendo propiedad del respectivo usuario, pero al publicar contenido en la plataforma, otorgas a Benevolus una licencia mundial, no exclusiva y libre de regalías para usar, reproducir y mostrar ese contenido."
+      },
+      "prohibited_conduct": {
+        "title": "Conducta Prohibida",
+        "content": "Aceptas no usar la plataforma para: crear campañas fraudulentas o engañosas; violar derechos de propiedad intelectual; distribuir virus u otros códigos maliciosos; acosar, amenazar o difamar a otros usuarios; realizar actividades ilegales o promover la violencia; recopilar información de otros usuarios sin consentimiento; o utilizar la plataforma de cualquier forma que pueda dañar, deshabilitar, sobrecargar o perjudicar nuestros servidores o redes."
+      },
+      "termination": {
+        "title": "Terminación",
+        "content": "Nos reservamos el derecho de suspender o terminar tu cuenta y acceso a la plataforma en cualquier momento, sin previo aviso, por conducta que creamos que viola estos Términos de Uso o es perjudicial para otros usuarios, para nosotros o para terceros, o por cualquier otro motivo. Puedes terminar tu cuenta en cualquier momento a través de la configuración de cuenta. Después de la terminación, ya no tendrás acceso a tu cuenta ni a ninguna campaña o contenido asociado."
+      },
+      "modifications": {
+        "title": "Modificaciones de los Términos",
+        "content": "Benevolus se reserva el derecho de modificar estos Términos de Uso en cualquier momento. Te notificaremos sobre cambios significativos a través de correo electrónico o mediante un aviso destacado en nuestra plataforma. El uso continuado de la plataforma después de tales modificaciones constituirá tu aceptación de los nuevos términos. Recomendamos que revises periódicamente estos términos para mantenerte informado sobre cualquier cambio."
+      },
+      "law": {
+        "title": "Ley Aplicable y Jurisdicción",
+        "content": "Estos Términos de Uso se regirán e interpretarán de acuerdo con las leyes de Brasil. Cualquier disputa relacionada con estos términos se someterá a la jurisdicción exclusiva de los tribunales brasileños. Si alguna disposición de estos términos se considera inválida o inaplicable, las disposiciones restantes permanecerán en pleno vigor y efecto."
+      }
+    },
+    "contact": {
+      "title": "¿Dudas sobre los Términos?",
+      "description": "Si tienes alguna pregunta sobre nuestros Términos de Uso, contáctanos.",
+      "button": "Contáctanos"
+    }
+  },
+  "faq": {
+    "hero_badge": "Preguntas Frecuentes",
+    "title": "FAQ - Preguntas Frecuentes",
+    "subtitle": "Encuentra respuestas rápidas a las dudas más comunes sobre la plataforma",
+    "search_placeholder": "Buscar por palabra clave...",
+    "categories": {
+      "all": "Todas",
+      "donations": "Donaciones",
+      "campaigns": "Campañas",
+      "payments": "Pagos",
+      "account": "Cuenta",
+      "security": "Seguridad"
+    },
+    "questions": {
+      "donations": {
+        "q1": "¿Cómo hago para donar a una campaña?",
+        "a1": "¡Es muy simple! Accede a la campaña deseada, haz clic en el botón 'Donar', elige el monto y la forma de pago (Pix, tarjeta, boleto u otros). Todo el monto donado va íntegramente a la campaña elegida, sin comisiones para ti.",
+        "q2": "¿Existe un monto mínimo de donación?",
+        "a2": "Sí, el monto mínimo para donación es de R$ 5,00. Esto ayuda a cubrir costos de procesamiento de pagos y garantizar que las donaciones sean efectivas para las campañas.",
+        "q3": "¿Puedo hacer donaciones anónimas?",
+        "a3": "¡Sí! Durante el proceso de donación, puedes marcar la opción 'Donar anónimamente' y tu nombre no se mostrará públicamente en la lista de donantes de la campaña.",
+        "q4": "¿Puedo recibir un recibo de mi donación?",
+        "a4": "Sí, recibirás un comprobante de la donación por correo electrónico una vez que se confirme el pago. También puedes acceder al historial de donaciones en tu cuenta."
+      },
+      "campaigns": {
+        "q1": "¿Cómo crear una campaña?",
+        "a1": "Para crear una campaña, inicia sesión en tu cuenta, haz clic en 'Crear Campaña' y sigue el paso a paso: cuenta tu historia, define la meta de recaudación, agrega fotos y completa la información necesaria. Después del análisis de nuestro equipo, tu campaña será publicada.",
+        "q2": "¿Cuánto tiempo tarda en aprobarse una campaña?",
+        "a2": "El proceso de aprobación generalmente toma de 24 a 48 horas hábiles. Nuestro equipo analiza cuidadosamente cada campaña para garantizar la autenticidad y el cumplimiento de nuestras políticas.",
+        "q3": "¿Puedo editar mi campaña después de publicada?",
+        "a3": "¡Sí! Puedes editar la descripción, agregar actualizaciones y fotos en cualquier momento a través del panel de control de tu campaña. Los cambios en la meta financiera pueden necesitar aprobación del equipo.",
+        "q4": "¿Cuándo puedo retirar el dinero recaudado?",
+        "a4": "Puedes solicitar retiros desde el momento en que tu campaña comience a recibir donaciones. El monto será transferido a tu cuenta bancaria en hasta 5 días hábiles después de la solicitud."
+      },
+      "payments": {
+        "q1": "¿Qué formas de pago se aceptan?",
+        "a1": "Aceptamos Pix (instantáneo), tarjeta de crédito (débito en cuenta), boleto bancario, PayPal y Bitcoin. Cada método tiene su propio plazo de confirmación de pago.",
+        "q2": "¿Benevolus cobra alguna comisión?",
+        "a2": "No cobramos comisiones a los donantes. Para creadores de campañas, hay una pequeña comisión de procesamiento de pago cobrada por nuestros socios financieros, que varía según el método de pago elegido.",
+        "q3": "¿Puedo solicitar un reembolso de una donación?",
+        "a3": "Todas las donaciones se consideran finales. Sin embargo, en casos de fraude comprobado o error en el procesamiento, puedes contactar con nuestro soporte para análisis del caso."
+      },
+      "account": {
+        "q1": "¿Cómo creo una cuenta en Benevolus?",
+        "a1": "Haz clic en 'Registrarse' en la esquina superior derecha, completa tus datos (nombre, correo electrónico y contraseña), confirma tu correo electrónico ¡y listo! Ya puedes comenzar a donar o crear campañas.",
+        "q2": "¿Cómo recupero mi contraseña?",
+        "a2": "En la página de inicio de sesión, haz clic en 'Olvidé mi contraseña', ingresa tu correo electrónico registrado y recibirás instrucciones para crear una nueva contraseña.",
+        "q3": "¿Puedo eliminar mi cuenta?",
+        "a3": "Sí, puedes solicitar la eliminación de tu cuenta a través de la configuración de perfil o contactando con nuestro soporte. Recuerda que esta acción es irreversible."
+      },
+      "security": {
+        "q1": "¿Mis datos están seguros en Benevolus?",
+        "a1": "¡Sí! Utilizamos cifrado SSL/TLS, almacenamiento seguro de datos y cumplimos con todos los requisitos de la LGPD (Ley General de Protección de Datos). Nunca compartimos o vendemos tus datos personales.",
+        "q2": "¿Cómo puedo denunciar una campaña sospechosa?",
+        "a2": "Si encuentras una campaña que parezca fraudulenta o inapropiada, haz clic en el botón 'Denunciar' en la página de la campaña o contacta con nuestro soporte. Tomamos todas las denuncias muy en serio.",
+        "q3": "¿Cómo verifican la autenticidad de las campañas?",
+        "a3": "Nuestro equipo analiza cada campaña antes de la publicación, verificando documentos, información de contacto y la coherencia de la historia. También monitoreamos campañas activas e investigamos denuncias de usuarios."
+      }
+    },
+    "no_results_title": "No se encontraron resultados",
+    "no_results_description": "Intenta buscar con otras palabras clave o navega por las categorías arriba.",
+    "showing_results": "Mostrando {count} de {total} preguntas",
+    "still_have_questions": "¿Aún tienes dudas?",
+    "contact_description": "¿No encontraste lo que buscabas? ¡Nuestro equipo está listo para ayudarte!",
+    "contact_button": "Contactar",
+    "help_center_button": "Centro de ayuda"
+  },
+  "help_center": {
+    "hero_badge": "Centro de Ayuda",
+    "title": "¿Cómo podemos ayudarte?",
+    "subtitle": "Explora nuestras guías y tutoriales para aprovechar al máximo la plataforma Benevolus",
+    "search_placeholder": "Buscar artículos de ayuda...",
+    "browse_by_category": "Navegar por categoría",
+    "category_description": "Elige una categoría para encontrar artículos relacionados",
+    "articles": "artículos",
+    "categories": {
+      "getting_started": {
+        "title": "Comenzando",
+        "description": "Primeros pasos en la plataforma"
+      },
+      "donations": {
+        "title": "Hacer Donaciones",
+        "description": "Todo sobre cómo donar"
+      },
+      "campaigns": {
+        "title": "Crear Campañas",
+        "description": "Guía completa para campañas"
+      },
+      "payments": {
+        "title": "Pagos",
+        "description": "Métodos y procesamiento"
+      },
+      "account": {
+        "title": "Mi Cuenta",
+        "description": "Gestionar perfil y configuración"
+      },
+      "security": {
+        "title": "Seguridad",
+        "description": "Protección y privacidad"
+      }
+    },
+    "popular_articles": "Artículos Populares",
+    "popular_description": "Los artículos más accedidos por los usuarios",
+    "popular": {
+      "article_1": "Cómo hacer mi primera donación",
+      "article_2": "Formas de pago disponibles",
+      "article_3": "Paso a paso para crear una campaña",
+      "article_4": "Cómo garantizar la seguridad de mi cuenta",
+      "article_5": "Entendiendo las comisiones de la plataforma"
+    },
+    "need_more_help": "¿Necesitas más ayuda?",
+    "more_help_description": "Explora otras formas de obtener soporte",
+    "quick_links": {
+      "contact": "Contáctanos",
+      "contact_desc": "Ponte en contacto con nuestro equipo",
+      "faq": "Preguntas Frecuentes",
+      "faq_desc": "Respuestas rápidas a dudas comunes",
+      "status": "Estado del Sistema",
+      "status_desc": "Verifica si hay problemas conocidos"
+    }
+  },
+  "privacy": {
+    "hero_badge": "Tu Privacidad",
+    "title": "Política de Privacidad",
+    "last_updated": "Última actualización",
+    "last_updated_date": "9 de febrero de 2026",
+    "lgpd_compliance": "Esta Política de Privacidad cumple con la Ley General de Protección de Datos (LGPD - Ley 13.709/2018) y describe cómo recopilamos, usamos, almacenamos y protegemos tus datos personales.",
+    "highlights": {
+      "security": {
+        "title": "Seguridad Primero",
+        "description": "Utilizamos las mejores prácticas de seguridad para proteger tus datos"
+      },
+      "transparency": {
+        "title": "Transparencia Total",
+        "description": "Siempre sabrás cómo se utilizan tus datos"
+      },
+      "control": {
+        "title": "Tú Tienes el Control",
+        "description": "Gestiona tus preferencias y datos en cualquier momento"
+      }
+    },
+    "sections": {
+      "introduction": {
+        "title": "Introducción",
+        "content": "La privacidad de los visitantes de nuestro sitio es muy importante para nosotros, y estamos comprometidos en protegerla. Esta política explica lo que haremos con tu información personal. Benevolus está comprometido en proteger la privacidad y seguridad de sus usuarios. Esta Política de Privacidad describe nuestras prácticas de recopilación, uso, almacenamiento y protección de datos personales."
+      },
+      "data_collection": {
+        "title": "Datos Recopilados",
+        "content": "Recopilamos las siguientes categorías de datos personales:\n\n• Datos de identificación: nombre, correo electrónico, documento de identidad, teléfono, fecha de nacimiento\n• Datos de pago: información de tarjeta de crédito, datos bancarios (procesados por socios seguros)\n• Datos de navegación: dirección IP, tipo de navegador, páginas visitadas, tiempo de acceso\n• Datos de campañas: historial de donaciones, campañas creadas, interacciones en la plataforma\n• Datos de comunicación: mensajes enviados, preferencias de contacto\n\nRecopilamos datos directamente de ti cuando te registras, creas una campaña, haces una donación o interactúas con nuestra plataforma."
+      },
+      "data_usage": {
+        "title": "Uso de los Datos",
+        "content": "Utilizamos tus datos personales para:\n\n• Procesar y gestionar donaciones y campañas\n• Verificar tu identidad y prevenir fraudes\n• Enviar notificaciones sobre tus campañas y donaciones\n• Mejorar nuestros servicios y experiencia del usuario\n• Cumplir obligaciones legales y regulatorias\n• Comunicar novedades, actualizaciones y ofertas (con tu consentimiento)\n• Realizar análisis estadísticos e investigaciones\n\nUtilizamos tus datos solo para los fines descritos y siempre con base legal adecuada (consentimiento, ejecución de contrato, obligación legal o interés legítimo)."
+      },
+      "data_sharing": {
+        "title": "Compartir Datos",
+        "content": "Podemos compartir tus datos con:\n\n• Procesadores de pagos: para procesar transacciones financieras\n• Proveedores de servicios: que nos ayudan en la operación de la plataforma (hosting, correo, analytics)\n• Autoridades legales: cuando lo exija la ley o para proteger derechos\n• Otros usuarios: la información pública de perfil y campañas es visible para otros usuarios\n\nNunca vendemos tus datos personales a terceros. Todos los socios con quienes compartimos datos son cuidadosamente seleccionados y deben cumplir con estrictos estándares de seguridad y privacidad."
+      },
+      "data_security": {
+        "title": "Seguridad de los Datos",
+        "content": "Implementamos medidas de seguridad técnicas y organizacionales para proteger tus datos:\n\n• Cifrado SSL/TLS para transmisión de datos\n• Cifrado de datos sensibles en reposo\n• Controles de acceso estrictos\n• Monitoreo continuo de seguridad\n• Auditorías regulares de seguridad\n• Capacitación del equipo en protección de datos\n• Copias de seguridad regulares y seguras\n\nA pesar de nuestros esfuerzos, ningún método de transmisión por Internet es 100% seguro. Te notificaremos sobre cualquier violación de datos que pueda afectar tus derechos."
+      },
+      "cookies": {
+        "title": "Cookies y Tecnologías Similares",
+        "content": "Utilizamos cookies y tecnologías similares para:\n\n• Mantenerte conectado a tu cuenta\n• Recordar tus preferencias\n• Analizar cómo usas nuestra plataforma\n• Personalizar contenido y anuncios\n• Mejorar la seguridad\n\nPuedes gestionar tus preferencias de cookies a través de la configuración de tu navegador. Ten en cuenta que deshabilitar las cookies puede afectar la funcionalidad de la plataforma."
+      },
+      "user_rights": {
+        "title": "Tus Derechos (LGPD)",
+        "content": "De acuerdo con la LGPD, tienes los siguientes derechos:\n\n• Confirmación de la existencia de tratamiento de datos\n• Acceso a tus datos personales\n• Corrección de datos incompletos, inexactos o desactualizados\n• Anonimización, bloqueo o eliminación de datos innecesarios o excesivos\n• Portabilidad de datos a otro proveedor\n• Eliminación de datos tratados con tu consentimiento\n• Información sobre compartir de datos\n• Revocación del consentimiento\n\nPara ejercer tus derechos, contáctanos en: privacidad@benevolus.com"
+      },
+      "minors": {
+        "title": "Protección de Menores",
+        "content": "Nuestra plataforma no está dirigida a menores de 18 años. No recopilamos intencionalmente datos de menores. Si eres padre o tutor y crees que tu hijo ha proporcionado datos personales, contáctanos para que podamos eliminar esta información. Si es necesario que menores utilicen la plataforma, esto debe ocurrir bajo supervisión y consentimiento de los padres o tutores legales."
+      },
+      "international": {
+        "title": "Transferencias Internacionales",
+        "content": "Tus datos pueden ser transferidos y mantenidos en servidores ubicados fuera de Brasil. Cuando hacemos transferencias internacionales de datos, garantizamos que existan medidas adecuadas de protección, como cláusulas contractuales estándar u otras salvaguardas aprobadas. Todos nuestros socios internacionales están obligados a mantener el mismo nivel de protección de datos exigido por la legislación brasileña."
+      },
+      "changes": {
+        "title": "Cambios en esta Política",
+        "content": "Podemos actualizar esta Política de Privacidad periódicamente para reflejar cambios en nuestras prácticas o en la legislación. Te notificaremos sobre cambios significativos a través de correo electrónico o aviso destacado en nuestra plataforma. La fecha de la última actualización siempre estará indicada en la parte superior de esta política. Recomendamos que revises esta política regularmente para mantenerte informado sobre cómo protegemos tus datos."
+      }
+    },
+    "contact": {
+      "title": "Ponte en Contacto",
+      "description": "Si tienes preguntas sobre nuestra Política de Privacidad o sobre el tratamiento de tus datos personales, contacta con nuestro Responsable de Protección de Datos (DPO).",
+      "button": "Contáctanos"
     }
   }
 }

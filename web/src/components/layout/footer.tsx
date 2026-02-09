@@ -60,20 +60,20 @@ export const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <a 
-                      href="#"
+                    <Link 
+                      href="/help-center"
                       className="text-default-600 hover:text-primary transition-colors duration-200"
                     >
                       {t('about_how_it_works')}
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a 
-                      href="#"
+                    <Link 
+                      href="/terms"
                       className="text-default-600 hover:text-primary transition-colors duration-200"
                     >
                       {t('about_terms_of_use')}
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link 
@@ -92,28 +92,28 @@ export const Footer = () => {
                 </h3>
                 <ul className="space-y-3">
                   <li>
-                    <a 
-                      href="#"
+                    <Link 
+                      href="/help-center"
                       className="text-default-600 hover:text-primary transition-colors duration-200"
                     >
                       {t('support_help_center')}
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a 
-                      href="#"
+                    <Link 
+                      href="/contact"
                       className="text-default-600 hover:text-primary transition-colors duration-200"
                     >
                       {t('support_contact')}
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a 
-                      href="#"
+                    <Link 
+                      href="/faq"
                       className="text-default-600 hover:text-primary transition-colors duration-200"
                     >
                       {t('support_faq')}
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -134,8 +134,13 @@ export const Footer = () => {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/leaderboard" className="text-default-600 hover:text-primary transition-colors duration-200">
+                      {t('campaigns_leaderboard')}
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/blog" className="text-default-600 hover:text-primary transition-colors duration-200">
-                      Blog
+                      {t('campaigns_blog')}
                     </Link>
                   </li>
                 </ul>
@@ -151,15 +156,15 @@ export const Footer = () => {
               &copy; {new Date().getFullYear()} {t('copyright')}
             </p>
             <div className="flex items-center gap-6 text-sm">
-              <a href="#" className="text-default-500 hover:text-foreground transition-colors">
+              <Link href="/privacy" className="text-default-500 hover:text-foreground transition-colors">
                 {t('privacy')}
-              </a>
-              <a href="#" className="text-default-500 hover:text-foreground transition-colors">
+              </Link>
+              <Link href="/terms" className="text-default-500 hover:text-foreground transition-colors">
                 {t('terms')}
-              </a>
-              <a href="#" className="text-default-500 hover:text-foreground transition-colors">
-                {t('cookies')}
-              </a>
+              </Link>
+              <Link href="/contact" className="text-default-500 hover:text-foreground transition-colors">
+                {t('contact')}
+              </Link>
             </div>
           </div>
         </div>

@@ -10,16 +10,12 @@ export const siteConfig = {
       href: '/campaigns',
     },
     {
-      labelKey: 'navbar.leaderboard',
-      href: '/leaderboard',
-    },
-    {
-      labelKey: 'navbar.blog',
-      href: '/blog',
-    },
-    {
       labelKey: 'navbar.mission',
       href: '/mission',
+    },
+    {
+      labelKey: 'navbar.help',
+      href: '/help-center',
     },
   ],
   navMenuItems: [] as {
