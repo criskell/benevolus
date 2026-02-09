@@ -28,7 +28,7 @@ const stepStyles = [
 export function HowItWorks() {
   const t = useTranslations('home.how_it_works');
   return (
-    <section className="w-full py-20 md:py-24">
+    <section id="how-it-works" className="w-full py-20 md:py-24">
       <div className="relative">
         {/* Header */}
         <motion.div 

@@ -61,7 +61,7 @@ export const Footer = () => {
                   </li>
                   <li>
                     <Link 
-                      href="/help-center"
+                      href="/#how-it-works"
                       className="text-default-600 hover:text-primary transition-colors duration-200"
                     >
                       {t('about_how_it_works')}
