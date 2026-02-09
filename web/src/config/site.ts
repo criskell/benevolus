@@ -13,10 +13,6 @@ export const siteConfig = {
       labelKey: 'navbar.mission',
       href: '/mission',
     },
-    {
-      labelKey: 'navbar.help',
-      href: '/help-center',
-    },
   ],
   navMenuItems: [] as {
     label: string;
