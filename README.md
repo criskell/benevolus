@@ -2,6 +2,10 @@
 
 A platform for managing charity campaigns and processing donations.
 
+---
+
+Would you like to contribute? Would you like to contribute? Access our Discord server, where we communicate and also share studies on computer science: https://discord.gg/Xg22NHw7Sc
+
 ## What it does
 
 Benevolus provides the tools needed to create and manage donation campaigns, handle payments securely, and keep track of contributions. It's built to be straightforward for campaign organizers while offering a smooth experience for donors.
