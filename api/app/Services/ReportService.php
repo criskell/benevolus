@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Services\Report;
+namespace App\Services;
 
 use App\Models\Campaign;
 use App\Models\Report;

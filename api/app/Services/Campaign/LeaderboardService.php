@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Services\Leaderboard;
+namespace App\Services\Campaign;
 
 use App\Models\Campaign;
 use App\Models\User;

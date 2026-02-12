@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Http\Controllers\API\Report;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Report\StoreReportRequest;
 use App\Http\Resources\Report\ReportResource;
 use App\Models\Campaign;
-use App\Services\Report\ReportService;
+use App\Services\ReportService;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;

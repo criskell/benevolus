@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Http\Controllers\API\Leaderboard;
+namespace App\Http\Controllers\API\Campaign;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Leaderboard\LeaderboardRankingResource;
-use App\Services\Leaderboard\LeaderboardService;
+use App\Services\Campaign\LeaderboardService;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
