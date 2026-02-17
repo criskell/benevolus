@@ -25,7 +25,7 @@ const stepStyles = [
   },
 ];
 
-export function HowItWorks() {
+export const HowItWorks = () => {
   const t = useTranslations('home.how_it_works');
   return (
     <section id="how-it-works" className="w-full py-20 md:py-24">

@@ -1,6 +1,6 @@
 import { useCart } from './useCart';
 
-export interface CartItem {
+export type CartItem = {
   slug: string;
   title: string;
   image: string;

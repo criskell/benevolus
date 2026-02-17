@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { StatusFilter, TimeFilter } from '../../types';
 import { Dispatch, SetStateAction } from 'react';
 
-interface SortMenuProps {
+type SortMenuProps = {
   statusFilter: StatusFilter;
   setStatusFilter: Dispatch<SetStateAction<StatusFilter>>;
   timeFilter: TimeFilter;

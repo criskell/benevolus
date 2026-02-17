@@ -1,7 +1,7 @@
 import { Input } from "@heroui/react";
 import React, { ChangeEvent } from "react";
 
-interface AuthInputProps {
+type AuthInputProps = {
   label: string;
   name: string;
   type?: string;

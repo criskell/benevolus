@@ -4,7 +4,7 @@ import { createContext, useContext, ReactNode } from 'react';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useDonationCart } from '@/hooks/useDonationCart';
 
-interface DonationContextType {
+type DonationContextType = {
   favorites: ReturnType<typeof useFavorites>;
   cart: ReturnType<typeof useDonationCart>;
 }

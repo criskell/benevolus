@@ -4,7 +4,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Card,
 import { useDonationContext } from '@/contexts/DonationContext';
 import { formatMoney } from '@/lib/utils/format-money';
 
-interface CheckoutModalProps {
+type CheckoutModalProps = {
   isOpen: boolean;
   onClose: () => void;
 }

@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react';
 import { Card, CardBody, Input, Textarea, Button, Chip } from '@heroui/react';
 import { motion } from 'framer-motion';
 
-export default function ContactPage() {
+const ContactPage = () => {
   const t = useTranslations('contact');
   const [formData, setFormData] = useState({
     name: '',
@@ -303,4 +303,6 @@ export default function ContactPage() {
       </section>
     </main>
   );
-}
+};
+
+export default ContactPage;

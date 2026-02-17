@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { Campaign } from '@/models/campaign';
 import { StatusFilter, TimeFilter } from '@/types';
 
-interface UseCampaignFiltersProps {
+type UseCampaignFiltersProps = {
   campaigns: Campaign[];
 }
 

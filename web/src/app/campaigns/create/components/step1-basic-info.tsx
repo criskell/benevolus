@@ -4,19 +4,19 @@ import { Input, Link } from '@heroui/react';
 import { NumericFormat } from 'react-number-format';
 import { useTranslations } from 'next-intl';
 
-interface Step1BasicInfoProps {
+type Step1BasicInfoProps = {
   title: string;
   goalCents: number;
   onTitleChange: (value: string) => void;
   onGoalCentsChange: (value: number) => void;
 }
 
-export function Step1BasicInfo({
+export const Step1BasicInfo = ({
   title,
   goalCents,
   onTitleChange,
   onGoalCentsChange,
-}: Step1BasicInfoProps) {
+}: Step1BasicInfoProps) => {
   const t = useTranslations('campaigns.create.step1');
   const handleGoalChange = (values: { floatValue?: number }) => {
     const value = values.floatValue || 0;

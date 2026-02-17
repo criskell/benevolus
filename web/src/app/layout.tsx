@@ -26,11 +26,11 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
-export default async function RootLayout({
+const RootLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   const locale = await detectLocale();
   const langMap: Record<string, string> = {
     pt: 'pt-BR',
@@ -59,4 +59,6 @@ export default async function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

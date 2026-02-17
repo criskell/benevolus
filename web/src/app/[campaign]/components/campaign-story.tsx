@@ -4,7 +4,7 @@ import { Card } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 
-export function CampaignStory() {
+export const CampaignStory = () => {
   const t = useTranslations('campaign.story');
   
   return (

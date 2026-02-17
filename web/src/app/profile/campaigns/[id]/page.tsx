@@ -49,7 +49,7 @@ const statusConfig: Record<CampaignStatus, { label: string; color: 'success' | '
   finished: { label: 'Finalizada', color: 'default' },
 };
 
-export default function CampaignDashboardPage({ params }: { params: Promise<{ id: string }> }) {
+const CampaignDashboardPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
 
   const userData = {
@@ -260,4 +260,6 @@ export default function CampaignDashboardPage({ params }: { params: Promise<{ id
       </div>
     </div>
   );
-}
+};
+
+export default CampaignDashboardPage;

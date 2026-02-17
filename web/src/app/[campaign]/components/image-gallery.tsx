@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 
-export function ImageGallery() {
+export const ImageGallery = () => {
   const t = useTranslations('campaign.gallery');
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [zoomLevel, setZoomLevel] = useState(1);

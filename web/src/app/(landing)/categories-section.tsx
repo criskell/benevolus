@@ -40,7 +40,7 @@ const styles = [
   },
 ];
 
-export function CategoriesSection() {
+export const CategoriesSection = () => {
   const t = useTranslations('home.categories');
 
   return (

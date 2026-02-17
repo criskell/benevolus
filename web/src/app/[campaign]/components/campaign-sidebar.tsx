@@ -4,7 +4,7 @@ import { Button, Card, Progress } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 
-export function CampaignSidebar() {
+export const CampaignSidebar = () => {
   const t = useTranslations('campaign.sidebar');
   
   return (

@@ -1,4 +1,4 @@
-export interface Campaign {
+export type Campaign = {
   slug: string;
   category: string;
   title: string;
@@ -9,7 +9,7 @@ export interface Campaign {
   goal: number;
 }
 
-export interface Filters {
+export type Filters = {
   categories: string[];
   tags: string[];
 }

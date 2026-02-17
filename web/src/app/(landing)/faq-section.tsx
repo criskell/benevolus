@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 const faqCount = 4;
 
-export function FaqSection() {
+export const FaqSection = () => {
   const t = useTranslations('home.faq');
 
   return (

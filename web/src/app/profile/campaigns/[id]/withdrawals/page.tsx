@@ -35,7 +35,7 @@ const statusConfig: Record<WithdrawalStatus, { label: string; color: 'warning' |
   failed: { label: 'Falhou', color: 'danger', icon: XCircle },
 };
 
-export default function WithdrawalsPage({ params }: { params: Promise<{ id: string }> }) {
+const WithdrawalsPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
 
   const userData = {
@@ -278,4 +278,6 @@ export default function WithdrawalsPage({ params }: { params: Promise<{ id: stri
       </div>
     </div>
   );
-}
+};
+
+export default WithdrawalsPage;

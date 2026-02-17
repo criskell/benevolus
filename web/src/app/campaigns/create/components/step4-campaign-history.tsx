@@ -3,15 +3,15 @@
 import { Textarea } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 
-interface Step4CampaignHistoryProps {
+type Step4CampaignHistoryProps = {
   history: string;
   onHistoryChange: (value: string) => void;
 }
 
-export function Step4CampaignHistory({
+export const Step4CampaignHistory = ({
   history,
   onHistoryChange,
-}: Step4CampaignHistoryProps) {
+}: Step4CampaignHistoryProps) => {
   const t = useTranslations('campaigns.create.step4');
   
   return (

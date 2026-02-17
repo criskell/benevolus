@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import Link from 'next/link';
 import { Button } from '@heroui/react';
 
-export default function MissionPage() {
+const MissionPage = () => {
   const t = useTranslations('aboutUs');
 
   const goals = [
@@ -132,4 +132,6 @@ export default function MissionPage() {
       </section>
     </main>
   );
-}
+};
+
+export default MissionPage;

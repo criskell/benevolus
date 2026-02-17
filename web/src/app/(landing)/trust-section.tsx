@@ -16,7 +16,7 @@ const colors = [
   { bg: 'bg-emerald-500/5', ring: 'ring-emerald-500/10', iconBg: 'bg-emerald-500/10', iconColor: 'text-emerald-600' },
 ];
 
-export function TrustSection() {
+export const TrustSection = () => {
   const t = useTranslations('home.trust');
 
   return (

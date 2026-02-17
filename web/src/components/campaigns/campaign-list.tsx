@@ -4,7 +4,7 @@ import { Campaign } from '@/models/campaign';
 import { CampaignCard } from '../campaign/campaign-card';
 import { EmptyState } from './EmptyState';
 
-interface CampaignListProps {
+type CampaignListProps = {
   campaigns: Campaign[];
 }
 

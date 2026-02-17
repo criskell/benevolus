@@ -5,17 +5,17 @@ import { Upload } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 
-interface Step5CampaignImageProps {
+type Step5CampaignImageProps = {
   image: File | null;
   onImageChange: (file: File | null) => void;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-export function Step5CampaignImage({
+export const Step5CampaignImage = ({
   image,
   onImageChange,
-}: Step5CampaignImageProps) {
+}: Step5CampaignImageProps) => {
   const t = useTranslations('campaigns.create.step5');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);

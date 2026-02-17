@@ -9,7 +9,7 @@ import { LogoIcon } from "@/components/icons/logo";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslations } from 'next-intl';
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const router = useRouter();
@@ -103,4 +103,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

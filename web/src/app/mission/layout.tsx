@@ -6,10 +6,12 @@ export const metadata: Metadata = {
     'Conheça a missão e os objetivos do Benevolus: ecossistema baseado no altruísmo, plataforma de campanhas de caridade e open-source.',
 };
 
-export default function MissionLayout({
+const MissionLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   return children;
-}
+};
+
+export default MissionLayout;

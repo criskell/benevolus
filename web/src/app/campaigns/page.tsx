@@ -41,7 +41,7 @@ const mappedCampaigns: Campaign[] = rawCampaigns.campaigns.map((c) => ({
   images: [c.image || '', c.image || ''],
 }));
 
-export default function CampaignsPage() {
+const CampaignsPage = () => {
   const t = useTranslations('campaigns.list');
   const { favorites, cart } = useDonationContext();
 
@@ -167,4 +167,6 @@ export default function CampaignsPage() {
       />
     </>
   );
-}
+};
+
+export default CampaignsPage;

@@ -33,7 +33,7 @@ const statusColors = {
   rejected: 'danger',
 } as const;
 
-export default function DonationDetailPage() {
+const DonationDetailPage = () => {
   const params = useParams();
   const router = useRouter();
   const donationId = params.id as string;
@@ -255,4 +255,6 @@ export default function DonationDetailPage() {
       </div>
     </div>
   );
-}
+};
+
+export default DonationDetailPage;

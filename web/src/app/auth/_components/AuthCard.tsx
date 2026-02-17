@@ -2,7 +2,7 @@ import { Card, CardBody } from "@heroui/react";
 import { ReactNode } from "react";
 
 
-interface AuthCardProps {
+type AuthCardProps = {
   title: string;
   children: ReactNode;
 }

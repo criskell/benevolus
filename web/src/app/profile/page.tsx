@@ -27,7 +27,7 @@ type AddressData = {
   complement: string;
 };
 
-export default function ProfilePage() {
+const ProfilePage = () => {
   // Dados mockados - serão substituídos por dados reais da API
   const [userData, setUserData] = useState<UserData>({
     name: 'Cristiano',
@@ -103,4 +103,6 @@ export default function ProfilePage() {
       </div>
     </div>
   );
-}
+};
+
+export default ProfilePage;

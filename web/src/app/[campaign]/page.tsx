@@ -8,7 +8,7 @@ import { CampaignDonors } from './components/campaign-donors';
 import { CampaignComments } from './components/campaign-comments';
 import { CampaignSidebar } from './components/campaign-sidebar';
 
-export default function CampaignPage() {
+const CampaignPage = () => {
   return (
     <div className="flex-1 my-8 md:my-16">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,4 +33,6 @@ export default function CampaignPage() {
       </div>
     </div>
   );
-}
+};
+
+export default CampaignPage;

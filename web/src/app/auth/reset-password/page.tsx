@@ -7,7 +7,7 @@ import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
 import { useTranslations } from 'next-intl';
 
-export default function ResetPasswordPage() {
+const ResetPasswordPage = () => {
   const t = useTranslations('auth.reset_password');
   const [step, setStep] = useState<"email" | "code" | "password">("email");
   const [email, setEmail] = useState("");
@@ -190,4 +190,6 @@ export default function ResetPasswordPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ResetPasswordPage;

@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import placeholder from '@/assets/images/placeholder1.jpg';
 
-export function CampaignAside() {
+export const CampaignAside = () => {
   const t = useTranslations('donate');
   return (
     <aside className="w-full lg:w-[380px] xl:w-[420px]">

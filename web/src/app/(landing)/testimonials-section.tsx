@@ -25,7 +25,7 @@ const testimonialStyles = [
   },
 ];
 
-export function TestimonialsSection() {
+export const TestimonialsSection = () => {
   const t = useTranslations('home.testimonials');
 
   return (

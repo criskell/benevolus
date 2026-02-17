@@ -1,7 +1,7 @@
 import { Link } from "@heroui/react";
 import React from "react";
 
-interface AuthLinkProps {
+type AuthLinkProps = {
   text: string;
   linkText: string;
   href: string;

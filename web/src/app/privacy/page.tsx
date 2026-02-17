@@ -6,7 +6,7 @@ import { Card, CardBody, Chip } from '@heroui/react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-export default function PrivacyPage() {
+const PrivacyPage = () => {
   const t = useTranslations('privacy');
 
   const sections = [
@@ -248,4 +248,6 @@ export default function PrivacyPage() {
       </section>
     </main>
   );
-}
+};
+
+export default PrivacyPage;

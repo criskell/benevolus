@@ -3,7 +3,7 @@
 import { Badge, Card } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 
-export function CampaignUpdates() {
+export const CampaignUpdates = () => {
   const t = useTranslations('campaign.updates');
   
   return (

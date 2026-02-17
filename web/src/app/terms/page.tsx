@@ -6,7 +6,7 @@ import { Card, CardBody } from '@heroui/react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-export default function TermsPage() {
+const TermsPage = () => {
   const t = useTranslations('terms');
 
   const sections = [
@@ -188,4 +188,6 @@ export default function TermsPage() {
       </section>
     </main>
   );
-}
+};
+
+export default TermsPage;

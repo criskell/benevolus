@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
 
-interface BlogPost {
+type BlogPost = {
   slug: string;
   title: string;
   excerpt: string;
@@ -90,7 +90,7 @@ const categories = [
   { key: 'technology', label: 'blog.categories.technology' },
 ];
 
-export default function BlogPage() {
+const BlogPage = () => {
   const t = useTranslations();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -331,4 +331,6 @@ export default function BlogPage() {
       </section>
     </main>
   );
-}
+};
+
+export default BlogPage;

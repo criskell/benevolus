@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet } from "react-router";
 
-export default function Dashboard() {
+const Dashboard = () => {
   return (
     <SidebarProvider
       style={
@@ -27,4 +27,6 @@ export default function Dashboard() {
       </SidebarInset>
     </SidebarProvider>
   );
-}
+};
+
+export default Dashboard;

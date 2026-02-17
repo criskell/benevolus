@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import { useRouter } from 'nextjs-toploader/app';
 import { userAtom, User } from '@/atoms/auth';
 
-export function useAuth() {
+export const useAuth = () => {
   const [user, setUser] = useAtom(userAtom);
   const router = useRouter();
 

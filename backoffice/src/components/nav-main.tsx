@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Link } from "react-router"
 
-export function NavMain({
+export const NavMain = ({
   items,
 }: {
   items: {
@@ -17,7 +17,7 @@ export function NavMain({
     url: string
     icon?: Icon
   }[]
-}) {
+}) => {
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -38,4 +38,4 @@ export function NavMain({
       </SidebarGroupContent>
     </SidebarGroup>
   )
-}
+};

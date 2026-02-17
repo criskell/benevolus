@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
 import { favoritesAtom } from '@/atoms/favorites';
 
-export interface FavoriteItem {
+export type FavoriteItem = {
   slug: string;
   title: string;
   image: string;

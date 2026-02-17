@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 
-export function NewsletterSection() {
+export const NewsletterSection = () => {
   const t = useTranslations('home.newsletter');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');

@@ -31,7 +31,7 @@ const statusLabels: Record<CampaignStatus, string> = {
   finished: 'Finalizada',
 };
 
-export default function MyCampaignsPage() {
+const MyCampaignsPage = () => {
   const [activeTab, setActiveTab] = useState<'all' | CampaignStatus>('all');
 
   const userData = {
@@ -192,4 +192,6 @@ export default function MyCampaignsPage() {
       </div>
     </div>
   );
-}
+};
+
+export default MyCampaignsPage;

@@ -10,7 +10,7 @@ import { useTranslations } from 'next-intl';
 import { CampaignAside } from './components/campaign-aside';
 import { DonateForm } from './components/donate-form';
 
-export default function CampaignDonatePage() {
+const CampaignDonatePage = () => {
   const t = useTranslations('donate');
   return (
     <div className="min-h-screen">
@@ -51,4 +51,6 @@ export default function CampaignDonatePage() {
       </div>
     </div>
   );
-}
+};
+
+export default CampaignDonatePage;

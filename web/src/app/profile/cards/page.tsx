@@ -6,7 +6,7 @@ import { CreditCard, Plus } from 'lucide-react';
 import NextLink from 'next/link';
 import { ProfileSidebar } from '../components/profile-sidebar';
 
-export default function CardsPage() {
+const CardsPage = () => {
   const userData = {
     name: 'Cristiano',
     followedCampaigns: 0,
@@ -77,4 +77,6 @@ export default function CardsPage() {
       </div>
     </div>
   );
-}
+};
+
+export default CardsPage;

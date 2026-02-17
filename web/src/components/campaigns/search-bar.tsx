@@ -2,7 +2,7 @@ import { Input } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { SearchIcon } from '../icons/search';
 
-interface SearchBarProps {
+type SearchBarProps = {
   value: string;
   onChange: (value: string) => void;
 }

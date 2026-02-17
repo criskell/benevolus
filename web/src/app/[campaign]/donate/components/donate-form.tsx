@@ -22,7 +22,7 @@ import { PayPalIcon } from '@/components/icons/paypal';
 import { BitcoinIcon } from '@/components/icons/bitcoin';
 import { PaymentMethodButton } from './payment-method-button';
 
-export function DonateForm() {
+export const DonateForm = () => {
   const t = useTranslations('donate');
   const phoneInputId = useId();
   const [phone, setPhone] = useState<any>();

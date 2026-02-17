@@ -23,7 +23,7 @@ type Donation = {
   thankYouSentAt?: string;
 };
 
-export default function ThankDonorsPage({ params }: { params: Promise<{ id: string }> }) {
+const ThankDonorsPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'thanked' | 'pending'>('pending');
@@ -441,4 +441,6 @@ export default function ThankDonorsPage({ params }: { params: Promise<{ id: stri
       />
     </div>
   );
-}
+};
+
+export default ThankDonorsPage;

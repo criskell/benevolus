@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 
-export function CampaignComments() {
+export const CampaignComments = () => {
   const t = useTranslations('campaign.comments');
   
   return (

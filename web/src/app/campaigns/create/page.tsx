@@ -15,7 +15,7 @@ import { Step7CampaignConfirmation } from './components/step7-campaign-confirmat
 
 const TOTAL_STEPS = 7;
 
-interface CampaignFormData {
+type CampaignFormData = {
   title: string;
   goalCents: number;
   description: string;
@@ -33,7 +33,7 @@ interface CampaignFormData {
   image: File | null;
 }
 
-export default function CreateCampaignPage() {
+const CreateCampaignPage = () => {
   const t = useTranslations('campaigns.create');
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<CampaignFormData>({
@@ -270,5 +270,7 @@ export default function CreateCampaignPage() {
       </div>
     </div>
   );
-}
+};
+
+export default CreateCampaignPage;
 

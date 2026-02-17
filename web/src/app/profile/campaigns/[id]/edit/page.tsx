@@ -16,7 +16,7 @@ type CampaignFormData = {
   image: string;
 };
 
-export default function EditCampaignPage({ params }: { params: Promise<{ id: string }> }) {
+const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
 
   const userData = {
@@ -136,4 +136,6 @@ export default function EditCampaignPage({ params }: { params: Promise<{ id: str
       </div>
     </div>
   );
-}
+};
+
+export default EditCampaignPage;

@@ -25,7 +25,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
-export function NavDocuments({
+export const NavDocuments = ({
   items,
 }: {
   items: {
@@ -33,7 +33,7 @@ export function NavDocuments({
     url: string
     icon: Icon
   }[]
-}) {
+}) => {
   const { isMobile } = useSidebar()
 
   return (
@@ -89,4 +89,4 @@ export function NavDocuments({
       </SidebarMenu>
     </SidebarGroup>
   )
-}
+};

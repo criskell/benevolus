@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { VisibilityContext, ScrollMenu } from "react-horizontal-scrolling-menu";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 
-interface CategoryNavigationProps {
+type CategoryNavigationProps = {
   categories: string[];
   selectedCategory: string;
   onCategorySelect: (category: string) => void;

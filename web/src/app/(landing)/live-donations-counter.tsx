@@ -6,7 +6,7 @@ import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { Card } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 
-export function LiveDonationsCounter() {
+export const LiveDonationsCounter = () => {
   const t = useTranslations('home.live_donations');
   const [totalDonations, setTotalDonations] = useState(1274650); // R$ 12.746,50 em centavos
   const [isUpdating, setIsUpdating] = useState(false);

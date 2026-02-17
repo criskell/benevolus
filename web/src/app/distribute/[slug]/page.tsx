@@ -28,11 +28,11 @@ import { formatMoney } from '@/lib/utils/format-money';
 import { campaigns } from '@/data/campaigns';
 import type { Campaign } from '@/models/campaign';
 
-export default function DistributePage({
+const DistributePage = ({
   params: paramsPromise,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}) => {
   const params = use(paramsPromise);
   const campaignSlug = params.slug;
   const t = useTranslations('campaigns.distribute');
@@ -937,4 +937,6 @@ export default function DistributePage({
       </Modal>
     </div>
   );
-}
+};
+
+export default DistributePage;

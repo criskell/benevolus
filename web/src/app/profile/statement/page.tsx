@@ -54,7 +54,7 @@ const statusConfig = {
   failed: { label: 'Falhou', color: 'danger' as const },
 };
 
-export default function UserStatementPage() {
+const UserStatementPage = () => {
   const [activeTab, setActiveTab] = useState<'all' | TransactionType>('all');
   const [selectedPeriod, setSelectedPeriod] = useState('30');
 
@@ -459,4 +459,6 @@ export default function UserStatementPage() {
       </div>
     </div>
   );
-}
+};
+
+export default UserStatementPage;

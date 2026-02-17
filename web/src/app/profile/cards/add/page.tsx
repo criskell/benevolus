@@ -7,7 +7,7 @@ import { PatternFormat } from 'react-number-format';
 import NextLink from 'next/link';
 import { ProfileSidebar } from '../../components/profile-sidebar';
 
-export default function AddCardPage() {
+const AddCardPage = () => {
   const [formData, setFormData] = useState({
     cardNumber: '',
     cardholderName: '',
@@ -282,4 +282,6 @@ export default function AddCardPage() {
       </div>
     </div>
   );
-}
+};
+
+export default AddCardPage;

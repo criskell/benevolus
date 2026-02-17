@@ -6,7 +6,7 @@ export type PaymentMethodButtonProps = {
   title: string;
 };
 
-export function PaymentMethodButton({ icon, title }: PaymentMethodButtonProps) {
+export const PaymentMethodButton = ({ icon, title }: PaymentMethodButtonProps) => {
   const [isSelected, setIsSelected] = useState(false);
 
   return (

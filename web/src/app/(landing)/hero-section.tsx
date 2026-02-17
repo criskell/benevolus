@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 
-export function HeroSection() {
+export const HeroSection = () => {
   const t = useTranslations('home');
 
   return (

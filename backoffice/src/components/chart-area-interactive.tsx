@@ -140,7 +140,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function ChartAreaInteractive() {
+export const ChartAreaInteractive = () => {
   const isMobile = useIsMobile()
   const [timeRange, setTimeRange] = React.useState("90d")
 

@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react';
 import { Card, CardBody, CardHeader, Chip, Button } from '@heroui/react';
 import { motion } from 'framer-motion';
 
-interface ChangelogEntry {
+type ChangelogEntry = {
   version: string;
   date: string;
   changes: {
@@ -125,7 +125,7 @@ const getTypeConfig = (type: ChangelogEntry['changes'][0]['type']) => {
   }
 };
 
-export default function ChangelogPage() {
+const ChangelogPage = () => {
   const t = useTranslations();
   const [filter, setFilter] = useState<'all' | 'feature' | 'bugfix' | 'improvement' | 'breaking'>('all');
 
@@ -413,4 +413,6 @@ export default function ChangelogPage() {
       </section>
     </main>
   );
-}
+};
+
+export default ChangelogPage;

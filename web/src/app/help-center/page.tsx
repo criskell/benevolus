@@ -7,7 +7,7 @@ import { Card, CardBody, CardHeader, Input, Button } from '@heroui/react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-export default function HelpCenterPage() {
+const HelpCenterPage = () => {
   const t = useTranslations('help_center');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -307,4 +307,6 @@ export default function HelpCenterPage() {
       </section>
     </main>
   );
-}
+};
+
+export default HelpCenterPage;

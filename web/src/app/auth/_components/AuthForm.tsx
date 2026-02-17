@@ -1,6 +1,6 @@
 import React, { FormEvent } from "react";
 
-interface AuthFormProps {
+type AuthFormProps = {
   children: React.ReactNode;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 }

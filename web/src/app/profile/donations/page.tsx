@@ -19,7 +19,7 @@ type Donation = {
   isMonthly?: boolean;
 };
 
-export default function DonationsPage() {
+const DonationsPage = () => {
   const [activeTab, setActiveTab] = useState<'one-time' | 'monthly'>(
     'one-time'
   );
@@ -132,4 +132,6 @@ export default function DonationsPage() {
       </div>
     </div>
   );
-}
+};
+
+export default DonationsPage;

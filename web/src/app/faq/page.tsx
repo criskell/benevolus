@@ -7,7 +7,7 @@ import { Card, CardBody, Input, Accordion, AccordionItem, Chip } from '@heroui/r
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-export default function FAQPage() {
+const FAQPage = () => {
   const t = useTranslations('faq');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -257,4 +257,6 @@ export default function FAQPage() {
       </section>
     </main>
   );
-}
+};
+
+export default FAQPage;

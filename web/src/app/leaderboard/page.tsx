@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { api } from '@/lib/http/api-client';
 import { formatMoney } from '@/lib/utils/format-money';
 
-interface LeaderboardEntry {
+type LeaderboardEntry = {
   id: number | null;
   name: string;
   totalDonated?: number;
@@ -17,7 +17,7 @@ interface LeaderboardEntry {
 
 type TabKey = 'donors' | 'campaigns' | 'creators';
 
-export default function LeaderboardPage() {
+const LeaderboardPage = () => {
   const t = useTranslations('leaderboard');
   const [selectedTab, setSelectedTab] = useState<TabKey>('donors');
   const [donors, setDonors] = useState<LeaderboardEntry[]>([]);
@@ -364,4 +364,6 @@ export default function LeaderboardPage() {
       </div>
     </main>
   );
-}
+};
+
+export default LeaderboardPage;

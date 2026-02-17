@@ -30,7 +30,7 @@ const mappedCampaigns: Campaign[] = campaigns.campaigns.map((c) => ({
   image: c.image,
 }));
 
-export default function Home() {
+const Home = () => {
   const t = useTranslations('home');
   const allCategoriesText = t('all_categories');
   
@@ -76,4 +76,6 @@ export default function Home() {
       <CallToAction />
     </main>
   );
-}
+};
+
+export default Home;

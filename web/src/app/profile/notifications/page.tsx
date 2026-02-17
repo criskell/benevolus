@@ -23,7 +23,7 @@ const notificationIcons: Record<NotificationType, React.ReactNode> = {
   system: <AlertCircle size={20} className="text-orange-500" />,
 };
 
-export default function NotificationsPage() {
+const NotificationsPage = () => {
   const userData = {
     name: 'Cristiano',
     followedCampaigns: 0,
@@ -231,4 +231,6 @@ export default function NotificationsPage() {
       </div>
     </div>
   );
-}
+};
+
+export default NotificationsPage;

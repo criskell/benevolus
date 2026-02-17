@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-export default function BlogPostPage() {
+const BlogPostPage = () => {
   const t = useTranslations();
   const params = useParams();
   const slug = params.slug as string;
@@ -211,4 +211,6 @@ export default function BlogPostPage() {
       </section>
     </main>
   );
-}
+};
+
+export default BlogPostPage;

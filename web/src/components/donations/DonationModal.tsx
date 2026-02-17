@@ -8,7 +8,7 @@ import { formatMoney } from '@/lib/utils/format-money';
 import { campaigns } from '@/data/campaigns';
 import type { Campaign } from '@/models/campaign';
 
-interface DonationModalProps {
+type DonationModalProps = {
   campaign: Campaign;
   isOpen: boolean;
   onClose: () => void;

@@ -15,7 +15,7 @@ type CampaignUpdate = {
   createdAt: string;
 };
 
-export default function CampaignUpdatesPage({ params }: { params: Promise<{ id: string }> }) {
+const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
 
   const userData = {
@@ -242,4 +242,6 @@ export default function CampaignUpdatesPage({ params }: { params: Promise<{ id: 
       </div>
     </div>
   );
-}
+};
+
+export default CampaignUpdatesPage;

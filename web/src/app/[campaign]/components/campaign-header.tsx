@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 
-export function CampaignHeader() {
+export const CampaignHeader = () => {
   const t = useTranslations('campaign.header');
   
   return (

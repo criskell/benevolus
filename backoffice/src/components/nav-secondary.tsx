@@ -11,7 +11,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-export function NavSecondary({
+export const NavSecondary = ({
   items,
   ...props
 }: {
@@ -20,7 +20,7 @@ export function NavSecondary({
     url: string
     icon: Icon
   }[]
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) => {
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
@@ -39,4 +39,4 @@ export function NavSecondary({
       </SidebarGroupContent>
     </SidebarGroup>
   )
-}
+};

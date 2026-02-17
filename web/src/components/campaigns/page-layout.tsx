@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-interface PageLayoutProps {
+type PageLayoutProps = {
   sidebar: ReactNode;
   main: ReactNode;
 }

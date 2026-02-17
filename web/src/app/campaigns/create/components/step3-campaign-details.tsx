@@ -3,7 +3,7 @@
 import { RadioGroup, Radio, Select, SelectItem } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 
-interface Step3CampaignDetailsProps {
+type Step3CampaignDetailsProps = {
   beneficiaryType: string;
   category: string;
   onBeneficiaryTypeChange: (value: string) => void;
@@ -13,12 +13,12 @@ interface Step3CampaignDetailsProps {
 const beneficiaryValues = ['myself', 'pet', 'family', 'friend', 'company'];
 const categoryKeys = ['animals', 'education', 'emergency', 'empathy', 'sports', 'income', 'housing', 'social', 'recurring', 'health'];
 
-export function Step3CampaignDetails({
+export const Step3CampaignDetails = ({
   beneficiaryType,
   category,
   onBeneficiaryTypeChange,
   onCategoryChange,
-}: Step3CampaignDetailsProps) {
+}: Step3CampaignDetailsProps) => {
   const t = useTranslations('campaigns.create.step3');
   return (
     <div className="space-y-8">

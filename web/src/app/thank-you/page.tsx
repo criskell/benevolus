@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-export default function DonationSuccessPage() {
+const DonationSuccessPage = () => {
   const [confetti, setConfetti] = useState<Array<{
     left: string;
     backgroundColor: string;
@@ -273,4 +273,6 @@ export default function DonationSuccessPage() {
       </div>
     </div>
   );
-}
+};
+
+export default DonationSuccessPage;

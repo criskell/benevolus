@@ -10,7 +10,7 @@ const iconKeys = [
   'solar:users-group-rounded-outline',
 ] as const;
 
-export function WhyBenevolus() {
+export const WhyBenevolus = () => {
   const t = useTranslations('home.why');
 
   return (

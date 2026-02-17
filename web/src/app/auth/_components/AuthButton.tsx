@@ -1,7 +1,7 @@
 import { Button } from "@heroui/react";
 import { ReactNode } from "react";
 
-interface AuthButtonProps {
+type AuthButtonProps = {
   children: ReactNode;
   onClick?: () => void;
   type?: "button" | "submit";

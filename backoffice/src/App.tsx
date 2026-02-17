@@ -3,7 +3,7 @@ import Dashboard from "./layouts/dashboard";
 import { Home } from "./pages/home";
 import { Categoria } from "./pages/categorias";
 
-export default function Page() {
+const Page = () => {
   return (
     <Routes>
       <Route element={<Dashboard />}>
@@ -12,4 +12,6 @@ export default function Page() {
       </Route>
     </Routes>
   );
-}
+};
+
+export default Page;

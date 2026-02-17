@@ -22,7 +22,7 @@ const statKeys = [
   },
 ] as const;
 
-export function ImpactSection() {
+export const ImpactSection = () => {
   const t = useTranslations('home.impact');
 
   const stats = [

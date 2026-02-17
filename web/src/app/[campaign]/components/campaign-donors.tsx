@@ -6,7 +6,7 @@ import { Avatar, Badge, Button, Card } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 
-export function CampaignDonors() {
+export const CampaignDonors = () => {
   const t = useTranslations('campaign.donors');
   const donations = [
     {

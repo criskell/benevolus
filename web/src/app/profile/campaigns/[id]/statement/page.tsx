@@ -54,7 +54,7 @@ const statusConfig = {
   failed: { label: 'Falhou', color: 'danger' as const },
 };
 
-export default function CampaignStatementPage({ params }: { params: Promise<{ id: string }> }) {
+const CampaignStatementPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
   const [activeTab, setActiveTab] = useState<'all' | TransactionType>('all');
   const [selectedPeriod, setSelectedPeriod] = useState('30');
@@ -396,4 +396,6 @@ export default function CampaignStatementPage({ params }: { params: Promise<{ id
       </div>
     </div>
   );
-}
+};
+
+export default CampaignStatementPage;
