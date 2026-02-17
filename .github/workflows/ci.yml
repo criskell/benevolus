@@ -48,14 +48,3 @@ jobs:
 
       - name: Run test suite
         run: ./vendor/bin/pest
-
-      - name: Discord notification
-        if: always()
-        uses: sarisia/actions-status-discord@v1
-        with:
-          webhook: ${{ secrets.DISCORD_CI_WEBHOOK }}
-          status: ${{ job.status }}
-          title: "CI Workflow"
-          description: "Tests completed"
-          color: 0x0000ff
-          username: GitHub Actions
