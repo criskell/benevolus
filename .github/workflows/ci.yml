@@ -1,50 +1,46 @@
 name: Continuous Integration
-
 on:
   push:
     branches:
       - main
+    paths:
+      - 'api/**'
+      - './github/workflows/ci.yml'
   pull_request:
     branches:
       - main
-
+    paths:
+      - 'api/**'
+      - './github/workflows/ci.yml'
 jobs:
   ci:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./api
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-
       - name: Prepare PHP environment
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
           tools: composer:v2
           coverage: xdebug
-
       - name: Prepare Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-
       - name: Install Node.js dependencies
         run: npm i
           
       - name: Install API dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
       - name: Install environment variables
         run: cp .env.example .env
-
       - name: Generate application key
         run: php artisan key:generate
-
       - name: Build frontend
         run: npm run build
-
       - name: Run test suite
         run: ./vendor/bin/pest
