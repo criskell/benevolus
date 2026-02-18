@@ -5,13 +5,13 @@ import { Progress, Button, Card, CardBody } from '@heroui/react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Step1BasicInfo } from './step1-basic-info';
-import { Step2ConfirmData } from './step2-confirm-data';
-import { Step3CampaignDetails } from './step3-campaign-details';
-import { Step4CampaignHistory } from './step4-campaign-history';
-import { Step5CampaignImage } from './step5-campaign-image';
-import { Step6CampaignSuccess } from './step6-campaign-success';
-import { Step7CampaignConfirmation } from './step7-campaign-confirmation';
+import { Step1BasicInfo } from './basic-info';
+import { Step2ConfirmData } from './confirm-data';
+import { Step3CampaignDetails } from './campaign-details';
+import { Step4CampaignHistory } from './campaign-history';
+import { Step5CampaignImage } from './campaign-image';
+import { Step6CampaignSuccess } from './campaign-success';
+import { Step7CampaignConfirmation } from './campaign-confirmation';
 
 const TOTAL_STEPS = 7;
 
