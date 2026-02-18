@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\Comment;
@@ -160,6 +161,7 @@ final class CommentController extends Controller implements HasMiddleware
     public function destroy(Comment $comment)
     {
         Gate::authorize('delete', $comment);
+
         $this->commentService->delete($comment);
 
         return response()->noContent();
