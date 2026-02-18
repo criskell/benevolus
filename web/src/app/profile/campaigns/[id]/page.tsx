@@ -6,9 +6,9 @@ import { ArrowLeft, Pencil, Megaphone, Wallet, ExternalLink, Users, TrendingUp, 
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { ProfileSidebar } from '../../components/profile-sidebar';
-import { RecentDonationsList } from './components/recent-donations-list';
-import { StatsCard } from './components/stats-card';
+import { ProfileSidebar } from '../../profile-sidebar';
+import { RecentDonationsList } from './recent-donations-list';
+import { StatsCard } from './stats-card';
 import { formatMoney } from '@/lib/utils/format-money';
 
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';

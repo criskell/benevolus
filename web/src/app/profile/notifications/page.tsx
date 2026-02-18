@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Card, CardBody, Button, Chip } from '@heroui/react';
 import { Bell, Check, Trash2, Heart, Megaphone, DollarSign, AlertCircle } from 'lucide-react';
-import { ProfileSidebar } from '../components/profile-sidebar';
+import { ProfileSidebar } from '../profile-sidebar';
 
 type NotificationType = 'donation' | 'campaign' | 'system' | 'withdrawal';
 

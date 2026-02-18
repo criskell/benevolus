@@ -3,7 +3,7 @@
 import { Badge, Card, CardBody, Button } from '@heroui/react';
 import { ArrowLeftIcon } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { ProfileSidebar } from '../../components/profile-sidebar';
+import { ProfileSidebar } from '../../profile-sidebar';
 import { formatMoney } from '@/lib/utils/format-money';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 import placeholderImage2 from '@/assets/images/placeholder2.jpg';

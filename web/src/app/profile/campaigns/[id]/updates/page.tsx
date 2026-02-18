@@ -5,7 +5,7 @@ import { Button, Card, CardBody, Input, Textarea, Switch, Chip } from '@heroui/r
 import { ArrowLeft, Plus, Trash2, Lock, Globe } from 'lucide-react';
 import Link from 'next/link';
 
-import { ProfileSidebar } from '../../../components/profile-sidebar';
+import { ProfileSidebar } from '../../../profile-sidebar';
 
 type CampaignUpdate = {
   id: string;

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card, CardBody, Chip, Tabs, Tab, Select, SelectItem, Button } from '@heroui/react';
 import { Download, ArrowUpRight, ArrowDownLeft, Filter, Receipt } from 'lucide-react';
 
-import { ProfileSidebar } from '../components/profile-sidebar';
+import { ProfileSidebar } from '../profile-sidebar';
 import { formatMoney } from '@/lib/utils/format-money';
 
 type TransactionType = 'donation_made' | 'donation_received' | 'withdrawal' | 'refund';

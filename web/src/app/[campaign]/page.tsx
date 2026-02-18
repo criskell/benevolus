@@ -1,12 +1,12 @@
 'use client';
 
-import { CampaignHeader } from './components/campaign-header';
-import { ImageGallery } from './components/image-gallery';
-import { CampaignStory } from './components/campaign-story';
-import { CampaignUpdates } from './components/campaign-updates';
-import { CampaignDonors } from './components/campaign-donors';
-import { CampaignComments } from './components/campaign-comments';
-import { CampaignSidebar } from './components/campaign-sidebar';
+import { CampaignHeader } from './campaign-header';
+import { ImageGallery } from './image-gallery';
+import { CampaignStory } from './campaign-story';
+import { CampaignUpdates } from './campaign-updates';
+import { CampaignDonors } from './campaign-donors';
+import { CampaignComments } from './campaign-comments';
+import { CampaignSidebar } from './campaign-sidebar';
 
 const CampaignPage = () => {
   return (

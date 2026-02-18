@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Button, Chip, Tabs, Tab } from '@heroui/react';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { ProfileSidebar } from '../components/profile-sidebar';
-import { MyCampaignCard } from './components/my-campaign-card';
+import { ProfileSidebar } from '../profile-sidebar';
+import { MyCampaignCard } from './my-campaign-card';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 import placeholderImage2 from '@/assets/images/placeholder2.jpg';
 

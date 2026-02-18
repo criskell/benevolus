@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ProfileSidebar } from './components/profile-sidebar';
-import { ProfilePersonalInfo } from './components/profile-personal-info';
-import { ProfileAddress } from './components/profile-address';
+import { ProfileSidebar } from './profile-sidebar';
+import { ProfilePersonalInfo } from './profile-personal-info';
+import { ProfileAddress } from './profile-address';
 
 type UserData = {
   name: string;

@@ -5,7 +5,7 @@ import { Button, Card, CardBody, Input, Textarea } from '@heroui/react';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
 
-import { ProfileSidebar } from '../../../components/profile-sidebar';
+import { ProfileSidebar } from '../../../profile-sidebar';
 
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 

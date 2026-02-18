@@ -5,7 +5,7 @@ import { Button, Card, CardBody, Input, Select, SelectItem, Chip } from '@heroui
 import { ArrowLeft, Wallet, Clock, CheckCircle, XCircle } from 'lucide-react';
 import Link from 'next/link';
 
-import { ProfileSidebar } from '../../../components/profile-sidebar';
+import { ProfileSidebar } from '../../../profile-sidebar';
 import { formatMoney } from '@/lib/utils/format-money';
 
 type PixKeyType = 'cpf' | 'cnpj' | 'email' | 'phone' | 'random';

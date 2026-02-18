@@ -5,7 +5,7 @@ import { Button, Card, CardBody, Input, Select, SelectItem } from '@heroui/react
 import { X, ArrowLeft } from 'lucide-react';
 import { PatternFormat } from 'react-number-format';
 import NextLink from 'next/link';
-import { ProfileSidebar } from '../../components/profile-sidebar';
+import { ProfileSidebar } from '../../profile-sidebar';
 
 const AddCardPage = () => {
   const [formData, setFormData] = useState({

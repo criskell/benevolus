@@ -5,7 +5,7 @@ import { Button, Card, CardBody, Chip, Tabs, Tab, Select, SelectItem } from '@he
 import { ArrowLeft, Download, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownLeft, Filter } from 'lucide-react';
 import Link from 'next/link';
 
-import { ProfileSidebar } from '../../../components/profile-sidebar';
+import { ProfileSidebar } from '../../../profile-sidebar';
 import { formatMoney } from '@/lib/utils/format-money';
 
 type TransactionType = 'donation' | 'withdrawal' | 'fee' | 'refund';

@@ -5,9 +5,9 @@ import { Button, Card, CardBody, Chip, Tabs, Tab, Avatar, Input } from '@heroui/
 import { ArrowLeft, Search, Heart, Check, X, Users } from 'lucide-react';
 import Link from 'next/link';
 
-import { ProfileSidebar } from '../../../components/profile-sidebar';
-import { ThankYouModal } from '../components/thank-you-modal';
-import { BulkThankYouModal } from '../components/bulk-thank-you-modal';
+import { ProfileSidebar } from '../../../profile-sidebar';
+import { ThankYouModal } from '../thank-you-modal';
+import { BulkThankYouModal } from '../bulk-thank-you-modal';
 import { formatMoney } from '@/lib/utils/format-money';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 

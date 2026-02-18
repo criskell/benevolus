@@ -7,8 +7,8 @@ import {
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 
-import { CampaignAside } from './components/campaign-aside';
-import { DonateForm } from './components/donate-form';
+import { CampaignAside } from './campaign-aside';
+import { DonateForm } from './donate-form';
 
 const CampaignDonatePage = () => {
   const t = useTranslations('donate');

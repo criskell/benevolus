@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ProfileSidebar } from '../components/profile-sidebar';
-import { DonationsTabs } from './components/donations-tabs';
-import { DonationCard } from './components/donation-card';
+import { ProfileSidebar } from '../profile-sidebar';
+import { DonationsTabs } from './donations-tabs';
+import { DonationCard } from './donation-card';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 import placeholderImage2 from '@/assets/images/placeholder2.jpg';
 

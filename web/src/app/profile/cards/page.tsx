@@ -4,7 +4,7 @@ import { Button } from '@heroui/react';
 import { Link } from '@heroui/link';
 import { CreditCard, Plus } from 'lucide-react';
 import NextLink from 'next/link';
-import { ProfileSidebar } from '../components/profile-sidebar';
+import { ProfileSidebar } from '../profile-sidebar';
 
 const CardsPage = () => {
   const userData = {
