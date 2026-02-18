@@ -13,7 +13,7 @@ import {
 } from '@heroui/react';
 import { X, Plus, Minus } from 'lucide-react';
 import { useState } from 'react';
-import { useDonationContext } from '@/contexts/DonationContext';
+import { useDonationContext } from '@/contexts/donation-context';
 import { formatMoney } from '@/lib/utils/format-money';
 import { AutoSplitWizard } from './auto-split-wizard';
 import { CheckoutModal } from './checkout-modal';

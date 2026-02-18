@@ -2,8 +2,8 @@
 
 import { Button, Input, Card, CardBody, Image, Chip, Select, SelectItem } from '@heroui/react';
 import { useState } from 'react';
-import { useSuggestedCampaigns } from '@/hooks/useSuggestedCampaigns';
-import { useDonationContext } from '@/contexts/DonationContext';
+import { useSuggestedCampaigns } from '@/hooks/use-suggested-campaigns';
+import { useDonationContext } from '@/contexts/donation-context';
 import { formatMoney } from '@/lib/utils/format-money';
 
 const categories = [

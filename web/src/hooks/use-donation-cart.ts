@@ -1,4 +1,4 @@
-import { useCart } from './useCart';
+import { useCart } from './use-cart';
 
 export type CartItem = {
   slug: string;

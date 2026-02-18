@@ -21,9 +21,9 @@ import {
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { useCart } from '@/hooks/useCart';
-import { useFavorites } from '@/hooks/useFavorites';
-import { useSuggestedCampaigns } from '@/hooks/useSuggestedCampaigns';
+import { useCart } from '@/hooks/use-cart';
+import { useFavorites } from '@/hooks/use-favorites';
+import { useSuggestedCampaigns } from '@/hooks/use-suggested-campaigns';
 import { formatMoney } from '@/lib/utils/format-money';
 import { campaigns } from '@/data/campaigns';
 import type { Campaign } from '@/models/campaign';

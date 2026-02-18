@@ -2,7 +2,7 @@
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, RadioGroup, Radio, Card, CardBody } from '@heroui/react';
 import { useState } from 'react';
-import { useDonationContext } from '@/contexts/DonationContext';
+import { useDonationContext } from '@/contexts/donation-context';
 import { formatMoney } from '@/lib/utils/format-money';
 
 type AutoSplitWizardProps = {

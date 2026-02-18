@@ -1,5 +1,5 @@
-export { AuthCard } from "./AuthCard";
-export { AuthInput } from "./AuthInput";
-export { AuthButton } from "./AuthButton";
-export { AuthForm } from "./AuthForm";
-export { AuthLink } from "./AuthLink";
+export { AuthCard } from "./auth-card";
+export { AuthInput } from "./auth-input";
+export { AuthButton } from "./auth-button";
+export { AuthForm } from "./auth-form";
+export { AuthLink } from "./auth-link";

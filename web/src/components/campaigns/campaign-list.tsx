@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@heroui/react';
 import { Campaign } from '@/models/campaign';
 import { CampaignCard } from '../campaign/campaign-card';
-import { EmptyState } from './EmptyState';
+import { EmptyState } from './empty-state';
 
 type CampaignListProps = {
   campaigns: Campaign[];

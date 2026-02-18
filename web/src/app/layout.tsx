@@ -11,7 +11,7 @@ import { detectLocale } from '@/lib/utils/locale';
 import './globals.css';
 import { siteConfig } from '@/config/site';
 import { Footer } from '@/components/layout/footer';
-import { DonationProvider } from '@/contexts/DonationContext';
+import { DonationProvider } from '@/contexts/donation-context';
 
 const fontSans = Inter({
   variable: '--font-inter',

@@ -2,8 +2,8 @@
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Image, Chip, Card, CardBody, RadioGroup, Radio } from '@heroui/react';
 import { useState } from 'react';
-import { useDonationContext } from '@/contexts/DonationContext';
-import { useSuggestedCampaigns } from '@/hooks/useSuggestedCampaigns';
+import { useDonationContext } from '@/contexts/donation-context';
+import { useSuggestedCampaigns } from '@/hooks/use-suggested-campaigns';
 import { formatMoney } from '@/lib/utils/format-money';
 import { campaigns } from '@/data/campaigns';
 import type { Campaign } from '@/models/campaign';

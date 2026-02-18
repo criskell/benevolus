@@ -21,12 +21,12 @@ import { FiltersPanel } from '../../components/campaigns/filters-panel';
 import { SearchBar } from '../../components/campaigns/search-bar';
 import { SortMenu } from '../../components/campaigns/sort-menu';
 import { CampaignList } from '../../components/campaigns/campaign-list';
-import { useCampaignFilters } from '../../hooks/useCampaignFilters';
+import { useCampaignFilters } from '../../hooks/use-campaign-filters';
 import { campaigns as rawCampaigns } from '../../data/campaigns';
 import { FavoritesDrawer } from '../../components/donations/favorites-drawer';
 import { DonationCartDrawer } from '../../components/donations/donation-cart-drawer';
 import { CategoryDonationTab } from '../../components/donations/category-donation-tab';
-import { useDonationContext } from '../../contexts/DonationContext';
+import { useDonationContext } from '../../contexts/donation-context';
 import type { Campaign } from '@/models/campaign';
 
 const mappedCampaigns: Campaign[] = rawCampaigns.campaigns.map((c) => ({

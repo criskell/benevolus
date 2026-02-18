@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext, ReactNode } from 'react';
-import { useFavorites } from '@/hooks/useFavorites';
-import { useDonationCart } from '@/hooks/useDonationCart';
+import { useFavorites } from '@/hooks/use-favorites';
+import { useDonationCart } from '@/hooks/use-donation-cart';
 
 type DonationContextType = {
   favorites: ReturnType<typeof useFavorites>;

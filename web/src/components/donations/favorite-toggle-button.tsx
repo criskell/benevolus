@@ -2,7 +2,7 @@
 
 import { Button } from '@heroui/react';
 import { Heart } from 'lucide-react';
-import { useDonationContext } from '@/contexts/DonationContext';
+import { useDonationContext } from '@/contexts/donation-context';
 
 type FavoriteToggleButtonProps = {
   slug: string;

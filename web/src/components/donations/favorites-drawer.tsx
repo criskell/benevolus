@@ -2,7 +2,7 @@
 
 import { Drawer, DrawerContent, DrawerHeader, DrawerBody, Button, Card, CardBody, Image, Chip } from '@heroui/react';
 import { Heart, X } from 'lucide-react';
-import { useDonationContext } from '@/contexts/DonationContext';
+import { useDonationContext } from '@/contexts/donation-context';
 
 type FavoritesDrawerProps = {
   isOpen: boolean;

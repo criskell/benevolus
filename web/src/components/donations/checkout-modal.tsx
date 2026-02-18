@@ -1,7 +1,7 @@
 'use client';
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Card, CardBody, Image, Badge } from '@heroui/react';
-import { useDonationContext } from '@/contexts/DonationContext';
+import { useDonationContext } from '@/contexts/donation-context';
 import { formatMoney } from '@/lib/utils/format-money';
 
 type CheckoutModalProps = {
