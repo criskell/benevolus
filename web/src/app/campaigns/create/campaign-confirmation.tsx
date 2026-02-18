@@ -4,15 +4,15 @@ import { Button, Card, CardBody, Chip } from '@heroui/react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-type Step7CampaignConfirmationProps = {
+type CampaignConfirmationProps = {
   campaignTitle: string;
   campaignId?: string;
 }
 
-export const Step7CampaignConfirmation = ({
+export const CampaignConfirmation = ({
   campaignTitle,
   campaignId = '5857894',
-}: Step7CampaignConfirmationProps) => {
+}: CampaignConfirmationProps) => {
   const t = useTranslations('campaigns.create.step7');
   
   return (

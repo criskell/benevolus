@@ -3,15 +3,15 @@
 import { Button, Card, CardBody, Chip } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 
-type Step6CampaignSuccessProps = {
+type CampaignSuccessProps = {
   campaignTitle: string;
   campaignGoal: number;
 }
 
-export const Step6CampaignSuccess = ({
+export const CampaignSuccess = ({
   campaignTitle,
   campaignGoal,
-}: Step6CampaignSuccessProps) => {
+}: CampaignSuccessProps) => {
   const t = useTranslations('campaigns.create.step6');
   
   return (

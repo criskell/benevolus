@@ -5,13 +5,13 @@ import { Progress, Button, Card, CardBody } from '@heroui/react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Step1BasicInfo } from './basic-info';
-import { Step2ConfirmData } from './confirm-data';
-import { Step3CampaignDetails } from './campaign-details';
-import { Step4CampaignHistory } from './campaign-history';
-import { Step5CampaignImage } from './campaign-image';
-import { Step6CampaignSuccess } from './campaign-success';
-import { Step7CampaignConfirmation } from './campaign-confirmation';
+import { BasicInfo } from './basic-info';
+import { ConfirmData } from './confirm-data';
+import { CampaignDetails } from './campaign-details';
+import { CampaignHistory } from './campaign-history';
+import { CampaignImage } from './campaign-image';
+import { CampaignSuccess } from './campaign-success';
+import { CampaignConfirmation } from './campaign-confirmation';
 
 const TOTAL_STEPS = 7;
 
@@ -96,7 +96,7 @@ const CreateCampaignPage = () => {
     switch (currentStep) {
       case 1:
         return (
-          <Step1BasicInfo
+          <BasicInfo
             title={formData.title}
             goalCents={formData.goalCents}
             onTitleChange={(value) => setFormData({ ...formData, title: value })}
@@ -105,7 +105,7 @@ const CreateCampaignPage = () => {
         );
       case 2:
         return (
-          <Step2ConfirmData
+          <ConfirmData
             cpf={formData.cpf}
             email={formData.email}
             fullName={formData.fullName}
@@ -124,7 +124,7 @@ const CreateCampaignPage = () => {
         );
       case 3:
         return (
-          <Step3CampaignDetails
+          <CampaignDetails
             beneficiaryType={formData.beneficiaryType}
             category={formData.category}
             onBeneficiaryTypeChange={(value) => setFormData({ ...formData, beneficiaryType: value })}
@@ -133,28 +133,28 @@ const CreateCampaignPage = () => {
         );
       case 4:
         return (
-          <Step4CampaignHistory
+          <CampaignHistory
             history={formData.history}
             onHistoryChange={(value) => setFormData({ ...formData, history: value })}
           />
         );
       case 5:
         return (
-          <Step5CampaignImage
+          <CampaignImage
             image={formData.image}
             onImageChange={(file) => setFormData({ ...formData, image: file })}
           />
         );
       case 6:
         return (
-          <Step6CampaignSuccess
+          <CampaignSuccess
             campaignTitle={formData.title}
             campaignGoal={formData.goalCents}
           />
         );
       case 7:
         return (
-          <Step7CampaignConfirmation
+          <CampaignConfirmation
             campaignTitle={formData.title}
           />
         );

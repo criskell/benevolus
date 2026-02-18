@@ -59,7 +59,7 @@ const createStep2Schema = (t: (key: string) => string) => z.object({
   }
 });
 
-type Step2ConfirmDataProps = {
+type ConfirmDataProps = {
   cpf: string;
   email: string;
   fullName: string;
@@ -76,7 +76,7 @@ type Step2ConfirmDataProps = {
   onWantsNewsletterChange: (value: boolean) => void;
 }
 
-export const Step2ConfirmData = ({
+export const ConfirmData = ({
   cpf,
   email,
   fullName,
@@ -91,7 +91,7 @@ export const Step2ConfirmData = ({
   onPasswordChange,
   onPasswordConfirmationChange,
   onWantsNewsletterChange,
-}: Step2ConfirmDataProps) => {
+}: ConfirmDataProps) => {
   const t = useTranslations('campaigns.create.step2');
   const phoneInputId = useId();
 
