@@ -9,6 +9,7 @@ import { useFavorites } from '@/hooks/use-favorites';
 import { useSuggestedCampaigns } from '@/hooks/use-suggested-campaigns';
 import { campaigns } from '@/data/campaigns';
 import type { Campaign } from '@/models/campaign';
+import { calculateDistribution } from './calculate-distribution';
 import CampaignHeader from './campaign-header';
 import DistributionForm from './distribution-form';
 import RelatedCampaigns from './related-campaigns';
@@ -49,50 +50,10 @@ const DistributePage = ({
 
   const campaign = campaigns.campaigns.find((c) => c.slug === campaignSlug);
 
-  const targetCampaigns = useMemo(() => {
-    if (!campaign) return [];
-    if (distributionType === 'category') {
-      return campaigns.campaigns.filter(
-        (c) => c.category === campaign.category
-      );
-    } else {
-      return campaigns.campaigns.filter((c) => likedSlugs.includes(c.slug));
-    }
-  }, [distributionType, likedSlugs, campaign]);
-
   const distribution = useMemo(() => {
     if (!campaign) return [];
-
-    if (criteria === 'integral') {
-      return [{ slug: campaign.slug, amount: totalAmount * 100 }];
-    }
-
-    if (targetCampaigns.length === 0) return [];
-
-    if (criteria === 'equal') {
-      const amountPer = Math.floor(
-        (totalAmount * 100) / targetCampaigns.length
-      );
-      return targetCampaigns.map((c) => ({ slug: c.slug, amount: amountPer }));
-    } else {
-      const mainAmount = Math.floor(totalAmount * 0.8 * 100);
-      const remainingAmount = Math.floor(totalAmount * 0.2 * 100);
-      const otherCampaigns = targetCampaigns.filter(
-        (c) => c.slug !== campaign.slug
-      );
-      const amountPerOther =
-        otherCampaigns.length > 0
-          ? Math.floor(remainingAmount / otherCampaigns.length)
-          : 0;
-
-      const result = [];
-      result.push({ slug: campaign.slug, amount: mainAmount });
-      otherCampaigns.forEach((c) =>
-        result.push({ slug: c.slug, amount: amountPerOther })
-      );
-      return result;
-    }
-  }, [targetCampaigns, criteria, totalAmount, campaign]);
+    return calculateDistribution(campaign, criteria, distributionType, totalAmount, likedSlugs);
+  }, [campaign, criteria, distributionType, totalAmount, likedSlugs]);
 
   const handleAutoDistribute = useCallback(() => {
     cart.clearCart();
