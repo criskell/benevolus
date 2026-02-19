@@ -724,7 +724,11 @@
       "total_donors": "Donantes",
       "total_donated": "Total donado",
       "average_donation": "Promedio por donación"
-    }
+    },
+    "footer_title": "¡Únete a esta lista!",
+    "footer_subtitle": "Tu generosidad puede transformar vidas e inspirar a otros a hacer el bien.",
+    "footer_donate": "Hacer una donación",
+    "footer_create": "Crear campaña"
   },
   "contact": {
     "hero_badge": "Contáctanos",

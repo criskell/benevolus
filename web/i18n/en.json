@@ -724,7 +724,11 @@
       "total_donors": "Donors",
       "total_donated": "Total donated",
       "average_donation": "Average per donation"
-    }
+    },
+    "footer_title": "Join this list!",
+    "footer_subtitle": "Your generosity can transform lives and inspire others to do good.",
+    "footer_donate": "Make a donation",
+    "footer_create": "Create campaign"
   },
   "contact": {
     "hero_badge": "Get in Touch",
