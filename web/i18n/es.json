@@ -130,6 +130,7 @@
     "leaderboard": "Clasificación",
     "blog": "Blog",
     "mission": "Misión",
+    "contributors": "Contribuidores",
     "help": "Ayuda",
     "create_campaign": "Crear campaña",
     "sign_in": "Iniciar sesión",
@@ -567,6 +568,7 @@
     "about_how_it_works": "Cómo funciona",
     "about_terms_of_use": "Términos de uso",
     "about_changelog": "Actualizaciones",
+    "about_contributors": "Contribuidores",
     "support_title": "Soporte",
     "support_help_center": "Centro de ayuda",
     "support_contact": "Contacto",
@@ -947,6 +949,96 @@
       "faq_desc": "Respuestas rápidas a dudas comunes",
       "status": "Estado del Sistema",
       "status_desc": "Verifica si hay problemas conocidos"
+    }
+  },
+  "contributors": {
+    "hero": {
+      "badge": "Open Source",
+      "title": "Nuestros Contribuidores",
+      "subtitle": "Personas increíbles que dedican su tiempo y talento para hacer que Benevolus sea mejor cada día. Código abierto, impacto real."
+    },
+    "stats": {
+      "contributors": "Contribuidores",
+      "commits_label": "Commits",
+      "commits_value": "2.4k+",
+      "open_source_label": "Open Source",
+      "open_source_value": "100%"
+    },
+    "team": {
+      "title": "Conoce al Equipo",
+      "subtitle": "Cada contribuidor aporta habilidades únicas que juntas crean un proyecto más fuerte e inclusivo."
+    },
+    "cta": {
+      "title": "¿Quieres formar parte?",
+      "description": "Benevolus es open-source y toda contribución es bienvenida. Sea código, diseño, documentación o ideas, ven a construir con nosotros.",
+      "github_button": "Ver en GitHub",
+      "mission_button": "Nuestra Misión"
+    },
+    "card": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    },
+    "members": {
+      "yan": {
+        "name": "Yan Rodrigues",
+        "bio": "Desarrollador full-stack apasionado por open-source e impacto social. Creador de Benevolus.",
+        "skills": {
+          "0": "Laravel",
+          "1": "React",
+          "2": "TypeScript",
+          "3": "DevOps"
+        }
+      },
+      "marina": {
+        "name": "Marina Costa",
+        "bio": "Diseñadora UX/UI enfocada en accesibilidad y diseño inclusivo. Cree que la tecnología debe servir a todos.",
+        "skills": {
+          "0": "Figma",
+          "1": "UI/UX",
+          "2": "Design System",
+          "3": "A11y"
+        }
+      },
+      "lucas": {
+        "name": "Lucas Pereira",
+        "bio": "Ingeniero de software con experiencia en sistemas distribuidos y arquitectura de microservicios.",
+        "skills": {
+          "0": "Go",
+          "1": "Kubernetes",
+          "2": "AWS",
+          "3": "PostgreSQL"
+        }
+      },
+      "isabela": {
+        "name": "Isabela Santos",
+        "bio": "Desarrolladora front-end y entusiasta del rendimiento web. Contribuye a hacer la web más rápida.",
+        "skills": {
+          "0": "Next.js",
+          "1": "Tailwind",
+          "2": "Performance",
+          "3": "Vue"
+        }
+      },
+      "rafael": {
+        "name": "Rafael Oliveira",
+        "bio": "Especialista en seguridad de la información y DevSecOps. Garantiza la protección de los datos de los usuarios.",
+        "skills": {
+          "0": "Seguridad",
+          "1": "CI/CD",
+          "2": "Docker",
+          "3": "Python"
+        }
+      },
+      "camila": {
+        "name": "Camila Ferreira",
+        "bio": "Tech lead y mentora. Cree en el poder de la comunidad para transformar vidas a través de la tecnología.",
+        "skills": {
+          "0": "Node.js",
+          "1": "TypeScript",
+          "2": "Mentoría",
+          "3": "Agile"
+        }
+      }
     }
   },
   "privacy": {
