@@ -1,58 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardBody, Chip, Tabs, Tab, Select, SelectItem, Button } from '@heroui/react';
-import { Download, ArrowUpRight, ArrowDownLeft, Filter, Receipt } from 'lucide-react';
+import { Card, CardBody, Button, Select, SelectItem } from '@heroui/react';
+import { Download, Filter, Receipt } from 'lucide-react';
 
 import { ProfileSidebar } from '../profile-sidebar';
-import { formatMoney } from '@/lib/utils/format-money';
-
-type TransactionType = 'donation_made' | 'donation_received' | 'withdrawal' | 'refund';
-
-type Transaction = {
-  id: string;
-  type: TransactionType;
-  description: string;
-  amountCents: number;
-  createdAt: string;
-  status: 'completed' | 'pending' | 'failed';
-  metadata?: {
-    campaignTitle?: string;
-    campaignSlug?: string;
-    donorName?: string;
-    pixKey?: string;
-    transactionId?: string;
-  };
-};
-
-const transactionConfig: Record<TransactionType, { label: string; color: string; icon: React.ReactNode }> = {
-  donation_made: { 
-    label: 'Doação realizada', 
-    color: 'text-danger', 
-    icon: <ArrowUpRight size={18} className="text-danger" /> 
-  },
-  donation_received: { 
-    label: 'Doação recebida', 
-    color: 'text-success', 
-    icon: <ArrowDownLeft size={18} className="text-success" /> 
-  },
-  withdrawal: { 
-    label: 'Saque', 
-    color: 'text-primary', 
-    icon: <ArrowUpRight size={18} className="text-primary" /> 
-  },
-  refund: { 
-    label: 'Estorno', 
-    color: 'text-warning', 
-    icon: <ArrowDownLeft size={18} className="text-warning" /> 
-  },
-};
-
-const statusConfig = {
-  completed: { label: 'Concluída', color: 'success' as const },
-  pending: { label: 'Pendente', color: 'warning' as const },
-  failed: { label: 'Falhou', color: 'danger' as const },
-};
+import StatementSummary from './statement-summary';
+import StatementTabs from './statement-tabs';
+import TransactionItem from './transaction-item';
+import type { Transaction, TransactionType } from './transaction-item';
 
 const UserStatementPage = () => {
   const [activeTab, setActiveTab] = useState<'all' | TransactionType>('all');
@@ -73,10 +29,10 @@ const UserStatementPage = () => {
       amountCents: 5000,
       createdAt: '2025-02-08T10:30:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Tratamento do João - Luta contra o câncer',
         campaignSlug: 'tratamento-joao',
-        transactionId: 'DON-123456' 
+        transactionId: 'DON-123456'
       },
     },
     {
@@ -86,11 +42,11 @@ const UserStatementPage = () => {
       amountCents: 10000,
       createdAt: '2025-02-07T15:45:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Ajuda para Maria reconstruir sua casa',
         campaignSlug: 'ajuda-maria',
         donorName: 'João Silva',
-        transactionId: 'REC-789012' 
+        transactionId: 'REC-789012'
       },
     },
     {
@@ -100,10 +56,10 @@ const UserStatementPage = () => {
       amountCents: 10000,
       createdAt: '2025-02-06T09:20:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Reforma da escola comunitária',
         campaignSlug: 'reforma-escola',
-        transactionId: 'DON-345678' 
+        transactionId: 'DON-345678'
       },
     },
     {
@@ -113,11 +69,11 @@ const UserStatementPage = () => {
       amountCents: 150000,
       createdAt: '2025-02-05T14:10:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Ajuda para Maria reconstruir sua casa',
         campaignSlug: 'ajuda-maria',
         pixKey: '***-***-***-**',
-        transactionId: 'WD-901234' 
+        transactionId: 'WD-901234'
       },
     },
     {
@@ -127,11 +83,11 @@ const UserStatementPage = () => {
       amountCents: 25000,
       createdAt: '2025-02-04T11:00:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Ajuda para Maria reconstruir sua casa',
         campaignSlug: 'ajuda-maria',
         donorName: 'Maria Santos',
-        transactionId: 'REC-567890' 
+        transactionId: 'REC-567890'
       },
     },
     {
@@ -141,10 +97,10 @@ const UserStatementPage = () => {
       amountCents: 2000,
       createdAt: '2025-02-03T16:30:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Campanha de natal para famílias carentes',
         campaignSlug: 'natal-familias',
-        transactionId: 'DON-112233' 
+        transactionId: 'DON-112233'
       },
     },
     {
@@ -154,11 +110,11 @@ const UserStatementPage = () => {
       amountCents: 20000,
       createdAt: '2025-02-02T08:15:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Ajuda para Maria reconstruir sua casa',
         campaignSlug: 'ajuda-maria',
         donorName: 'Pedro Oliveira',
-        transactionId: 'REC-445566' 
+        transactionId: 'REC-445566'
       },
     },
     {
@@ -168,10 +124,10 @@ const UserStatementPage = () => {
       amountCents: 15000,
       createdAt: '2025-02-01T12:45:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Ajuda para animais abandonados',
         campaignSlug: 'animais-abandonados',
-        transactionId: 'DON-778899' 
+        transactionId: 'DON-778899'
       },
     },
     {
@@ -181,11 +137,11 @@ const UserStatementPage = () => {
       amountCents: 8000,
       createdAt: '2025-01-31T19:20:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Ajuda para Maria reconstruir sua casa',
         campaignSlug: 'ajuda-maria',
         donorName: 'Doador Anônimo',
-        transactionId: 'REC-998877' 
+        transactionId: 'REC-998877'
       },
     },
     {
@@ -195,69 +151,37 @@ const UserStatementPage = () => {
       amountCents: 5000,
       createdAt: '2025-01-30T10:00:00',
       status: 'completed',
-      metadata: { 
+      metadata: {
         campaignTitle: 'Projeto educacional para crianças',
         campaignSlug: 'projeto-educacional',
-        transactionId: 'DON-665544' 
+        transactionId: 'DON-665544'
       },
     },
   ];
 
-  const filteredTransactions = activeTab === 'all' 
-    ? allTransactions 
+  const filteredTransactions = activeTab === 'all'
+    ? allTransactions
     : allTransactions.filter(t => t.type === activeTab);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
+  const totals = allTransactions.reduce(
+    (acc, t) => {
+      acc[t.type]++;
+      return acc;
+    },
+    { all: allTransactions.length, donation_made: 0, donation_received: 0, withdrawal: 0, refund: 0 },
+  );
 
-  const getTotals = () => {
-    const totals = {
-      all: allTransactions.length,
-      donation_made: 0,
-      donation_received: 0,
-      withdrawal: 0,
-      refund: 0,
-    };
-    
-    allTransactions.forEach(t => {
-      totals[t.type]++;
-    });
-    
-    return totals;
-  };
-
-  const totals = getTotals();
-
-  const calculateSummary = () => {
-    let totalDonated = 0;
-    let totalReceived = 0;
-    let totalWithdrawn = 0;
-    
-    allTransactions.forEach(t => {
-      if (t.type === 'donation_made') {
-        totalDonated += t.amountCents;
-      } else if (t.type === 'donation_received') {
-        totalReceived += t.amountCents;
-      } else if (t.type === 'withdrawal') {
-        totalWithdrawn += t.amountCents;
-      }
-    });
-    
-    return { totalDonated, totalReceived, totalWithdrawn };
-  };
-
-  const { totalDonated, totalReceived, totalWithdrawn } = calculateSummary();
+  const { totalDonated, totalReceived, totalWithdrawn } = allTransactions.reduce(
+    (acc, t) => {
+      if (t.type === 'donation_made') acc.totalDonated += t.amountCents;
+      else if (t.type === 'donation_received') acc.totalReceived += t.amountCents;
+      else if (t.type === 'withdrawal') acc.totalWithdrawn += t.amountCents;
+      return acc;
+    },
+    { totalDonated: 0, totalReceived: 0, totalWithdrawn: 0 },
+  );
 
   const handleExport = () => {
-    // Aqui seria implementada a exportação do extrato
     alert('Exportação em desenvolvimento');
   };
 
@@ -287,38 +211,15 @@ const UserStatementPage = () => {
             </Button>
           </div>
 
-          {/* Resumo */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="border-l-4 border-l-danger">
-              <CardBody className="p-4">
-                <p className="text-sm text-default-500 mb-1">Total doado</p>
-                <p className="text-2xl font-bold text-danger">{formatMoney(totalDonated)}</p>
-                <p className="text-xs text-default-400 mt-1">
-                  {totals.donation_made} doações realizadas
-                </p>
-              </CardBody>
-            </Card>
-            <Card className="border-l-4 border-l-success">
-              <CardBody className="p-4">
-                <p className="text-sm text-default-500 mb-1">Total recebido</p>
-                <p className="text-2xl font-bold text-success">{formatMoney(totalReceived)}</p>
-                <p className="text-xs text-default-400 mt-1">
-                  {totals.donation_received} doações recebidas
-                </p>
-              </CardBody>
-            </Card>
-            <Card className="border-l-4 border-l-primary">
-              <CardBody className="p-4">
-                <p className="text-sm text-default-500 mb-1">Total sacado</p>
-                <p className="text-2xl font-bold text-primary">{formatMoney(totalWithdrawn)}</p>
-                <p className="text-xs text-default-400 mt-1">
-                  {totals.withdrawal} saques realizados
-                </p>
-              </CardBody>
-            </Card>
-          </div>
+          <StatementSummary
+            totalDonatedCents={totalDonated}
+            totalReceivedCents={totalReceived}
+            totalWithdrawnCents={totalWithdrawn}
+            donationsMade={totals.donation_made}
+            donationsReceived={totals.donation_received}
+            withdrawalsCount={totals.withdrawal}
+          />
 
-          {/* Filtros */}
           <div className="flex flex-wrap gap-3 items-center">
             <Select
               label="Período"
@@ -338,50 +239,8 @@ const UserStatementPage = () => {
             </Select>
           </div>
 
-          {/* Tabs de tipos de transação */}
-          <Tabs
-            selectedKey={activeTab}
-            onSelectionChange={(key) => setActiveTab(key as typeof activeTab)}
-          >
-            <Tab
-              key="all"
-              title={
-                <div className="flex items-center gap-2">
-                  Todas
-                  <Chip size="sm" variant="flat">{totals.all}</Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="donation_made"
-              title={
-                <div className="flex items-center gap-2">
-                  Doações feitas
-                  <Chip size="sm" variant="flat" color="danger">{totals.donation_made}</Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="donation_received"
-              title={
-                <div className="flex items-center gap-2">
-                  Doações recebidas
-                  <Chip size="sm" variant="flat" color="success">{totals.donation_received}</Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="withdrawal"
-              title={
-                <div className="flex items-center gap-2">
-                  Saques
-                  <Chip size="sm" variant="flat" color="primary">{totals.withdrawal}</Chip>
-                </div>
-              }
-            />
-          </Tabs>
+          <StatementTabs activeTab={activeTab} onTabChange={setActiveTab} totals={totals} />
 
-          {/* Lista de transações */}
           {filteredTransactions.length === 0 ? (
             <Card>
               <CardBody className="p-12 text-center">
@@ -395,62 +254,9 @@ const UserStatementPage = () => {
             <Card>
               <CardBody className="p-0">
                 <div className="divide-y divide-divider">
-                  {filteredTransactions.map((transaction) => {
-                    const config = transactionConfig[transaction.type];
-                    const statusInfo = statusConfig[transaction.status];
-                    
-                    return (
-                      <div key={transaction.id} className="p-4 hover:bg-default-50 transition-colors">
-                        <div className="flex gap-4">
-                          <div className="flex-shrink-0 mt-1">
-                            {config.icon}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between gap-2 mb-1">
-                              <div className="flex-1">
-                                <p className="font-semibold text-base">{transaction.description}</p>
-                                {transaction.metadata?.campaignTitle && (
-                                  <p className="text-sm text-default-600">
-                                    Campanha: {transaction.metadata.campaignTitle}
-                                  </p>
-                                )}
-                                {transaction.metadata?.donorName && (
-                                  <p className="text-sm text-default-500">
-                                    Doador: {transaction.metadata.donorName}
-                                  </p>
-                                )}
-                                {transaction.metadata?.pixKey && (
-                                  <p className="text-sm text-default-500">
-                                    Chave Pix: {transaction.metadata.pixKey}
-                                  </p>
-                                )}
-                              </div>
-                              <div className="text-right">
-                                <p className={`text-lg font-semibold ${config.color}`}>
-                                  {transaction.type === 'donation_made' ? '-' : '+'}{formatMoney(transaction.amountCents)}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="flex items-center justify-between mt-2">
-                              <span className="text-xs text-default-400">
-                                {formatDate(transaction.createdAt)}
-                              </span>
-                              <div className="flex items-center gap-2">
-                                <Chip size="sm" color={statusInfo.color} variant="flat">
-                                  {statusInfo.label}
-                                </Chip>
-                              </div>
-                            </div>
-                            {transaction.metadata?.transactionId && (
-                              <p className="text-xs text-default-400 mt-1">
-                                ID: {transaction.metadata.transactionId}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+                  {filteredTransactions.map((transaction) => (
+                    <TransactionItem key={transaction.id} transaction={transaction} />
+                  ))}
                 </div>
               </CardBody>
             </Card>
