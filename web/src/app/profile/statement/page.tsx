@@ -5,10 +5,9 @@ import { Card, CardBody, Button, Select, SelectItem } from '@heroui/react';
 import { Download, Filter, Receipt } from 'lucide-react';
 
 import { ProfileSidebar } from '../profile-sidebar';
-import StatementSummary from './statement-summary';
-import StatementTabs from './statement-tabs';
-import TransactionItem from './transaction-item';
-import type { Transaction, TransactionType } from './transaction-item';
+import { StatementSummary } from './statement-summary';
+import { StatementTabs } from './statement-tabs';
+import { TransactionItem, type Transaction, type TransactionType } from './transaction-item';
 
 const UserStatementPage = () => {
   const [activeTab, setActiveTab] = useState<'all' | TransactionType>('all');

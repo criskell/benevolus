@@ -65,4 +65,4 @@ const StatementTabs = ({ activeTab, onTabChange, totals }: StatementTabsProps) =
   );
 };
 
-export default StatementTabs;
+export { StatementTabs };

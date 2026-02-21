@@ -121,5 +121,4 @@ const TransactionItem = ({ transaction }: TransactionItemProps) => {
   );
 };
 
-export { type Transaction, type TransactionType };
-export default TransactionItem;
+export { TransactionItem, type Transaction, type TransactionType };

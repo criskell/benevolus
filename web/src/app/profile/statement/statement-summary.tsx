@@ -52,4 +52,4 @@ const StatementSummary = ({
   );
 };
 
-export default StatementSummary;
+export { StatementSummary };
