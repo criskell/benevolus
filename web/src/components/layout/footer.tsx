@@ -83,6 +83,14 @@ export const Footer = () => {
                       {t('about_changelog')}
                     </Link>
                   </li>
+                  <li>
+                    <Link 
+                      href="/contributors"
+                      className="text-default-600 hover:text-primary transition-colors duration-200"
+                    >
+                      {t('about_contributors')}
+                    </Link>
+                  </li>
                 </ul>
               </div>
 
