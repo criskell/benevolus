@@ -19,6 +19,7 @@
     "@t3-oss/env-nextjs": "^0.13.8",
     "axios": "^1.8.4",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.19",
     "framer-motion": "^12.23.13",
     "jotai": "^2.16.0",
     "lucide-react": "^0.544.0",
