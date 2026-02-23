@@ -1,13 +1,9 @@
 'use client';
 
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/pt-br';
 import { Card, CardBody, Button } from '@heroui/react';
 import { Heart, Megaphone, DollarSign, AlertCircle, Trash2 } from 'lucide-react';
 
-dayjs.extend(relativeTime);
-dayjs.locale('pt-br');
+import { dayjs } from '@/lib/dayjs';
 
 type NotificationType = 'donation' | 'campaign' | 'system' | 'withdrawal';
 
