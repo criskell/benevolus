@@ -3,6 +3,8 @@
 import { Card, CardBody, Button } from '@heroui/react';
 import { Heart, Megaphone, DollarSign, AlertCircle, Trash2 } from 'lucide-react';
 
+import { dayjs } from '@/lib/dayjs';
+
 type NotificationType = 'donation' | 'campaign' | 'system' | 'withdrawal';
 
 type Notification = {
@@ -22,26 +24,14 @@ const notificationIcons: Record<NotificationType, React.ReactNode> = {
 };
 
 const formatTimestamp = (timestamp: string) => {
-  const date = new Date(timestamp);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
+  const date = dayjs(timestamp);
+  const diffDays = dayjs().diff(date, 'day');
 
-  if (diffMins < 60) {
-    return `há ${diffMins} min`;
-  } else if (diffHours < 24) {
-    return `há ${diffHours}h`;
-  } else if (diffDays < 7) {
-    return `há ${diffDays}d`;
-  } else {
-    return date.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
+  if (diffDays < 7) {
+    return date.fromNow();
   }
+
+  return date.format('DD/MM/YYYY');
 };
 
 type NotificationItemProps = {
