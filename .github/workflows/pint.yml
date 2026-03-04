@@ -44,10 +44,6 @@ jobs:
         working-directory: api
         run: composer pint
 
-      - name: Format Frontend
-        working-directory: web
-        run: npm run format
-
       - name: Lint Frontend
         working-directory: web
         run: npm run lint
