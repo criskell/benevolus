@@ -29,8 +29,12 @@ jobs:
           npm install
           cp .env.example .env
           php artisan key:generate
-          php artisan migrate
+          php artisan migrate --force
           composer run swagger:generate
+        env:
+          APP_ENV: testing
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
 
       - name: Install WEB Dependencies
         working-directory: web
