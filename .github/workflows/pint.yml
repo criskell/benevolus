@@ -1,4 +1,4 @@
-name: linter
+name: Pint
 
 on:
   push:
@@ -22,16 +22,28 @@ jobs:
         with:
           php-version: '8.4'
 
-      - name: Install Dependencies
+      - name: Install API Dependencies
+        working-directory: api
         run: |
-          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          composer install
           npm install
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate
+          composer run swagger:generate
+
+      - name: Install WEB Dependencies
+        working-directory: web
+        run: npm install
 
       - name: Run Pint
-        run: pint
+        working-directory: api
+        run: composer pint
 
       - name: Format Frontend
+        working-directory: web
         run: npm run format
 
       - name: Lint Frontend
+        working-directory: web
         run: npm run lint
