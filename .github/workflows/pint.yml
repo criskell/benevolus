@@ -1,0 +1,49 @@
+name: Pint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Install API Dependencies
+        working-directory: api
+        run: |
+          composer install
+          npm install
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate --force
+          composer run swagger:generate
+        env:
+          APP_ENV: testing
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+
+      - name: Install WEB Dependencies
+        working-directory: web
+        run: npm install
+
+      - name: Run Pint
+        working-directory: api
+        run: composer pint
+
+      - name: Lint Frontend
+        working-directory: web
+        run: npm run lint
