@@ -29,7 +29,7 @@ const DonationSuccessPage = () => {
         left: `${Math.random() * 100}%`,
         backgroundColor: colors[Math.floor(Math.random() * colors.length)],
         duration: 3 + Math.random() * 3,
-        delay: Math.random(),
+        delay: Math.random() * 1,
         x: (Math.random() - 0.5) * 300,
         width: isRectangle ? 8 + Math.random() * 4 : 6 + Math.random() * 4,
         height: isRectangle ? 4 + Math.random() * 2 : 6 + Math.random() * 4,
