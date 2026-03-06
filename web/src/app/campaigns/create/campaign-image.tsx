@@ -2,7 +2,7 @@
 
 import { Button } from '@heroui/react';
 import { Upload } from 'lucide-react';
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 type CampaignImageProps = {
@@ -19,35 +19,21 @@ export const CampaignImage = ({
   const t = useTranslations('campaigns.create.step5');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const objectUrlRef = useRef<string | null>(null);
+  //const [imagePreview, setImagePreview] = useState<string | null>(null);
+  //const objectUrlRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    if (image) {
-      // Revoke old URL if it exists
-      if (objectUrlRef.current) {
-        URL.revokeObjectURL(objectUrlRef.current);
-      }
-      // Create new URL
-      const newUrl = URL.createObjectURL(image);
-      objectUrlRef.current = newUrl;
-      setImagePreview(newUrl);
-    } else {
-      // Cleanup when image is removed
-      if (objectUrlRef.current) {
-        URL.revokeObjectURL(objectUrlRef.current);
-        objectUrlRef.current = null;
-      }
-      setImagePreview(null);
-    }
-
-    // Cleanup on unmount
-    return () => {
-      if (objectUrlRef.current) {
-        URL.revokeObjectURL(objectUrlRef.current);
-      }
-    };
+  const imagePreview = useMemo(() => {
+    if (!image) return null;
+    return URL.createObjectURL(image);
   }, [image]);
+
+useEffect(() => {
+  return () => {
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview);
+    }
+  };
+}, [imagePreview]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.[0];

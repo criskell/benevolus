@@ -3,6 +3,7 @@
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import  Link  from 'next/link';
 
 const stepStyles = [
   {
@@ -133,13 +134,13 @@ export const HowItWorks = () => {
           <p className="text-default-600 mb-6 text-lg">
             {t('cta_question')}
           </p>
-          <a
+          <Link
             href="/campaigns/create"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-primary hover:bg-primary-600 text-white font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
           >
             <Icon icon="solar:add-circle-bold" width={24} />
             {t('cta_button')}
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>

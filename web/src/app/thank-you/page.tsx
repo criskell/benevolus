@@ -1,3 +1,5 @@
+
+
 'use client';
 
 import { Button, Card } from '@heroui/react';
@@ -7,7 +9,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 const DonationSuccessPage = () => {
-  const [confetti, setConfetti] = useState<Array<{
+  type ConfettiParticle = {
     left: string;
     backgroundColor: string;
     duration: number;
@@ -16,28 +18,30 @@ const DonationSuccessPage = () => {
     width: number;
     height: number;
     rotation: number;
-  }>>([]);
+  };
 
-  useEffect(() => {
-    // Ensure page stays at top
-    window.scrollTo(0, 0);
-    
-    // Generate confetti only on client side
+  const createConfetti = (): ConfettiParticle[] => {
     const colors = ['#10b981', '#14b8a6', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444'];
-    const newConfetti = [...Array(50)].map(() => {
+
+    return Array.from({ length: 50 }, () => {
       const isRectangle = Math.random() > 0.5;
       return {
         left: `${Math.random() * 100}%`,
         backgroundColor: colors[Math.floor(Math.random() * colors.length)],
         duration: 3 + Math.random() * 3,
-        delay: Math.random() * 1,
+        delay: Math.random(),
         x: (Math.random() - 0.5) * 300,
         width: isRectangle ? 8 + Math.random() * 4 : 6 + Math.random() * 4,
         height: isRectangle ? 4 + Math.random() * 2 : 6 + Math.random() * 4,
         rotation: Math.random() * 360,
       };
     });
-    setConfetti(newConfetti);
+  };
+
+  const [confetti] = useState<ConfettiParticle[]>(() => createConfetti());
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, []);
 
   return (

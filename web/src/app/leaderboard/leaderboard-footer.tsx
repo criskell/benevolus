@@ -4,6 +4,7 @@ import { Card, CardBody } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const LeaderboardFooter = () => {
   const t = useTranslations('leaderboard');
@@ -26,20 +27,20 @@ const LeaderboardFooter = () => {
             {t('footer_subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a
+            <Link
               href="/campaigns"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold transition-all duration-300 hover:scale-105"
             >
               <Icon icon="solar:heart-bold" width={24} />
               {t('footer_donate')}
-            </a>
-            <a
+            </Link>
+            <Link
               href="/campaigns/create"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-blue-500 hover:border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 font-semibold transition-all duration-300 hover:scale-105"
             >
               <Icon icon="solar:add-circle-bold" width={24} />
               {t('footer_create')}
-            </a>
+            </Link>
           </div>
         </CardBody>
       </Card>

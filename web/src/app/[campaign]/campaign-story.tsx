@@ -43,8 +43,8 @@ export const CampaignStory = () => {
 
           <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-r-xl my-6">
             <p className="text-sm md:text-base font-medium text-foreground italic">
-              "Esta campanha é crucial para ajudar minha família neste momento difícil. 
-              Cada contribuição faz uma diferença enorme em nossas vidas."
+              &quot;Esta campanha é crucial para ajudar minha família neste momento difícil. 
+              Cada contribuição faz uma diferença enorme em nossas vidas.&quot;
             </p>
           </div>
 
