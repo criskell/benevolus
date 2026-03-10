@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { IconDashboard, IconHelp, IconInnerShadowTop, IconListDetails, IconSettings } from "@tabler/icons-react"
+import { IconDashboard, IconHelp, IconInnerShadowTop, IconListDetails, IconSettings, IconSpeakerphone } from "@tabler/icons-react"
 
 const data = {
   user: {
@@ -30,6 +30,11 @@ const data = {
       title: "Categorias",
       url: "/categoria",
       icon: IconListDetails,
+    },
+    {
+      title: "Campanhas",
+      url: "/campanhas",
+      icon: IconSpeakerphone,
     },
   ],
   navSecondary: [
