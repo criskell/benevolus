@@ -1,0 +1,6 @@
+onlyBuiltDependencies:
+  - '@heroui/shared-utils'
+  - '@swc/core'
+  - es5-ext
+  - sharp
+  - unrs-resolver
