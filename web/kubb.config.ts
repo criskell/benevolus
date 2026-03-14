@@ -7,7 +7,7 @@ export default defineConfig(() => {
   return {
     root: '.',
     input: {
-      path: './../api/storage/api-docs/api-docs.json',
+      path: './../api/public/api-docs.json',
     },
     output: {
       path: './src/lib/http/generated',
