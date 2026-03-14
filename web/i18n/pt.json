@@ -173,7 +173,17 @@
       "confirm_password_placeholder": "Confirme sua senha",
       "submit_button": "Cadastrar",
       "have_account": "Já tem uma conta?",
-      "login": "Fazer login"
+      "login": "Fazer login",
+      "validation": {
+        "name_required": "O nome é obrigatório",
+        "name_min": "O nome deve ter pelo menos 2 caracteres",
+        "email_required": "O email é obrigatório",
+        "email_invalid": "Digite um email válido",
+        "password_required": "A senha é obrigatória",
+        "password_min": "A senha deve ter pelo menos 8 caracteres",
+        "password_confirmation_required": "A confirmação de senha é obrigatória",
+        "password_mismatch": "As senhas não coincidem"
+      }
     },
     "reset_password": {
       "title": "Recuperar senha",

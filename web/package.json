@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "api:generate": "kubb --logLevel=silent"
+    "api:generate": "kubb"
   },
   "dependencies": {
     "@heroui/react": "^2.8.4",

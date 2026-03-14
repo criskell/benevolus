@@ -9,9 +9,10 @@ import { PatternFormat } from 'react-number-format';
 import { Info } from 'lucide-react';
 import PhoneInput from 'react-phone-number-input';
 import { useTranslations } from 'next-intl';
+import type { TranslateFn } from '@/types/i18n';
 import 'react-phone-number-input/style.css';
 
-const createStep2Schema = (t: (key: string) => string) => z.object({
+const createStep2Schema = (t: TranslateFn) => z.object({
   cpf: z.string()
     .min(1, t('cpf_required'))
     .refine((val) => val.replace(/\D/g, '').length === 11, {

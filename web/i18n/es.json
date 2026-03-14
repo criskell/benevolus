@@ -173,7 +173,17 @@
       "confirm_password_placeholder": "Confirma tu contraseña",
       "submit_button": "Registrarse",
       "have_account": "¿Ya tienes cuenta?",
-      "login": "Iniciar sesión"
+      "login": "Iniciar sesión",
+      "validation": {
+        "name_required": "El nombre es obligatorio",
+        "name_min": "El nombre debe tener al menos 2 caracteres",
+        "email_required": "El email es obligatorio",
+        "email_invalid": "Ingresa un email válido",
+        "password_required": "La contraseña es obligatoria",
+        "password_min": "La contraseña debe tener al menos 8 caracteres",
+        "password_confirmation_required": "La confirmación de contraseña es obligatoria",
+        "password_mismatch": "Las contraseñas no coinciden"
+      }
     },
     "reset_password": {
       "title": "Recuperar contraseña",

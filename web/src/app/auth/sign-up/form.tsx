@@ -3,10 +3,14 @@
 import axios from "axios";
 import { useState } from "react";
 import Link from "next/link";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
+import type { TranslateFn } from "@/types/i18n";
 
 const api = axios.create({
   baseURL: "http://localhost",
@@ -14,27 +18,54 @@ const api = axios.create({
   withXSRFToken: true,
 });
 
+const createSignUpSchema = (t: TranslateFn) =>
+  z
+    .object({
+      name: z
+        .string()
+        .min(1, t("validation.name_required"))
+        .min(2, t("validation.name_min")),
+      email: z
+        .string()
+        .min(1, t("validation.email_required"))
+        .email(t("validation.email_invalid")),
+      password: z
+        .string()
+        .min(1, t("validation.password_required"))
+        .min(8, t("validation.password_min")),
+      password_confirmation: z
+        .string()
+        .min(1, t("validation.password_confirmation_required")),
+    })
+    .refine((data) => data.password === data.password_confirmation, {
+      message: t("validation.password_mismatch"),
+      path: ["password_confirmation"],
+    });
+
+type SignUpFormData = z.infer<ReturnType<typeof createSignUpSchema>>;
+
 export const SignUpForm = () => {
-  const t = useTranslations('auth.signup');
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-  });
+  const t = useTranslations("auth.signup");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(createSignUpSchema(t)),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: SignUpFormData) => {
     await api.get("/sanctum/csrf-cookie");
-    await api.post("/auth/register", formData);
+    await api.post("/auth/register", data);
   };
 
   return (
@@ -43,96 +74,153 @@ export const SignUpForm = () => {
         <div className="flex flex-col items-center gap-4">
           <LogoIcon size={48} className="text-primary" />
           <div className="text-center">
-            <h1 className="text-2xl font-bold">{t('title')}</h1>
-            <p className="text-default-500 text-sm mt-1">
-              {t('subtitle')}
-            </p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-default-500 text-sm mt-1">{t("subtitle")}</p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label={t('name_label')}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <Controller
             name="name"
-            placeholder={t('name_placeholder')}
-            type="text"
-            isRequired
-            value={formData.name}
-            onChange={handleChange}
-            startContent={
-              <Icon icon="solar:user-linear" className="text-default-400" width={20} />
-            }
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label={t("name_label")}
+                placeholder={t("name_placeholder")}
+                type="text"
+                isRequired
+                isInvalid={!!errors.name}
+                errorMessage={errors.name?.message}
+                startContent={
+                  <Icon
+                    icon="solar:user-linear"
+                    className="text-default-400"
+                    width={20}
+                  />
+                }
+              />
+            )}
           />
-          <Input
-            label={t('email_label')}
+          <Controller
             name="email"
-            placeholder={t('email_placeholder')}
-            type="email"
-            isRequired
-            value={formData.email}
-            onChange={handleChange}
-            startContent={
-              <Icon icon="solar:letter-linear" className="text-default-400" width={20} />
-            }
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label={t("email_label")}
+                placeholder={t("email_placeholder")}
+                type="email"
+                isRequired
+                isInvalid={!!errors.email}
+                errorMessage={errors.email?.message}
+                startContent={
+                  <Icon
+                    icon="solar:letter-linear"
+                    className="text-default-400"
+                    width={20}
+                  />
+                }
+              />
+            )}
           />
-          <Input
-            label={t('password_label')}
+          <Controller
             name="password"
-            placeholder={t('password_placeholder')}
-            type={showPassword ? "text" : "password"}
-            isRequired
-            value={formData.password}
-            onChange={handleChange}
-            startContent={
-              <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
-            }
-            endContent={
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="text-default-400 hover:text-default-600 cursor-pointer"
-              >
-                <Icon
-                  icon={showPassword ? "solar:eye-closed-linear" : "solar:eye-linear"}
-                  width={20}
-                />
-              </button>
-            }
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label={t("password_label")}
+                placeholder={t("password_placeholder")}
+                type={showPassword ? "text" : "password"}
+                isRequired
+                isInvalid={!!errors.password}
+                errorMessage={errors.password?.message}
+                startContent={
+                  <Icon
+                    icon="solar:lock-linear"
+                    className="text-default-400"
+                    width={20}
+                  />
+                }
+                endContent={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-default-400 hover:text-default-600 cursor-pointer"
+                  >
+                    <Icon
+                      icon={
+                        showPassword
+                          ? "solar:eye-closed-linear"
+                          : "solar:eye-linear"
+                      }
+                      width={20}
+                    />
+                  </button>
+                }
+              />
+            )}
           />
-          <Input
-            label={t('confirm_password_label')}
+          <Controller
             name="password_confirmation"
-            placeholder={t('confirm_password_placeholder')}
-            type={showConfirmPassword ? "text" : "password"}
-            isRequired
-            value={formData.password_confirmation}
-            onChange={handleChange}
-            startContent={
-              <Icon icon="solar:lock-linear" className="text-default-400" width={20} />
-            }
-            endContent={
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="text-default-400 hover:text-default-600 cursor-pointer"
-              >
-                <Icon
-                  icon={showConfirmPassword ? "solar:eye-closed-linear" : "solar:eye-linear"}
-                  width={20}
-                />
-              </button>
-            }
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label={t("confirm_password_label")}
+                placeholder={t("confirm_password_placeholder")}
+                type={showConfirmPassword ? "text" : "password"}
+                isRequired
+                isInvalid={!!errors.password_confirmation}
+                errorMessage={errors.password_confirmation?.message}
+                startContent={
+                  <Icon
+                    icon="solar:lock-linear"
+                    className="text-default-400"
+                    width={20}
+                  />
+                }
+                endContent={
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setShowConfirmPassword(!showConfirmPassword)
+                    }
+                    className="text-default-400 hover:text-default-600 cursor-pointer"
+                  >
+                    <Icon
+                      icon={
+                        showConfirmPassword
+                          ? "solar:eye-closed-linear"
+                          : "solar:eye-linear"
+                      }
+                      width={20}
+                    />
+                  </button>
+                }
+              />
+            )}
           />
 
-          <Button type="submit" color="primary" fullWidth size="lg">
-            {t('submit_button')}
+          <Button
+            type="submit"
+            color="primary"
+            fullWidth
+            size="lg"
+            isLoading={isSubmitting}
+          >
+            {t("submit_button")}
           </Button>
         </form>
 
         <p className="text-center text-sm text-default-500">
-          {t('have_account')}{" "}
-          <Link href="/auth/login" className="text-primary font-medium hover:underline">
-            {t('login')}
+          {t("have_account")}{" "}
+          <Link
+            href="/auth/login"
+            className="text-primary font-medium hover:underline"
+          >
+            {t("login")}
           </Link>
         </p>
       </div>
