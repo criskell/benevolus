@@ -5,6 +5,19 @@ namespace App\OpenApi;
 
 use OpenApi\Attributes as OA;
 
+#[OA\Get(
+    operationId: "getCsrfToken",
+    path: "/sanctum/csrf-cookie",
+    summary: "Get CSRF cookie",
+    description: "Sets the XSRF-TOKEN cookie required for subsequent state-changing requests",
+    tags: ["Authentication"],
+    responses: [
+        new OA\Response(
+            response: 204,
+            description: "CSRF cookie set successfully"
+        ),
+    ]
+)]
 #[OA\Post(
     operationId: "register",
     path: "/auth/register",

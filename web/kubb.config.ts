@@ -3,34 +3,31 @@ import { pluginClient } from '@kubb/plugin-client';
 import { pluginOas } from '@kubb/plugin-oas';
 import { pluginTs } from '@kubb/plugin-ts';
 
-export default defineConfig(() => {
-  return {
-    root: '.',
-    input: {
-      path: './../api/public/api-docs.json',
-    },
-    output: {
-      path: './src/lib/http/generated',
-    },
-    plugins: [
-      pluginOas({
-        validate: false,
-        serverIndex: 0,
-        generators: [],
-      }),
-      pluginTs({
-        output: {
-          path: 'models',
-        },
-      }),
-      pluginClient({
-        output: {
-          path: '.',
-        },
-        client: 'axios',
-        importPath: '../../api-client',
-        dataReturnType: 'full',
-      }),
-    ],
-  };
+export default defineConfig({
+  root: '.',
+  input: {
+    path: './../api/public/api-docs.json',
+  },
+  output: {
+    path: './src/lib/http/generated',
+    format: false,
+  },
+  plugins: [
+    pluginOas({
+      validate: false,
+      generators: [],
+    }),
+    pluginTs({
+      output: {
+        path: 'models',
+      },
+    }),
+    pluginClient({
+      output: {
+        path: '.',
+      },
+      importPath: '@/lib/http/api-client',
+      dataReturnType: 'full',
+    }),
+  ],
 });

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
@@ -11,7 +12,7 @@ use OpenApi\Attributes as OA;
     description: "API Documentation"
 )]
 #[OA\Server(
-    url: "http://localhost:8000",
+    url: "http://localhost",
     description: "Local Server",
 )]
 #[OA\SecurityScheme(

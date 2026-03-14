@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8000",
+            "url": "http://localhost",
             "description": "Local Server"
         }
     ],
@@ -1126,6 +1126,21 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/sanctum/csrf-cookie": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get CSRF cookie",
+                "description": "Sets the XSRF-TOKEN cookie required for subsequent state-changing requests",
+                "operationId": "getCsrfToken",
+                "responses": {
+                    "204": {
+                        "description": "CSRF cookie set successfully"
                     }
                 }
             }

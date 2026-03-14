@@ -30,6 +30,10 @@ export type ResponseConfig<T = unknown> = {
 
 export type ResponseErrorConfig<T = unknown> = T;
 
+export type Client = <TData, _TError = unknown, TVariables = unknown>(
+  config: RequestConfig<TVariables>
+) => Promise<ResponseConfig<TData>>;
+
 export const api = axiosClient.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
   validateStatus: (status) => status < 500,
