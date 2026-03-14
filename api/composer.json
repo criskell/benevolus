@@ -72,9 +72,8 @@
         "swagger:generate": [
             "@php artisan l5-swagger:generate"
         ],
-            "pint": "pint",
-            "pint:test": "pint --test"
-
+        "pint": "pint",
+        "pint:test": "pint --test"
     },
     "extra": {
         "laravel": {
