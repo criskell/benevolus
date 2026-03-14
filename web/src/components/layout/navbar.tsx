@@ -229,7 +229,11 @@ export const Navbar = () => {
                 </Link>
               </NavbarMenuItem>
               <NavbarMenuItem>
-                <Link href="/profile/notifications" size="lg" className="w-full">
+                <Link
+                  href="/profile/notifications"
+                  size="lg"
+                  className="w-full"
+                >
                   {t('navbar.notifications')}
                 </Link>
               </NavbarMenuItem>
