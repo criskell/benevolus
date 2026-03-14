@@ -28,7 +28,7 @@ export default defineConfig({
         path: '.',
       },
       importPath: '@/lib/http/api-client',
-      dataReturnType: 'full',
+      dataReturnType: 'data',
     }),
     pluginReactQuery({
       output: {

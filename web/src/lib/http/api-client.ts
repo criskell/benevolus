@@ -6,7 +6,7 @@ import { env } from '../env';
 export type RequestConfig<T = unknown> = {
   baseURL?: string;
   url?: string;
-  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
   params?: unknown;
   data?: T;
   responseType?:
@@ -21,14 +21,14 @@ export type RequestConfig<T = unknown> = {
   validateStatus?: (status: number) => boolean;
 };
 
-export type ResponseConfig<T = unknown> = {
-  data: T;
+export type ResponseConfig<TData = unknown> = {
+  data: TData;
   status: number;
   statusText: string;
   headers?: AxiosResponse['headers'];
 };
 
-export type ResponseErrorConfig<T = unknown> = T;
+export type ResponseErrorConfig<TError = unknown> = TError;
 
 export type Client = <TData, _TError = unknown, TVariables = unknown>(
   config: RequestConfig<TVariables>
