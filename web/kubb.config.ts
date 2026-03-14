@@ -2,6 +2,7 @@ import { defineConfig } from '@kubb/core';
 import { pluginClient } from '@kubb/plugin-client';
 import { pluginOas } from '@kubb/plugin-oas';
 import { pluginTs } from '@kubb/plugin-ts';
+import { pluginReactQuery } from '@kubb/plugin-react-query';
 
 export default defineConfig({
   root: '.',
@@ -28,6 +29,11 @@ export default defineConfig({
       },
       importPath: '@/lib/http/api-client',
       dataReturnType: 'full',
+    }),
+    pluginReactQuery({
+      output: {
+        path: './hooks',
+      },
     }),
   ],
 });
