@@ -158,7 +158,12 @@
       "forgot_password": "Forgot password?",
       "submit_button": "Sign in",
       "no_account": "Don't have an account?",
-      "create_account": "Create account"
+      "create_account": "Create account",
+      "validation": {
+        "email_required": "Email is required",
+        "email_invalid": "Please enter a valid email",
+        "password_required": "Password is required"
+      }
     },
     "signup": {
       "title": "Create your account",

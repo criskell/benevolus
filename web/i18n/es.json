@@ -158,7 +158,12 @@
       "forgot_password": "¿Olvidaste la contraseña?",
       "submit_button": "Iniciar sesión",
       "no_account": "¿No tienes cuenta?",
-      "create_account": "Crear cuenta"
+      "create_account": "Crear cuenta",
+      "validation": {
+        "email_required": "El email es obligatorio",
+        "email_invalid": "Ingresa un email válido",
+        "password_required": "La contraseña es obligatoria"
+      }
     },
     "signup": {
       "title": "Crea tu cuenta",

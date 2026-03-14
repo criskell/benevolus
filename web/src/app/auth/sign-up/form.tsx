@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
 import Link from "next/link";
 import { useForm, Controller } from "react-hook-form";
@@ -10,13 +9,8 @@ import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
 import { useTranslations } from "next-intl";
+import { getCsrfToken, register } from "@/lib/http/generated";
 import type { TranslateFn } from "@/types/i18n";
-
-const api = axios.create({
-  baseURL: "http://localhost",
-  withCredentials: true,
-  withXSRFToken: true,
-});
 
 const createSignUpSchema = (t: TranslateFn) =>
   z
@@ -64,8 +58,8 @@ export const SignUpForm = () => {
   });
 
   const onSubmit = async (data: SignUpFormData) => {
-    await api.get("/sanctum/csrf-cookie");
-    await api.post("/auth/register", data);
+    await getCsrfToken();
+    await register(data);
   };
 
   return (
