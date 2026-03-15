@@ -43,6 +43,7 @@ final class CampaignService
     public function findById(int $campaignId): Campaign
     {
         $campaign = Campaign::withCount('favoritedByUsers')
+            ->with('user')
             ->findOrFail($campaignId);
 
         $recentComments = $campaign->comments()
@@ -68,6 +69,7 @@ final class CampaignService
     public function findBySlug(string $slug): Campaign
     {
         $campaign = Campaign::withCount('favoritedByUsers')
+            ->with('user')
             ->where('slug', $slug)
             ->firstOrFail();
 

@@ -16,7 +16,7 @@ interface PageProps {
 
 const CampaignPage = async ({ params }: PageProps) => {
   const { campaign: slug } = await params;
-  const campaign = await getCampaign(slug).catch(() => null);
+  const campaign = await getCampaign(slug);
 
   if (!campaign) {
     notFound();

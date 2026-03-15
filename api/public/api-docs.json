@@ -1766,6 +1766,18 @@
                         "type": "string",
                         "nullable": true
                     },
+                    "user": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    },
                     "comments": {
                         "type": "array",
                         "items": {

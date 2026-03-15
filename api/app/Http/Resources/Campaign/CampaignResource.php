@@ -27,6 +27,15 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'favoriteCount', type: 'integer'),
         new OA\Property(property: 'image', type: 'string', nullable: true),
         new OA\Property(
+            property: 'user',
+            type: 'object',
+            nullable: true,
+            properties: [
+                new OA\Property(property: 'id', type: 'integer'),
+                new OA\Property(property: 'name', type: 'string'),
+            ]
+        ),
+        new OA\Property(
             property: 'comments',
             type: 'array',
             items: new OA\Items(ref: '#/components/schemas/CommentResource')
@@ -61,6 +70,10 @@ class CampaignResource extends JsonResource
             'donationsCount' => $this->donations_count ?? 0,
             'image' => $this->whenLoaded('assets', fn () => $this->assets->first()?->url),
             'favoriteCount' => $this->favorites_count ?? 0,
+            'user' => $this->whenLoaded('user', fn () => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+            ]),
             'comments' => CommentResource::collection($this->whenLoaded('recentComments')),
             'updates' => CampaignUpdateResource::collection($this->whenLoaded('recentUpdates')),
             'donations' => CampaignDonationResource::collection($this->whenLoaded('recentDonations')),

@@ -27,7 +27,7 @@ export const CampaignHeader = ({ campaign }: CampaignHeaderProps) => {
       <Card className="p-6 md:p-8 border border-default-200" shadow="none">
         <div className="flex items-start gap-4 mb-6">
           <Avatar
-            name="Fulana"
+            name={campaign.user?.name || 'Fulana'}
             getInitials={getUserNameInitials}
             className="flex-shrink-0 ring-2 ring-primary/20"
             size="lg"
@@ -39,7 +39,9 @@ export const CampaignHeader = ({ campaign }: CampaignHeaderProps) => {
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2">
-              <p className="font-semibold text-foreground">Fulana Santos</p>
+              <p className="font-semibold text-foreground">
+                {campaign.user?.name || 'Fulana Santos'}
+              </p>
               <Icon
                 icon="solar:verified-check-bold"
                 width={20}
