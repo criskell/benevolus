@@ -13,7 +13,7 @@ const CampaignsPage = async ({ searchParams }: PageProps<'/campaigns'>) => {
   const params = await searchParams;
 
   const response = await listCampaigns({
-    search: String(params.search),
+    search: params.search ? String(params.search) : undefined,
   });
 
   const data = response.data ?? [];

@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import {
   Button,
   useDisclosure,
@@ -9,8 +9,6 @@ import {
   ModalHeader,
   ModalBody,
   Input,
-  Select,
-  SelectItem,
   Spinner,
 } from '@heroui/react';
 import { Heart, ShoppingCart } from 'lucide-react';
@@ -18,6 +16,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FiltersPanel } from '../../components/campaigns/filters-panel';
+import { SearchBar } from '../../components/campaigns/search-bar';
 import { SortMenu } from '../../components/campaigns/sort-menu';
 import { CampaignList } from '../../components/campaigns/campaign-list';
 import { FavoritesDrawer } from '../../components/donations/favorites-drawer';
@@ -28,6 +27,7 @@ import { SearchIcon } from '../../components/icons/search';
 import { StatusFilter, TimeFilter } from '@/types';
 import { updateSearchParams } from '@/lib/utils/update-search-params';
 import { cn } from '@/lib/utils/cn';
+import { debounce } from '@/lib/utils/debounce';
 
 type CampaignsViewProps = {
   initialCampaigns: Campaign[];
@@ -74,6 +74,10 @@ export const CampaignsView = ({ initialCampaigns }: CampaignsViewProps) => {
     });
   };
 
+  const handleSearch = debounce((val: string) => {
+    updateFilters({ search: val });
+  }, 500);
+
   const handleApplyFilters = () => {
     onModalOpenChange();
   };
@@ -119,8 +123,7 @@ export const CampaignsView = ({ initialCampaigns }: CampaignsViewProps) => {
                 <Input
                   placeholder={t('search.placeholder')}
                   startContent={<SearchIcon />}
-                  value={searchQuery}
-                  onValueChange={(val) => updateFilters({ search: val })}
+                  onValueChange={(value) => handleSearch(value)}
                   className="max-w-md"
                 />
               </div>
