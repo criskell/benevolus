@@ -24,7 +24,6 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
   return (
     <Card className="group transition-all duration-300 shadow-none border border-default-200 hover:border-primary/15 hover:shadow-xl hover:-translate-y-1 overflow-hidden">
       <CardBody className="p-0">
-        {/* Image Container */}
         <div className="relative w-full aspect-video overflow-hidden bg-default-100">
           {campaign.image ? (
             <>
@@ -62,16 +61,13 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
           )}
         </div>
 
-        {/* Content */}
         <div className="p-5">
-          {/* Title */}
           <Link href={`/${campaign.slug}`}>
             <h3 className="text-lg font-bold hover:text-primary cursor-pointer line-clamp-2 mb-3 transition-colors duration-200 leading-snug">
               {campaign.title}
             </h3>
           </Link>
 
-          {/* Stats Row */}
           <div className="flex items-center justify-between mb-3">
             {campaign.daysRemaining != null ? (
               <div className="flex items-center gap-1.5 text-sm text-default-600">
@@ -94,7 +90,6 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
             </div>
           </div>
 
-          {/* Progress Bar */}
           <Progress
             value={campaign.progress}
             className="mb-4"
@@ -104,7 +99,6 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
             size="sm"
           />
 
-          {/* Amount Info */}
           <div className="flex items-end justify-between mb-4">
             <div>
               <p className="text-xs text-default-500 mb-1">
@@ -122,7 +116,6 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
             </div>
           </div>
 
-          {/* Donate Button */}
           <Button
             color="primary"
             className="w-full font-semibold shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/40 group-hover:scale-[1.02]"
@@ -134,7 +127,6 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
           </Button>
         </div>
 
-        {/* Bottom accent - Simple and clean */}
         <div className="h-1 bg-default-100 group-hover:bg-primary transition-colors duration-300" />
       </CardBody>
     </Card>
