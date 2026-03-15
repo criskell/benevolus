@@ -33,14 +33,8 @@ final class LeaderboardController extends Controller
                 response: 200,
                 description: "Top campaigns retrieved successfully",
                 content: new OA\JsonContent(
-                    type: "object",
-                    properties: [
-                        new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/LeaderboardRankingResource")
-                        ),
-                    ]
+                    type: "array",
+                    items: new OA\Items(ref: "#/components/schemas/LeaderboardRankingResource")
                 )
             ),
         ]
@@ -72,14 +66,8 @@ final class LeaderboardController extends Controller
                 response: 200,
                 description: "Top donors retrieved successfully",
                 content: new OA\JsonContent(
-                    type: "object",
-                    properties: [
-                        new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/LeaderboardRankingResource")
-                        ),
-                    ]
+                    type: "array",
+                    items: new OA\Items(ref: "#/components/schemas/LeaderboardRankingResource")
                 )
             ),
         ]
@@ -111,14 +99,8 @@ final class LeaderboardController extends Controller
                 response: 200,
                 description: "Top creators retrieved successfully",
                 content: new OA\JsonContent(
-                    type: "object",
-                    properties: [
-                        new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/LeaderboardRankingResource")
-                        ),
-                    ]
+                    type: "array",
+                    items: new OA\Items(ref: "#/components/schemas/LeaderboardRankingResource")
                 )
             ),
         ]

@@ -36,7 +36,33 @@ export type Client = <TData, _TError = unknown, TVariables = unknown>(
 
 export const api = axiosClient.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
   validateStatus: (status) => status < 500,
+});
+
+api.interceptors.request.use(async (config) => {
+  if (typeof window === 'undefined') {
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    const allCookies = cookieStore.getAll();
+
+    if (allCookies.length > 0) {
+      config.headers.set(
+        'Cookie',
+        allCookies.map((c) => `${c.name}=${c.value}`).join('; ')
+      );
+
+      const xsrfCookie = allCookies.find((c) => c.name === 'XSRF-TOKEN');
+      if (xsrfCookie) {
+        config.headers.set(
+          'X-XSRF-TOKEN',
+          decodeURIComponent(xsrfCookie.value)
+        );
+      }
+    }
+  }
+
+  return config;
 });
 
 export const client = async <TData, TError = unknown, TVariables = unknown>(

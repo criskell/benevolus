@@ -4,53 +4,79 @@ import { useState } from 'react';
 import { Button, Card, CardBody, Input } from '@heroui/react';
 import { EditIcon, XIcon, CheckIcon } from 'lucide-react';
 import { PatternFormat } from 'react-number-format';
+import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
+import { useUpdateProfile } from '@/lib/http/generated/hooks/useUpdateProfile';
+import { useQueryClient } from '@tanstack/react-query';
+import { getProfileQueryKey } from '@/lib/http/generated/hooks/useGetProfile';
 
-type AddressData = {
+type FormData = {
   country: string;
-  zipCode: string;
+  zipcode: string;
   state: string;
   city: string;
   street: string;
   number: string;
-  neighborhood: string;
-  complement: string;
 };
 
-type ProfileAddressProps = {
-  addressData: AddressData;
-  onSave: (data: AddressData) => void;
-};
+export const ProfileAddress = () => {
+  const { data: profile } = useGetProfile();
+  const { mutateAsync: updateProfile } = useUpdateProfile();
+  const queryClient = useQueryClient();
 
-export const ProfileAddress = ({
-  addressData: initialData,
-  onSave,
-}: ProfileAddressProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [addressData, setAddressData] = useState(initialData);
-  const [backup, setBackup] = useState(initialData);
+  const [form, setForm] = useState<FormData | null>(null);
+
+  const address = profile?.address;
+
+  const currentData: FormData = {
+    country: address?.country ?? '',
+    zipcode: address?.zipcode ?? '',
+    state: address?.state ?? '',
+    city: address?.city ?? '',
+    street: address?.street ?? '',
+    number: address?.number ?? '',
+  };
+
+  const data = isEditing && form ? form : currentData;
 
   const handleStartEdit = () => {
-    setBackup({ ...addressData });
+    setForm({ ...currentData });
     setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setAddressData({ ...backup });
+    setForm(null);
     setIsEditing(false);
   };
 
-  const handleSave = () => {
-    onSave(addressData);
+  const handleSave = async () => {
+    if (!form) return;
+
+    await updateProfile({
+      data: {
+        address: {
+          country: form.country || undefined,
+          zipcode: form.zipcode || undefined,
+          state: form.state || undefined,
+          city: form.city || undefined,
+          street: form.street || undefined,
+          number: form.number || undefined,
+        },
+      },
+    });
+
+    queryClient.invalidateQueries({ queryKey: getProfileQueryKey() });
+    setForm(null);
     setIsEditing(false);
   };
 
-  const renderField = (
-    label: string,
-    key: keyof AddressData,
-    usePattern = false
-  ) => {
+  const updateField = <K extends keyof FormData>(key: K, value: FormData[K]) => {
+    if (form) setForm({ ...form, [key]: value });
+  };
+
+  const renderField = (label: string, key: keyof FormData, usePattern = false) => {
     if (isEditing) {
-      if (usePattern && key === 'zipCode') {
+      if (usePattern && key === 'zipcode') {
         return (
           <PatternFormat
             format="#####-###"
@@ -58,10 +84,8 @@ export const ProfileAddress = ({
             customInput={Input}
             label={label}
             labelPlacement="outside-top"
-            value={addressData[key]}
-            onValueChange={(values) => {
-              setAddressData({ ...addressData, [key]: values.value });
-            }}
+            value={data[key]}
+            onValueChange={(values) => updateField(key, values.value)}
           />
         );
       }
@@ -69,10 +93,8 @@ export const ProfileAddress = ({
         <Input
           label={label}
           labelPlacement="outside-top"
-          value={addressData[key]}
-          onChange={(e) =>
-            setAddressData({ ...addressData, [key]: e.target.value })
-          }
+          value={data[key]}
+          onChange={(e) => updateField(key, e.target.value)}
         />
       );
     }
@@ -82,7 +104,7 @@ export const ProfileAddress = ({
         <label className="text-sm font-medium text-default-600 block mb-1">
           {label}
         </label>
-        <p className="text-default-900">{addressData[key] || '-'}</p>
+        <p className="text-default-900">{data[key] || '-'}</p>
       </>
     );
   };
@@ -133,13 +155,11 @@ export const ProfileAddress = ({
 
         <div className="grid grid-cols-2 gap-4">
           <div>{renderField('País', 'country')}</div>
-          <div>{renderField('CEP', 'zipCode', true)}</div>
+          <div>{renderField('CEP', 'zipcode', true)}</div>
           <div>{renderField('Estado', 'state')}</div>
           <div>{renderField('Cidade', 'city')}</div>
           <div>{renderField('Rua', 'street')}</div>
           <div>{renderField('Número', 'number')}</div>
-          <div>{renderField('Bairro', 'neighborhood')}</div>
-          <div>{renderField('Complemento', 'complement')}</div>
         </div>
       </CardBody>
     </Card>

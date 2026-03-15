@@ -200,15 +200,10 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/CampaignResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CampaignResource"
+                                    }
                                 }
                             }
                         }
@@ -467,15 +462,10 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/LeaderboardRankingResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LeaderboardRankingResource"
+                                    }
                                 }
                             }
                         }
@@ -510,15 +500,10 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/LeaderboardRankingResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LeaderboardRankingResource"
+                                    }
                                 }
                             }
                         }
@@ -553,15 +538,10 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/LeaderboardRankingResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LeaderboardRankingResource"
+                                    }
                                 }
                             }
                         }
@@ -1643,6 +1623,18 @@
                         "format": "email",
                         "maxLength": 255
                     },
+                    "taxId": {
+                        "type": "string",
+                        "maxLength": 14
+                    },
+                    "birthDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "maxLength": 20
+                    },
                     "address": {
                         "properties": {
                             "street": {
@@ -2035,6 +2027,23 @@
                     },
                     "name": {
                         "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "taxId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "birthDate": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "phone": {
+                        "type": "string",
+                        "nullable": true
                     },
                     "address": {
                         "properties": {

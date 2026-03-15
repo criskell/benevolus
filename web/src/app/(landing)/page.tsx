@@ -30,15 +30,15 @@ const mappedCampaigns: Campaign[] = campaigns.campaigns.map((c) => ({
   image: c.image,
 }));
 
-const Home = () => {
+const Home = async () => {
   const t = useTranslations('home');
   const allCategoriesText = t('all_categories');
-  
+
   const categories = [
     allCategoriesText,
     ...new Set(campaigns.campaigns.map((c) => c.category)),
   ];
-  
+
   const [selectedCategory, setSelectedCategory] = useState(allCategoriesText);
 
   const filteredCampaigns = (

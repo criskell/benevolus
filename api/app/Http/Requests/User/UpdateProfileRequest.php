@@ -11,6 +11,9 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(property: "name", type: "string", maxLength: 255),
         new OA\Property(property: "email", type: "string", format: "email", maxLength: 255),
+        new OA\Property(property: "taxId", type: "string", maxLength: 14),
+        new OA\Property(property: "birthDate", type: "string", format: "date"),
+        new OA\Property(property: "phone", type: "string", maxLength: 20),
         new OA\Property(
             property: "address",
             type: "object",
@@ -32,6 +35,9 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|email|max:255|unique:users,email,' . $this->user()->id,
+            'taxId' => 'sometimes|nullable|string|max:14',
+            'birthDate' => 'sometimes|nullable|date',
+            'phone' => 'sometimes|nullable|string|max:20',
             'address.street' => 'sometimes|string|max:255',
             'address.number' => 'sometimes|string|max:20',
             'address.city' => 'sometimes|string|max:100',

@@ -31,14 +31,8 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
                 response: 200,
                 description: "List of favorited campaigns",
                 content: new OA\JsonContent(
-                    type: "object",
-                    properties: [
-                        new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/CampaignResource")
-                        ),
-                    ]
+                    type: "array",
+                    items: new OA\Items(ref: "#/components/schemas/CampaignResource")
                 )
             ),
         ]

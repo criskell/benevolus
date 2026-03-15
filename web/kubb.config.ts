@@ -18,11 +18,13 @@ export default defineConfig({
       validate: false,
       generators: [],
     }),
+
     pluginTs({
       output: {
         path: 'models',
       },
     }),
+
     pluginClient({
       output: {
         path: '.',
@@ -30,9 +32,14 @@ export default defineConfig({
       importPath: '@/lib/http/api-client',
       dataReturnType: 'data',
     }),
+
     pluginReactQuery({
       output: {
         path: './hooks',
+      },
+
+      client: {
+        dataReturnType: 'data',
       },
     }),
   ],

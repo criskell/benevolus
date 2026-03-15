@@ -1,6 +1,10 @@
-import { SignUpForm } from "./form";
+import { cookies } from 'next/headers';
 
-const AuthSignUpPage = () => {
+import { SignUpForm } from './form';
+
+const AuthSignUpPage = async () => {
+  console.log(await cookies());
+
   return <SignUpForm />;
 };
 

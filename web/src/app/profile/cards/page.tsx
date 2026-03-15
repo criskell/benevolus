@@ -24,12 +24,7 @@ const CardsPage = () => {
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
       <div className="flex gap-8">
-        <ProfileSidebar
-          userName={userData.name}
-          followedCampaigns={userData.followedCampaigns}
-          donationsCount={userData.donationsCount}
-          menuItems={menuItems}
-        />
+        <ProfileSidebar />
 
         <main className="flex-1">
           <div className="flex items-start justify-between mb-6">

@@ -6,42 +6,68 @@ import { EditIcon, XIcon, CheckIcon } from 'lucide-react';
 import { PatternFormat } from 'react-number-format';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
+import { useUpdateProfile } from '@/lib/http/generated/hooks/useUpdateProfile';
+import { useQueryClient } from '@tanstack/react-query';
+import { getProfileQueryKey } from '@/lib/http/generated/hooks/useGetProfile';
 
-type UserData = {
-  fullName: string;
-  cpf: string;
+type FormData = {
+  name: string;
+  taxId: string;
   birthDate: string;
   email: string;
   phone: string;
 };
 
-type ProfilePersonalInfoProps = {
-  userData: UserData;
-  onSave: (data: UserData) => void | Promise<void>;
-};
-
-export const ProfilePersonalInfo = ({
-  userData: initialData,
-  onSave,
-}: ProfilePersonalInfoProps) => {
+export const ProfilePersonalInfo = () => {
+  const { data: profile } = useGetProfile();
+  const { mutateAsync: updateProfile } = useUpdateProfile();
+  const queryClient = useQueryClient();
   const phoneInputId = useId();
+
   const [isEditing, setIsEditing] = useState(false);
-  const [userData, setUserData] = useState(initialData);
-  const [backup, setBackup] = useState(initialData);
+  const [form, setForm] = useState<FormData | null>(null);
+
+  const currentData: FormData = {
+    name: profile?.name ?? '',
+    taxId: profile?.taxId ?? '',
+    birthDate: profile?.birthDate ?? '',
+    email: profile?.email ?? '',
+    phone: profile?.phone ?? '',
+  };
+
+  const data = isEditing && form ? form : currentData;
 
   const handleStartEdit = () => {
-    setBackup({ ...userData });
+    setForm({ ...currentData });
     setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setUserData({ ...backup });
+    setForm(null);
     setIsEditing(false);
   };
 
-  const handleSave = () => {
-    onSave(userData);
+  const handleSave = async () => {
+    if (!form) return;
+
+    await updateProfile({
+      data: {
+        name: form.name,
+        taxId: form.taxId || undefined,
+        birthDate: form.birthDate || undefined,
+        email: form.email,
+        phone: form.phone || undefined,
+      },
+    });
+
+    queryClient.invalidateQueries({ queryKey: getProfileQueryKey() });
+    setForm(null);
     setIsEditing(false);
+  };
+
+  const updateField = <K extends keyof FormData>(key: K, value: FormData[K]) => {
+    if (form) setForm({ ...form, [key]: value });
   };
 
   return (
@@ -94,17 +120,15 @@ export const ProfilePersonalInfo = ({
               <Input
                 label="Nome"
                 labelPlacement="outside-top"
-                value={userData.fullName}
-                onChange={(e) =>
-                  setUserData({ ...userData, fullName: e.target.value })
-                }
+                value={data.name}
+                onChange={(e) => updateField('name', e.target.value)}
               />
             ) : (
               <>
                 <label className="text-sm font-medium text-default-600 block mb-1">
                   Nome
                 </label>
-                <p className="text-default-900">{userData.fullName}</p>
+                <p className="text-default-900">{data.name}</p>
               </>
             )}
           </div>
@@ -117,10 +141,8 @@ export const ProfilePersonalInfo = ({
                 customInput={Input}
                 label="CPF"
                 labelPlacement="outside-top"
-                value={userData.cpf}
-                onValueChange={(values) => {
-                  setUserData({ ...userData, cpf: values.value });
-                }}
+                value={data.taxId}
+                onValueChange={(values) => updateField('taxId', values.value)}
               />
             ) : (
               <>
@@ -128,8 +150,8 @@ export const ProfilePersonalInfo = ({
                   CPF
                 </label>
                 <p className="text-default-900">
-                  {userData.cpf
-                    ? userData.cpf.replace(
+                  {data.taxId
+                    ? data.taxId.replace(
                         /(\d{3})(\d{3})(\d{3})(\d{2})/,
                         '$1.$2.$3-$4'
                       )
@@ -145,17 +167,15 @@ export const ProfilePersonalInfo = ({
                 type="date"
                 label="Data de nascimento"
                 labelPlacement="outside-top"
-                value={userData.birthDate}
-                onChange={(e) =>
-                  setUserData({ ...userData, birthDate: e.target.value })
-                }
+                value={data.birthDate}
+                onChange={(e) => updateField('birthDate', e.target.value)}
               />
             ) : (
               <>
                 <label className="text-sm font-medium text-default-600 block mb-1">
                   Data de nascimento
                 </label>
-                <p className="text-default-900">{userData.birthDate || '-'}</p>
+                <p className="text-default-900">{data.birthDate || '-'}</p>
               </>
             )}
           </div>
@@ -166,17 +186,15 @@ export const ProfilePersonalInfo = ({
                 type="email"
                 label="E-mail"
                 labelPlacement="outside-top"
-                value={userData.email}
-                onChange={(e) =>
-                  setUserData({ ...userData, email: e.target.value })
-                }
+                value={data.email}
+                onChange={(e) => updateField('email', e.target.value)}
               />
             ) : (
               <>
                 <label className="text-sm font-medium text-default-600 block mb-1">
                   E-mail
                 </label>
-                <p className="text-default-900">{userData.email}</p>
+                <p className="text-default-900">{data.email}</p>
               </>
             )}
           </div>
@@ -192,10 +210,8 @@ export const ProfilePersonalInfo = ({
                 </label>
                 <PhoneInput
                   id={phoneInputId}
-                  value={userData.phone}
-                  onChange={(value) =>
-                    setUserData({ ...userData, phone: value || '' })
-                  }
+                  value={data.phone}
+                  onChange={(value) => updateField('phone', value || '')}
                   defaultCountry="BR"
                   international
                   countryCallingCodeEditable={false}
@@ -209,7 +225,7 @@ export const ProfilePersonalInfo = ({
                 </label>
                 <div className="flex items-center gap-2">
                   <span className="text-xl">🇧🇷</span>
-                  <p className="text-default-900">{userData.phone}</p>
+                  <p className="text-default-900">{data.phone}</p>
                 </div>
               </>
             )}

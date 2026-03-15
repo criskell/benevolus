@@ -5,13 +5,7 @@ import { CameraIcon, Heart, Megaphone, User, CreditCard, Bell, Receipt } from 'l
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
-
-type ProfileSidebarProps = {
-  userName: string;
-  followedCampaigns: number;
-  donationsCount: number;
-  menuItems?: Array<{ label: string; active: boolean }>;
-};
+import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
 
 const navigationItems = [
   { label: 'Minhas Campanhas', href: '/profile/campaigns', icon: Megaphone },
@@ -22,11 +16,8 @@ const navigationItems = [
   { label: 'Meus Dados', href: '/profile', icon: User },
 ];
 
-export const ProfileSidebar = ({
-  userName,
-  followedCampaigns,
-  donationsCount,
-}: ProfileSidebarProps) => {
+export const ProfileSidebar = () => {
+  const { data: profile } = useGetProfile();
   const pathname = usePathname();
 
   const isActive = (href: string) => {
@@ -42,7 +33,7 @@ export const ProfileSidebar = ({
 
       <div className="relative inline-block">
         <Avatar
-          name={userName}
+          name={profile?.name}
           getInitials={getUserNameInitials}
           className="w-32 h-32 text-4xl"
         />
@@ -56,20 +47,20 @@ export const ProfileSidebar = ({
         </Button>
       </div>
 
-      <p className="text-lg font-medium">{userName}</p>
+      <p className="text-lg font-medium">{profile?.name}</p>
 
       <div className="space-y-3">
         <Card className="bg-primary text-white">
           <CardBody className="p-4">
-            <p className="text-2xl font-bold">{followedCampaigns}</p>
+            <p className="text-2xl font-bold">0</p>
             <p className="text-sm opacity-90">Vaquinhas que sigo</p>
           </CardBody>
         </Card>
 
         <Card className="bg-primary text-white">
           <CardBody className="p-4">
-            <p className="text-2xl font-bold">{donationsCount}</p>
-            <p className="text-sm opacity-90">Desfechos que doei</p>
+            <p className="text-2xl font-bold">0</p>
+            <p className="text-sm opacity-90">Doações que fiz</p>
           </CardBody>
         </Card>
       </div>

@@ -56,12 +56,7 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
       <div className="flex gap-8">
-        <ProfileSidebar
-          userName={userData.name}
-          followedCampaigns={userData.followedCampaigns}
-          donationsCount={userData.donationsCount}
-          menuItems={menuItems}
-        />
+        <ProfileSidebar />
 
         <main className="flex-1 space-y-6">
           <div className="flex items-center gap-4">

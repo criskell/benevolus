@@ -11,6 +11,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
     properties: [
         new OA\Property(property: "id", type: "integer"),
         new OA\Property(property: "name", type: "string"),
+        new OA\Property(property: "email", type: "string", format: "email"),
+        new OA\Property(property: "taxId", type: "string", nullable: true),
+        new OA\Property(property: "birthDate", type: "string", format: "date", nullable: true),
+        new OA\Property(property: "phone", type: "string", nullable: true),
         new OA\Property(
             property: "address",
             type: "object",
@@ -33,6 +37,10 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
+            'taxId' => $this->tax_id,
+            'birthDate' => $this->birth_date?->format('Y-m-d'),
+            'phone' => $this->phone,
             'address' => $this->whenLoaded('address'),
         ];
     }
