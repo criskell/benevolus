@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('campaign_id')->constrained()->onDelete('cascade');
 
             $table->integer('amount_cents');
-            
+
             $table->string('payment_method');
             $table->string('external_reference');
             $table->string('payment_processor');

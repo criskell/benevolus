@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Donation;
@@ -46,7 +47,7 @@ final class DonationProcessor
                 'donationId' => $donation->id,
                 'userId' => $user->id,
                 'amount' => $donation->amount,
-                'externalReference' => $paymentResult['externalReference']
+                'externalReference' => $paymentResult['externalReference'],
             ]);
 
             return [
@@ -65,8 +66,8 @@ final class DonationProcessor
         return $this->db->transaction(function () use ($externalReferenceId) {
             $donation = $this->donationService->findByExternalReference($externalReferenceId);
 
-            if (!$donation) {
-                throw new Exception('Donation not found: ' . $externalReferenceId);
+            if (! $donation) {
+                throw new Exception('Donation not found: '.$externalReferenceId);
             }
 
             $status = $this->paymentGateway->getPaymentStatus($externalReferenceId);
@@ -76,7 +77,7 @@ final class DonationProcessor
 
                 $this->logger->info('Donation payment confirmed', [
                     'donationId' => $donation->id,
-                    'externalReference' => $externalReferenceId
+                    'externalReference' => $externalReferenceId,
                 ]);
 
                 return $donation;

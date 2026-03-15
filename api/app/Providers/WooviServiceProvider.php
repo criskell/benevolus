@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Providers;
@@ -9,6 +10,7 @@ use OpenPix\PhpSdk\Client;
 class WooviServiceProvider extends ServiceProvider
 {
     private const BASE_URI = 'https://api.woovi.com';
+
     private const SANDBOX_BASE_URI = 'https://api.woovi-sandbox.com';
 
     /**

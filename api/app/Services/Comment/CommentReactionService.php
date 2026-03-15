@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Comment;
@@ -16,6 +17,7 @@ final class CommentReactionService
 
         if ($reaction) {
             $reaction->delete();
+
             return $reaction;
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Payment;
@@ -40,7 +41,7 @@ final class StripePaymentGateway implements PaymentGatewayInterface
 
             $confirmedIntent = $this->stripe->paymentIntents->confirm(
                 $paymentIntent->id,
-                ['return_url' => config('app.url') . '/donation/success']
+                ['return_url' => config('app.url').'/donation/success']
             );
 
             return [
@@ -59,6 +60,7 @@ final class StripePaymentGateway implements PaymentGatewayInterface
     {
         try {
             $paymentIntent = $this->stripe->paymentIntents->retrieve($paymentId);
+
             return $paymentIntent->status;
         } catch (ApiErrorException $e) {
             throw PaymentException::processingFailed($e->getMessage());
@@ -91,7 +93,7 @@ final class StripePaymentGateway implements PaymentGatewayInterface
 
     private function formatPhoneNumber(string $phoneNumber): string
     {
-        return '+55' . preg_replace('/\D/', '', $phoneNumber);
+        return '+55'.preg_replace('/\D/', '', $phoneNumber);
     }
 
     private function extractPixCode(PaymentIntent $paymentIntent): ?string

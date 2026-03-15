@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Models;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Comment extends Model
 {
     use HasFactory;
+
     protected $casts = [
         'is_anonymous' => 'boolean',
     ];

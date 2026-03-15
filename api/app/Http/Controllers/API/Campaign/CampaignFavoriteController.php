@@ -22,17 +22,17 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
     public function __construct(private CampaignFavoriteService $campaignFavoriteService) {}
 
     #[OA\Get(
-        operationId: "listFavoritedCampaigns",
-        path: "/api/profile/campaigns/favorited",
-        summary: "List favorited campaigns",
-        tags: ["Campaigns"],
+        operationId: 'listFavoritedCampaigns',
+        path: '/api/profile/campaigns/favorited',
+        summary: 'List favorited campaigns',
+        tags: ['Campaigns'],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "List of favorited campaigns",
+                description: 'List of favorited campaigns',
                 content: new OA\JsonContent(
-                    type: "array",
-                    items: new OA\Items(ref: "#/components/schemas/CampaignResource")
+                    type: 'array',
+                    items: new OA\Items(ref: '#/components/schemas/CampaignResource')
                 )
             ),
         ]
@@ -45,28 +45,28 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
     }
 
     #[OA\Post(
-        operationId: "toggleCampaignFavorite",
-        path: "/api/campaigns/{campaign}/favorite",
-        summary: "Toggle campaign favorite",
-        tags: ["Campaigns"],
+        operationId: 'toggleCampaignFavorite',
+        path: '/api/campaigns/{campaign}/favorite',
+        summary: 'Toggle campaign favorite',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Favorite toggled successfully",
+                description: 'Favorite toggled successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "favorited", type: "boolean"),
+                        new OA\Property(property: 'favorited', type: 'boolean'),
                     ],
-                    type: "object"
+                    type: 'object'
                 )
             ),
         ]

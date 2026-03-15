@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Resources\Comment;
@@ -8,18 +9,18 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "CommentResource",
+    schema: 'CommentResource',
     properties: [
-        new OA\Property(property: "id", type: "integer"),
-        new OA\Property(property: "campaignId", type: "integer"),
-        new OA\Property(property: "content", type: "string"),
-        new OA\Property(property: "isAnonymous", type: "boolean"),
-        new OA\Property(property: "likes", type: "integer"),
-        new OA\Property(property: "createdAt", type: "string", format: "date-time"),
+        new OA\Property(property: 'id', type: 'integer'),
+        new OA\Property(property: 'campaignId', type: 'integer'),
+        new OA\Property(property: 'content', type: 'string'),
+        new OA\Property(property: 'isAnonymous', type: 'boolean'),
+        new OA\Property(property: 'likes', type: 'integer'),
+        new OA\Property(property: 'createdAt', type: 'string', format: 'date-time'),
         new OA\Property(
-            property: "user",
-            ref: "#/components/schemas/UserResource",
-            type: "object",
+            property: 'user',
+            ref: '#/components/schemas/UserResource',
+            type: 'object',
             nullable: true
         ),
     ]
@@ -30,7 +31,7 @@ class CommentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => $this->when(!$this->is_anonymous, new UserResource($this->whenLoaded('user'))),
+            'user' => $this->when(! $this->is_anonymous, new UserResource($this->whenLoaded('user'))),
             'campaignId' => $this->campaign_id,
             'content' => $this->content,
             'isAnonymous' => $this->is_anonymous,

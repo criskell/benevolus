@@ -26,21 +26,21 @@ final class ReportController extends Controller implements HasMiddleware
     public function __construct(private ReportService $reportService) {}
 
     #[OA\Get(
-        operationId: "listReports",
-        path: "/api/reports",
-        summary: "List reports",
-        tags: ["Reports"],
+        operationId: 'listReports',
+        path: '/api/reports',
+        summary: 'List reports',
+        tags: ['Reports'],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Reports retrieved successfully",
+                description: 'Reports retrieved successfully',
                 content: new OA\JsonContent(
-                    type: "object",
+                    type: 'object',
                     properties: [
                         new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/ReportResource")
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/ReportResource')
                         ),
                     ]
                 )
@@ -55,31 +55,31 @@ final class ReportController extends Controller implements HasMiddleware
     }
 
     #[OA\Post(
-        operationId: "createReport",
-        path: "/api/campaigns/{campaign}/reports",
-        summary: "Create report",
-        tags: ["Reports"],
+        operationId: 'createReport',
+        path: '/api/campaigns/{campaign}/reports',
+        summary: 'Create report',
+        tags: ['Reports'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: "#/components/schemas/StoreReportRequest"
+                ref: '#/components/schemas/StoreReportRequest'
             )
         ),
         responses: [
             new OA\Response(
                 response: 201,
-                description: "Report created successfully",
+                description: 'Report created successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/ReportResource"
+                    ref: '#/components/schemas/ReportResource'
                 )
             ),
         ]

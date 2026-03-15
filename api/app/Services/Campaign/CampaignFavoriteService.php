@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Campaign;
@@ -12,10 +13,12 @@ final class CampaignFavoriteService
     {
         if ($user->favoriteCampaigns()->where('campaign_id', $campaign->id)->exists()) {
             $user->favoriteCampaigns()->detach($campaign);
+
             return false;
         }
 
         $user->favoriteCampaigns()->attach($campaign);
+
         return true;
     }
 

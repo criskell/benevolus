@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Requests\Donation;
@@ -7,32 +8,32 @@ use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "DonorRequest",
-    required: ["name", "email", "taxId", "phoneNumber"],
+    schema: 'DonorRequest',
+    required: ['name', 'email', 'taxId', 'phoneNumber'],
     properties: [
-        new OA\Property(property: "name", type: "string"),
-        new OA\Property(property: "email", type: "string", format: "email"),
-        new OA\Property(property: "taxId", type: "string", pattern: "^\d{3}\.\d{3}\.\d{3}-\d{2}$"),
-        new OA\Property(property: "phoneNumber", type: "string", pattern: "^\d{10,11}$"),
+        new OA\Property(property: 'name', type: 'string'),
+        new OA\Property(property: 'email', type: 'string', format: 'email'),
+        new OA\Property(property: 'taxId', type: 'string', pattern: "^\d{3}\.\d{3}\.\d{3}-\d{2}$"),
+        new OA\Property(property: 'phoneNumber', type: 'string', pattern: "^\d{10,11}$"),
     ]
 )]
 #[OA\Schema(
-    schema: "DonationRequest",
-    required: ["amount", "anonymousDonation", "donor", "paymentMethod"],
+    schema: 'DonationRequest',
+    required: ['amount', 'anonymousDonation', 'donor', 'paymentMethod'],
     properties: [
         new OA\Property(
-            property: "amount",
-            type: "number",
+            property: 'amount',
+            type: 'number',
             minimum: 1,
             maximum: 1000000,
         ),
-        new OA\Property(property: "anonymousDonation", type: "boolean"),
-        new OA\Property(property: "campaignId", type: "integer", nullable: true),
-        new OA\Property(property: "donor", ref: "#/components/schemas/DonorRequest", type: "object"),
+        new OA\Property(property: 'anonymousDonation', type: 'boolean'),
+        new OA\Property(property: 'campaignId', type: 'integer', nullable: true),
+        new OA\Property(property: 'donor', ref: '#/components/schemas/DonorRequest', type: 'object'),
         new OA\Property(
-            property: "paymentMethod",
-            type: "string",
-            enum: ["pix", "credit_card", "boleto"],
+            property: 'paymentMethod',
+            type: 'string',
+            enum: ['pix', 'credit_card', 'boleto'],
         ),
     ]
 )]
@@ -45,7 +46,7 @@ class DonateRequest extends FormRequest
                 'required',
                 'numeric',
                 'min:1',
-                'max:1000000'
+                'max:1000000',
             ],
             'anonymousDonation' => ['required', 'boolean'],
             'campaignId' => ['nullable', 'exists:campaigns,id'],

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Events;
@@ -18,7 +19,7 @@ class DonationPaid implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new Channel('donation.paid.' . $this->externalReference),
+            new Channel('donation.paid.'.$this->externalReference),
         ];
     }
 

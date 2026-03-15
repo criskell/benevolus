@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\Campaign;
@@ -26,30 +27,30 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
     public function __construct(private CampaignUpdateService $campaignUpdateService) {}
 
     #[OA\Get(
-        operationId: "listCampaignUpdates",
-        path: "/api/campaigns/{campaign}/updates",
-        summary: "List campaign updates",
-        tags: ["Campaigns"],
+        operationId: 'listCampaignUpdates',
+        path: '/api/campaigns/{campaign}/updates',
+        summary: 'List campaign updates',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Campaign updates retrieved successfully",
+                description: 'Campaign updates retrieved successfully',
                 content: new OA\JsonContent(
-                    type: "object",
+                    type: 'object',
                     properties: [
                         new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/CampaignUpdateResource")
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/CampaignUpdateResource')
                         ),
                     ]
                 )
@@ -64,31 +65,31 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
     }
 
     #[OA\Post(
-        operationId: "createCampaignUpdate",
-        path: "/api/campaigns/{campaign}/updates",
-        summary: "Create campaign update",
-        tags: ["Campaigns"],
+        operationId: 'createCampaignUpdate',
+        path: '/api/campaigns/{campaign}/updates',
+        summary: 'Create campaign update',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: "#/components/schemas/StoreCampaignUpdateRequest"
+                ref: '#/components/schemas/StoreCampaignUpdateRequest'
             )
         ),
         responses: [
             new OA\Response(
                 response: 201,
-                description: "Campaign update created successfully",
+                description: 'Campaign update created successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/CampaignUpdateResource"
+                    ref: '#/components/schemas/CampaignUpdateResource'
                 )
             ),
         ]
@@ -101,25 +102,25 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
     }
 
     #[OA\Get(
-        operationId: "getCampaignUpdate",
-        path: "/api/updates/{update}",
-        summary: "Get campaign update",
-        tags: ["Campaigns"],
+        operationId: 'getCampaignUpdate',
+        path: '/api/updates/{update}',
+        summary: 'Get campaign update',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "update",
-                in: "path",
+                name: 'update',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Update ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Update ID'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Campaign update retrieved successfully",
+                description: 'Campaign update retrieved successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/CampaignUpdateResource"
+                    ref: '#/components/schemas/CampaignUpdateResource'
                 )
             ),
         ]
@@ -128,7 +129,7 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
     {
         $update = $this->campaignUpdateService->findById($updateId, $request->user());
 
-        if (!$update) {
+        if (! $update) {
             abort(404);
         }
 
@@ -136,21 +137,21 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
     }
 
     #[OA\Delete(
-        operationId: "deleteCampaignUpdate",
-        path: "/api/updates/{update}",
-        summary: "Delete campaign update",
-        tags: ["Campaigns"],
+        operationId: 'deleteCampaignUpdate',
+        path: '/api/updates/{update}',
+        summary: 'Delete campaign update',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "update",
-                in: "path",
+                name: 'update',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Update ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Update ID'
             ),
         ],
         responses: [
-            new OA\Response(response: 204, description: "Campaign update deleted successfully"),
+            new OA\Response(response: 204, description: 'Campaign update deleted successfully'),
         ]
     )]
     public function destroy(CampaignUpdate $update)

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Donation;
@@ -73,6 +74,7 @@ final class DonationService
     public function updateStatus(Donation $donation, string $status): Donation
     {
         $donation->update(['payment_status' => $status]);
+
         return $donation->fresh();
     }
 
@@ -88,7 +90,9 @@ final class DonationService
 
     public function isUserDonorForCampaign(?User $user, int $campaignId)
     {
-        if (!$user) return false;
+        if (! $user) {
+            return false;
+        }
 
         return $user->donations()
             ->where('campaign_id', $campaignId)

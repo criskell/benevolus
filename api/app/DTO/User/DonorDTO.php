@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\DTO\User;
@@ -22,7 +23,7 @@ readonly class DonorDTO
         return [
             'name' => $this->name,
             'taxId' => $this->taxId,
-            'phoneNumber' => $this->phoneNumber
+            'phoneNumber' => $this->phoneNumber,
         ];
     }
 }

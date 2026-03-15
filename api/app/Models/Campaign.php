@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Models;
@@ -12,9 +13,13 @@ class Campaign extends Model
     use HasFactory;
 
     const STATUS_IN_REVIEW = 'in_review';
+
     const STATUS_OPEN = 'open';
+
     const STATUS_CLOSED = 'closed';
+
     const STATUS_REJECTED = 'rejected';
+
     const STATUS_FINISHED = 'finished';
 
     protected $fillable = [

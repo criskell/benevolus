@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Campaign;
@@ -16,18 +17,18 @@ final class CampaignService
     {
         $query = Campaign::query();
 
-        if (!empty($filters['status'])) {
+        if (! empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
 
-        if (!empty($filters['user_id'])) {
+        if (! empty($filters['user_id'])) {
             $query->where('user_id', $filters['user_id']);
         }
 
-        if (!empty($filters['search'])) {
+        if (! empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {
-                $q->where('title', 'like', '%' . $filters['search'] . '%')
-                    ->orWhere('description', 'like', '%' . $filters['search'] . '%');
+                $q->where('title', 'like', '%'.$filters['search'].'%')
+                    ->orWhere('description', 'like', '%'.$filters['search'].'%');
             });
         }
 

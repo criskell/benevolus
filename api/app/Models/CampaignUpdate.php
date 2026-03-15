@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Models;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class CampaignUpdate extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'campaign_id',
         'title',

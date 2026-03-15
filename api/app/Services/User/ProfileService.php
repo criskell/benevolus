@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\User;
 
-use App\Models\Address;
 use App\Models\User;
 
 final class ProfileService
@@ -30,12 +30,13 @@ final class ProfileService
             'phone' => $data['phone'] ?? $user->phone,
         ]);
 
-        if (!$address) {
+        if (! $address) {
             return;
         }
 
-        if (!$user->address) {
+        if (! $user->address) {
             $user->address()->create($address);
+
             return;
         }
 

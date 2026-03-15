@@ -135,7 +135,7 @@ return [
          * @see https://unhead.unjs.io/usage/composables/use-seo-meta
          */
         'metaData' => [
-            'title' => config('app.name') . ' API Reference',
+            'title' => config('app.name').' API Reference',
         ],
 
         /**

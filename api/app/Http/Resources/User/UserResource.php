@@ -1,33 +1,34 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Resources\User;
 
-use OpenApi\Attributes as OA;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "UserResource",
+    schema: 'UserResource',
     properties: [
-        new OA\Property(property: "id", type: "integer"),
-        new OA\Property(property: "name", type: "string"),
-        new OA\Property(property: "email", type: "string", format: "email"),
-        new OA\Property(property: "taxId", type: "string", nullable: true),
-        new OA\Property(property: "birthDate", type: "string", format: "date", nullable: true),
-        new OA\Property(property: "phone", type: "string", nullable: true),
-        new OA\Property(property: "favoriteCampaignsCount", type: "integer", nullable: true),
-        new OA\Property(property: "donationsCount", type: "integer", nullable: true),
+        new OA\Property(property: 'id', type: 'integer'),
+        new OA\Property(property: 'name', type: 'string'),
+        new OA\Property(property: 'email', type: 'string', format: 'email'),
+        new OA\Property(property: 'taxId', type: 'string', nullable: true),
+        new OA\Property(property: 'birthDate', type: 'string', format: 'date', nullable: true),
+        new OA\Property(property: 'phone', type: 'string', nullable: true),
+        new OA\Property(property: 'favoriteCampaignsCount', type: 'integer', nullable: true),
+        new OA\Property(property: 'donationsCount', type: 'integer', nullable: true),
         new OA\Property(
-            property: "address",
-            type: "object",
+            property: 'address',
+            type: 'object',
             nullable: true,
             properties: [
-                new OA\Property(property: "street", type: "string", nullable: true),
-                new OA\Property(property: "number", type: "string", nullable: true),
-                new OA\Property(property: "city", type: "string", nullable: true),
-                new OA\Property(property: "state", type: "string", nullable: true),
-                new OA\Property(property: "zipcode", type: "string", nullable: true),
-                new OA\Property(property: "country", type: "string", nullable: true),
+                new OA\Property(property: 'street', type: 'string', nullable: true),
+                new OA\Property(property: 'number', type: 'string', nullable: true),
+                new OA\Property(property: 'city', type: 'string', nullable: true),
+                new OA\Property(property: 'state', type: 'string', nullable: true),
+                new OA\Property(property: 'zipcode', type: 'string', nullable: true),
+                new OA\Property(property: 'country', type: 'string', nullable: true),
             ]
         ),
     ]

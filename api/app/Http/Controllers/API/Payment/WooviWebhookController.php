@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\Payment;
@@ -23,7 +24,9 @@ final class WooviWebhookController extends Controller
 
     public function receive(Request $request)
     {
-        if ($response = $this->allowRequestOnlyFromWoovi($request)) return $response;
+        if ($response = $this->allowRequestOnlyFromWoovi($request)) {
+            return $response;
+        }
 
         return $this->handleWebhook($request);
     }
@@ -37,12 +40,14 @@ final class WooviWebhookController extends Controller
             && ! empty($signature)
             && $this->woovi->webhooks()->isWebhookValid($rawPayload, $signature);
 
-        if ($isWebhookValid) return null;
+        if ($isWebhookValid) {
+            return null;
+        }
 
         return response()->json([
             'errors' => [
                 [
-                    'message' => 'Invalid webhook signature.'
+                    'message' => 'Invalid webhook signature.',
                 ],
             ],
         ], 400);
@@ -120,7 +125,7 @@ final class WooviWebhookController extends Controller
                 [
                     'message' => 'Invalid webhook type.',
                 ],
-            ]
+            ],
         ], 400);
     }
 }

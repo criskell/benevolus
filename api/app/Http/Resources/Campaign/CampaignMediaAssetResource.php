@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Resources\Campaign;
@@ -7,12 +8,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "CampaignMediaAssetResource",
+    schema: 'CampaignMediaAssetResource',
     properties: [
-        new OA\Property(property: "id", type: "integer"),
-        new OA\Property(property: "path", type: "string"),
-        new OA\Property(property: "url", type: "string"),
-        new OA\Property(property: "createdAt", type: "string", format: "date-time"),
+        new OA\Property(property: 'id', type: 'integer'),
+        new OA\Property(property: 'path', type: 'string'),
+        new OA\Property(property: 'url', type: 'string'),
+        new OA\Property(property: 'createdAt', type: 'string', format: 'date-time'),
     ]
 )]
 class CampaignMediaAssetResource extends JsonResource

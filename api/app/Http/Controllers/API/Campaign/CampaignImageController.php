@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\Campaign;
@@ -16,31 +17,31 @@ final class CampaignImageController extends Controller
     public function __construct(private CampaignImageService $campaignImageService) {}
 
     #[OA\Post(
-        operationId: "uploadCampaignImage",
-        path: "/api/campaigns/{campaign}/images",
-        summary: "Upload campaign image",
-        tags: ["Campaigns"],
+        operationId: 'uploadCampaignImage',
+        path: '/api/campaigns/{campaign}/images',
+        summary: 'Upload campaign image',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\MediaType(
-                mediaType: "multipart/form-data",
+                mediaType: 'multipart/form-data',
                 schema: new OA\Schema(
-                    required: ["image"],
+                    required: ['image'],
                     properties: [
                         new OA\Property(
-                            property: "image",
-                            type: "string",
-                            format: "binary",
-                            description: "Image file (jpg, jpeg, png, max 4MB)"
+                            property: 'image',
+                            type: 'string',
+                            format: 'binary',
+                            description: 'Image file (jpg, jpeg, png, max 4MB)'
                         ),
                     ]
                 )
@@ -49,9 +50,9 @@ final class CampaignImageController extends Controller
         responses: [
             new OA\Response(
                 response: 201,
-                description: "Image uploaded successfully",
+                description: 'Image uploaded successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/CampaignMediaAssetResource"
+                    ref: '#/components/schemas/CampaignMediaAssetResource'
                 )
             ),
         ]

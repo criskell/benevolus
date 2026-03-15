@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Resources\User;
 
-use OpenApi\Attributes as OA;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "DonorResource",
+    schema: 'DonorResource',
     properties: [
-        new OA\Property(property: "id", type: "integer"),
-        new OA\Property(property: "name", type: "string"),
+        new OA\Property(property: 'id', type: 'integer'),
+        new OA\Property(property: 'name', type: 'string'),
     ]
 )]
 class DonorResource extends JsonResource

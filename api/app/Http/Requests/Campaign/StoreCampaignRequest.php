@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Requests\Campaign;
@@ -7,13 +8,13 @@ use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "StoreCampaignRequest",
-    required: ["title", "description", "goalCents"],
+    schema: 'StoreCampaignRequest',
+    required: ['title', 'description', 'goalCents'],
     properties: [
-        new OA\Property(property: "title", type: "string", maxLength: 255),
-        new OA\Property(property: "description", type: "string"),
-        new OA\Property(property: "goalCents", type: "integer", minimum: 1),
-        new OA\Property(property: "expiresAt", type: "string", format: "date-time", nullable: true),
+        new OA\Property(property: 'title', type: 'string', maxLength: 255),
+        new OA\Property(property: 'description', type: 'string'),
+        new OA\Property(property: 'goalCents', type: 'integer', minimum: 1),
+        new OA\Property(property: 'expiresAt', type: 'string', format: 'date-time', nullable: true),
     ]
 )]
 class StoreCampaignRequest extends FormRequest

@@ -15,26 +15,26 @@ final class LeaderboardController extends Controller
     public function __construct(private LeaderboardService $leaderboardService) {}
 
     #[OA\Get(
-        operationId: "getTopCampaigns",
-        path: "/api/leaderboard/campaigns",
-        summary: "Get top campaigns",
-        tags: ["Leaderboard"],
+        operationId: 'getTopCampaigns',
+        path: '/api/leaderboard/campaigns',
+        summary: 'Get top campaigns',
+        tags: ['Leaderboard'],
         parameters: [
             new OA\Parameter(
-                name: "limit",
-                in: "query",
+                name: 'limit',
+                in: 'query',
                 required: false,
-                schema: new OA\Schema(type: "integer", default: 15, minimum: 1, maximum: 100),
-                description: "Number of results to return"
+                schema: new OA\Schema(type: 'integer', default: 15, minimum: 1, maximum: 100),
+                description: 'Number of results to return'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Top campaigns retrieved successfully",
+                description: 'Top campaigns retrieved successfully',
                 content: new OA\JsonContent(
-                    type: "array",
-                    items: new OA\Items(ref: "#/components/schemas/LeaderboardRankingResource")
+                    type: 'array',
+                    items: new OA\Items(ref: '#/components/schemas/LeaderboardRankingResource')
                 )
             ),
         ]
@@ -48,26 +48,26 @@ final class LeaderboardController extends Controller
     }
 
     #[OA\Get(
-        operationId: "getTopDonors",
-        path: "/api/leaderboard/donors",
-        summary: "Get top donors",
-        tags: ["Leaderboard"],
+        operationId: 'getTopDonors',
+        path: '/api/leaderboard/donors',
+        summary: 'Get top donors',
+        tags: ['Leaderboard'],
         parameters: [
             new OA\Parameter(
-                name: "limit",
-                in: "query",
+                name: 'limit',
+                in: 'query',
                 required: false,
-                schema: new OA\Schema(type: "integer", default: 15, minimum: 1, maximum: 100),
-                description: "Number of results to return"
+                schema: new OA\Schema(type: 'integer', default: 15, minimum: 1, maximum: 100),
+                description: 'Number of results to return'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Top donors retrieved successfully",
+                description: 'Top donors retrieved successfully',
                 content: new OA\JsonContent(
-                    type: "array",
-                    items: new OA\Items(ref: "#/components/schemas/LeaderboardRankingResource")
+                    type: 'array',
+                    items: new OA\Items(ref: '#/components/schemas/LeaderboardRankingResource')
                 )
             ),
         ]
@@ -81,26 +81,26 @@ final class LeaderboardController extends Controller
     }
 
     #[OA\Get(
-        operationId: "getTopCreators",
-        path: "/api/leaderboard/creators",
-        summary: "Get top creators",
-        tags: ["Leaderboard"],
+        operationId: 'getTopCreators',
+        path: '/api/leaderboard/creators',
+        summary: 'Get top creators',
+        tags: ['Leaderboard'],
         parameters: [
             new OA\Parameter(
-                name: "limit",
-                in: "query",
+                name: 'limit',
+                in: 'query',
                 required: false,
-                schema: new OA\Schema(type: "integer", default: 15, minimum: 1, maximum: 100),
-                description: "Number of results to return"
+                schema: new OA\Schema(type: 'integer', default: 15, minimum: 1, maximum: 100),
+                description: 'Number of results to return'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Top creators retrieved successfully",
+                description: 'Top creators retrieved successfully',
                 content: new OA\JsonContent(
-                    type: "array",
-                    items: new OA\Items(ref: "#/components/schemas/LeaderboardRankingResource")
+                    type: 'array',
+                    items: new OA\Items(ref: '#/components/schemas/LeaderboardRankingResource')
                 )
             ),
         ]

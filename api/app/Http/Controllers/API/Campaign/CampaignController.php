@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\Campaign;
@@ -27,44 +28,44 @@ final class CampaignController extends Controller implements HasMiddleware
     public function __construct(private CampaignService $campaignService) {}
 
     #[OA\Get(
-        operationId: "listCampaigns",
-        path: "/api/campaigns",
-        summary: "List campaigns",
-        tags: ["Campaigns"],
+        operationId: 'listCampaigns',
+        path: '/api/campaigns',
+        summary: 'List campaigns',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "status",
-                in: "query",
+                name: 'status',
+                in: 'query',
                 required: false,
-                schema: new OA\Schema(type: "string"),
-                description: "Filter by campaign status"
+                schema: new OA\Schema(type: 'string'),
+                description: 'Filter by campaign status'
             ),
             new OA\Parameter(
-                name: "userId",
-                in: "query",
+                name: 'userId',
+                in: 'query',
                 required: false,
-                schema: new OA\Schema(type: "integer"),
-                description: "Filter by user ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Filter by user ID'
             ),
             new OA\Parameter(
-                name: "search",
-                in: "query",
+                name: 'search',
+                in: 'query',
                 required: false,
-                schema: new OA\Schema(type: "string"),
-                description: "Search term"
+                schema: new OA\Schema(type: 'string'),
+                description: 'Search term'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Campaigns retrieved successfully",
+                description: 'Campaigns retrieved successfully',
                 content: new OA\JsonContent(
-                    type: "object",
+                    type: 'object',
                     properties: [
                         new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/CampaignResource")
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/CampaignResource')
                         ),
                     ]
                 )
@@ -80,25 +81,25 @@ final class CampaignController extends Controller implements HasMiddleware
     }
 
     #[OA\Get(
-        operationId: "getCampaign",
-        path: "/api/campaigns/{id}",
-        summary: "Get campaign by ID",
-        tags: ["Campaigns"],
+        operationId: 'getCampaign',
+        path: '/api/campaigns/{id}',
+        summary: 'Get campaign by ID',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "id",
-                in: "path",
+                name: 'id',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Campaign retrieved successfully",
+                description: 'Campaign retrieved successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/CampaignResource"
+                    ref: '#/components/schemas/CampaignResource'
                 )
             ),
         ]
@@ -111,22 +112,22 @@ final class CampaignController extends Controller implements HasMiddleware
     }
 
     #[OA\Post(
-        operationId: "createCampaign",
-        path: "/api/campaigns",
-        summary: "Create a new campaign",
-        tags: ["Campaigns"],
+        operationId: 'createCampaign',
+        path: '/api/campaigns',
+        summary: 'Create a new campaign',
+        tags: ['Campaigns'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: "#/components/schemas/StoreCampaignRequest"
+                ref: '#/components/schemas/StoreCampaignRequest'
             )
         ),
         responses: [
             new OA\Response(
                 response: 201,
-                description: "Campaign created successfully",
+                description: 'Campaign created successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/CampaignResource"
+                    ref: '#/components/schemas/CampaignResource'
                 )
             ),
         ]
@@ -139,27 +140,27 @@ final class CampaignController extends Controller implements HasMiddleware
     }
 
     #[OA\Put(
-        operationId: "updateCampaign",
-        path: "/api/campaigns/{id}",
-        summary: "Update campaign",
-        tags: ["Campaigns"],
+        operationId: 'updateCampaign',
+        path: '/api/campaigns/{id}',
+        summary: 'Update campaign',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "id",
-                in: "path",
+                name: 'id',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: "#/components/schemas/UpdateCampaignRequest"
+                ref: '#/components/schemas/UpdateCampaignRequest'
             )
         ),
         responses: [
-            new OA\Response(response: 204, description: "Campaign updated successfully"),
+            new OA\Response(response: 204, description: 'Campaign updated successfully'),
         ]
     )]
     public function update(UpdateCampaignRequest $request, Campaign $campaign)
@@ -172,21 +173,21 @@ final class CampaignController extends Controller implements HasMiddleware
     }
 
     #[OA\Delete(
-        operationId: "deleteCampaign",
-        path: "/api/campaigns/{id}",
-        summary: "Delete campaign",
-        tags: ["Campaigns"],
+        operationId: 'deleteCampaign',
+        path: '/api/campaigns/{id}',
+        summary: 'Delete campaign',
+        tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: "id",
-                in: "path",
+                name: 'id',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         responses: [
-            new OA\Response(response: 204, description: "Campaign deleted successfully"),
+            new OA\Response(response: 204, description: 'Campaign deleted successfully'),
         ]
     )]
     public function destroy(Campaign $campaign)

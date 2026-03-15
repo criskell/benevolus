@@ -7,13 +7,13 @@ namespace App\Http\Controllers\API\Comment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\CommentStoreRequest;
 use App\Http\Requests\Comment\CommentUpdateRequest;
-use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Campaign;
 use App\Models\Comment;
 use App\Services\Comment\CommentService;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 use OpenApi\Attributes as OA;
 
 final class CommentController extends Controller implements HasMiddleware
@@ -28,30 +28,30 @@ final class CommentController extends Controller implements HasMiddleware
     }
 
     #[OA\Get(
-        operationId: "listCampaignComments",
-        path: "/api/campaigns/{campaign}/comments",
-        summary: "List campaign comments",
-        tags: ["Comments"],
+        operationId: 'listCampaignComments',
+        path: '/api/campaigns/{campaign}/comments',
+        summary: 'List campaign comments',
+        tags: ['Comments'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Comments retrieved successfully",
+                description: 'Comments retrieved successfully',
                 content: new OA\JsonContent(
-                    type: "object",
+                    type: 'object',
                     properties: [
                         new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/CommentResource")
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/CommentResource')
                         ),
                     ]
                 )
@@ -66,31 +66,31 @@ final class CommentController extends Controller implements HasMiddleware
     }
 
     #[OA\Post(
-        operationId: "createComment",
-        path: "/api/campaigns/{campaign}/comments",
-        summary: "Create a comment",
-        tags: ["Comments"],
+        operationId: 'createComment',
+        path: '/api/campaigns/{campaign}/comments',
+        summary: 'Create a comment',
+        tags: ['Comments'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: "#/components/schemas/CommentStoreRequest"
+                ref: '#/components/schemas/CommentStoreRequest'
             )
         ),
         responses: [
             new OA\Response(
                 response: 201,
-                description: "Comment created successfully",
+                description: 'Comment created successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/CommentResource"
+                    ref: '#/components/schemas/CommentResource'
                 )
             ),
         ]
@@ -103,31 +103,31 @@ final class CommentController extends Controller implements HasMiddleware
     }
 
     #[OA\Put(
-        operationId: "updateComment",
-        path: "/api/comments/{comment}",
-        summary: "Update comment",
-        tags: ["Comments"],
+        operationId: 'updateComment',
+        path: '/api/comments/{comment}',
+        summary: 'Update comment',
+        tags: ['Comments'],
         parameters: [
             new OA\Parameter(
-                name: "comment",
-                in: "path",
+                name: 'comment',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Comment ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Comment ID'
             ),
         ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: "#/components/schemas/CommentUpdateRequest"
+                ref: '#/components/schemas/CommentUpdateRequest'
             )
         ),
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Comment updated successfully",
+                description: 'Comment updated successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/CommentResource"
+                    ref: '#/components/schemas/CommentResource'
                 )
             ),
         ]
@@ -141,21 +141,21 @@ final class CommentController extends Controller implements HasMiddleware
     }
 
     #[OA\Delete(
-        operationId: "deleteComment",
-        path: "/api/comments/{comment}",
-        summary: "Delete comment",
-        tags: ["Comments"],
+        operationId: 'deleteComment',
+        path: '/api/comments/{comment}',
+        summary: 'Delete comment',
+        tags: ['Comments'],
         parameters: [
             new OA\Parameter(
-                name: "comment",
-                in: "path",
+                name: 'comment',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Comment ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Comment ID'
             ),
         ],
         responses: [
-            new OA\Response(response: 204, description: "Comment deleted successfully"),
+            new OA\Response(response: 204, description: 'Comment deleted successfully'),
         ]
     )]
     public function destroy(Comment $comment)

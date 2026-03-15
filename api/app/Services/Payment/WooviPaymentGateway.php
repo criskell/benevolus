@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Payment;
 
 use App\DTO\Donation\DonationDTO;
-use OpenPix\PhpSdk\Client;
 use Illuminate\Support\Str;
+use OpenPix\PhpSdk\Client;
 
 final class WooviPaymentGateway implements PaymentGatewayInterface
 {

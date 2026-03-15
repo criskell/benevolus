@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Campaign;
@@ -16,7 +17,7 @@ final class CampaignUpdateService
         $query = CampaignUpdate::where('campaign_id', $campaignId);
         $isUserDonor = $this->donationService->isUserDonorForCampaign($user, $campaignId);
 
-        if (!$isUserDonor) {
+        if (! $isUserDonor) {
             $query->where('visible_to_donors_only', false);
         }
 
@@ -27,17 +28,17 @@ final class CampaignUpdateService
     {
         $update = CampaignUpdate::find($id);
 
-        if (!$update) {
+        if (! $update) {
             return null;
         }
 
-        if (!$update->visible_to_donors_only) {
+        if (! $update->visible_to_donors_only) {
             return $update;
         }
 
         $isUserDonor = $this->donationService->isUserDonorForCampaign($user, $update->campaign_id);
 
-        if (!$isUserDonor) {
+        if (! $isUserDonor) {
             return null;
         }
 

@@ -1,21 +1,21 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Resources\Payment;
 
-use App\DTO\Payment\PaymentDTO;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "PaymentResource",
+    schema: 'PaymentResource',
 
     properties: [
-        new OA\Property(property: "method", type: "string"),
-        new OA\Property(property: "status", type: "string"),
-        new OA\Property(property: "pixCode", type: "string"),
-        new OA\Property(property: "qrCodeUrl", type: "string"),
-        new OA\Property(property: "expiresAt", type: "string")
+        new OA\Property(property: 'method', type: 'string'),
+        new OA\Property(property: 'status', type: 'string'),
+        new OA\Property(property: 'pixCode', type: 'string'),
+        new OA\Property(property: 'qrCodeUrl', type: 'string'),
+        new OA\Property(property: 'expiresAt', type: 'string'),
     ]
 )]
 class PaymentResource extends JsonResource

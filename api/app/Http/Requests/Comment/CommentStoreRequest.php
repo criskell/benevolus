@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Requests\Comment;
@@ -7,11 +8,11 @@ use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "CommentStoreRequest",
-    required: ["content", "is_anonymous"],
+    schema: 'CommentStoreRequest',
+    required: ['content', 'is_anonymous'],
     properties: [
-        new OA\Property(property: "content", type: "string"),
-        new OA\Property(property: "is_anonymous", type: "boolean"),
+        new OA\Property(property: 'content', type: 'string'),
+        new OA\Property(property: 'is_anonymous', type: 'boolean'),
     ]
 )]
 class CommentStoreRequest extends FormRequest

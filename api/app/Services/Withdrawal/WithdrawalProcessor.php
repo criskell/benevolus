@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Withdrawal;
@@ -32,7 +33,7 @@ final class WithdrawalProcessor
                     ->path('/api/v1/pix-keys')
                     ->body([
                         'pixKey' => $withdrawal->pix_key,
-                        'type' => 'PHONE'
+                        'type' => 'PHONE',
                     ])
             );
 

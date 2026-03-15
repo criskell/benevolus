@@ -8,7 +8,7 @@ use Tests\Concerns\MakesApiRequests;
 
 abstract class IntegrationTestCase extends BaseTestCase
 {
-    use CreatesApplication;
     use AuthenticatesUsers;
+    use CreatesApplication;
     use MakesApiRequests;
 }

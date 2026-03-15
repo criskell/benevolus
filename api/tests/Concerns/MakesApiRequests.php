@@ -45,7 +45,7 @@ trait MakesApiRequests
                 'errors',
             ]);
 
-        if (!empty($errors)) {
+        if (! empty($errors)) {
             $response->assertJsonValidationErrors($errors);
         }
     }

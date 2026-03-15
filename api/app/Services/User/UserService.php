@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\User;
@@ -15,7 +16,7 @@ final class UserService
             ['email' => $donor->email],
             [
                 'name' => $donor->name,
-                'password' => Hash::make(uniqid('donor_', true))
+                'password' => Hash::make(uniqid('donor_', true)),
             ]
         );
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Resources\Donation;
@@ -9,27 +10,27 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "DonationResource",
+    schema: 'DonationResource',
     properties: [
-        new OA\Property(property: "id", type: "integer"),
-        new OA\Property(property: "amountCents", type: "number"),
-        new OA\Property(property: "isAnonymous", type: "boolean"),
-        new OA\Property(property: "paymentStatus", type: "string"),
-        new OA\Property(property: "paymentMethod", type: "string"),
-        new OA\Property(property: "externalReference", type: "string", nullable: true),
-        new OA\Property(property: "paidAt", type: "string", format: "date-time"),
-        new OA\Property(property: "createdAt", type: "string", format: "date-time"),
-        new OA\Property(property: "updatedAt", type: "string", format: "date-time"),
+        new OA\Property(property: 'id', type: 'integer'),
+        new OA\Property(property: 'amountCents', type: 'number'),
+        new OA\Property(property: 'isAnonymous', type: 'boolean'),
+        new OA\Property(property: 'paymentStatus', type: 'string'),
+        new OA\Property(property: 'paymentMethod', type: 'string'),
+        new OA\Property(property: 'externalReference', type: 'string', nullable: true),
+        new OA\Property(property: 'paidAt', type: 'string', format: 'date-time'),
+        new OA\Property(property: 'createdAt', type: 'string', format: 'date-time'),
+        new OA\Property(property: 'updatedAt', type: 'string', format: 'date-time'),
         new OA\Property(
-            property: "donor",
-            ref: "#/components/schemas/DonorResource",
-            type: "object",
+            property: 'donor',
+            ref: '#/components/schemas/DonorResource',
+            type: 'object',
             nullable: true
         ),
         new OA\Property(
-            property: "campaign",
-            ref: "#/components/schemas/CampaignResource",
-            type: "object",
+            property: 'campaign',
+            ref: '#/components/schemas/CampaignResource',
+            type: 'object',
             nullable: true
         ),
     ]
@@ -49,7 +50,7 @@ class DonationResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'donor' => $this->when(
-                !$this->is_anonymous && $this->relationLoaded('user'),
+                ! $this->is_anonymous && $this->relationLoaded('user'),
                 new DonorResource($this->user)
             ),
             'campaign' => $this->when(

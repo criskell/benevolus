@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\Withdrawal;
@@ -29,30 +30,30 @@ final class WithdrawalController extends Controller implements HasMiddleware
     ) {}
 
     #[OA\Get(
-        operationId: "listWithdrawals",
-        path: "/api/campaigns/{campaign}/withdrawals",
-        summary: "List campaign withdrawals",
-        tags: ["Withdrawals"],
+        operationId: 'listWithdrawals',
+        path: '/api/campaigns/{campaign}/withdrawals',
+        summary: 'List campaign withdrawals',
+        tags: ['Withdrawals'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Withdrawals retrieved successfully",
+                description: 'Withdrawals retrieved successfully',
                 content: new OA\JsonContent(
-                    type: "object",
+                    type: 'object',
                     properties: [
                         new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/WithdrawalResource")
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/WithdrawalResource')
                         ),
                     ]
                 )
@@ -67,27 +68,27 @@ final class WithdrawalController extends Controller implements HasMiddleware
     }
 
     #[OA\Post(
-        operationId: "createWithdrawal",
-        path: "/api/campaigns/{campaign}/withdrawals",
-        summary: "Create withdrawal",
-        tags: ["Withdrawals"],
+        operationId: 'createWithdrawal',
+        path: '/api/campaigns/{campaign}/withdrawals',
+        summary: 'Create withdrawal',
+        tags: ['Withdrawals'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: "#/components/schemas/StoreWithdrawalRequest"
+                ref: '#/components/schemas/StoreWithdrawalRequest'
             )
         ),
         responses: [
-            new OA\Response(response: 204, description: "Withdrawal request created successfully"),
+            new OA\Response(response: 204, description: 'Withdrawal request created successfully'),
         ]
     )]
     public function store(Campaign $campaign, StoreWithdrawalRequest $request)
@@ -111,25 +112,25 @@ final class WithdrawalController extends Controller implements HasMiddleware
     }
 
     #[OA\Get(
-        operationId: "getWithdrawal",
-        path: "/api/withdrawals/{withdrawal}",
-        summary: "Get withdrawal by ID",
-        tags: ["Withdrawals"],
+        operationId: 'getWithdrawal',
+        path: '/api/withdrawals/{withdrawal}',
+        summary: 'Get withdrawal by ID',
+        tags: ['Withdrawals'],
         parameters: [
             new OA\Parameter(
-                name: "withdrawal",
-                in: "path",
+                name: 'withdrawal',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Withdrawal ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Withdrawal ID'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Withdrawal retrieved successfully",
+                description: 'Withdrawal retrieved successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/WithdrawalResource"
+                    ref: '#/components/schemas/WithdrawalResource'
                 )
             ),
         ]

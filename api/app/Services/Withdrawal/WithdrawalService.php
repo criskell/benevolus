@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Withdrawal;
@@ -32,6 +33,7 @@ final class WithdrawalService
     public function update(Withdrawal $withdrawal, array $data): Withdrawal
     {
         $withdrawal->update($data);
+
         return $withdrawal->load('campaign');
     }
 

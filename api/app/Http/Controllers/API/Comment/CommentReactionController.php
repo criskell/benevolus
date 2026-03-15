@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\Comment;
@@ -20,21 +21,21 @@ final class CommentReactionController extends Controller implements HasMiddlewar
     public function __construct(private CommentReactionService $commentReactionService) {}
 
     #[OA\Post(
-        operationId: "toggleCommentReaction",
-        path: "/api/comments/{comment}/react",
-        summary: "Toggle comment reaction",
-        tags: ["Comments"],
+        operationId: 'toggleCommentReaction',
+        path: '/api/comments/{comment}/react',
+        summary: 'Toggle comment reaction',
+        tags: ['Comments'],
         parameters: [
             new OA\Parameter(
-                name: "comment",
-                in: "path",
+                name: 'comment',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Comment ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Comment ID'
             ),
         ],
         responses: [
-            new OA\Response(response: 204, description: "Reaction toggled successfully"),
+            new OA\Response(response: 204, description: 'Reaction toggled successfully'),
         ]
     )]
     public function toggle(Request $request, Comment $comment)

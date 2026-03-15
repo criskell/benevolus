@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\User;
@@ -16,23 +17,23 @@ final class ProfileController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            'auth:sanctum'
+            'auth:sanctum',
         ];
     }
 
     public function __construct(private ProfileService $profileService) {}
 
     #[OA\Get(
-        operationId: "getProfile",
-        path: "/api/profile",
-        summary: "Get current user profile",
-        tags: ["Profile"],
+        operationId: 'getProfile',
+        path: '/api/profile',
+        summary: 'Get current user profile',
+        tags: ['Profile'],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Profile retrieved successfully",
+                description: 'Profile retrieved successfully',
                 content: new OA\JsonContent(
-                    ref: "#/components/schemas/UserResource"
+                    ref: '#/components/schemas/UserResource'
                 )
             ),
         ]
@@ -45,18 +46,18 @@ final class ProfileController extends Controller implements HasMiddleware
     }
 
     #[OA\Put(
-        operationId: "updateProfile",
-        path: "/api/profile",
-        summary: "Update user profile",
-        tags: ["Profile"],
+        operationId: 'updateProfile',
+        path: '/api/profile',
+        summary: 'Update user profile',
+        tags: ['Profile'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: "#/components/schemas/UpdateProfileRequest"
+                ref: '#/components/schemas/UpdateProfileRequest'
             )
         ),
         responses: [
-            new OA\Response(response: 204, description: "Profile updated successfully"),
+            new OA\Response(response: 204, description: 'Profile updated successfully'),
         ]
     )]
     public function update(UpdateProfileRequest $request)

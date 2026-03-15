@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API\Donation;
@@ -24,30 +25,30 @@ final class DonationController extends Controller
     ) {}
 
     #[OA\Get(
-        operationId: "listCampaignDonations",
-        path: "/api/campaigns/{campaign}/donations",
-        summary: "List campaign donations",
-        tags: ["Donations"],
+        operationId: 'listCampaignDonations',
+        path: '/api/campaigns/{campaign}/donations',
+        summary: 'List campaign donations',
+        tags: ['Donations'],
         parameters: [
             new OA\Parameter(
-                name: "campaign",
-                in: "path",
+                name: 'campaign',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "integer"),
-                description: "Campaign ID"
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Campaign ID'
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Donations retrieved successfully",
+                description: 'Donations retrieved successfully',
                 content: new OA\JsonContent(
-                    type: "object",
+                    type: 'object',
                     properties: [
                         new OA\Property(
-                            property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/CampaignDonationResource")
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/CampaignDonationResource')
                         ),
                     ]
                 )
@@ -62,32 +63,32 @@ final class DonationController extends Controller
     }
 
     #[OA\Post(
-        operationId: "createDonation",
-        path: "/api/donations",
-        summary: "Create a new donation",
-        tags: ["Donations"],
+        operationId: 'createDonation',
+        path: '/api/donations',
+        summary: 'Create a new donation',
+        tags: ['Donations'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: "#/components/schemas/DonationRequest"
+                ref: '#/components/schemas/DonationRequest'
             )
         ),
         responses: [
             new OA\Response(
                 response: 201,
-                description: "Created",
+                description: 'Created',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
-                            property: "donation",
-                            ref: "#/components/schemas/DonationResource"
+                            property: 'donation',
+                            ref: '#/components/schemas/DonationResource'
                         ),
                         new OA\Property(
-                            property: "payment",
-                            ref: "#/components/schemas/PaymentResource"
+                            property: 'payment',
+                            ref: '#/components/schemas/PaymentResource'
                         ),
                     ],
-                    type: "object"
+                    type: 'object'
                 )
             ),
         ]
@@ -103,21 +104,21 @@ final class DonationController extends Controller
     }
 
     #[OA\Post(
-        operationId: "confirmDonation",
-        path: "/api/donations/{id}/confirm",
-        summary: "Confirm donation payment",
-        tags: ["Donations"],
+        operationId: 'confirmDonation',
+        path: '/api/donations/{id}/confirm',
+        summary: 'Confirm donation payment',
+        tags: ['Donations'],
         parameters: [
             new OA\Parameter(
-                name: "id",
-                in: "path",
+                name: 'id',
+                in: 'path',
                 required: true,
-                schema: new OA\Schema(type: "string"),
-                description: "External reference ID"
+                schema: new OA\Schema(type: 'string'),
+                description: 'External reference ID'
             ),
         ],
         responses: [
-            new OA\Response(response: 204, description: "Donation confirmed successfully"),
+            new OA\Response(response: 204, description: 'Donation confirmed successfully'),
         ],
     )]
     public function confirm(string $externalReferenceId): Response

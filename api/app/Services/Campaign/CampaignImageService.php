@@ -1,27 +1,28 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Campaign;
 
 use App\Models\Campaign;
 use App\Models\CampaignMediaAsset;
+use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Exception;
 
 final class CampaignImageService
 {
     public function store(Campaign $campaign, UploadedFile $file): CampaignMediaAsset
     {
-        $path = 'images/campaigns/' . $campaign->id;
-        $fileName = Str::random(48) . '.' . $file->getClientOriginalExtension();
+        $path = 'images/campaigns/'.$campaign->id;
+        $fileName = Str::random(48).'.'.$file->getClientOriginalExtension();
 
-        $fullPath = $path . '/' . $fileName;
+        $fullPath = $path.'/'.$fileName;
 
         $isSuccessful = Storage::disk('s3')->putFileAs($path, $file, $fileName);
 
-        if (!$isSuccessful) {
+        if (! $isSuccessful) {
             throw new Exception('Failed to upload image');
         }
 
