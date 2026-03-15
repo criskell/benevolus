@@ -30,7 +30,7 @@ const mappedCampaigns: Campaign[] = campaigns.campaigns.map((c) => ({
   image: c.image,
 }));
 
-const Home = async () => {
+const Home = () => {
   const t = useTranslations('home');
   const allCategoriesText = t('all_categories');
 
