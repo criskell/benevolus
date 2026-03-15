@@ -1,5 +1,10 @@
 import axiosClient from 'axios';
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'axios';
 
 import { env } from '../env';
 
@@ -10,12 +15,12 @@ export type RequestConfig<T = unknown> = {
   params?: unknown;
   data?: T;
   responseType?:
-    | 'arraybuffer'
-    | 'blob'
-    | 'document'
-    | 'json'
-    | 'text'
-    | 'stream';
+  | 'arraybuffer'
+  | 'blob'
+  | 'document'
+  | 'json'
+  | 'text'
+  | 'stream';
   signal?: AbortSignal;
   headers?: AxiosRequestConfig['headers'];
   validateStatus?: (status: number) => boolean;
@@ -40,27 +45,42 @@ export const api = axiosClient.create({
   validateStatus: (status) => status < 500,
 });
 
-api.interceptors.request.use(async (config) => {
-  if (typeof window === 'undefined') {
-    const { cookies } = await import('next/headers');
-    const cookieStore = await cookies();
-    const allCookies = cookieStore.getAll();
+const isServer = () => typeof window === 'undefined';
 
-    if (allCookies.length > 0) {
-      config.headers.set(
-        'Cookie',
-        allCookies.map((c) => `${c.name}=${c.value}`).join('; ')
-      );
-
-      const xsrfCookie = allCookies.find((c) => c.name === 'XSRF-TOKEN');
-      if (xsrfCookie) {
-        config.headers.set(
-          'X-XSRF-TOKEN',
-          decodeURIComponent(xsrfCookie.value)
-        );
-      }
-    }
+const forwardServerCookies = async (config: InternalAxiosRequestConfig) => {
+  if (!isServer()) {
+    return;
   }
+
+  const { cookies } = await import('next/headers');
+  const cookieStore = await cookies();
+  const requestCookies = cookieStore.getAll();
+
+  config.headers.set('Origin', env.NEXT_PUBLIC_APP_URL);
+
+  if (requestCookies.length === 0) {
+    return;
+  }
+
+  const serializedCookies = requestCookies
+    .map((cookie) => `${cookie.name}=${cookie.value}`)
+    .join('; ');
+
+  config.headers.set('Cookie', serializedCookies);
+
+  const xsrfCookie = requestCookies.find(
+    (cookie) => cookie.name === 'XSRF-TOKEN'
+  );
+
+  if (!xsrfCookie) {
+    return;
+  }
+
+  config.headers.set('X-XSRF-TOKEN', decodeURIComponent(xsrfCookie.value));
+};
+
+api.interceptors.request.use(async (config) => {
+  await forwardServerCookies(config);
 
   return config;
 });

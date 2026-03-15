@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { Inter } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import { Provider } from 'jotai';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { cn } from '@/lib/utils/cn';
 import { Navbar } from '@/components/layout/navbar';
@@ -13,6 +14,8 @@ import { siteConfig } from '@/config/site';
 import { Footer } from '@/components/layout/footer';
 import { DonationProvider } from '@/contexts/donation-context';
 import { QueryClientProvider } from '@/providers/query-client-provider';
+import { getQueryClient } from '@/lib/get-query-client';
+import { getProfileQueryOptions } from '@/lib/http/generated/hooks/useGetProfile';
 
 const fontSans = Inter({
   variable: '--font-inter',
@@ -39,6 +42,9 @@ const RootLayout = async ({
     es: 'es-ES',
   };
 
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery(getProfileQueryOptions());
+
   return (
     <html lang={langMap[locale] || 'en-US'} suppressHydrationWarning>
       <body
@@ -50,15 +56,17 @@ const RootLayout = async ({
         <NextTopLoader color="hsl(var(--heroui-primary))" showSpinner={false} />
 
         <QueryClientProvider>
-          <NextIntlClientProvider>
-            <Provider>
-              <DonationProvider>
-                <Navbar />
-                <div className="flex-1">{children}</div>
-                <Footer />
-              </DonationProvider>
-            </Provider>
-          </NextIntlClientProvider>
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <NextIntlClientProvider>
+              <Provider>
+                <DonationProvider>
+                  <Navbar />
+                  <div className="flex-1">{children}</div>
+                  <Footer />
+                </DonationProvider>
+              </Provider>
+            </NextIntlClientProvider>
+          </HydrationBoundary>
         </QueryClientProvider>
       </body>
     </html>

@@ -6,8 +6,10 @@ export const isServer = typeof window === 'undefined';
 export const env = createEnv({
   shared: {
     NEXT_PUBLIC_API_URL: z.url(),
+    NEXT_PUBLIC_APP_URL: z.url(),
   },
   experimental__runtimeEnv: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   },
 });
