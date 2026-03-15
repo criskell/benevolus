@@ -6,7 +6,6 @@ import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import { CampaignCard } from '@/components/campaign/campaign-card';
 import { useListCampaigns } from '@/lib/http/generated/hooks/useListCampaigns';
-import type { CampaignResource } from '@/lib/http/generated';
 import type { Campaign } from '@/models/campaign';
 import { CategoryNavigation } from './category-navigation';
 

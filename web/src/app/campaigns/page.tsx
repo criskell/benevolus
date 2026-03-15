@@ -1,172 +1,42 @@
-'use client';
-
-import { useState } from 'react';
-import {
-  BreadcrumbItem,
-  Breadcrumbs,
-  Button,
-  useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  Tabs,
-  Tab,
-} from '@heroui/react';
-import { Heart, ShoppingCart } from 'lucide-react';
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
-import { PageLayout } from '../../components/campaigns/page-layout';
-import { FiltersPanel } from '../../components/campaigns/filters-panel';
-import { SearchBar } from '../../components/campaigns/search-bar';
-import { SortMenu } from '../../components/campaigns/sort-menu';
-import { CampaignList } from '../../components/campaigns/campaign-list';
-import { useCampaignFilters } from '../../hooks/use-campaign-filters';
-import { campaigns as rawCampaigns } from '../../data/campaigns';
-import { FavoritesDrawer } from '../../components/donations/favorites-drawer';
-import { DonationCartDrawer } from '../../components/donations/donation-cart-drawer';
-import { CategoryDonationTab } from '../../components/donations/category-donation-tab';
-import { useDonationContext } from '../../contexts/donation-context';
+import { listCampaigns } from '@/lib/http/generated/listCampaigns';
 import type { Campaign } from '@/models/campaign';
 
-const mappedCampaigns: Campaign[] = rawCampaigns.campaigns.map((c) => ({
-  slug: c.slug,
-  title: c.title,
-  category: c.category,
-  daysRemaining: c.daysRemaining,
-  progress: c.progressPercent || 0,
-  currentAmount: Math.round(c.raised * 100),
-  goalAmount: Math.round(c.goal * 100),
-  image: c.image,
-  images: [c.image || '', c.image || ''],
-}));
+import { CampaignsView } from './campaigns-view';
 
-const CampaignsPage = () => {
-  const t = useTranslations('campaigns.list');
-  const { favorites, cart } = useDonationContext();
+const calculateDaysRemaining = (expiresAt: string) => {
+  const diffMs = new Date(expiresAt).getTime() - Date.now();
 
-  const [favoritesOpen, setFavoritesOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('explore');
-  const {
-    searchQuery,
-    setSearchQuery,
-    selectedCategories,
-    setSelectedCategories,
-    selectedTags,
-    setSelectedTags,
-    statusFilter,
-    setStatusFilter,
-    timeFilter,
-    setTimeFilter,
-    filteredCampaigns,
-    clearFilters,
-  } = useCampaignFilters({ campaigns: mappedCampaigns });
+  return Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+};
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+const CampaignsPage = async ({ searchParams }: PageProps<'/campaigns'>) => {
+  const params = await searchParams;
 
-  const handleApplyFilters = () => {
-    onOpenChange();
-  };
+  const response = await listCampaigns({
+    search: String(params.search),
+  });
 
-  return (
-    <>
-      <PageLayout
-        sidebar={
-          <FiltersPanel
-            selectedCategories={selectedCategories}
-            setSelectedCategories={setSelectedCategories}
-            selectedTags={selectedTags}
-            setSelectedTags={setSelectedTags}
-            onApplyFilters={handleApplyFilters}
-            onClearFilters={clearFilters}
-          />
-        }
-        main={
-          <div className="p-6">
-            <h1 className="text-3xl font-bold mb-6">
-              {t('title')}
-            </h1>
+  const data = response.data ?? [];
 
-            <Tabs
-              selectedKey={activeTab}
-              onSelectionChange={(key) => setActiveTab(key as string)}
-              className="mb-6"
-              variant="underlined"
-            >
-              <Tab key="explore" title={t('tab_explore')}>
-                <div className="flex flex-col lg:flex-row gap-4 mb-6 items-start lg:items-center justify-between">
-                  <div className="flex items-center gap-4 w-full lg:w-auto">
-                    <Button
-                      onPress={onOpen}
-                      variant="bordered"
-                      className="lg:hidden"
-                    >
-                      {t('filters_button')}
-                    </Button>
-                    <SearchBar value={searchQuery} onChange={setSearchQuery} />
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <Button
-                      variant="light"
-                      startContent={<Heart className="w-4 h-4" />}
-                      onPress={() => setFavoritesOpen(true)}
-                    >
-                      {t('favorites_button', { count: favorites.favorites.length })}
-                    </Button>
-                    <Button
-                      variant="light"
-                      startContent={<ShoppingCart className="w-4 h-4" />}
-                      onPress={() => setCartOpen(true)}
-                    >
-                      {t('cart_button', { count: cart.cart.length })}
-                    </Button>
-                    <SortMenu
-                      statusFilter={statusFilter}
-                      setStatusFilter={setStatusFilter}
-                      timeFilter={timeFilter}
-                      setTimeFilter={setTimeFilter}
-                    />
-                    <Button color="primary" as={Link} href="/campaigns/create">
-                      {t('create_button')}
-                    </Button>
-                  </div>
-                </div>
-                <CampaignList campaigns={filteredCampaigns} />
-              </Tab>
+  const campaigns: Campaign[] = data.map((campaign) => {
+    const goal = campaign.goalCents ?? 0;
+    const raised = campaign.amountRaisedCents ?? 0;
+    const progress = goal > 0 ? Math.round((raised / goal) * 100) : 0;
 
-              <Tab key="donate-by-cause" title={t('tab_donate_by_cause')}>
-                <CategoryDonationTab />
-              </Tab>
-            </Tabs>
-          </div>
-        }
-      />
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="lg">
-        <ModalContent>
-          <ModalHeader>{t('filters.title')}</ModalHeader>
-          <ModalBody>
-            <FiltersPanel
-              selectedCategories={selectedCategories}
-              setSelectedCategories={setSelectedCategories}
-              selectedTags={selectedTags}
-              setSelectedTags={setSelectedTags}
-              onApplyFilters={handleApplyFilters}
-              onClearFilters={clearFilters}
-            />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-      <FavoritesDrawer
-        isOpen={favoritesOpen}
-        onClose={() => setFavoritesOpen(false)}
-      />
-      <DonationCartDrawer
-        isOpen={cartOpen}
-        onClose={() => setCartOpen(false)}
-      />
-    </>
-  );
+    return {
+      ...campaign,
+      title: campaign.title ?? '',
+      progress,
+      raised,
+      goal,
+      images: campaign.image ? [campaign.image] : [],
+      daysRemaining: campaign.expiresAt
+        ? calculateDaysRemaining(campaign.expiresAt)
+        : undefined,
+    };
+  });
+
+  return <CampaignsView initialCampaigns={campaigns} />;
 };
 
 export default CampaignsPage;

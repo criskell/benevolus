@@ -1,14 +1,13 @@
 import { Select, SelectItem } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { StatusFilter, TimeFilter } from '../../types';
-import { Dispatch, SetStateAction } from 'react';
 
 type SortMenuProps = {
   statusFilter: StatusFilter;
-  setStatusFilter: Dispatch<SetStateAction<StatusFilter>>;
+  setStatusFilter: (value: StatusFilter) => void;
   timeFilter: TimeFilter;
-  setTimeFilter: Dispatch<SetStateAction<TimeFilter>>;
-}
+  setTimeFilter: (value: TimeFilter) => void;
+};
 
 export const SortMenu = ({
   statusFilter,
@@ -17,7 +16,7 @@ export const SortMenu = ({
   setTimeFilter,
 }: SortMenuProps) => {
   const t = useTranslations('campaigns.list.sort');
-  
+
   const statusOptions: { value: StatusFilter; labelKey: string }[] = [
     { value: 'Abertas', labelKey: 'status_open' },
     { value: 'Recentes', labelKey: 'status_recent' },
@@ -43,25 +42,25 @@ export const SortMenu = ({
       <Select
         label={t('status_label')}
         selectedKeys={[statusFilter]}
-        onSelectionChange={(keys) => setStatusFilter(Array.from(keys)[0] as StatusFilter)}
+        onSelectionChange={(keys) =>
+          setStatusFilter(Array.from(keys)[0] as StatusFilter)
+        }
         className="w-48"
       >
         {statusOptions.map((option) => (
-          <SelectItem key={option.value}>
-            {t(option.labelKey)}
-          </SelectItem>
+          <SelectItem key={option.value}>{t(option.labelKey)}</SelectItem>
         ))}
       </Select>
       <Select
         label={t('period_label')}
         selectedKeys={[timeFilter]}
-        onSelectionChange={(keys) => setTimeFilter(Array.from(keys)[0] as TimeFilter)}
+        onSelectionChange={(keys) =>
+          setTimeFilter(Array.from(keys)[0] as TimeFilter)
+        }
         className="w-48"
       >
         {timeOptions.map((option) => (
-          <SelectItem key={option.value}>
-            {t(option.labelKey)}
-          </SelectItem>
+          <SelectItem key={option.value}>{t(option.labelKey)}</SelectItem>
         ))}
       </Select>
     </div>
