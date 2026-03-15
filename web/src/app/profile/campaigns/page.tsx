@@ -1,98 +1,45 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Chip, Tabs, Tab } from '@heroui/react';
+import { Button, Chip, Tabs, Tab, Spinner } from '@heroui/react';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { ProfileSidebar } from '../profile-sidebar';
 import { MyCampaignCard } from './my-campaign-card';
-import placeholderImage1 from '@/assets/images/placeholder1.jpg';
-import placeholderImage2 from '@/assets/images/placeholder2.jpg';
-
-type CampaignStatus = 'approved' | 'pending' | 'rejected' | 'finished';
-
-type MyCampaign = {
-  id: string;
-  slug: string;
-  title: string;
-  category: string;
-  status: CampaignStatus;
-  currentAmountCents: number;
-  goalAmountCents: number;
-  donationsCount: number;
-  image: string;
-  createdAt: string;
-};
+import { useListCampaigns } from '@/lib/http/generated/hooks/useListCampaigns';
+import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
+import type { CampaignStatus, MyCampaign } from './types';
 
 const statusLabels: Record<CampaignStatus, string> = {
-  approved: 'Ativa',
-  pending: 'Em análise',
+  open: 'Ativa',
+  in_review: 'Em análise',
   rejected: 'Rejeitada',
   finished: 'Finalizada',
+  closed: 'Fechada',
 };
 
 const MyCampaignsPage = () => {
   const [activeTab, setActiveTab] = useState<'all' | CampaignStatus>('all');
+  const { data: profile } = useGetProfile();
 
-  const userData = {
-    name: 'Cristiano',
-    followedCampaigns: 0,
-    donationsCount: 3,
-  };
+  const { data: campaignsResponse, isLoading } = useListCampaigns(
+    { userId: profile?.id, ...(activeTab !== 'all' ? { status: activeTab } : {}) },
+    { query: { enabled: !!profile?.id } },
+  );
 
-  const mockCampaigns: MyCampaign[] = [
-    {
-      id: '1',
-      slug: 'ajuda-para-maria',
-      title: 'Ajuda para Maria reconstruir sua casa após enchente',
-      category: 'EMERGENCIAIS',
-      status: 'approved',
-      currentAmountCents: 450000,
-      goalAmountCents: 1000000,
-      donationsCount: 47,
-      image: placeholderImage1.src,
-      createdAt: '2025-01-05',
-    },
-    {
-      id: '2',
-      slug: 'tratamento-joao',
-      title: 'Tratamento do João - Luta contra o câncer',
-      category: 'SAÚDE',
-      status: 'approved',
-      currentAmountCents: 125000,
-      goalAmountCents: 500000,
-      donationsCount: 23,
-      image: placeholderImage2.src,
-      createdAt: '2025-01-10',
-    },
-    {
-      id: '3',
-      slug: 'reforma-escola',
-      title: 'Reforma da escola comunitária do bairro',
-      category: 'EDUCAÇÃO',
-      status: 'pending',
-      currentAmountCents: 0,
-      goalAmountCents: 200000,
-      donationsCount: 0,
-      image: placeholderImage1.src,
-      createdAt: '2025-01-14',
-    },
-  ];
+  const campaigns = (campaignsResponse?.data ?? []) as MyCampaign[];
 
-  const filteredCampaigns =
-    activeTab === 'all'
-      ? mockCampaigns
-      : mockCampaigns.filter((c) => c.status === activeTab);
-
-  const menuItems = [
-    { label: 'Informações pessoais', active: false },
-    { label: 'Comunicação', active: false },
-    { label: 'Configurações', active: false },
-  ];
+  const { data: allResponse } = useListCampaigns(
+    { userId: profile?.id },
+    { query: { enabled: !!profile?.id } },
+  );
+  const allCampaigns = (allResponse?.data ?? []) as MyCampaign[];
 
   const getCounts = () => {
-    const counts = { all: mockCampaigns.length, approved: 0, pending: 0, rejected: 0, finished: 0 };
-    mockCampaigns.forEach((c) => counts[c.status]++);
+    const counts = { all: allCampaigns.length, open: 0, in_review: 0, rejected: 0, finished: 0, closed: 0 };
+    allCampaigns.forEach((c) => {
+      if (c.status in counts) counts[c.status]++;
+    });
     return counts;
   };
 
@@ -135,20 +82,20 @@ const MyCampaignsPage = () => {
               }
             />
             <Tab
-              key="approved"
+              key="open"
               title={
                 <div className="flex items-center gap-2">
                   Ativas
-                  <Chip size="sm" variant="flat" color="success">{counts.approved}</Chip>
+                  <Chip size="sm" variant="flat" color="success">{counts.open}</Chip>
                 </div>
               }
             />
             <Tab
-              key="pending"
+              key="in_review"
               title={
                 <div className="flex items-center gap-2">
                   Em análise
-                  <Chip size="sm" variant="flat" color="warning">{counts.pending}</Chip>
+                  <Chip size="sm" variant="flat" color="warning">{counts.in_review}</Chip>
                 </div>
               }
             />
@@ -163,7 +110,11 @@ const MyCampaignsPage = () => {
             />
           </Tabs>
 
-          {filteredCampaigns.length === 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <Spinner size="lg" />
+            </div>
+          ) : campaigns.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-default-500 mb-4">
                 {activeTab === 'all'
@@ -178,7 +129,7 @@ const MyCampaignsPage = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredCampaigns.map((campaign) => (
+              {campaigns.map((campaign) => (
                 <MyCampaignCard key={campaign.id} campaign={campaign} />
               ))}
             </div>

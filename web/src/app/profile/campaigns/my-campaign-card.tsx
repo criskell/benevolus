@@ -1,49 +1,45 @@
 'use client';
 
 import { Card, CardBody, Chip, Progress, Button, Image, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/react';
-import { MoreVertical, Eye, Pencil, BarChart3, Megaphone, Wallet } from 'lucide-react';
+import { MoreVertical, Eye, Pencil, BarChart3, Megaphone, Wallet, ImageOff } from 'lucide-react';
 import Link from 'next/link';
 import { formatMoney } from '@/lib/utils/format-money';
-
-type CampaignStatus = 'approved' | 'pending' | 'rejected' | 'finished';
-
-type MyCampaign = {
-  id: string;
-  slug: string;
-  title: string;
-  category: string;
-  status: CampaignStatus;
-  currentAmountCents: number;
-  goalAmountCents: number;
-  donationsCount: number;
-  image: string;
-  createdAt: string;
-};
+import type { MyCampaign, CampaignStatus } from './types';
 
 type MyCampaignCardProps = {
   campaign: MyCampaign;
 };
 
 const statusConfig: Record<CampaignStatus, { label: string; color: 'success' | 'warning' | 'danger' | 'default' }> = {
-  approved: { label: 'Ativa', color: 'success' },
-  pending: { label: 'Em análise', color: 'warning' },
+  open: { label: 'Ativa', color: 'success' },
+  in_review: { label: 'Em análise', color: 'warning' },
   rejected: { label: 'Rejeitada', color: 'danger' },
   finished: { label: 'Finalizada', color: 'default' },
+  closed: { label: 'Fechada', color: 'default' },
 };
 
 export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
-  const progress = Math.round((campaign.currentAmountCents / campaign.goalAmountCents) * 100);
+  const goalCents = campaign.goalCents ?? 0;
+  const raisedCents = campaign.amountRaisedCents ?? 0;
+  const progress = goalCents > 0 ? Math.round((raisedCents / goalCents) * 100) : 0;
   const status = statusConfig[campaign.status];
 
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <CardBody className="p-0">
         <div className="relative w-full aspect-video">
-          <Image
-            src={campaign.image}
-            alt={campaign.title}
-            className="w-full h-full object-cover rounded-t-lg"
-          />
+          {campaign.image ? (
+            <Image
+              src={campaign.image}
+              alt={campaign.title}
+              className="w-full h-full object-cover rounded-t-lg"
+            />
+          ) : (
+            <div className="w-full h-full bg-default-100 rounded-t-lg flex flex-col items-center justify-center gap-2">
+              <ImageOff size={40} className="text-default-300" />
+              <span className="text-xs text-default-400">Sem imagem</span>
+            </div>
+          )}
           <div className="absolute top-2 left-2">
             <Chip size="sm" color={status.color} variant="solid">
               {status.label}
@@ -103,9 +99,6 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
         </div>
 
         <div className="p-4">
-          <Chip size="sm" variant="flat" className="mb-2">
-            {campaign.category}
-          </Chip>
           <Link href={`/profile/campaigns/${campaign.id}`}>
             <h3 className="text-lg font-semibold hover:text-primary cursor-pointer line-clamp-2">
               {campaign.title}
@@ -115,12 +108,12 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
           <div className="mt-4 space-y-2">
             <div className="flex justify-between text-sm text-default-500">
               <span>{progress}% arrecadado</span>
-              <span>{campaign.donationsCount} doações</span>
+              <span>{campaign.donationsCount ?? 0} doações</span>
             </div>
             <Progress value={progress} color="primary" />
             <div className="flex justify-between text-sm">
-              <span className="font-medium">{formatMoney(campaign.currentAmountCents)}</span>
-              <span className="text-default-500">de {formatMoney(campaign.goalAmountCents)}</span>
+              <span className="font-medium">{formatMoney(raisedCents)}</span>
+              <span className="text-default-500">de {formatMoney(goalCents)}</span>
             </div>
           </div>
 
@@ -134,7 +127,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
             >
               Gerenciar
             </Button>
-            {campaign.status === 'approved' && campaign.currentAmountCents > 0 && (
+            {campaign.status === 'open' && raisedCents > 0 && (
               <Button
                 as={Link}
                 href={`/profile/campaigns/${campaign.id}/withdrawals`}

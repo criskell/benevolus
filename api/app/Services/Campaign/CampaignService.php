@@ -22,8 +22,8 @@ final class CampaignService
             $query->where('status', $filters['status']);
         }
 
-        if (! empty($filters['user_id'])) {
-            $query->where('user_id', $filters['user_id']);
+        if (! empty($filters['userId'])) {
+            $query->where('user_id', $filters['userId']);
         }
 
         if (! empty($filters['search'])) {
@@ -33,7 +33,11 @@ final class CampaignService
             });
         }
 
-        return $query->orderBy('created_at', 'desc')->paginate();
+        return $query
+            ->withCount('donations')
+            ->with(['assets' => fn ($q) => $q->limit(1)])
+            ->orderBy('created_at', 'desc')
+            ->paginate();
     }
 
     public function findById(int $campaignId): Campaign

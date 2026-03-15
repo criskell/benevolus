@@ -36,6 +36,8 @@ class CampaignResource extends JsonResource
             'createdAt' => $this->created_at->toDateTimeString(),
             'updatedAt' => $this->updated_at->toDateTimeString(),
             'status' => $this->status,
+            'donationsCount' => $this->donations_count ?? 0,
+            'image' => $this->whenLoaded('assets', fn () => $this->assets->first()?->url),
             'favoriteCount' => $this->favorites_count ?? 0,
             'comments' => CommentResource::collection($this->whenLoaded('recentComments')),
             'updates' => CampaignUpdateResource::collection($this->whenLoaded('recentUpdates')),
