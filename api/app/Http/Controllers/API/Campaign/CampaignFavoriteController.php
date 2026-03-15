@@ -54,8 +54,8 @@ final class CampaignFavoriteController extends Controller implements HasMiddlewa
                 name: 'campaign',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
-                description: 'Campaign ID'
+                schema: new OA\Schema(type: 'string'),
+                description: 'Campaign slug'
             ),
         ],
         responses: [

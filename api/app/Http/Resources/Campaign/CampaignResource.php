@@ -13,6 +13,7 @@ use OpenApi\Attributes as OA;
     schema: 'CampaignResource',
     properties: [
         new OA\Property(property: 'id', type: 'integer'),
+        new OA\Property(property: 'slug', type: 'string'),
         new OA\Property(property: 'title', type: 'string'),
         new OA\Property(property: 'description', type: 'string'),
         new OA\Property(property: 'goal', type: 'number'),
@@ -26,6 +27,7 @@ class CampaignResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'slug' => $this->slug,
             'title' => $this->title,
             'description' => $this->description,
             'goalCents' => $this->goal_cents,

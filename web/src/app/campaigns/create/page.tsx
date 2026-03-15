@@ -118,8 +118,8 @@ const CreateCampaignPage = () => {
         expiresAt: formData.expiresAt,
       });
 
-      if (formData.image && campaign?.id) {
-        await uploadCampaignImage(campaign.id, {
+      if (formData.image && campaign?.slug) {
+        await uploadCampaignImage(campaign.slug, {
           image: formData.image,
         });
       }
@@ -238,7 +238,7 @@ const CreateCampaignPage = () => {
           <CampaignSuccess
             campaignTitle={createdCampaign?.title ?? formData.title}
             campaignGoal={formData.goalCents}
-            campaignId={createdCampaign?.id}
+            campaignSlug={createdCampaign?.slug}
             campaignStatus={createdCampaign?.status}
           />
         );
@@ -246,7 +246,7 @@ const CreateCampaignPage = () => {
         return (
           <CampaignConfirmation
             campaignTitle={createdCampaign?.title ?? formData.title}
-            campaignId={createdCampaign?.id}
+            campaignSlug={createdCampaign?.slug}
           />
         );
       default:

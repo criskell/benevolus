@@ -7,6 +7,7 @@ namespace App\Http\Controllers\API\Campaign;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Campaign\StoreCampaignUpdateRequest;
 use App\Http\Resources\Campaign\CampaignUpdateResource;
+use App\Models\Campaign;
 use App\Models\CampaignUpdate;
 use App\Services\Campaign\CampaignUpdateService;
 use Illuminate\Http\Request;
@@ -36,8 +37,8 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
                 name: 'campaign',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
-                description: 'Campaign ID'
+                schema: new OA\Schema(type: 'string'),
+                description: 'Campaign slug'
             ),
         ],
         responses: [
@@ -57,9 +58,9 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
             ),
         ]
     )]
-    public function index(Request $request, int $campaignId)
+    public function index(Request $request, Campaign $campaign)
     {
-        $updates = $this->campaignUpdateService->listByCampaign($campaignId, $request->user());
+        $updates = $this->campaignUpdateService->listByCampaign($campaign->id, $request->user());
 
         return CampaignUpdateResource::collection($updates);
     }
@@ -74,8 +75,8 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
                 name: 'campaign',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
-                description: 'Campaign ID'
+                schema: new OA\Schema(type: 'string'),
+                description: 'Campaign slug'
             ),
         ],
         requestBody: new OA\RequestBody(
@@ -94,9 +95,9 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
             ),
         ]
     )]
-    public function store(StoreCampaignUpdateRequest $request, int $campaignId)
+    public function store(StoreCampaignUpdateRequest $request, Campaign $campaign)
     {
-        $update = $this->campaignUpdateService->create($campaignId, $request->validated());
+        $update = $this->campaignUpdateService->create($campaign->id, $request->validated());
 
         return new CampaignUpdateResource($update);
     }

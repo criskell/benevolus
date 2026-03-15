@@ -6,12 +6,12 @@ import { useTranslations } from 'next-intl';
 
 type CampaignConfirmationProps = {
   campaignTitle: string;
-  campaignId?: number;
+  campaignSlug?: string;
 }
 
 export const CampaignConfirmation = ({
   campaignTitle,
-  campaignId,
+  campaignSlug,
 }: CampaignConfirmationProps) => {
   const t = useTranslations('campaigns.create.step7');
 
@@ -42,15 +42,12 @@ export const CampaignConfirmation = ({
             <div className="bg-gradient-to-br from-primary to-primary/70 rounded-lg w-24 h-24 flex-shrink-0" />
             <div>
               <h3 className="text-xl font-bold">{campaignTitle}</h3>
-              {campaignId && (
-                <p className="text-sm text-default-500">ID {campaignId}</p>
-              )}
             </div>
           </div>
 
           <div className="space-y-3">
-            {campaignId && (
-              <Link href={`/${campaignId}`}>
+            {campaignSlug && (
+              <Link href={`/${campaignSlug}`}>
                 <Button fullWidth color="primary" size="lg" className="font-semibold">
                   {t('edit_campaign')}
                 </Button>

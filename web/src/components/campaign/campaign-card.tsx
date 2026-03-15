@@ -56,7 +56,7 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
         {/* Content */}
         <div className="p-5">
           {/* Title */}
-          <Link href={`/campaign/${encodeURIComponent(campaign.title)}`}>
+          <Link href={`/${campaign.slug}`}>
             <h3 className="text-lg font-bold hover:text-primary cursor-pointer line-clamp-2 mb-3 transition-colors duration-200 leading-snug">
               {campaign.title}
             </h3>

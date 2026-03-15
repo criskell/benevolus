@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\User;
 use App\Services\Donation\DonationService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 
 final class CampaignService
 {
@@ -60,10 +61,37 @@ final class CampaignService
         return $campaign;
     }
 
+    public function findBySlug(string $slug): Campaign
+    {
+        $campaign = Campaign::withCount('favoritedByUsers')
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        $recentComments = $campaign->comments()
+            ->with('user')
+            ->latest()
+            ->take(15)
+            ->get();
+
+        $recentUpdates = $campaign->updates()
+            ->latest()
+            ->take(15)
+            ->get();
+
+        $recentDonations = $this->donationService->findRecentDonations($campaign->id);
+
+        $campaign->setRelation('recentComments', $recentComments);
+        $campaign->setRelation('recentUpdates', $recentUpdates);
+        $campaign->setRelation('recentDonations', $recentDonations);
+
+        return $campaign;
+    }
+
     public function create(array $data, User $user): Campaign
     {
         $data = $this->mapPersistentEntity($data);
         $data['status'] = Campaign::STATUS_IN_REVIEW;
+        $data['slug'] = $this->generateUniqueSlug($data['title']);
 
         return $user->campaigns()->create($data)->refresh();
     }
@@ -90,5 +118,19 @@ final class CampaignService
             'expires_at' => $data['expiresAt'] ?? null,
             'status' => $data['status'] ?? null,
         ];
+    }
+
+    private function generateUniqueSlug(string $title): string
+    {
+        $slug = Str::slug($title);
+        $original = $slug;
+        $counter = 1;
+
+        while (Campaign::where('slug', $slug)->exists()) {
+            $slug = $original.'-'.$counter;
+            $counter++;
+        }
+
+        return $slug;
     }
 }

@@ -7,14 +7,14 @@ import Link from 'next/link';
 type CampaignSuccessProps = {
   campaignTitle: string;
   campaignGoal: number;
-  campaignId?: number;
+  campaignSlug?: string;
   campaignStatus?: string;
 }
 
 export const CampaignSuccess = ({
   campaignTitle,
   campaignGoal,
-  campaignId,
+  campaignSlug,
   campaignStatus,
 }: CampaignSuccessProps) => {
   const t = useTranslations('campaigns.create.step6');
@@ -47,9 +47,6 @@ export const CampaignSuccess = ({
 
             <div>
               <h3 className="text-xl font-bold">{campaignTitle}</h3>
-              {campaignId && (
-                <p className="text-sm text-default-500">ID: {campaignId}</p>
-              )}
             </div>
 
             <div className="flex justify-between items-center">
@@ -68,8 +65,8 @@ export const CampaignSuccess = ({
       </div>
 
       <div className="space-y-4">
-        {campaignId && (
-          <Link href={`/${campaignId}`}>
+        {campaignSlug && (
+          <Link href={`/${campaignSlug}`}>
             <Button
               fullWidth
               color="primary"

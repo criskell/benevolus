@@ -25,12 +25,18 @@ class Campaign extends Model
     protected $fillable = [
         'user_id',
         'title',
+        'slug',
         'description',
         'goal_cents',
         'available_balance_cents',
         'expires_at',
         'status',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     protected $casts = [
         'expires_at' => 'datetime',

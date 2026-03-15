@@ -37,8 +37,8 @@ final class CommentController extends Controller implements HasMiddleware
                 name: 'campaign',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
-                description: 'Campaign ID'
+                schema: new OA\Schema(type: 'string'),
+                description: 'Campaign slug'
             ),
         ],
         responses: [
@@ -75,8 +75,8 @@ final class CommentController extends Controller implements HasMiddleware
                 name: 'campaign',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
-                description: 'Campaign ID'
+                schema: new OA\Schema(type: 'string'),
+                description: 'Campaign slug'
             ),
         ],
         requestBody: new OA\RequestBody(

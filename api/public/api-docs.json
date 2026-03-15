@@ -99,21 +99,21 @@
                 }
             }
         },
-        "/api/campaigns/{id}": {
+        "/api/campaigns/{slug}": {
             "get": {
                 "tags": [
                     "Campaigns"
                 ],
-                "summary": "Get campaign by ID",
+                "summary": "Get campaign by slug",
                 "operationId": "getCampaign",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -138,12 +138,12 @@
                 "operationId": "updateCampaign",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -171,12 +171,12 @@
                 "operationId": "deleteCampaign",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -222,10 +222,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -259,10 +259,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -311,10 +311,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -349,10 +349,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -560,10 +560,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -598,10 +598,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -730,10 +730,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -863,10 +863,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1016,10 +1016,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1054,10 +1054,10 @@
                     {
                         "name": "campaign",
                         "in": "path",
-                        "description": "Campaign ID",
+                        "description": "Campaign slug",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1724,6 +1724,9 @@
                 "properties": {
                     "id": {
                         "type": "integer"
+                    },
+                    "slug": {
+                        "type": "string"
                     },
                     "title": {
                         "type": "string"

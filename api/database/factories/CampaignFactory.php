@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CampaignFactory extends Factory
 {
@@ -12,9 +13,12 @@ class CampaignFactory extends Factory
 
     public function definition(): array
     {
+        $title = fake()->sentence();
+
         return [
             'user_id' => User::factory(),
-            'title' => fake()->sentence(),
+            'title' => $title,
+            'slug' => Str::slug($title).'-'.fake()->unique()->randomNumber(5),
             'description' => fake()->paragraphs(3, true),
             'goal_cents' => fake()->numberBetween(10000, 10000000),
             'status' => Campaign::STATUS_OPEN,

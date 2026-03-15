@@ -82,16 +82,16 @@ final class CampaignController extends Controller implements HasMiddleware
 
     #[OA\Get(
         operationId: 'getCampaign',
-        path: '/api/campaigns/{id}',
-        summary: 'Get campaign by ID',
+        path: '/api/campaigns/{slug}',
+        summary: 'Get campaign by slug',
         tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: 'id',
+                name: 'slug',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
-                description: 'Campaign ID'
+                schema: new OA\Schema(type: 'string'),
+                description: 'Campaign slug'
             ),
         ],
         responses: [
@@ -104,9 +104,9 @@ final class CampaignController extends Controller implements HasMiddleware
             ),
         ]
     )]
-    public function show(int $id)
+    public function show(Campaign $campaign)
     {
-        $campaign = $this->campaignService->findById($id);
+        $campaign = $this->campaignService->findBySlug($campaign->slug);
 
         return new CampaignResource($campaign);
     }
@@ -141,16 +141,16 @@ final class CampaignController extends Controller implements HasMiddleware
 
     #[OA\Put(
         operationId: 'updateCampaign',
-        path: '/api/campaigns/{id}',
+        path: '/api/campaigns/{slug}',
         summary: 'Update campaign',
         tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: 'id',
+                name: 'slug',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
-                description: 'Campaign ID'
+                schema: new OA\Schema(type: 'string'),
+                description: 'Campaign slug'
             ),
         ],
         requestBody: new OA\RequestBody(
@@ -174,16 +174,16 @@ final class CampaignController extends Controller implements HasMiddleware
 
     #[OA\Delete(
         operationId: 'deleteCampaign',
-        path: '/api/campaigns/{id}',
+        path: '/api/campaigns/{slug}',
         summary: 'Delete campaign',
         tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: 'id',
+                name: 'slug',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
-                description: 'Campaign ID'
+                schema: new OA\Schema(type: 'string'),
+                description: 'Campaign slug'
             ),
         ],
         responses: [
