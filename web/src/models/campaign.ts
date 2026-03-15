@@ -1,11 +1,14 @@
 export type Campaign = {
+  id?: number;
   slug?: string;
   title: string;
-  category: string;
-  daysRemaining: number;
+  description?: string;
+  category?: string;
+  daysRemaining?: number;
   progress: number;
-  currentAmount: number;
-  goalAmount: number;
-  image: string;
+  raised: number;
+  goal: number;
+  status?: string;
+  image?: string | null;
   images?: string[];
 };

@@ -26,31 +26,40 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
       <CardBody className="p-0">
         {/* Image Container */}
         <div className="relative w-full aspect-video overflow-hidden bg-default-100">
-          <img
-            src={campaign.image}
-            alt={campaign.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-          {/* Gradient overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          
+          {campaign.image ? (
+            <>
+              <img
+                src={campaign.image}
+                alt={campaign.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </>
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-default-300">
+              <Icon icon="solar:gallery-bold" width={48} />
+              <span className="text-xs text-default-400">Sem imagem</span>
+            </div>
+          )}
+
           <FavoriteToggleButton
             slug={campaign.slug || ''}
             title={campaign.title}
-            image={campaign.image}
+            image={campaign.image ?? ''}
           />
-          
-          {/* Category Badge - Moved to image */}
-          <div className="absolute top-4 left-4">
-            <Chip 
-              size="sm" 
-              variant="flat"
-              className="bg-white/90 dark:bg-default-100/90 backdrop-blur-md font-semibold shadow-lg"
-              startContent={<Icon icon="solar:tag-bold" width={16} />}
-            >
-              {campaign.category}
-            </Chip>
-          </div>
+
+          {campaign.category && (
+            <div className="absolute top-4 left-4">
+              <Chip
+                size="sm"
+                variant="flat"
+                className="bg-white/90 dark:bg-default-100/90 backdrop-blur-md font-semibold shadow-lg"
+                startContent={<Icon icon="solar:tag-bold" width={16} />}
+              >
+                {campaign.category}
+              </Chip>
+            </div>
+          )}
         </div>
 
         {/* Content */}
@@ -64,10 +73,20 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
 
           {/* Stats Row */}
           <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-1.5 text-sm text-default-600">
-              <Icon icon="solar:clock-circle-bold" width={18} className="text-primary" />
-              <span className="font-medium">{campaign.daysRemaining} {t('days')}</span>
-            </div>
+            {campaign.daysRemaining != null ? (
+              <div className="flex items-center gap-1.5 text-sm text-default-600">
+                <Icon
+                  icon="solar:clock-circle-bold"
+                  width={18}
+                  className="text-primary"
+                />
+                <span className="font-medium">
+                  {campaign.daysRemaining} {t('days')}
+                </span>
+              </div>
+            ) : (
+              <div />
+            )}
             <div className="flex items-center gap-1.5">
               <span className="text-2xl font-black bg-gradient-to-br from-primary to-primary-600 bg-clip-text text-transparent">
                 {campaign.progress}%
@@ -76,11 +95,11 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
           </div>
 
           {/* Progress Bar */}
-          <Progress 
-            value={campaign.progress} 
+          <Progress
+            value={campaign.progress}
             className="mb-4"
             classNames={{
-              indicator: "bg-gradient-to-r from-primary to-primary-600",
+              indicator: 'bg-gradient-to-r from-primary to-primary-600',
             }}
             size="sm"
           />
@@ -88,15 +107,17 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
           {/* Amount Info */}
           <div className="flex items-end justify-between mb-4">
             <div>
-              <p className="text-xs text-default-500 mb-1">{t('raised_label')}</p>
+              <p className="text-xs text-default-500 mb-1">
+                {t('raised_label')}
+              </p>
               <p className="text-lg font-bold text-foreground">
-                {formatMoney(campaign.currentAmount)}
+                {formatMoney(campaign.raised)}
               </p>
             </div>
             <div className="text-right">
               <p className="text-xs text-default-500 mb-1">{t('goal_label')}</p>
               <p className="text-sm font-semibold text-default-700">
-                {formatMoney(campaign.goalAmount)}
+                {formatMoney(campaign.goal)}
               </p>
             </div>
           </div>

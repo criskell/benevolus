@@ -1734,14 +1734,55 @@
                     "description": {
                         "type": "string"
                     },
-                    "goal": {
-                        "type": "number"
+                    "goalCents": {
+                        "type": "integer"
                     },
-                    "raised": {
-                        "type": "string"
+                    "amountRaisedCents": {
+                        "type": "integer"
+                    },
+                    "expiresAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "status": {
                         "type": "string"
+                    },
+                    "donationsCount": {
+                        "type": "integer"
+                    },
+                    "favoriteCount": {
+                        "type": "integer"
+                    },
+                    "image": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "comments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommentResource"
+                        }
+                    },
+                    "updates": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CampaignUpdateResource"
+                        }
+                    },
+                    "donations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CampaignDonationResource"
+                        }
                     }
                 },
                 "type": "object"
