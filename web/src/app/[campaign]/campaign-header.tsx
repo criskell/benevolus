@@ -6,13 +6,24 @@ import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
+import type { CampaignResource } from '@/lib/http/generated';
 
-export const CampaignHeader = () => {
+interface CampaignHeaderProps {
+  campaign: CampaignResource;
+}
+
+const calculateDaysSince = (dateString?: string) => {
+  if (!dateString) return 0;
+  const diffMs = Date.now() - new Date(dateString).getTime();
+  return Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
+};
+
+export const CampaignHeader = ({ campaign }: CampaignHeaderProps) => {
   const t = useTranslations('campaign.header');
-  
+  const daysSince = calculateDaysSince(campaign.createdAt);
+
   return (
     <div className="space-y-6">
-      {/* Creator Info & Title */}
       <Card className="p-6 md:p-8 border border-default-200" shadow="none">
         <div className="flex items-start gap-4 mb-6">
           <Avatar
@@ -21,20 +32,25 @@ export const CampaignHeader = () => {
             className="flex-shrink-0 ring-2 ring-primary/20"
             size="lg"
             classNames={{
-              base: "bg-gradient-to-br from-primary to-primary-600",
-              name: "text-white font-semibold"
+              base: 'bg-gradient-to-br from-primary to-primary-600',
+              name: 'text-white font-semibold',
             }}
           />
-          
+
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2">
               <p className="font-semibold text-foreground">Fulana Santos</p>
-              <Icon icon="solar:verified-check-bold" width={20} className="text-primary flex-shrink-0" />
+              <Icon
+                icon="solar:verified-check-bold"
+                width={20}
+                className="text-primary flex-shrink-0"
+              />
             </div>
-            <p className="text-sm text-default-600">{t('created_ago', { days: 5 })}</p>
+            <p className="text-sm text-default-600">
+              {t('created_ago', { days: daysSince })}
+            </p>
           </div>
 
-          {/* Follow Button - Desktop */}
           <Button
             variant="bordered"
             size="sm"
@@ -45,56 +61,70 @@ export const CampaignHeader = () => {
           </Button>
         </div>
 
-        {/* Campaign Title */}
         <h1 className="text-3xl md:text-4xl font-bold text-foreground leading-tight mb-4">
-          Campanha para Fulana, mãe solo que cria sozinha seus gêmeos prematuros
+          {campaign.title}
         </h1>
 
-        {/* Verification Badges */}
         <div className="flex flex-wrap gap-2 mb-6">
-          <Chip 
-            color="success" 
+          <Chip
+            color="success"
             variant="flat"
             size="sm"
             startContent={<Icon icon="solar:shield-check-bold" width={16} />}
             classNames={{
-              base: "font-semibold"
+              base: 'font-semibold',
             }}
           >
             {t('verified_badge')}
           </Chip>
-          <Chip 
-            color="primary" 
+          <Chip
+            color="primary"
             variant="flat"
             size="sm"
             startContent={<Icon icon="solar:document-text-bold" width={16} />}
             classNames={{
-              base: "font-semibold"
+              base: 'font-semibold',
             }}
           >
             {t('documents_badge')}
           </Chip>
         </div>
 
-        {/* Campaign Stats */}
         <div className="flex flex-wrap items-center gap-6 text-sm text-default-600">
           <div className="flex items-center gap-2">
-            <Icon icon="solar:heart-bold" width={20} className="text-rose-500" />
-            <span className="font-medium">{t('likes', { count: 1234 })}</span>
+            <Icon
+              icon="solar:heart-bold"
+              width={20}
+              className="text-rose-500"
+            />
+            <span className="font-medium">
+              {t('likes', { count: campaign.favoriteCount ?? 0 })}
+            </span>
           </div>
-          
+
           <div className="flex items-center gap-2">
-            <Icon icon="solar:users-group-rounded-bold" width={20} className="text-primary" />
-            <span className="font-medium">{t('donors', { count: 567 })}</span>
+            <Icon
+              icon="solar:users-group-rounded-bold"
+              width={20}
+              className="text-primary"
+            />
+            <span className="font-medium">
+              {t('donors', { count: campaign.donationsCount ?? 0 })}
+            </span>
           </div>
-          
+
           <div className="flex items-center gap-2">
-            <Icon icon="solar:chat-round-dots-bold" width={20} className="text-amber-500" />
-            <span className="font-medium">{t('comments', { count: 89 })}</span>
+            <Icon
+              icon="solar:chat-round-dots-bold"
+              width={20}
+              className="text-amber-500"
+            />
+            <span className="font-medium">
+              {t('comments', { count: campaign.comments?.length ?? 0 })}
+            </span>
           </div>
         </div>
 
-        {/* Follow Button - Mobile */}
         <Button
           variant="bordered"
           size="md"
@@ -105,19 +135,6 @@ export const CampaignHeader = () => {
           {t('follow_campaign_button')}
         </Button>
       </Card>
-
-      {/* Main Campaign Image */}
-      <Card className="p-0 overflow-hidden border border-default-200" shadow="none">
-        <div className="relative w-full aspect-video md:aspect-[21/9] overflow-hidden bg-default-100">
-          <img
-            src={placeholderImage1.src}
-            alt={t('main_image_alt')}
-            className="w-full h-full object-cover"
-          />
-          {/* Gradient overlay for depth */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-        </div>
-      </Card>
     </div>
   );
-}
+};

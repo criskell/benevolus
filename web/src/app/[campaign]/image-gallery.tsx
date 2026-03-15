@@ -6,16 +6,31 @@ import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 
-export const ImageGallery = () => {
+interface ImageGalleryProps {
+  images: string[];
+}
+
+export const ImageGallery = ({ images: campaignImages }: ImageGalleryProps) => {
   const t = useTranslations('campaign.gallery');
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
+    null,
+  );
   const [zoomLevel, setZoomLevel] = useState(1);
-  
-  const images = Array.from({ length: 6 }, (_, index) => ({
-    id: index,
-    src: placeholderImage1.src,
-    alt: t('image_alt', { index: index + 1 })
-  }));
+
+  const images =
+    campaignImages.length > 0
+      ? campaignImages.map((src, index) => ({
+          id: index,
+          src,
+          alt: t('image_alt', { index: index + 1 }),
+        }))
+      : [
+          {
+            id: 0,
+            src: placeholderImage1.src,
+            alt: t('image_alt', { index: 1 }),
+          },
+        ];
 
   const handleOpenModal = (index: number) => {
     setSelectedImageIndex(index);
@@ -29,7 +44,9 @@ export const ImageGallery = () => {
 
   const handlePrevImage = () => {
     if (selectedImageIndex !== null) {
-      setSelectedImageIndex((selectedImageIndex - 1 + images.length) % images.length);
+      setSelectedImageIndex(
+        (selectedImageIndex - 1 + images.length) % images.length,
+      );
       setZoomLevel(1);
     }
   };
@@ -58,13 +75,18 @@ export const ImageGallery = () => {
       <Card className="p-6 md:p-8 border border-default-200" shadow="none">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-            <Icon icon="solar:gallery-bold" width={28} className="text-primary" />
+            <Icon
+              icon="solar:gallery-bold"
+              width={28}
+              className="text-primary"
+            />
             {t('title')}
           </h2>
-          <span className="text-sm text-default-600 font-medium">{t('photos_count', { count: images.length })}</span>
+          <span className="text-sm text-default-600 font-medium">
+            {t('photos_count', { count: images.length })}
+          </span>
         </div>
 
-        {/* Grid Layout */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((image, index) => (
             <button
@@ -77,17 +99,18 @@ export const ImageGallery = () => {
                 alt={image.alt}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              {/* Overlay on hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* View icon */}
+
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
-                  <Icon icon="solar:eye-bold" width={24} className="text-primary" />
+                  <Icon
+                    icon="solar:eye-bold"
+                    width={24}
+                    className="text-primary"
+                  />
                 </div>
               </div>
 
-              {/* Image number badge */}
               <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-2 py-1 rounded-lg">
                 {index + 1}/{images.length}
               </div>
@@ -96,22 +119,20 @@ export const ImageGallery = () => {
         </div>
       </Card>
 
-      {/* Image Modal */}
-      <Modal 
-        isOpen={selectedImageIndex !== null} 
+      <Modal
+        isOpen={selectedImageIndex !== null}
         onClose={handleCloseModal}
         size="full"
         className="bg-black/95"
         classNames={{
-          body: "p-0",
-          wrapper: "items-center justify-center"
+          body: 'p-0',
+          wrapper: 'items-center justify-center',
         }}
       >
         <ModalContent>
           <ModalBody className="relative flex items-center justify-center h-screen">
             {selectedImageIndex !== null && (
               <>
-                {/* Close Button */}
                 <Button
                   isIconOnly
                   variant="light"
@@ -121,12 +142,10 @@ export const ImageGallery = () => {
                   <Icon icon="solar:close-circle-bold" width={32} />
                 </Button>
 
-                {/* Image Counter */}
                 <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-full font-semibold">
                   {selectedImageIndex + 1} / {images.length}
                 </div>
 
-                {/* Zoom Controls */}
                 <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2">
                   <Button
                     isIconOnly
@@ -137,7 +156,7 @@ export const ImageGallery = () => {
                   >
                     <Icon icon="solar:minus-circle-bold" width={28} />
                   </Button>
-                  
+
                   <Button
                     isIconOnly
                     variant="light"
@@ -150,7 +169,7 @@ export const ImageGallery = () => {
                   <span className="text-white font-semibold min-w-[60px] text-center">
                     {Math.round(zoomLevel * 100)}%
                   </span>
-                  
+
                   <Button
                     isIconOnly
                     variant="light"
@@ -162,7 +181,6 @@ export const ImageGallery = () => {
                   </Button>
                 </div>
 
-                {/* Navigation Buttons */}
                 <Button
                   isIconOnly
                   variant="light"
@@ -181,7 +199,6 @@ export const ImageGallery = () => {
                   <Icon icon="solar:alt-arrow-right-bold" width={32} />
                 </Button>
 
-                {/* Image Container with Zoom */}
                 <div className="w-full h-full flex items-center justify-center overflow-auto p-8">
                   <img
                     src={images[selectedImageIndex].src}
@@ -198,4 +215,4 @@ export const ImageGallery = () => {
       </Modal>
     </>
   );
-}
+};
