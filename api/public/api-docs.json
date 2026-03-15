@@ -2045,6 +2045,14 @@
                         "type": "string",
                         "nullable": true
                     },
+                    "favoriteCampaignsCount": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "donationsCount": {
+                        "type": "integer",
+                        "nullable": true
+                    },
                     "address": {
                         "properties": {
                             "street": {

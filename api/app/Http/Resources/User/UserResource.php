@@ -15,6 +15,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
         new OA\Property(property: "taxId", type: "string", nullable: true),
         new OA\Property(property: "birthDate", type: "string", format: "date", nullable: true),
         new OA\Property(property: "phone", type: "string", nullable: true),
+        new OA\Property(property: "favoriteCampaignsCount", type: "integer", nullable: true),
+        new OA\Property(property: "donationsCount", type: "integer", nullable: true),
         new OA\Property(
             property: "address",
             type: "object",
@@ -41,6 +43,14 @@ class UserResource extends JsonResource
             'taxId' => $this->tax_id,
             'birthDate' => $this->birth_date?->format('Y-m-d'),
             'phone' => $this->phone,
+            'favoriteCampaignsCount' => $this->when(
+                isset($this->resource->favorite_campaigns_count),
+                $this->resource->favorite_campaigns_count
+            ),
+            'donationsCount' => $this->when(
+                isset($this->resource->donations_count),
+                $this->resource->donations_count
+            ),
             'address' => $this->whenLoaded('address'),
         ];
     }

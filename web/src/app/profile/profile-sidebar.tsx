@@ -24,6 +24,7 @@ export const ProfileSidebar = () => {
     if (href === '/profile') {
       return pathname === '/profile';
     }
+    
     return pathname.startsWith(href);
   };
 
@@ -52,14 +53,14 @@ export const ProfileSidebar = () => {
       <div className="space-y-3">
         <Card className="bg-primary text-white">
           <CardBody className="p-4">
-            <p className="text-2xl font-bold">0</p>
+            <p className="text-2xl font-bold">{profile?.favoriteCampaignsCount ?? 0}</p>
             <p className="text-sm opacity-90">Vaquinhas que sigo</p>
           </CardBody>
         </Card>
 
         <Card className="bg-primary text-white">
           <CardBody className="p-4">
-            <p className="text-2xl font-bold">0</p>
+            <p className="text-2xl font-bold">{profile?.donationsCount ?? 0}</p>
             <p className="text-sm opacity-90">Doações que fiz</p>
           </CardBody>
         </Card>

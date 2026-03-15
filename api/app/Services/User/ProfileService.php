@@ -8,22 +8,27 @@ use App\Models\User;
 
 final class ProfileService
 {
-    private const CAMEL_TO_SNAKE = [
-        'taxId' => 'tax_id',
-        'birthDate' => 'birth_date',
-    ];
+    public function getProfile(User $user): User
+    {
+        return $user
+            ->load('address')
+            ->loadCount([
+                'favoriteCampaigns',
+                'donations' => fn ($query) => $query->where('payment_status', 'paid'),
+            ]);
+    }
 
-    public function updateProfile(User $user, array $data)
+    public function updateProfile(User $user, array $data): void
     {
         $address = $data['address'] ?? [];
-        unset($data['address']);
 
-        $mapped = [];
-        foreach ($data as $key => $value) {
-            $mapped[self::CAMEL_TO_SNAKE[$key] ?? $key] = $value;
-        }
-
-        $user->update($mapped);
+        $user->update([
+            'name' => $data['name'] ?? $user->name,
+            'email' => $data['email'] ?? $user->email,
+            'tax_id' => $data['taxId'] ?? $user->tax_id,
+            'birth_date' => $data['birthDate'] ?? $user->birth_date,
+            'phone' => $data['phone'] ?? $user->phone,
+        ]);
 
         if (!$address) {
             return;

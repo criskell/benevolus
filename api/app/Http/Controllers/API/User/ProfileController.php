@@ -39,7 +39,9 @@ final class ProfileController extends Controller implements HasMiddleware
     )]
     public function show(Request $request)
     {
-        return new UserResource($request->user()->load('address'));
+        return new UserResource(
+            $this->profileService->getProfile($request->user())
+        );
     }
 
     #[OA\Put(
