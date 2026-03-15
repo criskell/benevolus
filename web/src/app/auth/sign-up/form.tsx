@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "nextjs-toploader/app";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import axiosClient from "axios";
 import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
@@ -40,8 +42,10 @@ type SignUpFormData = z.infer<ReturnType<typeof createSignUpSchema>>;
 
 export const SignUpForm = () => {
   const t = useTranslations("auth.signup");
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [signUpError, setSignUpError] = useState<string | null>(null);
 
   const {
     control,
@@ -58,8 +62,18 @@ export const SignUpForm = () => {
   });
 
   const onSubmit = async (data: SignUpFormData) => {
-    await getCsrfToken();
-    await register(data);
+    setSignUpError(null);
+    try {
+      await getCsrfToken();
+      await register(data);
+      router.push("/");
+    } catch (error) {
+      if (axiosClient.isAxiosError(error) && error.response?.data?.message) {
+        setSignUpError(error.response.data.message);
+      } else {
+        setSignUpError(t("submit_error"));
+      }
+    }
   };
 
   return (
@@ -74,6 +88,11 @@ export const SignUpForm = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {signUpError && (
+            <div className="p-4 rounded-lg bg-danger-50 border border-danger-200">
+              <p className="text-sm text-danger">{signUpError}</p>
+            </div>
+          )}
           <Controller
             name="name"
             control={control}

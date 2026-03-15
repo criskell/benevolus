@@ -157,6 +157,7 @@
       "password_placeholder": "Enter your password",
       "forgot_password": "Forgot password?",
       "submit_button": "Sign in",
+      "submit_error": "An error occurred while logging in. Please try again.",
       "no_account": "Don't have an account?",
       "create_account": "Create account",
       "validation": {
@@ -177,6 +178,7 @@
       "confirm_password_label": "Confirm Password",
       "confirm_password_placeholder": "Confirm your password",
       "submit_button": "Sign up",
+      "submit_error": "An error occurred while creating your account. Please try again.",
       "have_account": "Already have an account?",
       "login": "Sign in",
       "validation": {

@@ -6,6 +6,7 @@ import { useRouter } from "nextjs-toploader/app";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import axiosClient from "axios";
 import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
@@ -26,6 +27,7 @@ type LoginFormData = z.infer<ReturnType<typeof createLoginSchema>>;
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
   const t = useTranslations("auth.login");
 
@@ -42,9 +44,18 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    await getCsrfToken();
-    await login(data);
-    router.push("/");
+    setLoginError(null);
+    try {
+      await getCsrfToken();
+      await login(data);
+      router.push("/");
+    } catch (error) {
+      if (axiosClient.isAxiosError(error) && error.response?.data?.message) {
+        setLoginError(error.response.data.message);
+      } else {
+        setLoginError(t("submit_error"));
+      }
+    }
   };
 
   return (
@@ -59,6 +70,11 @@ const LoginPage = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {loginError && (
+            <div className="p-4 rounded-lg bg-danger-50 border border-danger-200">
+              <p className="text-sm text-danger">{loginError}</p>
+            </div>
+          )}
           <Controller
             name="email"
             control={control}

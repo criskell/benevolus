@@ -157,6 +157,7 @@
       "password_placeholder": "Ingresa tu contraseña",
       "forgot_password": "¿Olvidaste la contraseña?",
       "submit_button": "Iniciar sesión",
+      "submit_error": "Ocurrió un error al iniciar sesión. Inténtalo de nuevo.",
       "no_account": "¿No tienes cuenta?",
       "create_account": "Crear cuenta",
       "validation": {
@@ -177,6 +178,7 @@
       "confirm_password_label": "Confirmar Contraseña",
       "confirm_password_placeholder": "Confirma tu contraseña",
       "submit_button": "Registrarse",
+      "submit_error": "Ocurrió un error al crear tu cuenta. Inténtalo de nuevo.",
       "have_account": "¿Ya tienes cuenta?",
       "login": "Iniciar sesión",
       "validation": {

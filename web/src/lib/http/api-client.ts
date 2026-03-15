@@ -42,7 +42,6 @@ export type Client = <TData, _TError = unknown, TVariables = unknown>(
 export const api = axiosClient.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
-  validateStatus: (status) => status < 500,
 });
 
 const isServer = () => typeof window === 'undefined';
