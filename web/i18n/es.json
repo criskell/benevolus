@@ -221,6 +221,9 @@
       "previous_button": "Volver",
       "next_button": "Continuar",
       "finish_button": "Finalizar",
+      "create_button": "Crear vaquita",
+      "submitting_button": "Creando...",
+      "submit_error": "Ocurrió un error al crear tu vaquita. Inténtalo de nuevo.",
       "step1": {
         "title_label": "Dale un nombre a tu vaquita",
         "title_placeholder": "Ej.: Ayuda para comprar una casa",
@@ -308,6 +311,7 @@
         "card_tagline": "¡Tu apoyo puede cambiarlo todo!",
         "goal_label": "Meta",
         "status_active": "Activa",
+        "status_in_review": "En revisión",
         "view_campaign": "Ver mi vaquita",
         "tips_title": "Consejos sobre cómo destacar tu vaquita",
         "tip_pix_title": "Comparte tu clave Pix",

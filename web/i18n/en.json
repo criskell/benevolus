@@ -221,6 +221,9 @@
       "previous_button": "Back",
       "next_button": "Continue",
       "finish_button": "Finish",
+      "create_button": "Create fundraiser",
+      "submitting_button": "Creating...",
+      "submit_error": "An error occurred while creating your fundraiser. Please try again.",
       "step1": {
         "title_label": "Give your fundraiser a name",
         "title_placeholder": "E.g.: Help to buy a house",
@@ -308,6 +311,7 @@
         "card_tagline": "Your support can change everything!",
         "goal_label": "Goal",
         "status_active": "Active",
+        "status_in_review": "In review",
         "view_campaign": "View my fundraiser",
         "tips_title": "Tips on how to highlight your fundraiser",
         "tip_pix_title": "Share your Pix key",

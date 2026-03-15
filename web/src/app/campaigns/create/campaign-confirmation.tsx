@@ -6,15 +6,17 @@ import { useTranslations } from 'next-intl';
 
 type CampaignConfirmationProps = {
   campaignTitle: string;
-  campaignId?: string;
+  campaignId?: number;
 }
 
 export const CampaignConfirmation = ({
   campaignTitle,
-  campaignId = '5857894',
+  campaignId,
 }: CampaignConfirmationProps) => {
   const t = useTranslations('campaigns.create.step7');
-  
+
+  const createdDate = new Date().toLocaleDateString('pt-BR');
+
   return (
     <div className="space-y-8">
       <div>
@@ -29,7 +31,7 @@ export const CampaignConfirmation = ({
         <CardBody className="p-6 space-y-4">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm text-default-500">Data: 21/12/2025</p>
+              <p className="text-sm text-default-500">Data: {createdDate}</p>
             </div>
             <Chip color="success" variant="flat" className="text-foreground">
               {t('status_active')}
@@ -40,14 +42,20 @@ export const CampaignConfirmation = ({
             <div className="bg-gradient-to-br from-primary to-primary/70 rounded-lg w-24 h-24 flex-shrink-0" />
             <div>
               <h3 className="text-xl font-bold">{campaignTitle}</h3>
-              <p className="text-sm text-default-500">ID {campaignId}</p>
+              {campaignId && (
+                <p className="text-sm text-default-500">ID {campaignId}</p>
+              )}
             </div>
           </div>
 
           <div className="space-y-3">
-            <Button fullWidth color="primary" size="lg" className="font-semibold">
-              {t('edit_campaign')}
-            </Button>
+            {campaignId && (
+              <Link href={`/${campaignId}`}>
+                <Button fullWidth color="primary" size="lg" className="font-semibold">
+                  {t('edit_campaign')}
+                </Button>
+              </Link>
+            )}
             <Button
               fullWidth
               variant="bordered"
@@ -63,15 +71,17 @@ export const CampaignConfirmation = ({
 
       <div className="space-y-4">
         <h3 className="text-xl font-bold">{t('create_new_title')}</h3>
-        <Button
-          fullWidth
-          variant="bordered"
-          color="default"
-          size="lg"
-          className="font-semibold"
-        >
-          {t('create_new_button')}
-        </Button>
+        <Link href="/campaigns/create">
+          <Button
+            fullWidth
+            variant="bordered"
+            color="default"
+            size="lg"
+            className="font-semibold"
+          >
+            {t('create_new_button')}
+          </Button>
+        </Link>
       </div>
 
       <div className="pt-4 border-t border-divider">

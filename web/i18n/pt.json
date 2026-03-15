@@ -221,6 +221,9 @@
       "previous_button": "Voltar",
       "next_button": "Continuar",
       "finish_button": "Finalizar",
+      "create_button": "Criar vaquinha",
+      "submitting_button": "Criando...",
+      "submit_error": "Ocorreu um erro ao criar sua vaquinha. Tente novamente.",
       "step1": {
         "title_label": "Dê um nome para sua vaquinha",
         "title_placeholder": "Ex.: Ajuda para comprar uma casa",
@@ -308,6 +311,7 @@
         "card_tagline": "Seu apoio pode mudar tudo!",
         "goal_label": "Meta",
         "status_active": "Ativa",
+        "status_in_review": "Em análise",
         "view_campaign": "Ver minha vaquinha",
         "tips_title": "Dicas de como destacar sua vaquinha",
         "tip_pix_title": "Compartilhe sua chave Pix",

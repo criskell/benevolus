@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Progress, Button, Card, CardBody } from '@heroui/react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { BasicInfo } from './basic-info';
@@ -12,6 +12,13 @@ import { CampaignHistory } from './campaign-history';
 import { CampaignImage } from './campaign-image';
 import { CampaignSuccess } from './campaign-success';
 import { CampaignConfirmation } from './campaign-confirmation';
+import {
+  getCsrfToken,
+  register,
+  createCampaign,
+  uploadCampaignImage,
+} from '@/lib/http/generated';
+import type { CampaignResource } from '@/lib/http/generated';
 
 const TOTAL_STEPS = 7;
 
@@ -36,6 +43,9 @@ type CampaignFormData = {
 const CreateCampaignPage = () => {
   const t = useTranslations('campaigns.create');
   const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [createdCampaign, setCreatedCampaign] = useState<CampaignResource | null>(null);
   const [formData, setFormData] = useState<CampaignFormData>({
     title: '',
     goalCents: 0,
@@ -55,6 +65,44 @@ const CreateCampaignPage = () => {
   });
 
   const progress = (currentStep / TOTAL_STEPS) * 100;
+
+  const submitCampaign = async () => {
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      await getCsrfToken();
+
+      if (formData.fullName && formData.password) {
+        await register({
+          name: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+          password_confirmation: formData.passwordConfirmation,
+        });
+      }
+
+      const campaign = await createCampaign({
+        title: formData.title,
+        description: formData.history,
+        goalCents: formData.goalCents,
+        expiresAt: formData.expiresAt,
+      });
+
+      if (formData.image && campaign?.id) {
+        await uploadCampaignImage(campaign.id, {
+          image: formData.image,
+        });
+      }
+
+      setCreatedCampaign(campaign);
+      setCurrentStep(6);
+    } catch {
+      setSubmitError(t('submit_error'));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleNext = () => {
     if (currentStep === 1) {
@@ -85,6 +133,11 @@ const CreateCampaignPage = () => {
       if (!formData.history.trim()) {
         return;
       }
+    }
+
+    if (currentStep === 5) {
+      submitCampaign();
+      return;
     }
 
     if (currentStep < TOTAL_STEPS) {
@@ -148,29 +201,26 @@ const CreateCampaignPage = () => {
       case 6:
         return (
           <CampaignSuccess
-            campaignTitle={formData.title}
+            campaignTitle={createdCampaign?.title ?? formData.title}
             campaignGoal={formData.goalCents}
+            campaignId={createdCampaign?.id}
+            campaignStatus={createdCampaign?.status}
           />
         );
       case 7:
         return (
           <CampaignConfirmation
-            campaignTitle={formData.title}
+            campaignTitle={createdCampaign?.title ?? formData.title}
+            campaignId={createdCampaign?.id}
           />
         );
       default:
-        return (
-          <div className="flex-1 flex items-center justify-center">
-            <p className="text-default-500">
-              Step {currentStep} content
-            </p>
-          </div>
-        );
+        return null;
     }
   };
 
   const handlePrevious = () => {
-    if (currentStep > 1) {
+    if (currentStep > 1 && currentStep <= 5) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -201,13 +251,15 @@ const CreateCampaignPage = () => {
       return formData.history.trim() !== '';
     }
     if (currentStep === 5) {
-      return true; // Image is optional
+      return true;
     }
     if (currentStep === 6 || currentStep === 7) {
-      return true; // Confirmation steps
+      return true;
     }
     return true;
   };
+
+  const isPostSubmission = currentStep >= 6;
 
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
@@ -232,38 +284,52 @@ const CreateCampaignPage = () => {
           </p>
         </div>
 
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-default-500">
-              {t('step_label', { current: currentStep, total: TOTAL_STEPS })}
-            </span>
+        {!isPostSubmission && (
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm text-default-500">
+                {t('step_label', { current: currentStep, total: 5 })}
+              </span>
+            </div>
+            <Progress value={(currentStep / 5) * 100} className="w-full" color="primary" />
           </div>
-          <Progress value={progress} className="w-full" color="primary" />
-        </div>
+        )}
 
         <Card className="shadow-lg">
           <CardBody className="p-10">
             <div className="min-h-[400px] flex flex-col">
               <div className="flex-1 py-4">
+                {submitError && (
+                  <div className="mb-6 p-4 rounded-lg bg-danger-50 border border-danger-200">
+                    <p className="text-sm text-danger">{submitError}</p>
+                  </div>
+                )}
                 {renderStepContent()}
               </div>
 
-              <div className="flex justify-between mt-10 pt-6 border-t border-divider">
-                <Button
-                  variant="light"
-                  onPress={handlePrevious}
-                  isDisabled={currentStep === 1}
-                >
-                  {t('previous_button')}
-                </Button>
-                <Button
-                  color="primary"
-                  onPress={handleNext}
-                  isDisabled={currentStep === TOTAL_STEPS || !isStepValid()}
-                >
-                  {currentStep === TOTAL_STEPS ? t('finish_button') : t('next_button')}
-                </Button>
-              </div>
+              {!isPostSubmission && (
+                <div className="flex justify-between mt-10 pt-6 border-t border-divider">
+                  <Button
+                    variant="light"
+                    onPress={handlePrevious}
+                    isDisabled={currentStep === 1 || isSubmitting}
+                  >
+                    {t('previous_button')}
+                  </Button>
+                  <Button
+                    color="primary"
+                    onPress={handleNext}
+                    isDisabled={!isStepValid() || isSubmitting}
+                    startContent={isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : undefined}
+                  >
+                    {isSubmitting
+                      ? t('submitting_button')
+                      : currentStep === 5
+                        ? t('create_button')
+                        : t('next_button')}
+                  </Button>
+                </div>
+              )}
             </div>
           </CardBody>
         </Card>
