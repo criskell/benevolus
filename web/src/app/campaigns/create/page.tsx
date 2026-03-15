@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Progress, Button, Card, CardBody } from '@heroui/react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
 import { BasicInfo } from './basic-info';
 import { ConfirmData } from './confirm-data';
 import { CampaignDetails } from './campaign-details';
@@ -20,7 +21,18 @@ import {
 } from '@/lib/http/generated';
 import type { CampaignResource } from '@/lib/http/generated';
 
-const TOTAL_STEPS = 7;
+type Step = 'basic-info' | 'confirm-data' | 'details' | 'history' | 'image' | 'success' | 'confirmation';
+
+const ALL_STEPS: Step[] = ['basic-info', 'confirm-data', 'details', 'history', 'image', 'success', 'confirmation'];
+const AUTHENTICATED_STEPS: Step[] = ['basic-info', 'details', 'history', 'image', 'success', 'confirmation'];
+
+const FORM_STEPS: Record<string, boolean> = {
+  'basic-info': true,
+  'confirm-data': true,
+  'details': true,
+  'history': true,
+  'image': true,
+};
 
 type CampaignFormData = {
   title: string;
@@ -42,7 +54,20 @@ type CampaignFormData = {
 
 const CreateCampaignPage = () => {
   const t = useTranslations('campaigns.create');
-  const [currentStep, setCurrentStep] = useState(1);
+  const { data: profile } = useGetProfile();
+  const isAuthenticated = !!profile?.id;
+
+  const steps = useMemo(
+    () => (isAuthenticated ? AUTHENTICATED_STEPS : ALL_STEPS),
+    [isAuthenticated],
+  );
+
+  const formSteps = useMemo(
+    () => steps.filter((s) => FORM_STEPS[s]),
+    [steps],
+  );
+
+  const [stepIndex, setStepIndex] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [createdCampaign, setCreatedCampaign] = useState<CampaignResource | null>(null);
@@ -64,7 +89,11 @@ const CreateCampaignPage = () => {
     image: null,
   });
 
-  const progress = (currentStep / TOTAL_STEPS) * 100;
+  const currentStep = steps[stepIndex];
+  const isFormStep = FORM_STEPS[currentStep];
+  const formStepNumber = isFormStep ? formSteps.indexOf(currentStep) + 1 : 0;
+  const totalFormSteps = formSteps.length;
+  const isLastFormStep = currentStep === 'image';
 
   const submitCampaign = async () => {
     setIsSubmitting(true);
@@ -73,7 +102,7 @@ const CreateCampaignPage = () => {
     try {
       await getCsrfToken();
 
-      if (formData.fullName && formData.password) {
+      if (!isAuthenticated && formData.fullName && formData.password) {
         await register({
           name: formData.fullName,
           email: formData.email,
@@ -96,7 +125,7 @@ const CreateCampaignPage = () => {
       }
 
       setCreatedCampaign(campaign);
-      setCurrentStep(6);
+      setStepIndex(steps.indexOf('success'));
     } catch {
       setSubmitError(t('submit_error'));
     } finally {
@@ -104,50 +133,56 @@ const CreateCampaignPage = () => {
     }
   };
 
-  const handleNext = () => {
-    if (currentStep === 1) {
-      if (!formData.title.trim() || formData.goalCents < 100) {
-        return;
-      }
-    }
-
-    if (currentStep === 2) {
-      const cpfDigits = formData.cpf.replace(/\D/g, '');
-      if (cpfDigits.length !== 11 || !formData.email.trim() || !formData.email.includes('@')) {
-        return;
-      }
-      if (formData.fullName || formData.phone || formData.password) {
-        if (!formData.fullName.trim() || !formData.phone || !formData.password || formData.password !== formData.passwordConfirmation) {
-          return;
+  const isStepValid = (): boolean => {
+    switch (currentStep) {
+      case 'basic-info':
+        return !!formData.title.trim() && formData.goalCents >= 100;
+      case 'confirm-data': {
+        const cpfDigits = formData.cpf.replace(/\D/g, '');
+        if (cpfDigits.length !== 11 || !formData.email.trim() || !formData.email.includes('@')) {
+          return false;
         }
+        if (formData.fullName || formData.phone || formData.password) {
+          return (
+            formData.fullName.trim() !== '' &&
+            formData.phone !== '' &&
+            formData.password !== '' &&
+            formData.password === formData.passwordConfirmation
+          );
+        }
+        return true;
       }
+      case 'details':
+        return formData.beneficiaryType !== '' && formData.category !== '';
+      case 'history':
+        return formData.history.trim() !== '';
+      default:
+        return true;
     }
+  };
 
-    if (currentStep === 3) {
-      if (!formData.beneficiaryType || !formData.category) {
-        return;
-      }
-    }
+  const handleNext = () => {
+    if (!isStepValid()) return;
 
-    if (currentStep === 4) {
-      if (!formData.history.trim()) {
-        return;
-      }
-    }
-
-    if (currentStep === 5) {
+    if (isLastFormStep) {
       submitCampaign();
       return;
     }
 
-    if (currentStep < TOTAL_STEPS) {
-      setCurrentStep(currentStep + 1);
+    if (stepIndex < steps.length - 1) {
+      setStepIndex(stepIndex + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (stepIndex > 0 && isFormStep) {
+      setStepIndex(stepIndex - 1);
     }
   };
 
   const renderStepContent = () => {
     switch (currentStep) {
-      case 1:
+      case 'basic-info':
         return (
           <BasicInfo
             title={formData.title}
@@ -156,7 +191,7 @@ const CreateCampaignPage = () => {
             onGoalCentsChange={(value) => setFormData({ ...formData, goalCents: value })}
           />
         );
-      case 2:
+      case 'confirm-data':
         return (
           <ConfirmData
             cpf={formData.cpf}
@@ -175,7 +210,7 @@ const CreateCampaignPage = () => {
             onWantsNewsletterChange={(value) => setFormData({ ...formData, wantsNewsletter: value })}
           />
         );
-      case 3:
+      case 'details':
         return (
           <CampaignDetails
             beneficiaryType={formData.beneficiaryType}
@@ -184,21 +219,21 @@ const CreateCampaignPage = () => {
             onCategoryChange={(value) => setFormData({ ...formData, category: value })}
           />
         );
-      case 4:
+      case 'history':
         return (
           <CampaignHistory
             history={formData.history}
             onHistoryChange={(value) => setFormData({ ...formData, history: value })}
           />
         );
-      case 5:
+      case 'image':
         return (
           <CampaignImage
             image={formData.image}
             onImageChange={(file) => setFormData({ ...formData, image: file })}
           />
         );
-      case 6:
+      case 'success':
         return (
           <CampaignSuccess
             campaignTitle={createdCampaign?.title ?? formData.title}
@@ -207,7 +242,7 @@ const CreateCampaignPage = () => {
             campaignStatus={createdCampaign?.status}
           />
         );
-      case 7:
+      case 'confirmation':
         return (
           <CampaignConfirmation
             campaignTitle={createdCampaign?.title ?? formData.title}
@@ -218,48 +253,6 @@ const CreateCampaignPage = () => {
         return null;
     }
   };
-
-  const handlePrevious = () => {
-    if (currentStep > 1 && currentStep <= 5) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
-  const isStepValid = () => {
-    if (currentStep === 1) {
-      return formData.title.trim() && formData.goalCents >= 100;
-    }
-    if (currentStep === 2) {
-      const cpfDigits = formData.cpf.replace(/\D/g, '');
-      if (cpfDigits.length !== 11 || !formData.email.trim() || !formData.email.includes('@')) {
-        return false;
-      }
-      if (formData.fullName || formData.phone || formData.password) {
-        return (
-          formData.fullName.trim() !== '' &&
-          formData.phone !== '' &&
-          formData.password !== '' &&
-          formData.password === formData.passwordConfirmation
-        );
-      }
-      return true;
-    }
-    if (currentStep === 3) {
-      return formData.beneficiaryType !== '' && formData.category !== '';
-    }
-    if (currentStep === 4) {
-      return formData.history.trim() !== '';
-    }
-    if (currentStep === 5) {
-      return true;
-    }
-    if (currentStep === 6 || currentStep === 7) {
-      return true;
-    }
-    return true;
-  };
-
-  const isPostSubmission = currentStep >= 6;
 
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
@@ -284,14 +277,14 @@ const CreateCampaignPage = () => {
           </p>
         </div>
 
-        {!isPostSubmission && (
+        {isFormStep && (
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-default-500">
-                {t('step_label', { current: currentStep, total: 5 })}
+                {t('step_label', { current: formStepNumber, total: totalFormSteps })}
               </span>
             </div>
-            <Progress value={(currentStep / 5) * 100} className="w-full" color="primary" />
+            <Progress value={(formStepNumber / totalFormSteps) * 100} className="w-full" color="primary" />
           </div>
         )}
 
@@ -307,12 +300,12 @@ const CreateCampaignPage = () => {
                 {renderStepContent()}
               </div>
 
-              {!isPostSubmission && (
+              {isFormStep && (
                 <div className="flex justify-between mt-10 pt-6 border-t border-divider">
                   <Button
                     variant="light"
                     onPress={handlePrevious}
-                    isDisabled={currentStep === 1 || isSubmitting}
+                    isDisabled={stepIndex === 0 || isSubmitting}
                   >
                     {t('previous_button')}
                   </Button>
@@ -324,7 +317,7 @@ const CreateCampaignPage = () => {
                   >
                     {isSubmitting
                       ? t('submitting_button')
-                      : currentStep === 5
+                      : isLastFormStep
                         ? t('create_button')
                         : t('next_button')}
                   </Button>
