@@ -1,6 +1,9 @@
+'use client';
+
 import { ProfileSidebar } from './profile-sidebar';
 import { ProfilePersonalInfo } from './profile-personal-info';
 import { ProfileAddress } from './profile-address';
+import { withAuth } from '@/components/auth/auth-guard';
 
 const ProfilePage = () => {
   return (
@@ -17,4 +20,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default withAuth(ProfilePage);
