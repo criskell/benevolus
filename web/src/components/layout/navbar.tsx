@@ -34,13 +34,26 @@ import clsx from 'clsx';
 import { siteConfig } from '@/config/site';
 import { LogoIcon } from '@/components/icons/logo';
 import { NavbarSearchInput } from './navbar-search-input';
-import { useAuth } from '@/hooks/use-auth';
 import { LanguageSwitcher } from './language-switcher';
 import { useTranslations } from 'next-intl';
+import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
+import { logout as logoutRequest } from '@/lib/http/generated';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'nextjs-toploader/app';
 
 export const Navbar = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { data: profile } = useGetProfile();
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const t = useTranslations();
+
+  const isAuthenticated = !!profile?.id;
+
+  const handleLogout = async () => {
+    await logoutRequest();
+    queryClient.clear();
+    router.push('/');
+  };
 
   return (
     <HeroUINavbar
@@ -168,7 +181,7 @@ export const Navbar = () => {
                   startContent={<LogOut size={18} />}
                   className="text-danger"
                   color="danger"
-                  onPress={logout}
+                  onPress={handleLogout}
                 >
                   {t('navbar.logout')}
                 </DropdownItem>
@@ -239,7 +252,7 @@ export const Navbar = () => {
               </NavbarMenuItem>
               <NavbarMenuItem>
                 <button
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="w-full text-left text-lg text-danger"
                 >
                   {t('navbar.logout')}

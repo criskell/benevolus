@@ -9,7 +9,6 @@ import { z } from "zod";
 import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
-import { useAuth } from "@/hooks/use-auth";
 import { useTranslations } from "next-intl";
 import { getCsrfToken, login } from "@/lib/http/generated";
 import type { TranslateFn } from "@/types/i18n";
@@ -27,7 +26,6 @@ type LoginFormData = z.infer<ReturnType<typeof createLoginSchema>>;
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const auth = useAuth();
   const router = useRouter();
   const t = useTranslations("auth.login");
 
@@ -46,13 +44,6 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormData) => {
     await getCsrfToken();
     await login(data);
-
-    auth.login({
-      id: "1",
-      name: data.email.split("@")[0],
-      email: data.email,
-    });
-
     router.push("/");
   };
 
