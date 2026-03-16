@@ -157,6 +157,7 @@
       "password_placeholder": "Digite sua senha",
       "forgot_password": "Esqueceu a senha?",
       "submit_button": "Entrar",
+      "submit_error": "Ocorreu um erro ao fazer login. Tente novamente.",
       "no_account": "Não tem conta?",
       "create_account": "Criar conta",
       "validation": {
@@ -177,6 +178,7 @@
       "confirm_password_label": "Confirmar Senha",
       "confirm_password_placeholder": "Confirme sua senha",
       "submit_button": "Cadastrar",
+      "submit_error": "Ocorreu um erro ao criar sua conta. Tente novamente.",
       "have_account": "Já tem uma conta?",
       "login": "Fazer login",
       "validation": {

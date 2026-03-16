@@ -14,6 +14,7 @@ import { CampaignHistory } from './campaign-history';
 import { CampaignImage } from './campaign-image';
 import { CampaignSuccess } from './campaign-success';
 import { CampaignConfirmation } from './campaign-confirmation';
+import axiosClient from 'axios';
 import {
   getCsrfToken,
   register,
@@ -129,8 +130,12 @@ const CreateCampaignPage = () => {
 
       setCreatedCampaign(campaign);
       setStepIndex(steps.indexOf('success'));
-    } catch {
-      setSubmitError(t('submit_error'));
+    } catch (error) {
+      if (axiosClient.isAxiosError(error) && error.response?.data?.message) {
+        setSubmitError(error.response.data.message);
+      } else {
+        setSubmitError(t('submit_error'));
+      }
     } finally {
       setIsSubmitting(false);
     }
