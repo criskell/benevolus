@@ -371,7 +371,8 @@
       "days": "dias",
       "raised_label": "Arrecadado",
       "goal_label": "Meta",
-      "donate_button": "Fazer doação"
+      "donate_button": "Fazer doação",
+      "no_image": "Sem imagem"
     },
     "distribute": {
       "error_missing_param": "Parâmetro ausente",

@@ -37,7 +37,7 @@ export const CampaignCard = ({ campaign }: CampaignCardProps) => {
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-default-300">
               <Icon icon="solar:gallery-bold" width={48} />
-              <span className="text-xs text-default-400">Sem imagem</span>
+              <span className="text-xs text-default-400">{t('no_image')}</span>
             </div>
           )}
 
