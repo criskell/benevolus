@@ -151,7 +151,7 @@ export const HeroSection = () => {
 
       {/* Floating elements decoration */}
       <motion.div
-        className="absolute top-1/4 left-10 hidden lg:block"
+        className="absolute top-1/4 left-10 hidden lg:block pointer-events-none"
         animate={{ 
           y: [0, -20, 0],
           rotate: [0, 5, 0],
@@ -168,7 +168,7 @@ export const HeroSection = () => {
       </motion.div>
 
       <motion.div
-        className="absolute top-1/3 right-10 hidden lg:block"
+        className="absolute top-1/4 right-10 hidden lg:block pointer-events-none"
         animate={{ 
           y: [0, 20, 0],
           rotate: [0, -5, 0],
@@ -185,7 +185,7 @@ export const HeroSection = () => {
       </motion.div>
 
       <motion.div
-        className="absolute bottom-1/4 left-1/4 hidden lg:block"
+        className="absolute bottom-1/4 left-10 hidden lg:block pointer-events-none"
         animate={{ 
           y: [0, -15, 0],
           scale: [1, 1.05, 1],
