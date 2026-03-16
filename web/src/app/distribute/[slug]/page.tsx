@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useMemo, useEffect, useCallback, use } from 'react';
-import { Card } from '@heroui/react';
+import { Card, Spinner } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import { useCart } from '@/hooks/use-cart';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useSuggestedCampaigns } from '@/hooks/use-suggested-campaigns';
+import { useGetCampaign } from '@/lib/http/generated/hooks/useGetCampaign';
 import { campaigns } from '@/data/campaigns';
 import type { Campaign } from '@/models/campaign';
 import { calculateDistribution } from './calculate-distribution';
@@ -23,6 +24,22 @@ const campaignMap = campaigns.campaigns.reduce(
   },
   {} as Record<string, (typeof campaigns.campaigns)[number]>
 );
+
+function mapApiCampaign(data: NonNullable<ReturnType<typeof useGetCampaign>['data']>) {
+  const goalCents = data.goalCents ?? 0;
+  const raisedCents = data.amountRaisedCents ?? 0;
+  const progress = goalCents > 0 ? Math.round((raisedCents / goalCents) * 100) : 0;
+  return {
+    slug: data.slug ?? '',
+    category: '',
+    title: data.title ?? '',
+    image: data.image ?? '',
+    daysRemaining: data.expiresAt ? Math.max(0, Math.ceil((new Date(data.expiresAt).getTime() - Date.now()) / 86400000)) : null,
+    progressPercent: progress,
+    raised: raisedCents / 100,
+    goal: goalCents / 100,
+  };
+}
 
 const DistributePage = ({
   params: paramsPromise,
@@ -48,7 +65,8 @@ const DistributePage = ({
   >(likedSlugs.length >= 2 ? 'favorites' : 'category');
   const [showDonationSummary, setShowDonationSummary] = useState(false);
 
-  const campaign = campaigns.campaigns.find((c) => c.slug === campaignSlug);
+  const { data: apiCampaign, isLoading } = useGetCampaign(campaignSlug);
+  const campaign = apiCampaign ? mapApiCampaign(apiCampaign) : undefined;
 
   const distribution = useMemo(() => {
     if (!campaign) return [];
@@ -95,6 +113,14 @@ const DistributePage = ({
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
   if (!campaign) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
@@ -111,25 +137,6 @@ const DistributePage = ({
           <p className="text-default-600">
             {t('error_not_found_text', { slug: campaignSlug })}
           </p>
-        </Card>
-      </div>
-    );
-  }
-
-  if (!campaign.image) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <Card
-          className="p-8 max-w-md text-center border border-default-200"
-          shadow="none"
-        >
-          <Icon
-            icon="solar:gallery-bold"
-            width={64}
-            className="text-default-400 mx-auto mb-4"
-          />
-          <h2 className="text-xl font-bold mb-2">{t('error_no_image')}</h2>
-          <p className="text-default-600">{t('error_no_image_text')}</p>
         </Card>
       </div>
     );
