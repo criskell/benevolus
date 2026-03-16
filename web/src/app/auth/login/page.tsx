@@ -10,7 +10,8 @@ import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
 import { useTranslations } from "next-intl";
-import { getCsrfToken, login } from "@/lib/http/generated";
+import { getCsrfToken, login, getProfileQueryKey } from "@/lib/http/generated";
+import { useQueryClient } from "@tanstack/react-query";
 import type { TranslateFn } from "@/types/i18n";
 
 const createLoginSchema = (t: TranslateFn) =>
@@ -26,6 +27,7 @@ type LoginFormData = z.infer<ReturnType<typeof createLoginSchema>>;
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const queryClient = useQueryClient();
   const router = useRouter();
   const t = useTranslations("auth.login");
 
@@ -44,6 +46,7 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormData) => {
     await getCsrfToken();
     await login(data);
+    await queryClient.invalidateQueries({ queryKey: getProfileQueryKey() });
     router.push("/");
   };
 
