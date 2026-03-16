@@ -374,7 +374,8 @@
       "days": "días",
       "raised_label": "Recaudado",
       "goal_label": "Meta",
-      "donate_button": "Hacer una donación"
+      "donate_button": "Hacer una donación",
+      "no_image": "Sin imagen"
     },
     "distribute": {
       "error_missing_param": "Parámetro faltante",
