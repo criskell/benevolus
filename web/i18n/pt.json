@@ -339,6 +339,9 @@
       "favorites_button": "Favoritos ({count})",
       "cart_button": "Carrinho ({count})",
       "create_button": "Criar vaquinha",
+      "empty_title": "Nenhuma campanha encontrada",
+      "empty_description": "Tente ajustar os filtros ou buscar por outros termos.",
+      "empty_explore": "Explorar campanhas",
       "filters": {
         "title": "Filtros",
         "category_title": "Categoria",
@@ -373,7 +376,8 @@
       "days": "dias",
       "raised_label": "Arrecadado",
       "goal_label": "Meta",
-      "donate_button": "Fazer doação"
+      "donate_button": "Fazer doação",
+      "no_image": "Sem imagem"
     },
     "distribute": {
       "error_missing_param": "Parâmetro ausente",

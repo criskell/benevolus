@@ -5,7 +5,8 @@ import { Progress, Button, Card, CardBody } from '@heroui/react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
+import { useGetProfile, getProfileQueryKey } from '@/lib/http/generated/hooks/useGetProfile';
+import { useQueryClient } from '@tanstack/react-query';
 import { BasicInfo } from './basic-info';
 import { ConfirmData } from './confirm-data';
 import { CampaignDetails } from './campaign-details';
@@ -55,6 +56,7 @@ type CampaignFormData = {
 
 const CreateCampaignPage = () => {
   const t = useTranslations('campaigns.create');
+  const queryClient = useQueryClient();
   const { data: profile } = useGetProfile();
   const isAuthenticated = !!profile?.id;
 
@@ -110,6 +112,7 @@ const CreateCampaignPage = () => {
           password: formData.password,
           password_confirmation: formData.passwordConfirmation,
         });
+        await queryClient.invalidateQueries({ queryKey: getProfileQueryKey() });
       }
 
       const campaign = await createCampaign({

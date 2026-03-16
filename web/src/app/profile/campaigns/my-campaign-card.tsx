@@ -3,6 +3,7 @@
 import { Card, CardBody, Chip, Progress, Button, Image, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/react';
 import { MoreVertical, Eye, Pencil, BarChart3, Megaphone, Wallet, ImageOff } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { formatMoney } from '@/lib/utils/format-money';
 import type { MyCampaign, CampaignStatus } from './types';
 
@@ -19,6 +20,7 @@ const statusConfig: Record<CampaignStatus, { label: string; color: 'success' | '
 };
 
 export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
+  const t = useTranslations('campaigns.card');
   const goalCents = campaign.goalCents ?? 0;
   const raisedCents = campaign.amountRaisedCents ?? 0;
   const progress = goalCents > 0 ? Math.round((raisedCents / goalCents) * 100) : 0;
@@ -37,7 +39,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
           ) : (
             <div className="w-full h-full bg-default-100 rounded-t-lg flex flex-col items-center justify-center gap-2">
               <ImageOff size={40} className="text-default-300" />
-              <span className="text-xs text-default-400">Sem imagem</span>
+              <span className="text-xs text-default-400">{t('no_image')}</span>
             </div>
           )}
           <div className="absolute top-2 left-2">

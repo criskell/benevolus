@@ -11,7 +11,9 @@ import { Input, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { LogoIcon } from "@/components/icons/logo";
 import { useTranslations } from "next-intl";
-import { getCsrfToken, register } from "@/lib/http/generated";
+import { getCsrfToken, register, getProfileQueryKey } from "@/lib/http/generated";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "nextjs-toploader/app";
 import type { TranslateFn } from "@/types/i18n";
 
 const createSignUpSchema = (t: TranslateFn) =>
@@ -42,6 +44,7 @@ type SignUpFormData = z.infer<ReturnType<typeof createSignUpSchema>>;
 
 export const SignUpForm = () => {
   const t = useTranslations("auth.signup");
+  const queryClient = useQueryClient();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -66,6 +69,7 @@ export const SignUpForm = () => {
     try {
       await getCsrfToken();
       await register(data);
+      await queryClient.invalidateQueries({ queryKey: getProfileQueryKey() });
       router.push("/");
     } catch (error) {
       if (axiosClient.isAxiosError(error) && error.response?.data?.message) {

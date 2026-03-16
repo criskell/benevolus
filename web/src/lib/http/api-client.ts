@@ -39,12 +39,12 @@ export type Client = <TData, _TError = unknown, TVariables = unknown>(
   config: RequestConfig<TVariables>
 ) => Promise<ResponseConfig<TData>>;
 
+const isServer = () => typeof window === 'undefined';
+
 export const api = axiosClient.create({
-  baseURL: env.NEXT_PUBLIC_API_URL,
+  baseURL: isServer() ? env.NEXT_PUBLIC_API_URL : '',
   withCredentials: true,
 });
-
-const isServer = () => typeof window === 'undefined';
 
 const forwardServerCookies = async (config: InternalAxiosRequestConfig) => {
   if (!isServer()) {
