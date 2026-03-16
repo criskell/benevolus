@@ -337,6 +337,9 @@
       "favorites_button": "Favorites ({count})",
       "cart_button": "Cart ({count})",
       "create_button": "Create campaign",
+      "empty_title": "No campaigns found",
+      "empty_description": "Try adjusting your filters or searching for different terms.",
+      "empty_explore": "Explore campaigns",
       "filters": {
         "title": "Filters",
         "category_title": "Category",
