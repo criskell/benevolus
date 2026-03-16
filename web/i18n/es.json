@@ -337,6 +337,9 @@
       "favorites_button": "Favoritos ({count})",
       "cart_button": "Carrito ({count})",
       "create_button": "Crear vaquita",
+      "empty_title": "No se encontraron campañas",
+      "empty_description": "Intenta ajustar los filtros o buscar con otros términos.",
+      "empty_explore": "Explorar campañas",
       "filters": {
         "title": "Filtros",
         "category_title": "Categoría",
