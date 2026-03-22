@@ -397,6 +397,18 @@
       "manage": "Gerenciar",
       "withdraw": "Sacar"
     },
+    "my_campaigns": {
+      "title": "Minhas Campanhas",
+      "subtitle": "Gerencie suas campanhas de arrecadação.",
+      "new_campaign": "Nova campanha",
+      "tab_all": "Todas",
+      "tab_open": "Ativas",
+      "tab_in_review": "Em análise",
+      "tab_finished": "Finalizadas",
+      "empty_all": "Você ainda não criou nenhuma campanha.",
+      "empty_filtered": "Nenhuma campanha {status}.",
+      "create_first": "Criar minha primeira campanha"
+    },
     "distribute": {
       "error_missing_param": "Parâmetro ausente",
       "error_missing_param_text": "O parâmetro 'campaign' não foi fornecido na URL.",

@@ -397,6 +397,18 @@
       "manage": "Manage",
       "withdraw": "Withdraw"
     },
+    "my_campaigns": {
+      "title": "My Campaigns",
+      "subtitle": "Manage your fundraising campaigns.",
+      "new_campaign": "New campaign",
+      "tab_all": "All",
+      "tab_open": "Active",
+      "tab_in_review": "In review",
+      "tab_finished": "Finished",
+      "empty_all": "You haven't created any campaigns yet.",
+      "empty_filtered": "No {status} campaigns.",
+      "create_first": "Create my first campaign"
+    },
     "distribute": {
       "error_missing_param": "Missing parameter",
       "error_missing_param_text": "The 'campaign' parameter was not provided in the URL.",
