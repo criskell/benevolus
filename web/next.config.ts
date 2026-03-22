@@ -8,10 +8,6 @@ const nextConfig: NextConfig = {
       destination: `${process.env.NEXT_PUBLIC_API_URL}/sanctum/:path*`,
     },
     {
-      source: '/auth/:path*',
-      destination: `${process.env.NEXT_PUBLIC_API_URL}/auth/:path*`,
-    },
-    {
       source: '/api/:path*',
       destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
     },

@@ -379,6 +379,24 @@
       "donate_button": "Fazer doação",
       "no_image": "Sem imagem"
     },
+    "my_card": {
+      "status_open": "Ativa",
+      "status_in_review": "Em análise",
+      "status_rejected": "Rejeitada",
+      "status_finished": "Finalizada",
+      "status_closed": "Fechada",
+      "menu_label": "Ações da campanha",
+      "menu_view": "Ver campanha",
+      "menu_edit": "Editar",
+      "menu_stats": "Ver estatísticas",
+      "menu_updates": "Atualizações",
+      "menu_withdrawals": "Saques",
+      "raised_percent": "{progress}% arrecadado",
+      "donations_count": "{count} doações",
+      "goal_prefix": "de",
+      "manage": "Gerenciar",
+      "withdraw": "Sacar"
+    },
     "distribute": {
       "error_missing_param": "Parâmetro ausente",
       "error_missing_param_text": "O parâmetro 'campaign' não foi fornecido na URL.",
