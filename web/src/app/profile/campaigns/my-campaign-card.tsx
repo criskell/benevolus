@@ -11,20 +11,22 @@ type MyCampaignCardProps = {
   campaign: MyCampaign;
 };
 
-const statusConfig: Record<CampaignStatus, { label: string; color: 'success' | 'warning' | 'danger' | 'default' }> = {
-  open: { label: 'Ativa', color: 'success' },
-  in_review: { label: 'Em análise', color: 'warning' },
-  rejected: { label: 'Rejeitada', color: 'danger' },
-  finished: { label: 'Finalizada', color: 'default' },
-  closed: { label: 'Fechada', color: 'default' },
+const statusColors: Record<CampaignStatus, 'success' | 'warning' | 'danger' | 'default'> = {
+  open: 'success',
+  in_review: 'warning',
+  rejected: 'danger',
+  finished: 'default',
+  closed: 'default',
 };
 
 export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
-  const t = useTranslations('campaigns.card');
+  const tCard = useTranslations('campaigns.card');
+  const t = useTranslations('campaigns.my_card');
   const goalCents = campaign.goalCents ?? 0;
   const raisedCents = campaign.amountRaisedCents ?? 0;
   const progress = goalCents > 0 ? Math.round((raisedCents / goalCents) * 100) : 0;
-  const status = statusConfig[campaign.status];
+  const statusColor = statusColors[campaign.status];
+  const statusLabel = t(`status_${campaign.status}`);
 
   return (
     <Card className="hover:shadow-lg transition-shadow">
@@ -39,12 +41,12 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
           ) : (
             <div className="w-full h-full bg-default-100 rounded-t-lg flex flex-col items-center justify-center gap-2">
               <ImageOff size={40} className="text-default-300" />
-              <span className="text-xs text-default-400">{t('no_image')}</span>
+              <span className="text-xs text-default-400">{tCard('no_image')}</span>
             </div>
           )}
           <div className="absolute top-2 left-2">
-            <Chip size="sm" color={status.color} variant="solid">
-              {status.label}
+            <Chip size="sm" color={statusColor} variant="solid">
+              {statusLabel}
             </Chip>
           </div>
           <div className="absolute top-2 right-2">
@@ -54,14 +56,14 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                   <MoreVertical size={16} />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu aria-label="Ações da campanha">
+              <DropdownMenu aria-label={t('menu_label')}>
                 <DropdownItem
                   key="view"
                   startContent={<Eye size={16} />}
                   href={`/${campaign.slug}`}
                   as={Link}
                 >
-                  Ver campanha
+                  {t('menu_view')}
                 </DropdownItem>
                 <DropdownItem
                   key="edit"
@@ -69,7 +71,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                   href={`/profile/campaigns/${campaign.id}/edit`}
                   as={Link}
                 >
-                  Editar
+                  {t('menu_edit')}
                 </DropdownItem>
                 <DropdownItem
                   key="stats"
@@ -77,7 +79,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                   href={`/profile/campaigns/${campaign.id}`}
                   as={Link}
                 >
-                  Ver estatísticas
+                  {t('menu_stats')}
                 </DropdownItem>
                 <DropdownItem
                   key="updates"
@@ -85,7 +87,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                   href={`/profile/campaigns/${campaign.id}/updates`}
                   as={Link}
                 >
-                  Atualizações
+                  {t('menu_updates')}
                 </DropdownItem>
                 <DropdownItem
                   key="withdrawals"
@@ -93,7 +95,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                   href={`/profile/campaigns/${campaign.id}/withdrawals`}
                   as={Link}
                 >
-                  Saques
+                  {t('menu_withdrawals')}
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -109,13 +111,13 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
 
           <div className="mt-4 space-y-2">
             <div className="flex justify-between text-sm text-default-500">
-              <span>{progress}% arrecadado</span>
-              <span>{campaign.donationsCount ?? 0} doações</span>
+              <span>{t('raised_percent', { progress })}</span>
+              <span>{t('donations_count', { count: campaign.donationsCount ?? 0 })}</span>
             </div>
             <Progress value={progress} color="primary" />
             <div className="flex justify-between text-sm">
               <span className="font-medium">{formatMoney(raisedCents)}</span>
-              <span className="text-default-500">de {formatMoney(goalCents)}</span>
+              <span className="text-default-500">{t('goal_prefix')} {formatMoney(goalCents)}</span>
             </div>
           </div>
 
@@ -127,7 +129,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
               className="flex-1"
               size="sm"
             >
-              Gerenciar
+              {t('manage')}
             </Button>
             {campaign.status === 'open' && raisedCents > 0 && (
               <Button
@@ -136,7 +138,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                 color="primary"
                 size="sm"
               >
-                Sacar
+                {t('withdraw')}
               </Button>
             )}
           </div>

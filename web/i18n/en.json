@@ -379,6 +379,24 @@
       "donate_button": "Make a donation",
       "no_image": "No image"
     },
+    "my_card": {
+      "status_open": "Active",
+      "status_in_review": "In review",
+      "status_rejected": "Rejected",
+      "status_finished": "Finished",
+      "status_closed": "Closed",
+      "menu_label": "Campaign actions",
+      "menu_view": "View campaign",
+      "menu_edit": "Edit",
+      "menu_stats": "View statistics",
+      "menu_updates": "Updates",
+      "menu_withdrawals": "Withdrawals",
+      "raised_percent": "{progress}% raised",
+      "donations_count": "{count} donations",
+      "goal_prefix": "of",
+      "manage": "Manage",
+      "withdraw": "Withdraw"
+    },
     "distribute": {
       "error_missing_param": "Missing parameter",
       "error_missing_param_text": "The 'campaign' parameter was not provided in the URL.",
