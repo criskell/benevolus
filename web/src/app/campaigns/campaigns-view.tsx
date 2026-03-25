@@ -28,6 +28,7 @@ import { StatusFilter, TimeFilter } from '@/types';
 import { updateSearchParams } from '@/lib/utils/update-search-params';
 import { cn } from '@/lib/utils/cn';
 import { debounce } from '@/lib/utils/debounce';
+import { useListFavoritedCampaigns } from '@/lib/http/generated';
 
 type CampaignsViewProps = {
   initialCampaigns: Campaign[];
@@ -36,6 +37,7 @@ type CampaignsViewProps = {
 export const CampaignsView = ({ initialCampaigns }: CampaignsViewProps) => {
   const t = useTranslations('campaigns.list');
   const { favorites, cart } = useDonationContext();
+  const { data: favoritedCampaigns } = useListFavoritedCampaigns();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -134,7 +136,7 @@ export const CampaignsView = ({ initialCampaigns }: CampaignsViewProps) => {
                   onPress={onFavoritesOpen}
                 >
                   {t('favorites_button', {
-                    count: favorites.favorites.length,
+                    count: favoritedCampaigns?.length ?? 0,
                   })}
                 </Button>
                 <Button
