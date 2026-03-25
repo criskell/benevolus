@@ -1,8 +1,11 @@
 'use client';
 
+import { useToggleCampaignFavorite, useListFavoritedCampaigns } from '@/lib/http/generated';
+import { listFavoritedCampaignsQueryKey } from '@/lib/http/generated';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@heroui/react';
 import { Heart } from 'lucide-react';
-import { useDonationContext } from '@/contexts/donation-context';
+
 
 type FavoriteToggleButtonProps = {
   slug: string;
@@ -11,11 +14,18 @@ type FavoriteToggleButtonProps = {
 };
 
 export const FavoriteToggleButton = ({ slug, title, image }: FavoriteToggleButtonProps) => {
-  const { favorites } = useDonationContext();
-  const isLiked = favorites.isFavorite(slug);
+
+  const queryClient = useQueryClient();
+  const { data: favorited } = useListFavoritedCampaigns();
+  const { mutate: toggleFavorite } = useToggleCampaignFavorite();
+  const isLiked = favorited?.some(c => c.slug === slug) ?? false;
 
   const handleToggle = () => {
-    favorites.toggleFavorite({ slug, title, image });
+    toggleFavorite({ campaign: slug }, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: listFavoritedCampaignsQueryKey() });
+      }
+    })
   };
 
   return (
@@ -28,5 +38,6 @@ export const FavoriteToggleButton = ({ slug, title, image }: FavoriteToggleButto
     >
       <Heart className={`w-4 h-4 ${isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
     </Button>
+
   );
 };
