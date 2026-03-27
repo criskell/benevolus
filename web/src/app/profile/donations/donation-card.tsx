@@ -1,67 +1,46 @@
 'use client';
 
-import { Badge, Card, CardBody, Button } from '@heroui/react';
-import { MessageCircleIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Card, CardBody, Button } from '@heroui/react';
+import { ImageOff } from 'lucide-react';
+import Link from 'next/link';
 import { formatMoney } from '@/lib/utils/format-money';
 
-type Donation = {
-  id: string;
+export type Donation = {
   campaignTitle: string;
-  category: string;
-  amount: number;
-  paymentMethod: string;
-  date: string;
-  status: 'approved' | 'pending' | 'rejected';
-  images: string[];
+  campaignImage: string | null;
+  campaignSlug: string;
+  donorName: string;
+  amountCents: number;
+  createdAt: string;
 };
 
 type DonationCardProps = {
   donation: Donation;
 };
 
-const statusLabels = {
-  approved: 'Aprovada',
-  pending: 'Pendente',
-  rejected: 'Rejeitada',
-};
-
-const statusColors = {
-  approved: 'success',
-  pending: 'warning',
-  rejected: 'danger',
-} as const;
-
 export const DonationCard = ({ donation }: DonationCardProps) => {
-  const router = useRouter();
-  const { id, images, campaignTitle, category, amount, paymentMethod, date, status } =
+  const { campaignTitle, campaignImage, campaignSlug, amountCents, createdAt } =
     donation;
-  const formattedAmount = formatMoney(amount);
+  const formattedAmount = formatMoney(amountCents);
+  const formattedDate = new Date(createdAt).toLocaleDateString('pt-BR');
 
   return (
     <Card className="overflow-hidden">
-      <div className="relative h-48 flex">
-        <div className="w-1/2 h-full overflow-hidden">
+      <div className="relative h-48">
+        {campaignImage ? (
           <img
-            src={images[0]}
+            src={campaignImage}
             alt={campaignTitle}
             className="w-full h-full object-cover"
           />
-        </div>
-        <div className="w-1/2 h-full overflow-hidden">
-          <img
-            src={images[1] || images[0]}
-            alt={campaignTitle}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-default-100">
+            <ImageOff size={48} className="text-default-300" />
+          </div>
+        )}
       </div>
 
       <CardBody className="p-6 flex flex-col h-full">
-        <Badge variant="flat" className="mb-3 w-fit">
-          {category}
-        </Badge>
-
         <p className="text-base font-medium mb-4 line-clamp-2 flex-1">
           {campaignTitle}
         </p>
@@ -74,25 +53,16 @@ export const DonationCard = ({ donation }: DonationCardProps) => {
             <p className="text-sm text-default-500">Sua doação</p>
           </div>
 
-          <div className="flex items-center justify-between text-sm text-default-500">
-            <span>
-              {paymentMethod}, {date}
-            </span>
-            <Badge
-              color={statusColors[status]}
-              variant="flat"
-              size="sm"
-            >
-              {statusLabels[status]}
-            </Badge>
+          <div className="text-sm text-default-500">
+            <span>{formattedDate}</span>
           </div>
 
           <Button
+            as={Link}
+            href={`/campaigns/${campaignSlug}`}
             variant="light"
             size="md"
             className="w-full justify-start text-default-600"
-            startContent={<MessageCircleIcon size={18} />}
-            onPress={() => router.push(`/profile/donations/${id}`)}
           >
             Ver detalhes
           </Button>
