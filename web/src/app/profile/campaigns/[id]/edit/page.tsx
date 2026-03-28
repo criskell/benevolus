@@ -1,38 +1,51 @@
 'use client';
 
-import { use, useState } from 'react';
-import { Button, Card, CardBody, Input, Textarea } from '@heroui/react';
+import { use, useState, useEffect } from 'react';
+import { Button, Card, CardBody, Input, Textarea, Spinner } from '@heroui/react';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
-
+import { useRouter } from 'nextjs-toploader/app';
+import { useListCampaigns } from '@/lib/http/generated/hooks/useListCampaigns';
+import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
+import { useUpdateCampaign } from '@/lib/http/generated/hooks/useUpdateCampaign';
+import { getCsrfToken } from '@/lib/http/generated';
 import { ProfileSidebar } from '../../../profile-sidebar';
-
-import placeholderImage1 from '@/assets/images/placeholder1.jpg';
+import type { MyCampaign } from '../types';
 
 type CampaignFormData = {
   title: string;
   description: string;
-  goalAmountCents: number;
-  image: string;
+  goalCents: number;
 };
 
 const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
+  const router = useRouter();
 
-  const userData = {
-    name: 'Cristiano',
-    followedCampaigns: 0,
-    donationsCount: 3,
-  };
+  const { data: profile } = useGetProfile();
+  const { data: campaignsResponse, isLoading } = useListCampaigns(
+    { userId: profile?.id },
+    { query: { enabled: !!profile?.id } },
+  );
+  const campaign = (campaignsResponse?.data as MyCampaign[] | undefined)?.find(c => String(c.id) === id);
+  const { mutate: updateCampaign, isPending: isSaving } = useUpdateCampaign();
 
   const [formData, setFormData] = useState<CampaignFormData>({
-    title: 'Ajuda para Maria reconstruir sua casa após enchente',
-    description: 'Maria perdeu tudo na enchente que atingiu sua cidade. Precisamos ajudá-la a reconstruir sua casa e sua vida. Qualquer ajuda é bem-vinda!',
-    goalAmountCents: 1000000,
-    image: placeholderImage1.src,
+    title: '',
+    description: '',
+    goalCents: 0,
   });
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-  const [isSaving, setIsSaving] = useState(false);
+  useEffect(() => {
+    if (campaign) {
+      setFormData({
+        title: campaign.title ?? '',
+        description: campaign.description ?? '',
+        goalCents: campaign.goalCents ?? 0,
+      });
+    }
+  }, [campaign?.id]);
 
   const handleChange = (field: keyof CampaignFormData, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -40,18 +53,46 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSaving(true);
-    // Simula chamada à API
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSaving(false);
-    // TODO: Integrar com API real
+    setSaveError(null);
+
+    await getCsrfToken();
+
+    updateCampaign(
+      {
+        slug: campaign?.slug ?? '',
+        data: {
+          title: formData.title,
+          description: formData.description,
+          goalCents: formData.goalCents,
+          status: campaign.status as any,
+        },
+      },
+      {
+        onSuccess: () => {
+          router.push(`/profile/campaigns/${id}`);
+        },
+        onError: () => {
+          setSaveError('Erro ao salvar alterações. Tente novamente.');
+        },
+      },
+    );
   };
 
-  const menuItems = [
-    { label: 'Informações pessoais', active: false },
-    { label: 'Comunicação', active: false },
-    { label: 'Configurações', active: false },
-  ];
+  if (isLoading) {
+    return (
+      <div className="max-w-[1280px] mx-auto w-full my-10 px-4 flex justify-center py-20">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (!campaign) {
+    return (
+      <div className="max-w-[1280px] mx-auto w-full my-10 px-4 text-center py-20">
+        <p className="text-default-500">Campanha não encontrada.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
@@ -75,6 +116,12 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
           <form onSubmit={handleSubmit}>
             <Card>
               <CardBody className="p-6 space-y-6">
+                {saveError && (
+                  <div className="p-4 rounded-lg bg-danger-50 border border-danger-200">
+                    <p className="text-sm text-danger">{saveError}</p>
+                  </div>
+                )}
+
                 <Input
                   label="Título da campanha"
                   placeholder="Ex: Ajuda para reconstruir casa após enchente"
@@ -98,8 +145,8 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
                   type="number"
                   label="Meta (R$)"
                   placeholder="10000"
-                  value={(formData.goalAmountCents / 100).toString()}
-                  onValueChange={(value) => handleChange('goalAmountCents', Math.round(parseFloat(value || '0') * 100))}
+                  value={(formData.goalCents / 100).toString()}
+                  onValueChange={(value) => handleChange('goalCents', Math.round(parseFloat(value || '0') * 100))}
                   startContent={
                     <span className="text-default-400 text-sm">R$</span>
                   }
