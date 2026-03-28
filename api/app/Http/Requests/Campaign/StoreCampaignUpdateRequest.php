@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Campaign;
 
-use App\Models\Campaign;
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
@@ -21,9 +20,7 @@ class StoreCampaignUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        $campaign = Campaign::find($this->route('campaign'));
-
-        return $campaign && $this->user()?->can('update', $campaign);
+        return true;
     }
 
     public function rules(): array
