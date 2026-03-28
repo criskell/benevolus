@@ -458,6 +458,25 @@
         "total_to_pay": "Total to pay:",
         "receipt_info": "After payment, you will receive a receipt by email"
       }
+    },
+    "edit": {
+      "title": "Edit Campaign",
+      "form_title": "Campaign title",
+      "form_title_placeholder": "E.g.: Help rebuild house after flood",
+      "form_description": "Description",
+      "form_description_placeholder": "Tell the story of the campaign and why people should help...",
+      "form_goal": "Goal (R$)",
+      "form_goal_placeholder": "10000",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "save_error": "Error saving changes. Please try again.",
+      "not_found": "Campaign not found.",
+      "validation": {
+        "title_required": "Title is required",
+        "title_max": "Title must be at most 255 characters",
+        "description_required": "Description is required",
+        "goal_min": "Goal must be at least R$ 1.00"
+      }
     }
   },
   "campaign": {

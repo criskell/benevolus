@@ -458,6 +458,25 @@
         "total_to_pay": "Total a pagar:",
         "receipt_info": "Após o pagamento, você receberá um comprovante por e-mail"
       }
+    },
+    "edit": {
+      "title": "Editar Campanha",
+      "form_title": "Título da campanha",
+      "form_title_placeholder": "Ex: Ajuda para reconstruir casa após enchente",
+      "form_description": "Descrição",
+      "form_description_placeholder": "Conte a história da campanha e por que as pessoas devem ajudar...",
+      "form_goal": "Meta (R$)",
+      "form_goal_placeholder": "10000",
+      "cancel": "Cancelar",
+      "save": "Salvar alterações",
+      "save_error": "Erro ao salvar alterações. Tente novamente.",
+      "not_found": "Campanha não encontrada.",
+      "validation": {
+        "title_required": "O título é obrigatório",
+        "title_max": "O título deve ter no máximo 255 caracteres",
+        "description_required": "A descrição é obrigatória",
+        "goal_min": "A meta deve ser de pelo menos R$ 1,00"
+      }
     }
   },
   "campaign": {

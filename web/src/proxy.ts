@@ -17,9 +17,14 @@ export function proxy(request: NextRequest) {
     }
   }
 
+  if (pathname.startsWith('/api/') && request.method !== 'GET') {
+    const url = new URL(pathname + request.nextUrl.search, API_URL);
+    return NextResponse.rewrite(url);
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/auth/:path*'],
+  matcher: ['/auth/:path*', '/api/:path*'],
 };
