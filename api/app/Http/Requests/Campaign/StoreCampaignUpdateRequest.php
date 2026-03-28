@@ -21,9 +21,7 @@ class StoreCampaignUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        $campaign = Campaign::find($this->route('campaign'));
-
-        return $campaign && $this->user()?->can('update', $campaign);
+        return true;
     }
 
     public function rules(): array

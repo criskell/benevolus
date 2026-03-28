@@ -1,75 +1,98 @@
 'use client';
 
 import { use, useState } from 'react';
-import { Button, Card, CardBody, Input, Textarea, Switch, Chip } from '@heroui/react';
+import { Button, Card, CardBody, Input, Textarea, Switch, Chip, Spinner, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/react';
 import { ArrowLeft, Plus, Trash2, Lock, Globe } from 'lucide-react';
 import Link from 'next/link';
-
+import { useListCampaignUpdates } from '@/lib/http/generated/hooks/useListCampaignUpdates';
+import { useCreateCampaignUpdate } from '@/lib/http/generated/hooks/useCreateCampaignUpdate';
+import { useDeleteCampaignUpdate } from '@/lib/http/generated/hooks/useDeleteCampaignUpdate';
+import { listCampaignUpdatesQueryKey } from '@/lib/http/generated/hooks/useListCampaignUpdates';
+import { useListCampaigns } from '@/lib/http/generated/hooks/useListCampaigns';
+import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
+import { getCsrfToken } from '@/lib/http/generated';
+import { useQueryClient } from '@tanstack/react-query';
 import { ProfileSidebar } from '../../../profile-sidebar';
-
-type CampaignUpdate = {
-  id: string;
-  title: string;
-  content: string;
-  visibleToDonorsOnly: boolean;
-  createdAt: string;
-};
+import type { MyCampaign } from '../types';
 
 const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
+  const queryClient = useQueryClient();
 
-  const userData = {
-    name: 'Cristiano',
-    followedCampaigns: 0,
-    donationsCount: 3,
-  };
+  const { data: profile } = useGetProfile();
+  const { data: campaignsResponse } = useListCampaigns(
+    { userId: profile?.id },
+    { query: { enabled: !!profile?.id } },
+  );
+  const campaign = (campaignsResponse?.data as MyCampaign[] | undefined)?.find(c => String(c.id) === id);
 
-  const [updates, setUpdates] = useState<CampaignUpdate[]>([
-    {
-      id: '1',
-      title: 'Chegamos a 45% da meta!',
-      content: 'Graças a todos vocês, já arrecadamos quase metade do valor necessário. Maria está muito emocionada com toda essa solidariedade!',
-      visibleToDonorsOnly: false,
-      createdAt: '2025-01-12T14:30:00',
-    },
-    {
-      id: '2',
-      title: 'Fotos do progresso da obra',
-      content: 'Compartilhando com vocês as primeiras fotos da reconstrução. O alicerce já está sendo preparado!',
-      visibleToDonorsOnly: true,
-      createdAt: '2025-01-10T09:00:00',
-    },
-  ]);
+  const { data: updatesResponse, isLoading } = useListCampaignUpdates(campaign?.slug ?? '', {
+    query: { enabled: !!campaign?.slug },
+  });
+  const updates = updatesResponse?.data ?? [];
 
-  const [isCreating, setIsCreating] = useState(false);
+  const { mutate: createUpdate, isPending: isCreating } = useCreateCampaignUpdate();
+  const { mutate: deleteUpdate } = useDeleteCampaignUpdate();
+
+  const [showForm, setShowForm] = useState(false);
   const [newUpdate, setNewUpdate] = useState({
     title: '',
     content: '',
     visibleToDonorsOnly: false,
   });
-  const [isSaving, setIsSaving] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
 
-  const handleCreate = async () => {
-    if (!newUpdate.title.trim() || !newUpdate.content.trim()) return;
-
-    setIsSaving(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const update: CampaignUpdate = {
-      id: Date.now().toString(),
-      ...newUpdate,
-      createdAt: new Date().toISOString(),
-    };
-
-    setUpdates([update, ...updates]);
-    setNewUpdate({ title: '', content: '', visibleToDonorsOnly: false });
-    setIsCreating(false);
-    setIsSaving(false);
+  const invalidateUpdates = () => {
+    if (campaign?.slug) {
+      queryClient.invalidateQueries({ queryKey: listCampaignUpdatesQueryKey(campaign.slug) });
+    }
   };
 
-  const handleDelete = async (updateId: string) => {
-    // TODO: Confirmar antes de deletar
-    setUpdates(updates.filter((u) => u.id !== updateId));
+  const handleCreate = async () => {
+    if (!newUpdate.title.trim() || !newUpdate.content.trim() || !campaign?.slug) return;
+
+    await getCsrfToken();
+
+    createUpdate(
+      {
+        campaign: campaign.slug,
+        data: {
+          title: newUpdate.title,
+          content: newUpdate.content,
+          visibleToDonorsOnly: newUpdate.visibleToDonorsOnly,
+        },
+      },
+      {
+        onSuccess: () => {
+          invalidateUpdates();
+          setNewUpdate({ title: '', content: '', visibleToDonorsOnly: false });
+          setShowForm(false);
+        },
+      },
+    );
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deleteId === null || !campaign?.slug) return;
+
+    await getCsrfToken();
+
+    deleteUpdate(
+      { update: deleteId },
+      {
+        onSuccess: () => {
+          invalidateUpdates();
+          onDeleteClose();
+          setDeleteId(null);
+        },
+      },
+    );
+  };
+
+  const openDeleteModal = (updateId: number) => {
+    setDeleteId(updateId);
+    onDeleteOpen();
   };
 
   const formatDate = (dateString: string) => {
@@ -80,11 +103,13 @@ const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) =>
     });
   };
 
-  const menuItems = [
-    { label: 'Informações pessoais', active: false },
-    { label: 'Comunicação', active: false },
-    { label: 'Configurações', active: false },
-  ];
+  if (isLoading) {
+    return (
+      <div className="max-w-[1280px] mx-auto w-full my-10 px-4 flex justify-center py-20">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
@@ -108,18 +133,18 @@ const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) =>
                 Mantenha seus doadores informados sobre o progresso.
               </p>
             </div>
-            {!isCreating && (
+            {!showForm && (
               <Button
                 color="primary"
                 startContent={<Plus size={18} />}
-                onPress={() => setIsCreating(true)}
+                onPress={() => setShowForm(true)}
               >
                 Nova atualização
               </Button>
             )}
           </div>
 
-          {isCreating && (
+          {showForm && (
             <Card>
               <CardBody className="p-6 space-y-4">
                 <h3 className="font-semibold">Nova atualização</h3>
@@ -161,7 +186,7 @@ const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) =>
                   <Button
                     variant="flat"
                     onPress={() => {
-                      setIsCreating(false);
+                      setShowForm(false);
                       setNewUpdate({ title: '', content: '', visibleToDonorsOnly: false });
                     }}
                   >
@@ -169,7 +194,7 @@ const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) =>
                   </Button>
                   <Button
                     color="primary"
-                    isLoading={isSaving}
+                    isLoading={isCreating}
                     onPress={handleCreate}
                     isDisabled={!newUpdate.title.trim() || !newUpdate.content.trim()}
                   >
@@ -189,7 +214,7 @@ const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) =>
                 <Button
                   color="primary"
                   startContent={<Plus size={18} />}
-                  onPress={() => setIsCreating(true)}
+                  onPress={() => setShowForm(true)}
                 >
                   Criar primeira atualização
                 </Button>
@@ -215,7 +240,7 @@ const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) =>
                         </div>
                         <p className="text-default-600 whitespace-pre-line">{update.content}</p>
                         <p className="text-sm text-default-400 mt-3">
-                          {formatDate(update.createdAt)}
+                          {update.createdAt ? formatDate(update.createdAt) : ''}
                         </p>
                       </div>
                       <Button
@@ -223,7 +248,7 @@ const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) =>
                         variant="light"
                         color="danger"
                         size="sm"
-                        onPress={() => handleDelete(update.id)}
+                        onPress={() => openDeleteModal(update.id!)}
                       >
                         <Trash2 size={18} />
                       </Button>
@@ -235,6 +260,23 @@ const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) =>
           )}
         </main>
       </div>
+
+      <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
+        <ModalContent>
+          <ModalHeader>Confirmar exclusão</ModalHeader>
+          <ModalBody>
+            <p>Tem certeza que deseja excluir esta atualização? Esta ação não pode ser desfeita.</p>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="flat" onPress={onDeleteClose}>
+              Cancelar
+            </Button>
+            <Button color="danger" onPress={handleDeleteConfirm}>
+              Excluir
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
