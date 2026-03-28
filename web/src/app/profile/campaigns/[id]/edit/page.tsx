@@ -39,7 +39,7 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
     { query: { enabled: !!profile?.id } },
   );
   const campaigns = campaignsResponse?.data ?? [];
-  const campaign = campaigns.find((c: { id?: number }) => String(c.id) === id);
+  const campaign = campaigns.find(c => String(c.id) === id);
 
   const { mutate: updateCampaign, isPending: isSaving } = useUpdateCampaign();
   const [saveError, setSaveError] = useState<string | null>(null);
