@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Campaign;
 
-use App\Models\Campaign;
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
