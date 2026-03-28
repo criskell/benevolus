@@ -1,70 +1,75 @@
 'use client';
 
-import { use, useState, useEffect } from 'react';
+import { use, useState } from 'react';
 import { Button, Card, CardBody, Input, Textarea, Spinner } from '@heroui/react';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'nextjs-toploader/app';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useTranslations } from 'next-intl';
 import { useListCampaigns } from '@/lib/http/generated/hooks/useListCampaigns';
 import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
 import { useUpdateCampaign } from '@/lib/http/generated/hooks/useUpdateCampaign';
-import { getCsrfToken } from '@/lib/http/generated';
 import { ProfileSidebar } from '../../../profile-sidebar';
-import type { MyCampaign } from '../types';
+import { parseCents } from '@/lib/utils/parse-cents';
+import type { TranslateFn } from '@/types/i18n';
 
-type CampaignFormData = {
-  title: string;
-  description: string;
-  goalCents: number;
-};
+const createEditSchema = (t: TranslateFn) =>
+  z.object({
+    title: z
+      .string()
+      .min(1, t('validation.title_required'))
+      .max(255, t('validation.title_max')),
+    description: z.string().min(1, t('validation.description_required')),
+    goalCents: z.number().min(100, t('validation.goal_min')),
+  });
+
+type EditFormData = z.infer<ReturnType<typeof createEditSchema>>;
 
 const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
   const router = useRouter();
+  const t = useTranslations('campaigns.edit');
 
   const { data: profile } = useGetProfile();
-  const { data: campaignsResponse, isLoading } = useListCampaigns(
+  const { data: campaignsResponse, isLoading: isCampaignsLoading } = useListCampaigns(
     { userId: profile?.id },
     { query: { enabled: !!profile?.id } },
   );
-  const campaign = (campaignsResponse?.data as MyCampaign[] | undefined)?.find(c => String(c.id) === id);
-  const { mutate: updateCampaign, isPending: isSaving } = useUpdateCampaign();
+  const campaigns = campaignsResponse?.data ?? [];
+  const campaign = campaigns.find((c: { id?: number }) => String(c.id) === id);
 
-  const [formData, setFormData] = useState<CampaignFormData>({
-    title: '',
-    description: '',
-    goalCents: 0,
-  });
+  const { mutate: updateCampaign, isPending: isSaving } = useUpdateCampaign();
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (campaign) {
-      setFormData({
-        title: campaign.title ?? '',
-        description: campaign.description ?? '',
-        goalCents: campaign.goalCents ?? 0,
-      });
-    }
-  }, [campaign?.id]);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<EditFormData>({
+    resolver: zodResolver(createEditSchema(t)),
+    values: campaign
+      ? {
+          title: campaign.title ?? '',
+          description: campaign.description ?? '',
+          goalCents: campaign.goalCents ?? 0,
+        }
+      : undefined,
+  });
 
-  const handleChange = (field: keyof CampaignFormData, value: string | number) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = (data: EditFormData) => {
     setSaveError(null);
-
-    await getCsrfToken();
 
     updateCampaign(
       {
         slug: campaign?.slug ?? '',
         data: {
-          title: formData.title,
-          description: formData.description,
-          goalCents: formData.goalCents,
-          status: campaign.status as any,
+          title: data.title,
+          description: data.description,
+          goalCents: data.goalCents,
+          status: campaign?.status as any,
         },
       },
       {
@@ -72,13 +77,13 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
           router.push(`/profile/campaigns/${id}`);
         },
         onError: () => {
-          setSaveError('Erro ao salvar alterações. Tente novamente.');
+          setSaveError(t('save_error'));
         },
       },
     );
   };
 
-  if (isLoading) {
+  if (isCampaignsLoading) {
     return (
       <div className="max-w-[1280px] mx-auto w-full my-10 px-4 flex justify-center py-20">
         <Spinner size="lg" />
@@ -89,7 +94,7 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
   if (!campaign) {
     return (
       <div className="max-w-[1280px] mx-auto w-full my-10 px-4 text-center py-20">
-        <p className="text-default-500">Campanha não encontrada.</p>
+        <p className="text-default-500">{t('not_found')}</p>
       </div>
     );
   }
@@ -110,10 +115,10 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
             >
               <ArrowLeft size={20} />
             </Button>
-            <h1 className="text-2xl font-semibold">Editar Campanha</h1>
+            <h1 className="text-2xl font-semibold">{t('title')}</h1>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Card>
               <CardBody className="p-6 space-y-6">
                 {saveError && (
@@ -122,36 +127,58 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
                   </div>
                 )}
 
-                <Input
-                  label="Título da campanha"
-                  placeholder="Ex: Ajuda para reconstruir casa após enchente"
-                  value={formData.title}
-                  onValueChange={(value) => handleChange('title', value)}
-                  isRequired
-                  maxLength={100}
+                <Controller
+                  name="title"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      label={t('form_title')}
+                      placeholder={t('form_title_placeholder')}
+                      isRequired
+                      maxLength={255}
+                      isInvalid={!!errors.title}
+                      errorMessage={errors.title?.message}
+                    />
+                  )}
                 />
 
-                <Textarea
-                  label="Descrição"
-                  placeholder="Conte a história da campanha e por que as pessoas devem ajudar..."
-                  value={formData.description}
-                  onValueChange={(value) => handleChange('description', value)}
-                  minRows={4}
-                  maxRows={8}
-                  isRequired
+                <Controller
+                  name="description"
+                  control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      {...field}
+                      label={t('form_description')}
+                      placeholder={t('form_description_placeholder')}
+                      minRows={4}
+                      maxRows={8}
+                      isRequired
+                      isInvalid={!!errors.description}
+                      errorMessage={errors.description?.message}
+                    />
+                  )}
                 />
 
-                <Input
-                  type="number"
-                  label="Meta (R$)"
-                  placeholder="10000"
-                  value={(formData.goalCents / 100).toString()}
-                  onValueChange={(value) => handleChange('goalCents', Math.round(parseFloat(value || '0') * 100))}
-                  startContent={
-                    <span className="text-default-400 text-sm">R$</span>
-                  }
-                  isRequired
-                  min={100}
+                <Controller
+                  name="goalCents"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      type="number"
+                      label={t('form_goal')}
+                      placeholder={t('form_goal_placeholder')}
+                      value={(field.value / 100).toString()}
+                      onValueChange={(value) => field.onChange(parseCents(value))}
+                      startContent={
+                        <span className="text-default-400 text-sm">R$</span>
+                      }
+                      isRequired
+                      min={1}
+                      isInvalid={!!errors.goalCents}
+                      errorMessage={errors.goalCents?.message}
+                    />
+                  )}
                 />
 
                 <div className="flex justify-end gap-3 pt-4">
@@ -160,7 +187,7 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
                     href={`/profile/campaigns/${id}`}
                     variant="flat"
                   >
-                    Cancelar
+                    {t('cancel')}
                   </Button>
                   <Button
                     type="submit"
@@ -168,7 +195,7 @@ const EditCampaignPage = ({ params }: { params: Promise<{ id: string }> }) => {
                     isLoading={isSaving}
                     startContent={!isSaving && <Save size={18} />}
                   >
-                    Salvar alterações
+                    {t('save')}
                   </Button>
                 </div>
               </CardBody>
