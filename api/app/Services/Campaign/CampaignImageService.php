@@ -20,7 +20,7 @@ final class CampaignImageService
 
         $fullPath = $path.'/'.$fileName;
 
-        $isSuccessful = Storage::disk('s3')->putFileAs($path, $file, $fileName);
+        $isSuccessful = Storage::disk('public')->putFileAs($path, $file, $fileName);
 
         if (! $isSuccessful) {
             throw new Exception('Failed to upload image');

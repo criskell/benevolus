@@ -1,5 +1,4 @@
 import { listCampaigns } from '@/lib/http/generated/listCampaigns';
-import type { Campaign } from '@/models/campaign';
 
 import { CampaignsView } from './campaigns-view';
 
@@ -18,7 +17,7 @@ const CampaignsPage = async ({ searchParams }: PageProps<'/campaigns'>) => {
 
   const data = response.data ?? [];
 
-  const campaigns: Campaign[] = data.map((campaign) => {
+  const campaigns = data.map((campaign) => {
     const goal = campaign.goalCents ?? 0;
     const raised = campaign.amountRaisedCents ?? 0;
     const progress = goal > 0 ? Math.round((raised / goal) * 100) : 0;

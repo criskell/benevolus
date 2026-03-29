@@ -1,44 +1,102 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button, Chip, Tabs, Tab, Spinner } from '@heroui/react';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { ProfileSidebar } from '../profile-sidebar';
-import { MyCampaignCard } from './my-campaign-card';
+
 import { useListCampaigns } from '@/lib/http/generated/hooks/useListCampaigns';
 import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
-import type { CampaignStatus, MyCampaign } from './types';
+
+import { ProfileSidebar } from '../profile-sidebar';
+import { MyCampaignCard } from './my-campaign-card';
+import type { CampaignStatus } from './types';
+
+type TabKey = 'all' | CampaignStatus;
+
+const TABS = [
+  { key: 'all', labelKey: 'tab_all', color: 'default' },
+  { key: 'open', labelKey: 'tab_open', color: 'success' },
+  { key: 'in_review', labelKey: 'tab_in_review', color: 'warning' },
+  { key: 'finished', labelKey: 'tab_finished', color: 'default' },
+] as const;
 
 const MyCampaignsPage = () => {
   const t = useTranslations('campaigns.my_campaigns');
-  const tStatus = useTranslations('campaigns.my_card');
-  const [activeTab, setActiveTab] = useState<'all' | CampaignStatus>('all');
+  const translateStatus = useTranslations('campaigns.my_card');
+  const [activeTab, setActiveTab] = useState<TabKey>('all');
+
   const { data: profile } = useGetProfile();
+  const queryOptions = { query: { enabled: !!profile?.id } };
 
-  const { data: campaignsResponse, isLoading } = useListCampaigns(
-    { userId: profile?.id, ...(activeTab !== 'all' ? { status: activeTab } : {}) },
-    { query: { enabled: !!profile?.id } },
-  );
-
-  const campaigns = (campaignsResponse?.data ?? []) as MyCampaign[];
-
-  const { data: allResponse } = useListCampaigns(
+  const { data: campaignsResponse } = useListCampaigns(
     { userId: profile?.id },
-    { query: { enabled: !!profile?.id } },
+    queryOptions,
   );
-  const allCampaigns = (allResponse?.data ?? []) as MyCampaign[];
 
-  const getCounts = () => {
-    const counts = { all: allCampaigns.length, open: 0, in_review: 0, rejected: 0, finished: 0, closed: 0 };
-    allCampaigns.forEach((c) => {
-      if (c.status in counts) counts[c.status]++;
+  const { data: filteredResponse, isLoading } = useListCampaigns(
+    {
+      userId: profile?.id,
+      ...(activeTab !== 'all' ? { status: activeTab } : {}),
+    },
+    queryOptions,
+  );
+
+  const allCampaigns = campaignsResponse?.data ?? [];
+  const filteredCampaigns = filteredResponse?.data ?? [];
+
+  const counts = useMemo(() => {
+    const result: Record<string, number> = { all: allCampaigns.length };
+
+    allCampaigns.forEach((campaign) => {
+      if (!campaign.status) {
+        return;
+      }
+
+      result[campaign.status] = (result[campaign.status] ?? 0) + 1;
     });
-    return counts;
-  };
 
-  const counts = getCounts();
+    return result;
+  }, [allCampaigns]);
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center py-12">
+          <Spinner size="lg" />
+        </div>
+      );
+    }
+
+    if (filteredCampaigns.length === 0) {
+      return (
+        <div className="text-center py-12">
+          <p className="text-default-500 mb-4">
+            {activeTab === 'all'
+              ? t('empty_all')
+              : t('empty_filtered', {
+                  status: translateStatus(`status_${activeTab}`).toLowerCase(),
+                })}
+          </p>
+
+          {activeTab === 'all' && (
+            <Button as={Link} href="/campaigns/create" color="primary">
+              {t('create_first')}
+            </Button>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {filteredCampaigns.map((campaign) => (
+          <MyCampaignCard key={campaign.id} campaign={campaign} />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
@@ -49,9 +107,7 @@ const MyCampaignsPage = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-semibold mb-2">{t('title')}</h1>
-              <p className="text-sm text-default-500">
-                {t('subtitle')}
-              </p>
+              <p className="text-sm text-default-500">{t('subtitle')}</p>
             </div>
             <Button
               as={Link}
@@ -65,70 +121,24 @@ const MyCampaignsPage = () => {
 
           <Tabs
             selectedKey={activeTab}
-            onSelectionChange={(key) => setActiveTab(key as typeof activeTab)}
+            onSelectionChange={(key) => setActiveTab(key as TabKey)}
           >
-            <Tab
-              key="all"
-              title={
-                <div className="flex items-center gap-2">
-                  {t('tab_all')}
-                  <Chip size="sm" variant="flat">{counts.all}</Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="open"
-              title={
-                <div className="flex items-center gap-2">
-                  {t('tab_open')}
-                  <Chip size="sm" variant="flat" color="success">{counts.open}</Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="in_review"
-              title={
-                <div className="flex items-center gap-2">
-                  {t('tab_in_review')}
-                  <Chip size="sm" variant="flat" color="warning">{counts.in_review}</Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="finished"
-              title={
-                <div className="flex items-center gap-2">
-                  {t('tab_finished')}
-                  <Chip size="sm" variant="flat">{counts.finished}</Chip>
-                </div>
-              }
-            />
+            {TABS.map(({ key, labelKey, color }) => (
+              <Tab
+                key={key}
+                title={
+                  <div className="flex items-center gap-2">
+                    {t(labelKey)}
+                    <Chip size="sm" variant="flat" color={color}>
+                      {counts[key] ?? 0}
+                    </Chip>
+                  </div>
+                }
+              />
+            ))}
           </Tabs>
 
-          {isLoading ? (
-            <div className="flex justify-center py-12">
-              <Spinner size="lg" />
-            </div>
-          ) : campaigns.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-default-500 mb-4">
-                {activeTab === 'all'
-                  ? t('empty_all')
-                  : t('empty_filtered', { status: tStatus(`status_${activeTab}`).toLowerCase() })}
-              </p>
-              {activeTab === 'all' && (
-                <Button as={Link} href="/campaigns/create" color="primary">
-                  {t('create_first')}
-                </Button>
-              )}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {campaigns.map((campaign) => (
-                <MyCampaignCard key={campaign.id} campaign={campaign} />
-              ))}
-            </div>
-          )}
+          {renderContent()}
         </main>
       </div>
     </div>

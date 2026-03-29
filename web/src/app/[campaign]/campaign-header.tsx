@@ -27,6 +27,7 @@ export const CampaignHeader = ({ campaign }: CampaignHeaderProps) => {
       <Card className="p-6 md:p-8 border border-default-200" shadow="none">
         <div className="flex items-start gap-4 mb-6">
           <Avatar
+            src={campaign.user?.avatarUrl ?? undefined}
             name={campaign.user?.name || 'Fulana'}
             getInitials={getUserNameInitials}
             className="flex-shrink-0 ring-2 ring-primary/20"

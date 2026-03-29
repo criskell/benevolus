@@ -97,6 +97,7 @@ final class CampaignUpdateController extends Controller implements HasMiddleware
     )]
     public function store(StoreCampaignUpdateRequest $request, Campaign $campaign)
     {
+        Gate::authorize('update', $campaign);
         $update = $this->campaignUpdateService->create($campaign->id, $request->validated());
 
         return new CampaignUpdateResource($update);

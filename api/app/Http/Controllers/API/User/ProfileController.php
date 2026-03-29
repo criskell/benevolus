@@ -66,4 +66,46 @@ final class ProfileController extends Controller implements HasMiddleware
 
         return response()->noContent();
     }
+
+    #[OA\Post(
+        operationId: 'uploadAvatar',
+        path: '/api/profile/avatar',
+        summary: 'Upload user avatar',
+        tags: ['Profile'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\MediaType(
+                mediaType: 'multipart/form-data',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            property: 'avatar',
+                            description: 'Avatar image file (jpg, jpeg, png, max 4MB)',
+                            type: 'string',
+                            format: 'binary'
+                        ),
+                    ]
+                )
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Avatar uploaded successfully',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/UserResource'
+                )
+            ),
+        ]
+    )]
+    public function uploadAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|max:4096',
+        ]);
+
+        return new UserResource(
+            $this->profileService->updateAvatar($request->user(), $request->file('avatar'))
+        );
+    }
 }

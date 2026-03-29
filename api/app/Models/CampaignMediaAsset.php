@@ -22,6 +22,6 @@ class CampaignMediaAsset extends Model
 
     public function getUrlAttribute()
     {
-        return Storage::disk('s3')->url($this->path);
+        return url(Storage::disk('public')->url($this->path));
     }
 }
