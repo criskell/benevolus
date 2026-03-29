@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Services\User;
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 final class ProfileService
 {
@@ -41,5 +44,22 @@ final class ProfileService
         }
 
         $user->address()->update($address);
+    }
+
+    public function updateAvatar(User $user, UploadedFile $file): User
+    {
+        if ($user->avatar_path) {
+            Storage::disk('public')->delete($user->avatar_path);
+        }
+
+        $path = 'avatars/'.$user->id;
+        $fileName = Str::random(48).'.'.$file->getClientOriginalExtension();
+        $fullPath = $path.'/'.$fileName;
+
+        Storage::disk('public')->putFileAs($path, $file, $fileName);
+
+        $user->update(['avatar_path' => $fullPath]);
+
+        return $this->getProfile($user);
     }
 }

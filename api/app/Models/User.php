@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -24,8 +25,14 @@ class User extends Authenticatable
         'birth_date',
         'email',
         'phone',
+        'avatar_path',
         'password',
     ];
+
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return $this->avatar_path ? url(Storage::disk('public')->url($this->avatar_path)) : null;
+    }
 
     protected $hidden = [
         'password',

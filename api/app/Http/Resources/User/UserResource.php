@@ -16,6 +16,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'taxId', type: 'string', nullable: true),
         new OA\Property(property: 'birthDate', type: 'string', format: 'date', nullable: true),
         new OA\Property(property: 'phone', type: 'string', nullable: true),
+        new OA\Property(property: 'avatarUrl', type: 'string', nullable: true),
         new OA\Property(property: 'favoriteCampaignsCount', type: 'integer', nullable: true),
         new OA\Property(property: 'donationsCount', type: 'integer', nullable: true),
         new OA\Property(
@@ -44,6 +45,7 @@ class UserResource extends JsonResource
             'taxId' => $this->tax_id,
             'birthDate' => $this->birth_date?->format('Y-m-d'),
             'phone' => $this->phone,
+            'avatarUrl' => $this->avatar_url,
             'favoriteCampaignsCount' => $this->when(
                 isset($this->resource->favorite_campaigns_count),
                 $this->resource->favorite_campaigns_count

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/auth/{provider}/redirect', [OAuthController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [OAuthController::class, 'callback']);
 Route::apiSingleton('profile', ProfileController::class);
+Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar'])->middleware('auth:sanctum');
 
 Route::post('/woovi/webhook', [WooviWebhookController::class, 'receive']);
 

@@ -33,6 +33,7 @@ use OpenApi\Attributes as OA;
             properties: [
                 new OA\Property(property: 'id', type: 'integer'),
                 new OA\Property(property: 'name', type: 'string'),
+                new OA\Property(property: 'avatarUrl', type: 'string', nullable: true),
             ]
         ),
         new OA\Property(
@@ -73,6 +74,7 @@ class CampaignResource extends JsonResource
             'user' => $this->whenLoaded('user', fn () => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
+                'avatarUrl' => $this->user->avatar_url,
             ]),
             'comments' => CommentResource::collection($this->whenLoaded('recentComments')),
             'updates' => CampaignUpdateResource::collection($this->whenLoaded('recentUpdates')),
