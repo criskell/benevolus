@@ -162,7 +162,7 @@ final class DonationThankController extends Controller
         $thankedDonations = $donations->map(function (Donation $donation) use ($message, $campaign) {
             $personalizedMessage = str_replace(
                 ['{nome}', '{valor}'],
-                [$donation->user->name ?? 'Doador', 'R$ ' . number_format($donation->amount_cents / 100, 2, ',', '.')],
+                [$donation->user->name ?? 'Doador', 'R$ '.number_format($donation->amount_cents / 100, 2, ',', '.')],
                 $message
             );
 
