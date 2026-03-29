@@ -14,10 +14,14 @@ class Transaction extends Model
     protected $fillable = [
         'campaign_id',
         'user_id',
-        'direction',
         'type',
         'amount_cents',
     ];
+
+    public function getDirectionAttribute(): string
+    {
+        return $this->amount_cents >= 0 ? 'input' : 'output';
+    }
 
     public function campaign()
     {

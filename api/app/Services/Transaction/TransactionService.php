@@ -20,7 +20,6 @@ final class TransactionService
         return $this->create([
             'campaign_id' => $donation->campaign_id,
             'user_id' => $user->id,
-            'direction' => 'input',
             'type' => 'donation',
             'amount_cents' => $donation->amount_cents,
         ]);
@@ -31,9 +30,8 @@ final class TransactionService
         return $this->create([
             'campaign_id' => $campaignId,
             'user_id' => $userId,
-            'direction' => 'output',
             'type' => 'withdrawal',
-            'amount_cents' => $amount,
+            'amount_cents' => -$amount,
         ]);
     }
 
