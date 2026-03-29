@@ -1,11 +1,21 @@
 'use client';
 
 import { Avatar, Button, Card, CardBody } from '@heroui/react';
-import { CameraIcon, Heart, Megaphone, User, CreditCard, Bell, Receipt } from 'lucide-react';
+import {
+  CameraIcon,
+  Heart,
+  Megaphone,
+  User,
+  CreditCard,
+  Bell,
+  Receipt,
+} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
+import { useUploadAvatar } from '@/hooks/use-upload-avatar';
+import { useRef } from 'react';
 
 const navigationItems = [
   { label: 'Minhas Campanhas', href: '/profile/campaigns', icon: Megaphone },
@@ -18,13 +28,15 @@ const navigationItems = [
 
 export const ProfileSidebar = () => {
   const { data: profile } = useGetProfile();
+  const { mutate: uploadAvatar, isPending: isUploading } = useUploadAvatar();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
 
   const isActive = (href: string) => {
     if (href === '/profile') {
       return pathname === '/profile';
     }
-    
+
     return pathname.startsWith(href);
   };
 
@@ -33,16 +45,33 @@ export const ProfileSidebar = () => {
       <h1 className="text-2xl font-semibold">Perfil</h1>
 
       <div className="relative inline-block">
+        <input
+          type="file"
+          ref={fileInputRef}
+          className="hidden"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              uploadAvatar(file);
+            }
+          }}
+        />
         <Avatar
+          src={profile?.avatarUrl ?? undefined}
           name={profile?.name}
           getInitials={getUserNameInitials}
           className="w-32 h-32 text-4xl"
+          isBordered
+          color={isUploading ? 'primary' : 'default'}
         />
         <Button
           isIconOnly
           size="sm"
           radius="full"
-          className="absolute bottom-0 right-0 bg-primary text-white shadow-md"
+          className="absolute bottom-0 right-0 bg-primary text-white shadow-md z-10"
+          onClick={() => fileInputRef.current?.click()}
+          isLoading={isUploading}
         >
           <CameraIcon size={18} />
         </Button>
@@ -53,7 +82,9 @@ export const ProfileSidebar = () => {
       <div className="space-y-3">
         <Card className="bg-primary text-white">
           <CardBody className="p-4">
-            <p className="text-2xl font-bold">{profile?.favoriteCampaignsCount ?? 0}</p>
+            <p className="text-2xl font-bold">
+              {profile?.favoriteCampaignsCount ?? 0}
+            </p>
             <p className="text-sm opacity-90">Vaquinhas que sigo</p>
           </CardBody>
         </Card>
