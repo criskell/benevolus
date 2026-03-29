@@ -12,7 +12,7 @@ beforeEach(function () {
 test('upload campaign image requires authentication', function () {
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->post("/api/campaigns/{$campaign->id}/images", [
+    $response = $this->post("/api/campaigns/{$campaign->slug}/images", [
         'image' => UploadedFile::fake()->image('photo.jpg'),
     ], ['Accept' => 'application/json']);
 
@@ -23,7 +23,7 @@ test('upload campaign image requires campaign ownership', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create(); // owned by another user
 
-    $response = $this->actingAsUser($user)->post("/api/campaigns/{$campaign->id}/images", [
+    $response = $this->actingAsUser($user)->post("/api/campaigns/{$campaign->slug}/images", [
         'image' => UploadedFile::fake()->image('photo.jpg'),
     ], ['Accept' => 'application/json']);
 
@@ -34,7 +34,7 @@ test('can upload campaign image as campaign owner', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->for($user)->open()->create();
 
-    $response = $this->actingAsUser($user)->post("/api/campaigns/{$campaign->id}/images", [
+    $response = $this->actingAsUser($user)->post("/api/campaigns/{$campaign->slug}/images", [
         'image' => UploadedFile::fake()->image('photo.jpg'),
     ], ['Accept' => 'application/json']);
 
@@ -66,7 +66,7 @@ test('upload campaign image validates required image', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->for($user)->open()->create();
 
-    $response = $this->actingAsUser($user)->post("/api/campaigns/{$campaign->id}/images", [], [
+    $response = $this->actingAsUser($user)->post("/api/campaigns/{$campaign->slug}/images", [], [
         'Accept' => 'application/json',
     ]);
 
@@ -78,7 +78,7 @@ test('upload campaign image validates image mime type', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->for($user)->open()->create();
 
-    $response = $this->actingAsUser($user)->post("/api/campaigns/{$campaign->id}/images", [
+    $response = $this->actingAsUser($user)->post("/api/campaigns/{$campaign->slug}/images", [
         'image' => UploadedFile::fake()->create('document.pdf', 100),
     ], ['Accept' => 'application/json']);
 

@@ -9,7 +9,7 @@ test('can list campaign updates without authentication', function () {
     $campaign = Campaign::factory()->open()->create();
     CampaignUpdate::factory()->count(2)->for($campaign)->create(['visible_to_donors_only' => false]);
 
-    $response = $this->getJson("/api/campaigns/{$campaign->id}/updates");
+    $response = $this->getJson("/api/campaigns/{$campaign->slug}/updates");
 
     $response->assertStatus(200)
         ->assertJsonStructure([
@@ -35,7 +35,7 @@ test('list campaign updates excludes donors-only when user is not donor', functi
     CampaignUpdate::factory()->for($campaign)->donorsOnly()->create();
     $user = User::factory()->create();
 
-    $response = $this->actingAsUser($user)->getJson("/api/campaigns/{$campaign->id}/updates");
+    $response = $this->actingAsUser($user)->getJson("/api/campaigns/{$campaign->slug}/updates");
 
     $response->assertStatus(200);
     $data = $response->json('data');
@@ -50,7 +50,7 @@ test('list campaign updates includes donors-only when user is donor', function (
     CampaignUpdate::factory()->for($campaign)->create(['visible_to_donors_only' => false]);
     CampaignUpdate::factory()->for($campaign)->donorsOnly()->create();
 
-    $response = $this->actingAsUser($user)->getJson("/api/campaigns/{$campaign->id}/updates");
+    $response = $this->actingAsUser($user)->getJson("/api/campaigns/{$campaign->slug}/updates");
 
     $response->assertStatus(200);
     expect($response->json('data'))->toHaveCount(2);
@@ -104,7 +104,7 @@ test('show returns 404 for non-existent update', function () {
 test('create campaign update requires authentication', function () {
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->postJson("/api/campaigns/{$campaign->id}/updates", [
+    $response = $this->postJson("/api/campaigns/{$campaign->slug}/updates", [
         'title' => 'Update title',
         'content' => 'Update content',
         'visibleToDonorsOnly' => false,
@@ -117,7 +117,7 @@ test('can create campaign update as campaign owner', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->for($user)->open()->create();
 
-    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->id}/updates", [
+    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->slug}/updates", [
         'title' => 'New update',
         'content' => 'Update content here',
         'visibleToDonorsOnly' => true,
@@ -150,7 +150,7 @@ test('cannot create campaign update for another users campaign', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create(); // other owner
 
-    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->id}/updates", [
+    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->slug}/updates", [
         'title' => 'Hacked update',
         'content' => 'Content',
         'visibleToDonorsOnly' => false,
@@ -163,7 +163,7 @@ test('create campaign update validates required fields', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->for($user)->open()->create();
 
-    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->id}/updates", []);
+    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->slug}/updates", []);
 
     $response->assertStatus(422)
         ->assertJsonValidationErrors(['title', 'content', 'visibleToDonorsOnly']);

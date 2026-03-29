@@ -8,7 +8,7 @@ test('can list campaign comments without authentication', function () {
     $campaign = Campaign::factory()->open()->create();
     Comment::factory()->count(2)->for($campaign)->create();
 
-    $response = $this->getJson("/api/campaigns/{$campaign->id}/comments");
+    $response = $this->getJson("/api/campaigns/{$campaign->slug}/comments");
 
     $response->assertStatus(200)
         ->assertJsonStructure([
@@ -36,7 +36,7 @@ test('list comments returns 404 for non-existent campaign', function () {
 test('create comment requires authentication', function () {
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->postJson("/api/campaigns/{$campaign->id}/comments", [
+    $response = $this->postJson("/api/campaigns/{$campaign->slug}/comments", [
         'content' => 'My comment',
         'is_anonymous' => false,
     ]);
@@ -48,7 +48,7 @@ test('can create comment', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/comments", [
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/comments", [
         'content' => 'My comment content',
         'is_anonymous' => false,
     ]);
@@ -78,7 +78,7 @@ test('can create anonymous comment', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/comments", [
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/comments", [
         'content' => 'Anonymous comment',
         'is_anonymous' => true,
     ]);
@@ -98,7 +98,7 @@ test('create comment validates required fields', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/comments", []);
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/comments", []);
 
     $response->assertStatus(422)
         ->assertJsonValidationErrors(['content', 'is_anonymous']);

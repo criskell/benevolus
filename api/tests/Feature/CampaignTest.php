@@ -57,7 +57,7 @@ test('can view a specific campaign', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAsUser($user)->getJson("/api/campaigns/{$campaign->id}");
+    $response = $this->actingAsUser($user)->getJson("/api/campaigns/{$campaign->slug}");
 
     $response->assertStatus(200)
         ->assertJson([
@@ -77,7 +77,7 @@ test('can update own campaign', function () {
         'status' => Campaign::STATUS_OPEN,
     ];
 
-    $response = $this->actingAsUser($user)->putJson("/api/campaigns/{$campaign->id}", $updateData);
+    $response = $this->actingAsUser($user)->putJson("/api/campaigns/{$campaign->slug}", $updateData);
 
     $response->assertStatus(204);
 
@@ -99,7 +99,7 @@ test('cannot update another users campaign', function () {
         'status' => Campaign::STATUS_OPEN,
     ];
 
-    $response = $this->actingAsUser($user)->putJson("/api/campaigns/{$campaign->id}", $updateData);
+    $response = $this->actingAsUser($user)->putJson("/api/campaigns/{$campaign->slug}", $updateData);
 
     $response->assertStatus(403);
 });
@@ -108,7 +108,7 @@ test('can delete own campaign', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->for($user)->create();
 
-    $response = $this->actingAsUser($user)->deleteJson("/api/campaigns/{$campaign->id}");
+    $response = $this->actingAsUser($user)->deleteJson("/api/campaigns/{$campaign->slug}");
 
     $response->assertStatus(204);
 

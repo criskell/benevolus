@@ -34,7 +34,7 @@ test('can list reports when authenticated', function () {
 test('create report requires authentication', function () {
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->postJson("/api/campaigns/{$campaign->id}/reports", [
+    $response = $this->postJson("/api/campaigns/{$campaign->slug}/reports", [
         'type' => 'personal_rights',
         'reason' => 'SPAM',
         'description' => 'Campaign violates personal rights with false claims.',
@@ -47,7 +47,7 @@ test('can create report', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/reports", [
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/reports", [
         'type' => 'terms_violations',
         'reason' => 'FRAUD',
         'description' => 'This campaign appears to violate the terms of service.',
@@ -77,7 +77,7 @@ test('create report validates reason must be uppercase', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/reports", [
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/reports", [
         'type' => 'personal_rights',
         'reason' => 'lowercase reason',
         'description' => 'At least ten characters here for the description.',
@@ -91,7 +91,7 @@ test('create report validates required fields', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/reports", []);
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/reports", []);
 
     $response->assertStatus(422)
         ->assertJsonValidationErrors(['type', 'reason', 'description']);
@@ -101,7 +101,7 @@ test('create report validates type enum', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/reports", [
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/reports", [
         'type' => 'invalid_type',
         'reason' => 'OTHER',
         'description' => 'At least ten characters here for the description.',
@@ -115,7 +115,7 @@ test('create report validates description min length', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/reports", [
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/reports", [
         'type' => 'personal_rights',
         'reason' => 'SPAM',
         'description' => 'short',

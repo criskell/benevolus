@@ -9,7 +9,7 @@ use OpenPix\PhpSdk\Resources\Payments;
 test('list campaign withdrawals requires authentication', function () {
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->getJson("/api/campaigns/{$campaign->id}/withdrawals");
+    $response = $this->getJson("/api/campaigns/{$campaign->slug}/withdrawals");
 
     $response->assertStatus(401);
 });
@@ -19,7 +19,7 @@ test('can list campaign withdrawals when authenticated', function () {
     $campaign = Campaign::factory()->open()->create();
     Withdrawal::factory()->count(2)->for($campaign)->create();
 
-    $response = $this->actingAs($user)->getJson("/api/campaigns/{$campaign->id}/withdrawals");
+    $response = $this->actingAs($user)->getJson("/api/campaigns/{$campaign->slug}/withdrawals");
 
     $response->assertStatus(200)
         ->assertJsonStructure([
@@ -47,7 +47,7 @@ test('list campaign withdrawals returns only that campaign withdrawals', functio
     Withdrawal::factory()->for($campaign)->create();
     Withdrawal::factory()->for($otherCampaign)->create();
 
-    $response = $this->actingAs($user)->getJson("/api/campaigns/{$campaign->id}/withdrawals");
+    $response = $this->actingAs($user)->getJson("/api/campaigns/{$campaign->slug}/withdrawals");
 
     $response->assertStatus(200);
 
@@ -66,7 +66,7 @@ test('list withdrawals returns 404 for non-existent campaign', function () {
 test('create withdrawal requires authentication', function () {
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->postJson("/api/campaigns/{$campaign->id}/withdrawals", [
+    $response = $this->postJson("/api/campaigns/{$campaign->slug}/withdrawals", [
         'amountCents' => 10000,
         'pixKey' => 'user@example.com',
         'pixKeyType' => 'email',
@@ -86,7 +86,7 @@ test('can create withdrawal as campaign owner when balance is sufficient', funct
     $campaign = Campaign::factory()->for($user)->open()->create();
     $campaign->update(['available_balance_cents' => 50000]);
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/withdrawals", [
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/withdrawals", [
         'amountCents' => 10000,
         'pixKey' => 'user@example.com',
         'pixKeyType' => 'email',
@@ -107,7 +107,7 @@ test('cannot create withdrawal for another users campaign', function () {
     $campaign = Campaign::factory()->open()->create();
     $campaign->update(['available_balance_cents' => 50000]);
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/withdrawals", [
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/withdrawals", [
         'amountCents' => 10000,
         'pixKey' => 'user@example.com',
         'pixKeyType' => 'email',
@@ -121,7 +121,7 @@ test('cannot create withdrawal when amount exceeds available balance', function 
     $campaign = Campaign::factory()->for($user)->open()->create();
     $campaign->update(['available_balance_cents' => 5000]);
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/withdrawals", [
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/withdrawals", [
         'amountCents' => 10000,
         'pixKey' => 'user@example.com',
         'pixKeyType' => 'email',
@@ -135,7 +135,7 @@ test('create withdrawal validates required fields', function () {
     $campaign = Campaign::factory()->for($user)->open()->create();
     $campaign->update(['available_balance_cents' => 50000]);
 
-    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/withdrawals", []);
+    $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->slug}/withdrawals", []);
 
     $response->assertStatus(422)
         ->assertJsonValidationErrors(['amountCents', 'pixKey', 'pixKeyType']);
