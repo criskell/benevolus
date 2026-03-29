@@ -37,16 +37,14 @@ test('can create a campaign', function () {
 
     $response->assertStatus(201)
         ->assertJsonStructure([
-            'data' => [
-                'id',
-                'title',
-                'description',
-                'goalCents',
-                'status',
-            ],
+            'id',
+            'title',
+            'description',
+            'goalCents',
+            'status',
         ]);
 
-    expect($response->json('data.title'))->toBe('Test Campaign');
+    expect($response->json('title'))->toBe('Test Campaign');
 
     $this->assertDatabaseHas('campaigns', [
         'user_id' => $user->id,
@@ -63,10 +61,8 @@ test('can view a specific campaign', function () {
 
     $response->assertStatus(200)
         ->assertJson([
-            'data' => [
-                'id' => $campaign->id,
-                'title' => $campaign->title,
-            ],
+            'id' => $campaign->id,
+            'title' => $campaign->title,
         ]);
 });
 

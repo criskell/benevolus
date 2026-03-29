@@ -149,17 +149,15 @@ test('can show withdrawal', function () {
 
     $response->assertStatus(200)
         ->assertJsonStructure([
-            'data' => [
-                'id',
-                'campaignId',
-                'amountCents',
-                'status',
-                'pixKey',
-                'pixKeyType',
-                'createdAt',
-            ],
+            'id',
+            'campaignId',
+            'amountCents',
+            'status',
+            'pixKey',
+            'pixKeyType',
+            'createdAt',
         ])
-        ->assertJsonPath('data.id', $withdrawal->id);
+        ->assertJsonPath('id', $withdrawal->id);
 });
 
 test('show withdrawal returns 404 for non-existent withdrawal', function () {

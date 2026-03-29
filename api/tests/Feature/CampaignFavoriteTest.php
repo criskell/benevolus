@@ -15,7 +15,7 @@ test('can list empty favorited campaigns', function () {
     $response = $this->actingAsUser($user)->getJson('/api/profile/campaigns/favorited');
 
     $response->assertStatus(200)
-        ->assertJsonPath('data', []);
+        ->assertExactJson([]);
 });
 
 test('can list favorited campaigns', function () {
@@ -27,18 +27,16 @@ test('can list favorited campaigns', function () {
 
     $response->assertStatus(200)
         ->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'id',
-                    'title',
-                    'description',
-                    'goalCents',
-                    'status',
-                ],
+            '*' => [
+                'id',
+                'title',
+                'description',
+                'goalCents',
+                'status',
             ],
         ]);
 
-    expect($response->json('data'))->toHaveCount(3);
+    expect($response->json())->toHaveCount(3);
 });
 
 test('list favorited campaigns only returns current user favorites', function () {
@@ -52,7 +50,7 @@ test('list favorited campaigns only returns current user favorites', function ()
     $response = $this->actingAsUser($user)->getJson('/api/profile/campaigns/favorited');
 
     $response->assertStatus(200);
-    $ids = collect($response->json('data'))->pluck('id')->all();
+    $ids = collect($response->json())->pluck('id')->all();
     expect($ids)->toContain($userCampaign->id);
     expect($ids)->not->toContain($otherUserCampaign->id);
 });

@@ -20,10 +20,7 @@ trait MakesApiRequests
 
     protected function assertApiSuccess(TestResponse $response, int $statusCode = 200): void
     {
-        $response->assertStatus($statusCode)
-            ->assertJsonStructure([
-                'data',
-            ]);
+        $response->assertStatus($statusCode);
     }
 
     protected function assertApiError(TestResponse $response, int $statusCode = 400, ?string $message = null): void

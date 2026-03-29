@@ -40,12 +40,10 @@ test('can upload campaign image as campaign owner', function () {
 
     $response->assertStatus(201)
         ->assertJsonStructure([
-            'data' => [
-                'id',
-                'path',
-                'url',
-                'createdAt',
-            ],
+            'id',
+            'path',
+            'url',
+            'createdAt',
         ]);
 
     $this->assertDatabaseHas('campaign_media_assets', [
