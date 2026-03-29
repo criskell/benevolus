@@ -98,7 +98,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                 <DropdownItem
                   key="edit"
                   startContent={<Pencil size={16} />}
-                  href={`/profile/campaigns/${campaign.id}/edit`}
+                  href={`/profile/campaigns/${campaign.slug}/edit`}
                   as={Link}
                 >
                   {t('menu_edit')}
@@ -106,7 +106,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                 <DropdownItem
                   key="stats"
                   startContent={<BarChart3 size={16} />}
-                  href={`/profile/campaigns/${campaign.id}`}
+                  href={`/profile/campaigns/${campaign.slug}`}
                   as={Link}
                 >
                   {t('menu_stats')}
@@ -114,7 +114,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                 <DropdownItem
                   key="updates"
                   startContent={<Megaphone size={16} />}
-                  href={`/profile/campaigns/${campaign.id}/updates`}
+                  href={`/profile/campaigns/${campaign.slug}/updates`}
                   as={Link}
                 >
                   {t('menu_updates')}
@@ -122,7 +122,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
                 <DropdownItem
                   key="withdrawals"
                   startContent={<Wallet size={16} />}
-                  href={`/profile/campaigns/${campaign.id}/withdrawals`}
+                  href={`/profile/campaigns/${campaign.slug}/withdrawals`}
                   as={Link}
                 >
                   {t('menu_withdrawals')}
@@ -133,7 +133,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
         </div>
 
         <div className="p-4">
-          <Link href={`/profile/campaigns/${campaign.id}`}>
+          <Link href={`/profile/campaigns/${campaign.slug}`}>
             <h3 className="text-lg font-semibold hover:text-primary cursor-pointer line-clamp-2">
               {campaign.title}
             </h3>
@@ -158,7 +158,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
           <div className="flex gap-2 mt-4">
             <Button
               as={Link}
-              href={`/profile/campaigns/${campaign.id}`}
+              href={`/profile/campaigns/${campaign.slug}`}
               variant="flat"
               className="flex-1"
               size="sm"
@@ -168,7 +168,7 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
             {campaign.status === 'open' && raisedCents > 0 && (
               <Button
                 as={Link}
-                href={`/profile/campaigns/${campaign.id}/withdrawals`}
+                href={`/profile/campaigns/${campaign.slug}/withdrawals`}
                 color="primary"
                 size="sm"
               >
