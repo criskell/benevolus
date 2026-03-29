@@ -55,18 +55,16 @@ test('can create comment', function () {
 
     $response->assertStatus(201)
         ->assertJsonStructure([
-            'data' => [
-                'id',
-                'campaignId',
-                'content',
-                'isAnonymous',
-                'likes',
-                'createdAt',
-            ],
+            'id',
+            'campaignId',
+            'content',
+            'isAnonymous',
+            'likes',
+            'createdAt',
         ])
-        ->assertJsonPath('data.content', 'My comment content')
-        ->assertJsonPath('data.isAnonymous', false)
-        ->assertJsonPath('data.campaignId', $campaign->id);
+        ->assertJsonPath('content', 'My comment content')
+        ->assertJsonPath('isAnonymous', false)
+        ->assertJsonPath('campaignId', $campaign->id);
 
     $this->assertDatabaseHas('comments', [
         'campaign_id' => $campaign->id,
@@ -86,7 +84,7 @@ test('can create anonymous comment', function () {
     ]);
 
     $response->assertStatus(201)
-        ->assertJsonPath('data.isAnonymous', true);
+        ->assertJsonPath('isAnonymous', true);
 
     $this->assertDatabaseHas('comments', [
         'campaign_id' => $campaign->id,
@@ -136,7 +134,7 @@ test('can update own comment', function () {
     ]);
 
     $response->assertStatus(200)
-        ->assertJsonPath('data.content', 'Updated content');
+        ->assertJsonPath('content', 'Updated content');
 
     $this->assertDatabaseHas('comments', [
         'id' => $comment->id,

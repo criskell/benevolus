@@ -64,13 +64,11 @@ test('can show a public campaign update', function () {
 
     $response->assertStatus(200)
         ->assertJson([
-            'data' => [
-                'id' => $update->id,
-                'campaignId' => $campaign->id,
-                'title' => $update->title,
-                'content' => $update->content,
-                'visibleToDonorsOnly' => false,
-            ],
+            'id' => $update->id,
+            'campaignId' => $campaign->id,
+            'title' => $update->title,
+            'content' => $update->content,
+            'visibleToDonorsOnly' => false,
         ]);
 });
 
@@ -93,8 +91,8 @@ test('can show donors-only update when user is donor', function () {
     $response = $this->actingAsUser($user)->getJson("/api/updates/{$update->id}");
 
     $response->assertStatus(200)
-        ->assertJsonPath('data.id', $update->id)
-        ->assertJsonPath('data.visibleToDonorsOnly', true);
+        ->assertJsonPath('id', $update->id)
+        ->assertJsonPath('visibleToDonorsOnly', true);
 });
 
 test('show returns 404 for non-existent update', function () {
@@ -127,20 +125,18 @@ test('can create campaign update as campaign owner', function () {
 
     $response->assertStatus(201)
         ->assertJsonStructure([
-            'data' => [
-                'id',
-                'campaignId',
-                'title',
-                'content',
-                'visibleToDonorsOnly',
-                'createdAt',
-                'updatedAt',
-            ],
+            'id',
+            'campaignId',
+            'title',
+            'content',
+            'visibleToDonorsOnly',
+            'createdAt',
+            'updatedAt',
         ])
-        ->assertJsonPath('data.title', 'New update')
-        ->assertJsonPath('data.content', 'Update content here')
-        ->assertJsonPath('data.visibleToDonorsOnly', true)
-        ->assertJsonPath('data.campaignId', $campaign->id);
+        ->assertJsonPath('title', 'New update')
+        ->assertJsonPath('content', 'Update content here')
+        ->assertJsonPath('visibleToDonorsOnly', true)
+        ->assertJsonPath('campaignId', $campaign->id);
 
     $this->assertDatabaseHas('campaign_updates', [
         'campaign_id' => $campaign->id,

@@ -55,15 +55,13 @@ test('can create report', function () {
 
     $response->assertStatus(201)
         ->assertJsonStructure([
-            'data' => [
-                'id',
-                'reason',
-                'description',
-                'createdAt',
-            ],
+            'id',
+            'reason',
+            'description',
+            'createdAt',
         ])
-        ->assertJsonPath('data.reason', 'FRAUD')
-        ->assertJsonPath('data.description', 'This campaign appears to violate the terms of service.');
+        ->assertJsonPath('reason', 'FRAUD')
+        ->assertJsonPath('description', 'This campaign appears to violate the terms of service.');
 
     $this->assertDatabaseHas('reports', [
         'user_id' => $user->id,

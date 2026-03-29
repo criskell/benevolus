@@ -15,13 +15,11 @@ test('can get own profile', function () {
 
     $response->assertStatus(200)
         ->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-            ],
+            'id',
+            'name',
         ])
-        ->assertJsonPath('data.id', $user->id)
-        ->assertJsonPath('data.name', 'Jane Doe');
+        ->assertJsonPath('id', $user->id)
+        ->assertJsonPath('name', 'Jane Doe');
 });
 
 test('can update profile name and email', function () {
