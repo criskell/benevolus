@@ -16,23 +16,24 @@ class TransactionFactory extends Factory
         return [
             'campaign_id' => Campaign::factory(),
             'user_id' => User::factory(),
-            'direction' => fake()->randomElement(['credit', 'debit']),
-            'type' => fake()->randomElement(['donation', 'withdrawal', 'refund']),
+            'type' => fake()->randomElement(['donation', 'withdrawal', 'dispute', 'adjustment']),
             'amount_cents' => fake()->numberBetween(1000, 100000),
         ];
     }
 
-    public function credit(): static
+    public function donation(): static
     {
         return $this->state(fn (array $attributes) => [
-            'direction' => 'credit',
+            'type' => 'donation',
+            'amount_cents' => fake()->numberBetween(1000, 100000),
         ]);
     }
 
-    public function debit(): static
+    public function withdrawal(): static
     {
         return $this->state(fn (array $attributes) => [
-            'direction' => 'debit',
+            'type' => 'withdrawal',
+            'amount_cents' => -fake()->numberBetween(1000, 100000),
         ]);
     }
 }
