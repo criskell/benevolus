@@ -211,6 +211,15 @@
       "confirm_password_label": "Confirmar Contraseña",
       "confirm_password_placeholder": "Confirma la contraseña",
       "reset_button": "Restablecer contraseña"
+    },
+    "oauth": {
+      "google_signin": "Iniciar sesión con Google",
+      "google_signup": "Registrarse con Google",
+      "or_divider": "o",
+      "processing": "Iniciando sesión...",
+      "error": "Algo salió mal durante el inicio de sesión. Inténtalo de nuevo.",
+      "missing_params": "Callback inválido. Faltan parámetros requeridos.",
+      "back_to_login": "Volver al inicio de sesión"
     }
   },
   "campaigns": {

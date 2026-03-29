@@ -211,6 +211,15 @@
       "confirm_password_label": "Confirmar Senha",
       "confirm_password_placeholder": "Confirme a senha",
       "reset_button": "Redefinir senha"
+    },
+    "oauth": {
+      "google_signin": "Entrar com Google",
+      "google_signup": "Cadastrar com Google",
+      "or_divider": "ou",
+      "processing": "Entrando na sua conta...",
+      "error": "Algo deu errado durante o login. Tente novamente.",
+      "missing_params": "Callback inválido. Parâmetros obrigatórios ausentes.",
+      "back_to_login": "Voltar para o login"
     }
   },
   "campaigns": {
