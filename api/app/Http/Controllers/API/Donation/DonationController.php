@@ -11,6 +11,7 @@ use App\Http\Resources\Campaign\CampaignDonationResource;
 use App\Http\Resources\Donation\DonationResource;
 use App\Http\Resources\Payment\PaymentResource;
 use App\Models\Campaign;
+use App\Services\Campaign\CampaignService;
 use App\Services\Donation\DonationProcessor;
 use App\Services\Donation\DonationService;
 use Illuminate\Http\JsonResponse;
@@ -21,21 +22,22 @@ final class DonationController extends Controller
 {
     public function __construct(
         private DonationService $donationService,
-        private DonationProcessor $donationProcessor
+        private DonationProcessor $donationProcessor,
+        private CampaignService $campaignService
     ) {}
 
     #[OA\Get(
         operationId: 'listCampaignDonations',
-        path: '/api/campaigns/{campaign}/donations',
+        path: '/api/campaigns/{identifier}/donations',
         summary: 'List campaign donations',
         tags: ['Donations'],
         parameters: [
             new OA\Parameter(
-                name: 'campaign',
+                name: 'identifier',
                 in: 'path',
                 required: true,
                 schema: new OA\Schema(type: 'string'),
-                description: 'Campaign slug'
+                description: 'Campaign ID or slug'
             ),
         ],
         responses: [
@@ -47,16 +49,17 @@ final class DonationController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            type: 'array',
-                            items: new OA\Items(ref: '#/components/schemas/CampaignDonationResource')
+                            type: 'array',items: new OA\Items(ref: '#/components/schemas/CampaignDonationResource')
                         ),
                     ]
                 )
             ),
         ]
     )]
-    public function index(Campaign $campaign)
+    public function index(string $identifier)
     {
+        $campaign = $this->campaignService->findBySlugOrId($identifier);
+
         $donations = $this->donationService->listPaidDonationsByCampaign($campaign->id);
 
         return CampaignDonationResource::collection($donations);
