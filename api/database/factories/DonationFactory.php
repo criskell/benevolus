@@ -21,8 +21,24 @@ class DonationFactory extends Factory
             'payment_status' => 'pending',
             'payment_processor' => fake()->randomElement(['stripe', 'woovi']),
             'external_reference' => fake()->uuid(),
+            'is_anonymous' => false,
             'paid_at' => null,
         ];
+    }
+
+    public function anonymous(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_anonymous' => true,
+        ]);
+    }
+
+    public function thanked(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'thanked_at' => now(),
+            'thank_you_message' => 'Obrigado pela sua doacao!',
+        ]);
     }
 
     public function paid(): static

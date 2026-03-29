@@ -33,10 +33,10 @@ type BulkThankYouModalProps = {
 };
 
 const SUGGESTED_MESSAGES = [
-  'Olá {nome}! Muito obrigado pela sua generosa doação de {valor}. Sua contribuição está fazendo toda a diferença em nossa causa! 💙',
-  'Querido(a) {nome}, sua doação de {valor} nos encheu de esperança e gratidão. Obrigado por acreditar em nosso projeto! 🙏',
-  '{nome}, não temos palavras para agradecer sua doação de {valor}. Você está ajudando a transformar sonhos em realidade! ❤️',
-  'Gratidão, {nome}! Sua contribuição de {valor} nos aproxima cada vez mais do nosso objetivo. Seu apoio é fundamental! 🌟',
+  'Olá {nome}! Muito obrigado pela sua generosa doação de {valor}. Sua contribuição está fazendo toda a diferença em nossa causa!',
+  'Querido(a) {nome}, sua doação de {valor} nos encheu de esperança e gratidão. Obrigado por acreditar em nosso projeto!',
+  '{nome}, não temos palavras para agradecer sua doação de {valor}. Você está ajudando a transformar sonhos em realidade!',
+  'Gratidão, {nome}! Sua contribuição de {valor} nos aproxima cada vez mais do nosso objetivo. Seu apoio é fundamental!',
 ];
 
 export const BulkThankYouModal = ({
@@ -213,7 +213,7 @@ export const BulkThankYouModal = ({
               </div>
               <div className="bg-blue-50 rounded-lg p-3 mb-3">
                 <p className="text-xs text-blue-900">
-                  💡 Use <code className="bg-blue-100 px-1 rounded">{'{nome}'}</code> e{' '}
+                  Use <code className="bg-blue-100 px-1 rounded">{'{nome}'}</code> e{' '}
                   <code className="bg-blue-100 px-1 rounded">{'{valor}'}</code> para personalizar
                   automaticamente cada mensagem com o nome e valor da doação de cada pessoa.
                 </p>
@@ -262,7 +262,7 @@ export const BulkThankYouModal = ({
             {/* Dica */}
             <div className="bg-default-100 rounded-lg p-3">
               <p className="text-xs text-default-600">
-                ⏱️ <strong>Estimativa:</strong> O envio de {selectedDonations.size}{' '}
+                <strong>Estimativa:</strong> O envio de {selectedDonations.size}{' '}
                 {selectedDonations.size === 1 ? 'mensagem' : 'mensagens'} levará aproximadamente{' '}
                 {Math.ceil(selectedDonations.size / 10)} segundo(s).
               </p>

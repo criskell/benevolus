@@ -59,8 +59,8 @@ final class DonationService
         bool $isAnonymous = false
     ) {
         return $this->create([
-            // FIXME: I need to store the user information for debugging, legal, etc. purposes only.
             'user_id' => $isAnonymous ? null : $user->id,
+            'is_anonymous' => $isAnonymous,
             'campaign_id' => $campaignId,
             'amount_cents' => $amount,
             'payment_method' => $paymentMethod,
@@ -86,6 +86,26 @@ final class DonationService
         ]);
 
         return $donation->fresh();
+    }
+
+    public function thankDonor(Donation $donation, string $message): Donation
+    {
+        $donation->update([
+            'thank_you_message' => $message,
+            'thanked_at' => now(),
+        ]);
+
+        return $donation->fresh();
+    }
+
+    public function listThankableDonations(int $campaignId)
+    {
+        return Donation::where('campaign_id', $campaignId)
+            ->where('payment_status', 'paid')
+            ->where('is_anonymous', false)
+            ->with('user')
+            ->latest('paid_at')
+            ->paginate();
     }
 
     public function isUserDonorForCampaign(?User $user, int $campaignId)
