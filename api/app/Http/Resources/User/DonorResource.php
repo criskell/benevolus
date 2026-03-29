@@ -12,6 +12,7 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(property: 'id', type: 'integer'),
         new OA\Property(property: 'name', type: 'string'),
+        new OA\Property(property: 'email', type: 'string', nullable: true),
     ]
 )]
 class DonorResource extends JsonResource
@@ -21,6 +22,7 @@ class DonorResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
         ];
     }
 }

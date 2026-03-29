@@ -23,4 +23,11 @@ final class CampaignPolicy
             ? Response::allow()
             : Response::deny();
     }
+
+    public function thankDonors(User $user, Campaign $campaign): Response
+    {
+        return $user->id === $campaign->user_id
+            ? Response::allow()
+            : Response::deny();
+    }
 }

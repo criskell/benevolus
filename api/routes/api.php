@@ -8,6 +8,7 @@ use App\Http\Controllers\API\Campaign\LeaderboardController;
 use App\Http\Controllers\API\Comment\CommentController;
 use App\Http\Controllers\API\Comment\CommentReactionController;
 use App\Http\Controllers\API\Donation\DonationController;
+use App\Http\Controllers\API\Donation\DonationThankController;
 use App\Http\Controllers\API\Payment\WooviWebhookController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\User\OAuthController;
@@ -24,6 +25,10 @@ Route::post('/woovi/webhook', [WooviWebhookController::class, 'receive']);
 
 Route::apiResource('donations', DonationController::class)->only(['store']);
 Route::apiResource('campaigns.donations', DonationController::class)->shallow()->only(['index']);
+
+Route::get('/campaigns/{identifier}/donations/thankable', [DonationThankController::class, 'thankableDonations'])->middleware('auth:sanctum');
+Route::post('/donations/{donation}/thank', [DonationThankController::class, 'thank'])->middleware('auth:sanctum');
+Route::post('/campaigns/{identifier}/donations/thank', [DonationThankController::class, 'bulkThank'])->middleware('auth:sanctum');
 
 Route::apiResource('campaigns', CampaignController::class);
 

@@ -16,6 +16,19 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Cursor pointer for interactive elements */
+button,
+[role="button"],
+[role="tab"],
+[role="checkbox"],
+[role="switch"],
+a[href],
+label[for],
+select,
+summary {
+  cursor: pointer;
+}
+
 .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
   display: none;
 }

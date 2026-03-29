@@ -99,18 +99,18 @@
                 }
             }
         },
-        "/api/campaigns/{slug}": {
+        "/api/campaigns/{identifier}": {
             "get": {
                 "tags": [
                     "Campaigns"
                 ],
-                "summary": "Get campaign by slug",
+                "summary": "Get campaign by slug or ID",
                 "operationId": "getCampaign",
                 "parameters": [
                     {
-                        "name": "slug",
+                        "name": "identifier",
                         "in": "path",
-                        "description": "Campaign slug",
+                        "description": "Campaign slug or ID",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -129,7 +129,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/campaigns/{slug}": {
             "put": {
                 "tags": [
                     "Campaigns"
@@ -719,7 +721,7 @@
                 }
             }
         },
-        "/api/campaigns/{campaign}/donations": {
+        "/api/campaigns/{identifier}/donations": {
             "get": {
                 "tags": [
                     "Donations"
@@ -728,9 +730,9 @@
                 "operationId": "listCampaignDonations",
                 "parameters": [
                     {
-                        "name": "campaign",
+                        "name": "identifier",
                         "in": "path",
-                        "description": "Campaign slug",
+                        "description": "Campaign ID or slug",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -821,6 +823,157 @@
                         "description": "Donation confirmed successfully"
                     }
                 }
+            }
+        },
+        "/api/campaigns/{identifier}/donations/thankable": {
+            "get": {
+                "tags": [
+                    "Donations"
+                ],
+                "summary": "List thankable donations for a campaign",
+                "operationId": "listThankableDonations",
+                "parameters": [
+                    {
+                        "name": "identifier",
+                        "in": "path",
+                        "description": "Campaign ID or slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thankable donations retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/DonationResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/donations/{id}/thank": {
+            "post": {
+                "tags": [
+                    "Donations"
+                ],
+                "summary": "Send thank you message to a donor",
+                "operationId": "thankDonor",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Donation ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ThankDonorRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Thank you message sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DonationResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/campaigns/{identifier}/donations/thank": {
+            "post": {
+                "tags": [
+                    "Donations"
+                ],
+                "summary": "Send thank you message to multiple donors",
+                "operationId": "bulkThankDonors",
+                "parameters": [
+                    {
+                        "name": "identifier",
+                        "in": "path",
+                        "description": "Campaign ID or slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BulkThankDonorsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Thank you messages sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DonationResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/reports": {
@@ -1001,6 +1154,44 @@
                 "responses": {
                     "204": {
                         "description": "Profile updated successfully"
+                    }
+                }
+            }
+        },
+        "/api/profile/avatar": {
+            "post": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Upload user avatar",
+                "operationId": "uploadAvatar",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "avatar": {
+                                        "description": "Avatar image file (jpg, jpeg, png, max 4MB)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Avatar uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1527,6 +1718,26 @@
                 },
                 "type": "object"
             },
+            "BulkThankDonorsRequest": {
+                "required": [
+                    "message",
+                    "donationIds"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 10
+                    },
+                    "donationIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "DonorRequest": {
                 "required": [
                     "name",
@@ -1583,6 +1794,19 @@
                             "credit_card",
                             "boleto"
                         ]
+                    }
+                },
+                "type": "object"
+            },
+            "ThankDonorRequest": {
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 10
                     }
                 },
                 "type": "object"
@@ -1773,6 +1997,10 @@
                             },
                             "name": {
                                 "type": "string"
+                            },
+                            "avatarUrl": {
+                                "type": "string",
+                                "nullable": true
                             }
                         },
                         "type": "object",
@@ -1928,6 +2156,15 @@
                         "type": "string",
                         "nullable": true
                     },
+                    "thankYouMessage": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "thankedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
                     "paidAt": {
                         "type": "string",
                         "format": "date-time"
@@ -2072,6 +2309,10 @@
                     },
                     "name": {
                         "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -2098,6 +2339,10 @@
                         "nullable": true
                     },
                     "phone": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "avatarUrl": {
                         "type": "string",
                         "nullable": true
                     },

@@ -23,10 +23,10 @@ type ThankYouModalProps = {
 };
 
 const SUGGESTED_MESSAGES = [
-  '{nome}, muito obrigado pela sua generosa doação de {valor}! Seu apoio significa o mundo para nós. 💙',
-  'Gratidão, {nome}! Sua contribuição de {valor} nos aproxima ainda mais do nosso objetivo. Muito obrigado! 🙏',
-  '{nome}, sua doação de {valor} fez toda a diferença! Somos imensamente gratos pelo seu apoio. ❤️',
-  'Querido(a) {nome}, obrigado do fundo do coração pela doação de {valor}. Você está ajudando a transformar vidas! 🌟',
+  '{nome}, muito obrigado pela sua generosa doação de {valor}! Seu apoio significa o mundo para nós.',
+  'Gratidão, {nome}! Sua contribuição de {valor} nos aproxima ainda mais do nosso objetivo. Muito obrigado!',
+  '{nome}, sua doação de {valor} fez toda a diferença! Somos imensamente gratos pelo seu apoio.',
+  'Querido(a) {nome}, obrigado do fundo do coração pela doação de {valor}. Você está ajudando a transformar vidas!',
 ];
 
 export const ThankYouModal = ({
@@ -126,7 +126,7 @@ export const ThankYouModal = ({
 
             <div className="bg-default-100 rounded-lg p-3">
               <p className="text-xs text-default-600">
-                💡 <strong>Dica:</strong> Mensagens personalizadas fortalecem o vínculo com seus
+                <strong>Dica:</strong> Mensagens personalizadas fortalecem o vínculo com seus
                 doadores e os incentivam a continuar apoiando sua causa.
               </p>
             </div>
