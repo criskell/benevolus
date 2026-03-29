@@ -10,7 +10,6 @@ use App\Http\Requests\Donation\DonateRequest;
 use App\Http\Resources\Campaign\CampaignDonationResource;
 use App\Http\Resources\Donation\DonationResource;
 use App\Http\Resources\Payment\PaymentResource;
-use App\Models\Campaign;
 use App\Services\Campaign\CampaignService;
 use App\Services\Donation\DonationProcessor;
 use App\Services\Donation\DonationService;
@@ -49,7 +48,7 @@ final class DonationController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            type: 'array',items: new OA\Items(ref: '#/components/schemas/CampaignDonationResource')
+                            type: 'array', items: new OA\Items(ref: '#/components/schemas/CampaignDonationResource')
                         ),
                     ]
                 )
