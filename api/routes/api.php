@@ -8,6 +8,7 @@ use App\Http\Controllers\API\Campaign\LeaderboardController;
 use App\Http\Controllers\API\Comment\CommentController;
 use App\Http\Controllers\API\Comment\CommentReactionController;
 use App\Http\Controllers\API\Donation\DonationController;
+use App\Http\Controllers\API\Notification\NotificationController;
 use App\Http\Controllers\API\Payment\WooviWebhookController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\User\OAuthController;
@@ -41,3 +42,8 @@ Route::post('/campaigns/{campaign}/reports', [ReportController::class, 'store'])
 Route::get('/leaderboard/campaigns', [LeaderboardController::class, 'topCampaigns']);
 Route::get('/leaderboard/donors', [LeaderboardController::class, 'topDonors']);
 Route::get('/leaderboard/creators', [LeaderboardController::class, 'topCreators']);
+
+Route::get('/notifications', [NotificationController::class, 'index']);
+Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);

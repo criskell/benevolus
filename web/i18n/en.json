@@ -1182,5 +1182,13 @@
       "description": "If you have questions about our Privacy Policy or about the processing of your personal data, contact our Data Protection Officer (DPO).",
       "button": "Contact us"
     }
+  },
+  "notifications_page": {
+    "title": "Notifications",
+    "subtitle": "Follow all updates about your campaigns and donations.",
+    "new_count": "{count, plural, one {# new} other {# new}}",
+    "mark_all_read": "Mark all as read",
+    "mark_as_read": "Mark as read",
+    "empty": "You don't have any notifications at the moment."
   }
 }

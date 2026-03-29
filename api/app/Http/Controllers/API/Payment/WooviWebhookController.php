@@ -7,6 +7,7 @@ namespace App\Http\Controllers\API\Payment;
 use App\Events\DonationPaid;
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
+use App\Notifications\DonationReceived;
 use Illuminate\Http\Request;
 use OpenPix\PhpSdk\Client;
 
@@ -79,6 +80,8 @@ final class WooviWebhookController extends Controller
         $donation->campaign->increment('available_balance_cents', $amount);
 
         event(new DonationPaid($donation->external_reference));
+
+        $donation->campaign->user->notify(new DonationReceived($donation->load('campaign')));
 
         return response()->json(['message' => 'Success.']);
     }
