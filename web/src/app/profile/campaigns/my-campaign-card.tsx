@@ -1,31 +1,54 @@
 'use client';
 
-import { Card, CardBody, Chip, Progress, Button, Image, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/react';
-import { MoreVertical, Eye, Pencil, BarChart3, Megaphone, Wallet, ImageOff } from 'lucide-react';
+import {
+  Card,
+  CardBody,
+  Chip,
+  Progress,
+  Button,
+  Image,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from '@heroui/react';
+import {
+  MoreVertical,
+  Eye,
+  Pencil,
+  BarChart3,
+  Megaphone,
+  Wallet,
+  ImageOff,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+
 import { formatMoney } from '@/lib/utils/format-money';
-import type { MyCampaign, CampaignStatus } from './types';
+import type { CampaignResource } from '@/lib/http/generated';
 
 type MyCampaignCardProps = {
-  campaign: MyCampaign;
+  campaign: CampaignResource;
 };
 
-const statusColors: Record<CampaignStatus, 'success' | 'warning' | 'danger' | 'default'> = {
+const statusColors = {
   open: 'success',
   in_review: 'warning',
   rejected: 'danger',
   finished: 'default',
   closed: 'default',
-};
+} as const;
 
 export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
-  const tCard = useTranslations('campaigns.card');
   const t = useTranslations('campaigns.my_card');
+  const translateCardText = useTranslations('campaigns.card');
+
   const goalCents = campaign.goalCents ?? 0;
   const raisedCents = campaign.amountRaisedCents ?? 0;
-  const progress = goalCents > 0 ? Math.round((raisedCents / goalCents) * 100) : 0;
-  const statusColor = statusColors[campaign.status];
+  const progress =
+    goalCents > 0 ? Math.round((raisedCents / goalCents) * 100) : 0;
+  const statusColor =
+    statusColors[campaign.status as keyof typeof statusColors];
   const statusLabel = t(`status_${campaign.status}`);
 
   return (
@@ -41,7 +64,9 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
           ) : (
             <div className="w-full h-full bg-default-100 rounded-t-lg flex flex-col items-center justify-center gap-2">
               <ImageOff size={40} className="text-default-300" />
-              <span className="text-xs text-default-400">{tCard('no_image')}</span>
+              <span className="text-xs text-default-400">
+                {translateCardText('no_image')}
+              </span>
             </div>
           )}
           <div className="absolute top-2 left-2">
@@ -52,7 +77,12 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
           <div className="absolute top-2 right-2">
             <Dropdown>
               <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="flat" className="bg-white/80">
+                <Button
+                  isIconOnly
+                  size="sm"
+                  variant="flat"
+                  className="bg-white/80"
+                >
                   <MoreVertical size={16} />
                 </Button>
               </DropdownTrigger>
@@ -112,12 +142,16 @@ export const MyCampaignCard = ({ campaign }: MyCampaignCardProps) => {
           <div className="mt-4 space-y-2">
             <div className="flex justify-between text-sm text-default-500">
               <span>{t('raised_percent', { progress })}</span>
-              <span>{t('donations_count', { count: campaign.donationsCount ?? 0 })}</span>
+              <span>
+                {t('donations_count', { count: campaign.donationsCount ?? 0 })}
+              </span>
             </div>
             <Progress value={progress} color="primary" />
             <div className="flex justify-between text-sm">
               <span className="font-medium">{formatMoney(raisedCents)}</span>
-              <span className="text-default-500">{t('goal_prefix')} {formatMoney(goalCents)}</span>
+              <span className="text-default-500">
+                {t('goal_prefix')} {formatMoney(goalCents)}
+              </span>
             </div>
           </div>
 
