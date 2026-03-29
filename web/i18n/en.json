@@ -211,6 +211,15 @@
       "confirm_password_label": "Confirm Password",
       "confirm_password_placeholder": "Confirm password",
       "reset_button": "Reset password"
+    },
+    "oauth": {
+      "google_signin": "Sign in with Google",
+      "google_signup": "Sign up with Google",
+      "or_divider": "or",
+      "processing": "Signing you in...",
+      "error": "Something went wrong during sign-in. Please try again.",
+      "missing_params": "Invalid callback. Missing required parameters.",
+      "back_to_login": "Back to login"
     }
   },
   "campaigns": {
