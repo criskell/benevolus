@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Campaign;
 
+use App\Http\Resources\Campaign\TagResource;
 use App\Http\Resources\Comment\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,6 +36,11 @@ use OpenApi\Attributes as OA;
                 new OA\Property(property: 'name', type: 'string'),
                 new OA\Property(property: 'avatarUrl', type: 'string', nullable: true),
             ]
+        ),
+        new OA\Property(
+            property: 'tags',
+            type: 'array',
+            items: new OA\Items(ref: '#/components/schemas/TagResource')
         ),
         new OA\Property(
             property: 'comments',
@@ -76,6 +82,7 @@ class CampaignResource extends JsonResource
                 'name' => $this->user->name,
                 'avatarUrl' => $this->user->avatar_url,
             ]),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
             'comments' => CommentResource::collection($this->whenLoaded('recentComments')),
             'updates' => CampaignUpdateResource::collection($this->whenLoaded('recentUpdates')),
             'donations' => CampaignDonationResource::collection($this->whenLoaded('recentDonations')),
