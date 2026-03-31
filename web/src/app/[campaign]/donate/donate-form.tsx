@@ -23,7 +23,7 @@ import { BitcoinIcon } from '@/components/icons/bitcoin';
 import { PaymentMethodButton } from './payment-method-button';
 import { useGetCampaign, useCreateDonation } from '@/lib/http/generated';
 import type { TranslateFn } from '@/types/i18n';
-import axiosClient from 'axios';
+import { getApiErrorMessage } from '@/lib/utils/get-api-error-message';
 
 const createDonateSchema = (t: TranslateFn) =>
   z.object({
@@ -117,11 +117,7 @@ export const DonateForm = () => {
         },
       });
     } catch (error) {
-      if (axiosClient.isAxiosError(error) && error.response?.data?.message) {
-        setSubmitError(error.response.data.message);
-      } else {
-        setSubmitError(t('submit_error'));
-      }
+      setSubmitError(getApiErrorMessage(error, t('submit_error')));
     }
   };
 
