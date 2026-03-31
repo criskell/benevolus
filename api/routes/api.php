@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\API\Campaign\CampaignController;
 use App\Http\Controllers\API\Campaign\CampaignFavoriteController;
-use App\Http\Controllers\API\Campaign\CampaignTagController;
 use App\Http\Controllers\API\Campaign\CampaignImageController;
+use App\Http\Controllers\API\Campaign\CampaignTagController;
 use App\Http\Controllers\API\Campaign\CampaignUpdateController;
 use App\Http\Controllers\API\Campaign\LeaderboardController;
 use App\Http\Controllers\API\Comment\CommentController;

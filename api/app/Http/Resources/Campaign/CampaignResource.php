@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Campaign;
 
-use App\Http\Resources\Campaign\TagResource;
 use App\Http\Resources\Comment\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
