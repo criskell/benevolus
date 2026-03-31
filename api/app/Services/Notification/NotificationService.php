@@ -6,8 +6,8 @@ namespace App\Services\Notification;
 
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Notification as NotificationFacade;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification as NotificationFacade;
 
 final class NotificationService
 {
