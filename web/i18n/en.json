@@ -211,6 +211,15 @@
       "confirm_password_label": "Confirm Password",
       "confirm_password_placeholder": "Confirm password",
       "reset_button": "Reset password"
+    },
+    "oauth": {
+      "google_signin": "Sign in with Google",
+      "google_signup": "Sign up with Google",
+      "or_divider": "or",
+      "processing": "Signing you in...",
+      "error": "Something went wrong during sign-in. Please try again.",
+      "missing_params": "Invalid callback. Missing required parameters.",
+      "back_to_login": "Back to login"
     }
   },
   "campaigns": {
@@ -768,7 +777,19 @@
     "donor_protection_description": "Your donations are protected. We monitor all campaigns and ensure complete transparency in the use of resources.",
     "need_help_title": "Need help?",
     "need_help_description": "Contact our support team.",
-    "contact_support": "Contact support"
+    "contact_support": "Contact support",
+    "submit_error": "Something went wrong. Please try again.",
+    "validation": {
+      "amount_required": "Enter a donation amount",
+      "amount_min": "Minimum donation is R$ 1.00",
+      "name_required": "Enter your full name",
+      "email_required": "Enter your email",
+      "email_invalid": "Enter a valid email",
+      "tax_id_required": "Enter your CPF",
+      "tax_id_invalid": "Enter a valid CPF",
+      "phone_required": "Enter your phone number",
+      "payment_method_required": "Select a payment method"
+    }
   },
   "leaderboard": {
     "hero_badge": "Rankings",

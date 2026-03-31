@@ -2,7 +2,18 @@
 
 import { use } from 'react';
 import { Button, Card, CardBody, Chip, Progress, Divider } from '@heroui/react';
-import { ArrowLeft, Pencil, Megaphone, Wallet, ExternalLink, Users, TrendingUp, Calendar, Receipt, Heart } from 'lucide-react';
+import {
+  ArrowLeft,
+  Pencil,
+  Megaphone,
+  Wallet,
+  ExternalLink,
+  Users,
+  TrendingUp,
+  Calendar,
+  Receipt,
+  Heart,
+} from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -10,6 +21,9 @@ import { ProfileSidebar } from '../../profile-sidebar';
 import { RecentDonationsList } from './recent-donations-list';
 import { StatsCard } from './stats-card';
 import { formatMoney } from '@/lib/utils/format-money';
+import { useGetCampaign } from '@/lib/http/generated/hooks/useGetCampaign';
+import { useListCampaignDonations } from '@/lib/http/generated/hooks/useListCampaignDonations';
+import { Spinner } from '@heroui/react';
 
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 
@@ -42,48 +56,62 @@ type Donation = {
   thankYouSentAt?: string;
 };
 
-const statusConfig: Record<CampaignStatus, { label: string; color: 'success' | 'warning' | 'danger' | 'default' }> = {
-  approved: { label: 'Ativa', color: 'success' },
-  pending: { label: 'Em análise', color: 'warning' },
+const statusConfig: Record<
+  string,
+  { label: string; color: 'success' | 'warning' | 'danger' | 'default' }
+> = {
+  open: { label: 'Ativa', color: 'success' },
+  in_review: { label: 'Em análise', color: 'warning' },
   rejected: { label: 'Rejeitada', color: 'danger' },
   finished: { label: 'Finalizada', color: 'default' },
+  closed: { label: 'Fechada', color: 'default' },
 };
 
-const CampaignDashboardPage = ({ params }: { params: Promise<{ id: string }> }) => {
+const CampaignDashboardPage = ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
   const { id } = use(params);
 
-  const userData = {
-    name: 'Cristiano',
-    followedCampaigns: 0,
-    donationsCount: 3,
-  };
+  const { data: campaign, isLoading: isLoadingCampaign } = useGetCampaign(id);
+  const { data: donationsResponse, isLoading: isLoadingDonations } =
+    useListCampaignDonations(id);
 
-  const campaign: CampaignDetails = {
-    id,
-    slug: 'ajuda-para-maria',
-    title: 'Ajuda para Maria reconstruir sua casa após enchente',
-    description: 'Maria perdeu tudo na enchente que atingiu sua cidade. Precisamos ajudá-la a reconstruir sua casa e sua vida.',
-    category: 'EMERGENCIAIS',
-    status: 'approved',
-    currentAmountCents: 450000,
-    goalAmountCents: 1000000,
-    availableBalanceCents: 380000,
-    donationsCount: 47,
-    image: placeholderImage1.src,
-    createdAt: '2025-01-05',
-    expiresAt: '2025-03-05',
-  };
+  if (isLoadingCampaign || isLoadingDonations) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <Spinner size="lg" label="Carregando informações da campanha..." />
+      </div>
+    );
+  }
 
-  const recentDonations: Donation[] = [
-    { id: '1', donorName: 'João Silva', amountCents: 5000, createdAt: '2025-01-14T10:30:00', isAnonymous: false, thanked: false },
-    { id: '2', donorName: null, amountCents: 10000, createdAt: '2025-01-14T09:15:00', isAnonymous: true, thanked: false },
-    { id: '3', donorName: 'Maria Santos', amountCents: 2500, createdAt: '2025-01-13T18:45:00', isAnonymous: false, thanked: true, thankYouMessage: 'Muito obrigado Maria!', thankYouSentAt: '2025-01-13T19:00:00' },
-    { id: '4', donorName: 'Pedro Oliveira', amountCents: 15000, createdAt: '2025-01-13T14:20:00', isAnonymous: false, thanked: false },
-    { id: '5', donorName: null, amountCents: 5000, createdAt: '2025-01-12T11:00:00', isAnonymous: true, thanked: false },
-  ];
+  if (!campaign) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <p className="text-default-500">Campanha não encontrada.</p>
+      </div>
+    );
+  }
 
-  const progress = Math.round((campaign.currentAmountCents / campaign.goalAmountCents) * 100);
-  const status = statusConfig[campaign.status];
+  const recentDonations: Donation[] = (donationsResponse?.data || [])
+    .map((donation, index) => ({
+      id: index.toString(),
+      donorName: donation.donor_name || null,
+      amountCents: donation.amount_cents || 0,
+      createdAt: donation.created_at || new Date().toISOString(),
+      isAnonymous: !donation.donor_name,
+      thanked: false,
+    }))
+    .slice(0, 5);
+
+  const goalAmountCents = campaign.goalCents ?? 0;
+  const currentAmountCents = campaign.amountRaisedCents ?? 0;
+  const progress =
+    goalAmountCents > 0
+      ? Math.round((currentAmountCents / goalAmountCents) * 100)
+      : 0;
+  const status = statusConfig[campaign.status || 'open'] || statusConfig.open;
 
   const menuItems = [
     { label: 'Informações pessoais', active: false },
@@ -125,12 +153,18 @@ const CampaignDashboardPage = ({ params }: { params: Promise<{ id: string }> }) 
             <CardBody className="p-0">
               <div className="flex flex-col md:flex-row gap-6 p-6">
                 <div className="relative w-full md:w-48 aspect-video md:aspect-square shrink-0">
-                  <Image
-                    src={campaign.image}
-                    alt={campaign.title}
-                    fill
-                    className="object-cover rounded-lg"
-                  />
+                  {campaign.image ? (
+                    <Image
+                      src={campaign.image}
+                      alt={campaign.title || ''}
+                      fill
+                      className="object-cover rounded-lg"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-default-100 rounded-lg flex items-center justify-center">
+                      <Heart className="text-default-300" size={40} />
+                    </div>
+                  )}
                 </div>
                 <div className="flex-1 space-y-3">
                   <div className="flex items-start justify-between gap-4">
@@ -140,20 +174,30 @@ const CampaignDashboardPage = ({ params }: { params: Promise<{ id: string }> }) 
                           {status.label}
                         </Chip>
                         <Chip size="sm" variant="flat">
-                          {campaign.category}
+                          {campaign.slug?.toUpperCase()}
                         </Chip>
                       </div>
-                      <h2 className="text-xl font-semibold">{campaign.title}</h2>
+                      <h2 className="text-xl font-semibold">
+                        {campaign.title}
+                      </h2>
                     </div>
                   </div>
-                  <p className="text-default-500 text-sm line-clamp-2">{campaign.description}</p>
+                  <p className="text-default-500 text-sm line-clamp-2">
+                    {campaign.description}
+                  </p>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="font-medium">{formatMoney(campaign.currentAmountCents)}</span>
-                      <span className="text-default-500">de {formatMoney(campaign.goalAmountCents)}</span>
+                      <span className="font-medium">
+                        {formatMoney(currentAmountCents)}
+                      </span>
+                      <span className="text-default-500">
+                        de {formatMoney(goalAmountCents)}
+                      </span>
                     </div>
                     <Progress value={progress} color="primary" />
-                    <p className="text-sm text-default-500">{progress}% da meta atingida</p>
+                    <p className="text-sm text-default-500">
+                      {progress}% da meta atingida
+                    </p>
                   </div>
                 </div>
               </div>
@@ -164,18 +208,18 @@ const CampaignDashboardPage = ({ params }: { params: Promise<{ id: string }> }) 
             <StatsCard
               icon={TrendingUp}
               label="Total arrecadado"
-              value={formatMoney(campaign.currentAmountCents)}
+              value={formatMoney(currentAmountCents)}
             />
             <StatsCard
               icon={Wallet}
               label="Disponível para saque"
-              value={formatMoney(campaign.availableBalanceCents)}
+              value={formatMoney(currentAmountCents)}
               color="success"
             />
             <StatsCard
               icon={Users}
               label="Doações recebidas"
-              value={campaign.donationsCount.toString()}
+              value={(campaign.donationsCount ?? 0).toString()}
             />
             <StatsCard
               icon={Calendar}
@@ -183,7 +227,6 @@ const CampaignDashboardPage = ({ params }: { params: Promise<{ id: string }> }) 
               value={campaign.expiresAt ? '50' : '∞'}
             />
           </div>
-
 
           <div className="flex flex-wrap gap-3">
             <Button
@@ -219,7 +262,7 @@ const CampaignDashboardPage = ({ params }: { params: Promise<{ id: string }> }) 
             >
               Postar atualização
             </Button>
-            {campaign.availableBalanceCents > 0 && (
+            {currentAmountCents > 0 && (
               <Button
                 as={Link}
                 href={`/profile/campaigns/${id}/withdrawals`}
@@ -236,7 +279,7 @@ const CampaignDashboardPage = ({ params }: { params: Promise<{ id: string }> }) 
           <div>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Doações recentes</h3>
-              {recentDonations.some(d => !d.thanked && !d.isAnonymous) && (
+              {recentDonations.some((d) => !d.thanked && !d.isAnonymous) && (
                 <Button
                   as={Link}
                   href={`/profile/campaigns/${id}/thank-donors`}

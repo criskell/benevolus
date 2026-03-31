@@ -211,6 +211,15 @@
       "confirm_password_label": "Confirmar Senha",
       "confirm_password_placeholder": "Confirme a senha",
       "reset_button": "Redefinir senha"
+    },
+    "oauth": {
+      "google_signin": "Entrar com Google",
+      "google_signup": "Cadastrar com Google",
+      "or_divider": "ou",
+      "processing": "Entrando na sua conta...",
+      "error": "Algo deu errado durante o login. Tente novamente.",
+      "missing_params": "Callback inválido. Parâmetros obrigatórios ausentes.",
+      "back_to_login": "Voltar para o login"
     }
   },
   "campaigns": {
@@ -768,7 +777,19 @@
     "donor_protection_description": "Suas doações estão protegidas. Monitoramos todas as campanhas e garantimos transparência total no uso dos recursos.",
     "need_help_title": "Precisa de ajuda?",
     "need_help_description": "Entre em contato com nossa equipe de suporte.",
-    "contact_support": "Falar com suporte"
+    "contact_support": "Falar com suporte",
+    "submit_error": "Algo deu errado. Tente novamente.",
+    "validation": {
+      "amount_required": "Informe o valor da doação",
+      "amount_min": "O valor mínimo é R$ 1,00",
+      "name_required": "Informe seu nome completo",
+      "email_required": "Informe seu e-mail",
+      "email_invalid": "Informe um e-mail válido",
+      "tax_id_required": "Informe seu CPF",
+      "tax_id_invalid": "Informe um CPF válido",
+      "phone_required": "Informe seu telefone",
+      "payment_method_required": "Selecione uma forma de pagamento"
+    }
   },
   "leaderboard": {
     "hero_badge": "Ranking",

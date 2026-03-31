@@ -33,11 +33,6 @@ class Campaign extends Model
         'status',
     ];
 
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
-    }
-
     protected $casts = [
         'expires_at' => 'datetime',
     ];

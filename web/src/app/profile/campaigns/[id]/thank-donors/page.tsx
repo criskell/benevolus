@@ -1,171 +1,96 @@
 'use client';
 
 import { use, useState } from 'react';
-import { Button, Card, CardBody, Chip, Tabs, Tab, Avatar, Input } from '@heroui/react';
+import { Button, Card, CardBody, Chip, Tabs, Tab, Avatar, Input, Spinner } from '@heroui/react';
 import { ArrowLeft, Search, Heart, Check, X, Users } from 'lucide-react';
 import Link from 'next/link';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { ProfileSidebar } from '../../../profile-sidebar';
 import { ThankYouModal } from '../thank-you-modal';
 import { BulkThankYouModal } from '../bulk-thank-you-modal';
 import { formatMoney } from '@/lib/utils/format-money';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
+import { useListThankableDonations, listThankableDonationsQueryKey } from '@/lib/http/generated/hooks/useListThankableDonations';
+import { useThankDonor } from '@/lib/http/generated/hooks/useThankDonor';
+import { useBulkThankDonors } from '@/lib/http/generated/hooks/useBulkThankDonors';
+import { useGetCampaign } from '@/lib/http/generated/hooks/useGetCampaign';
+import type { DonationResource } from '@/lib/http/generated/models/DonationResource';
 
 type Donation = {
-  id: string;
+  id: number;
   donorName: string | null;
-  donorEmail?: string;
+  donorEmail?: string | null;
   amountCents: number;
   createdAt: string;
   isAnonymous: boolean;
   thanked: boolean;
-  thankYouMessage?: string;
-  thankYouSentAt?: string;
+  thankYouMessage?: string | null;
+  thankYouSentAt?: string | null;
 };
+
+const mapDonation = (d: DonationResource): Donation => ({
+  id: d.id!,
+  donorName: d.donor?.name ?? null,
+  donorEmail: d.donor?.email,
+  amountCents: d.amountCents ?? 0,
+  createdAt: d.createdAt ?? '',
+  isAnonymous: d.isAnonymous ?? false,
+  thanked: !!d.thankedAt,
+  thankYouMessage: d.thankYouMessage,
+  thankYouSentAt: d.thankedAt,
+});
 
 const ThankDonorsPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'thanked' | 'pending'>('pending');
   const [selectedDonation, setSelectedDonation] = useState<Donation | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBulkModalOpen, setIsBulkModalOpen] = useState(false);
 
-  const userData = {
-    name: 'Cristiano',
-    followedCampaigns: 0,
-    donationsCount: 3,
-  };
+  const { data: campaign } = useGetCampaign(id);
+  const { data: donationsResponse, isLoading } = useListThankableDonations(id);
+  const thankMutation = useThankDonor();
+  const bulkThankMutation = useBulkThankDonors();
 
-  const campaignTitle = 'Ajuda para Maria reconstruir sua casa';
-
-  const [donations, setDonations] = useState<Donation[]>([
-    {
-      id: '1',
-      donorName: 'João Silva',
-      donorEmail: 'joao.silva@email.com',
-      amountCents: 5000,
-      createdAt: '2025-02-08T10:30:00',
-      isAnonymous: false,
-      thanked: false,
-    },
-    {
-      id: '2',
-      donorName: null,
-      amountCents: 10000,
-      createdAt: '2025-02-07T15:45:00',
-      isAnonymous: true,
-      thanked: false,
-    },
-    {
-      id: '3',
-      donorName: 'Maria Santos',
-      donorEmail: 'maria.santos@email.com',
-      amountCents: 2500,
-      createdAt: '2025-02-06T18:45:00',
-      isAnonymous: false,
-      thanked: true,
-      thankYouMessage: 'Maria, muito obrigado pela sua generosa doação! Seu apoio significa o mundo para nós. 💙',
-      thankYouSentAt: '2025-02-06T19:00:00',
-    },
-    {
-      id: '4',
-      donorName: 'Pedro Oliveira',
-      donorEmail: 'pedro.oliveira@email.com',
-      amountCents: 15000,
-      createdAt: '2025-02-05T14:20:00',
-      isAnonymous: false,
-      thanked: true,
-      thankYouMessage: 'Pedro, gratidão pela sua contribuição! 🙏',
-      thankYouSentAt: '2025-02-05T15:00:00',
-    },
-    {
-      id: '5',
-      donorName: null,
-      amountCents: 5000,
-      createdAt: '2025-02-04T11:00:00',
-      isAnonymous: true,
-      thanked: false,
-    },
-    {
-      id: '6',
-      donorName: 'Ana Costa',
-      donorEmail: 'ana.costa@email.com',
-      amountCents: 8000,
-      createdAt: '2025-02-03T09:30:00',
-      isAnonymous: false,
-      thanked: false,
-    },
-    {
-      id: '7',
-      donorName: 'Carlos Mendes',
-      donorEmail: 'carlos.mendes@email.com',
-      amountCents: 12000,
-      createdAt: '2025-02-02T16:15:00',
-      isAnonymous: false,
-      thanked: true,
-      thankYouMessage: 'Carlos, sua doação fez toda a diferença! Muito obrigado! ❤️',
-      thankYouSentAt: '2025-02-02T17:00:00',
-    },
-    {
-      id: '8',
-      donorName: 'Juliana Ferreira',
-      donorEmail: 'juliana.ferreira@email.com',
-      amountCents: 20000,
-      createdAt: '2025-02-01T12:45:00',
-      isAnonymous: false,
-      thanked: false,
-    },
-  ]);
+  const donations: Donation[] = (donationsResponse?.data ?? []).map(mapDonation);
 
   const handleThankYou = (donation: Donation) => {
     setSelectedDonation(donation);
     setIsModalOpen(true);
   };
 
-  const handleSendThankYou = (message: string) => {
-    if (selectedDonation) {
-      setDonations(prev =>
-        prev.map(d =>
-          d.id === selectedDonation.id
-            ? {
-                ...d,
-                thanked: true,
-                thankYouMessage: message,
-                thankYouSentAt: new Date().toISOString(),
-              }
-            : d
-        )
-      );
-    }
+  const handleSendThankYou = async (message: string) => {
+    if (!selectedDonation) return;
+
+    await thankMutation.mutateAsync({
+      id: selectedDonation.id,
+      data: { message },
+    });
+
+    queryClient.invalidateQueries({ queryKey: listThankableDonationsQueryKey(id) });
     setIsModalOpen(false);
     setSelectedDonation(null);
   };
 
   const handleBulkThankYou = () => {
     const pendingDonations = donations.filter(d => !d.thanked && !d.isAnonymous);
-    if (pendingDonations.length === 0) {
-      alert('Não há doadores pendentes para agradecer.');
-      return;
-    }
+    if (pendingDonations.length === 0) return;
     setIsBulkModalOpen(true);
   };
 
-  const handleSendBulkThankYou = (message: string, selectedIds: string[]) => {
-    setDonations(prev =>
-      prev.map(d =>
-        selectedIds.includes(d.id)
-          ? {
-              ...d,
-              thanked: true,
-              thankYouMessage: message
-                .replace(/{nome}/g, d.donorName || 'Doador')
-                .replace(/{valor}/g, formatMoney(d.amountCents)),
-              thankYouSentAt: new Date().toISOString(),
-            }
-          : d
-      )
-    );
+  const handleSendBulkThankYou = async (message: string, selectedIds: string[]) => {
+    await bulkThankMutation.mutateAsync({
+      identifier: id,
+      data: {
+        message,
+        donationIds: selectedIds.map(Number),
+      },
+    });
+
+    queryClient.invalidateQueries({ queryKey: listThankableDonationsQueryKey(id) });
     setIsBulkModalOpen(false);
   };
 
@@ -201,6 +126,19 @@ const ThankDonorsPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   const counts = getCounts();
 
+  if (isLoading) {
+    return (
+      <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
+        <div className="flex gap-8">
+          <ProfileSidebar />
+          <main className="flex-1 flex items-center justify-center py-20">
+            <Spinner size="lg" />
+          </main>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
       <div className="flex gap-8">
@@ -219,13 +157,14 @@ const ThankDonorsPage = ({ params }: { params: Promise<{ id: string }> }) => {
             </Button>
             <div className="flex-1">
               <h1 className="text-2xl font-semibold">Agradecer Doadores</h1>
-              <p className="text-sm text-default-500 mt-1">{campaignTitle}</p>
+              <p className="text-sm text-default-500 mt-1">{campaign?.title}</p>
             </div>
             {counts.pending > 0 && (
               <Button
                 color="primary"
                 startContent={<Users size={18} />}
                 onPress={handleBulkThankYou}
+                isLoading={bulkThankMutation.isPending}
               >
                 Agradecer todos ({counts.pending})
               </Button>
@@ -393,6 +332,7 @@ const ThankDonorsPage = ({ params }: { params: Promise<{ id: string }> }) => {
                                 variant="flat"
                                 startContent={<Heart size={18} />}
                                 onPress={() => handleThankYou(donation)}
+                                isLoading={thankMutation.isPending && selectedDonation?.id === donation.id}
                               >
                                 Agradecer
                               </Button>
@@ -429,7 +369,7 @@ const ThankDonorsPage = ({ params }: { params: Promise<{ id: string }> }) => {
         donations={donations
           .filter(d => !d.thanked && !d.isAnonymous)
           .map(d => ({
-            id: d.id,
+            id: String(d.id),
             donorName: d.donorName,
             amountCents: d.amountCents,
             createdAt: d.createdAt,

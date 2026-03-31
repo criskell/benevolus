@@ -67,11 +67,13 @@ final class CampaignService
         return $campaign;
     }
 
-    public function findBySlug(string $slug): Campaign
+    public function findBySlugOrId(string $identifier): Campaign
     {
+        $column = ctype_digit($identifier) ? 'id' : 'slug';
+
         $campaign = Campaign::withCount('favoritedByUsers')
             ->with('user')
-            ->where('slug', $slug)
+            ->where($column, $identifier)
             ->firstOrFail();
 
         $recentComments = $campaign->comments()

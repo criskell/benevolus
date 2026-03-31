@@ -32,6 +32,7 @@ const LoginPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const t = useTranslations("auth.login");
+  const tOAuth = useTranslations("auth.oauth");
 
   const {
     control,
@@ -51,7 +52,7 @@ const LoginPage = () => {
       await getCsrfToken();
       await login(data);
       await queryClient.invalidateQueries({ queryKey: getProfileQueryKey() });
-      router.push("/");
+      router.push("/campaigns");
     } catch (error) {
       if (axiosClient.isAxiosError(error) && error.response?.data?.message) {
         setLoginError(error.response.data.message);
@@ -158,6 +159,26 @@ const LoginPage = () => {
             {t("submit_button")}
           </Button>
         </form>
+
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-default-200" />
+          <span className="text-sm text-default-400">{tOAuth("or_divider")}</span>
+          <div className="h-px flex-1 bg-default-200" />
+        </div>
+
+        <Button
+          variant="bordered"
+          fullWidth
+          size="lg"
+          startContent={
+            <Icon icon="flat-color-icons:google" width={20} />
+          }
+          onPress={() => {
+            window.location.href = "/api/auth/google/redirect";
+          }}
+        >
+          {tOAuth("google_signin")}
+        </Button>
 
         <p className="text-center text-sm text-default-500">
           {t("no_account")}{" "}

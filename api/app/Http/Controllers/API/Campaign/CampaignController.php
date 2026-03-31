@@ -82,16 +82,16 @@ final class CampaignController extends Controller implements HasMiddleware
 
     #[OA\Get(
         operationId: 'getCampaign',
-        path: '/api/campaigns/{slug}',
-        summary: 'Get campaign by slug',
+        path: '/api/campaigns/{identifier}',
+        summary: 'Get campaign by slug or ID',
         tags: ['Campaigns'],
         parameters: [
             new OA\Parameter(
-                name: 'slug',
+                name: 'identifier',
                 in: 'path',
                 required: true,
                 schema: new OA\Schema(type: 'string'),
-                description: 'Campaign slug'
+                description: 'Campaign slug or ID'
             ),
         ],
         responses: [
@@ -104,9 +104,9 @@ final class CampaignController extends Controller implements HasMiddleware
             ),
         ]
     )]
-    public function show(Campaign $campaign)
+    public function show(string $identifier)
     {
-        $campaign = $this->campaignService->findBySlug($campaign->slug);
+        $campaign = $this->campaignService->findBySlugOrId($identifier);
 
         return new CampaignResource($campaign);
     }

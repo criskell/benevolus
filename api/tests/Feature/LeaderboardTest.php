@@ -11,11 +11,9 @@ test('can get top campaigns without authentication', function () {
 
     $response->assertStatus(200)
         ->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'id',
-                    'name',
-                ],
+            '*' => [
+                'id',
+                'name',
             ],
         ]);
 });
@@ -24,7 +22,7 @@ test('can get top campaigns with limit parameter', function () {
     $response = $this->getJson('/api/leaderboard/campaigns?limit=5');
 
     $response->assertStatus(200);
-    expect($response->json('data'))->toHaveCount(0);
+    expect($response->json())->toHaveCount(0);
 });
 
 test('top campaigns returns campaigns ordered by donated amount', function () {
@@ -37,7 +35,7 @@ test('top campaigns returns campaigns ordered by donated amount', function () {
     $response = $this->getJson('/api/leaderboard/campaigns?limit=10');
 
     $response->assertStatus(200);
-    $data = $response->json('data');
+    $data = $response->json();
     expect($data)->toHaveCount(2);
     expect($data[0]['totalDonated'])->toBe(50000);
     expect($data[1]['totalDonated'])->toBe(10000);
@@ -48,10 +46,8 @@ test('can get top donors without authentication', function () {
 
     $response->assertStatus(200)
         ->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'name',
-                ],
+            '*' => [
+                'name',
             ],
         ]);
 });
@@ -66,7 +62,7 @@ test('top donors returns users ordered by total donated', function () {
     $response = $this->getJson('/api/leaderboard/donors?limit=10');
 
     $response->assertStatus(200);
-    $data = $response->json('data');
+    $data = $response->json();
     $donorTotals = collect($data)->pluck('totalDonated')->filter(fn ($v) => $v > 0)->sortByDesc(fn ($v) => $v)->values()->all();
     expect($donorTotals)->toBe([20000, 5000]);
 });
@@ -76,11 +72,9 @@ test('can get top creators without authentication', function () {
 
     $response->assertStatus(200)
         ->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'name',
-                    'totalCampaigns',
-                ],
+            '*' => [
+                'name',
+                'totalCampaigns',
             ],
         ]);
 });
@@ -94,7 +88,7 @@ test('top creators returns users ordered by campaign count', function () {
     $response = $this->getJson('/api/leaderboard/creators?limit=10');
 
     $response->assertStatus(200);
-    $data = $response->json('data');
+    $data = $response->json();
     expect($data)->toHaveCount(2);
     expect($data[0]['totalCampaigns'])->toBe(5);
     expect($data[1]['totalCampaigns'])->toBe(2);

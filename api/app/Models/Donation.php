@@ -15,11 +15,14 @@ class Donation extends Model
         'user_id',
         'campaign_id',
         'amount_cents',
+        'is_anonymous',
         'payment_method',
         'payment_status',
         'payment_processor',
         'external_reference',
         'paid_at',
+        'thank_you_message',
+        'thanked_at',
     ];
 
     public function user()
@@ -33,6 +36,8 @@ class Donation extends Model
     }
 
     protected $casts = [
+        'is_anonymous' => 'boolean',
         'paid_at' => 'datetime',
+        'thanked_at' => 'datetime',
     ];
 }

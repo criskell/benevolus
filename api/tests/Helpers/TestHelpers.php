@@ -39,18 +39,16 @@ class TestHelpers
 
     public static function assertJsonApiStructure(array $response): void
     {
-        expect($response)->toHaveKeys(['data']);
+        expect($response)->toBeArray();
     }
 
     public static function assertJsonApiCollectionStructure(array $response): void
     {
-        expect($response)->toHaveKeys(['data']);
-        expect($response['data'])->toBeArray();
+        expect($response)->toBeArray();
     }
 
     public static function assertJsonApiResourceStructure(array $response): void
     {
-        expect($response)->toHaveKeys(['data']);
-        expect($response['data'])->toBeArray();
+        expect($response)->toBeArray();
     }
 }

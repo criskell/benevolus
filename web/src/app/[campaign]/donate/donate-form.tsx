@@ -4,16 +4,16 @@ import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { PatternFormat } from 'react-number-format';
 import {
-  Alert,
   Button,
   Card,
-  Checkbox,
-  input,
   Input,
   Switch,
-  Chip,
 } from '@heroui/react';
-import { useId, useState } from 'react';
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import { PixIcon } from '@/components/icons/pix';
@@ -21,31 +21,118 @@ import { BarcodeIcon, CreditCardIcon } from 'lucide-react';
 import { PayPalIcon } from '@/components/icons/paypal';
 import { BitcoinIcon } from '@/components/icons/bitcoin';
 import { PaymentMethodButton } from './payment-method-button';
+import { useGetCampaign, useCreateDonation } from '@/lib/http/generated';
+import type { TranslateFn } from '@/types/i18n';
+import { getApiErrorMessage } from '@/lib/utils/get-api-error-message';
+
+const createDonateSchema = (t: TranslateFn) =>
+  z.object({
+    amount: z
+      .number({ error: t('validation.amount_required') })
+      .min(100, t('validation.amount_min')),
+    name: z
+      .string()
+      .min(1, t('validation.name_required')),
+    email: z
+      .string()
+      .min(1, t('validation.email_required'))
+      .email(t('validation.email_invalid')),
+    taxId: z
+      .string()
+      .min(1, t('validation.tax_id_required'))
+      .refine((val) => val.replace(/\D/g, '').length === 11, {
+        message: t('validation.tax_id_invalid'),
+      }),
+    phone: z
+      .string()
+      .min(1, t('validation.phone_required')),
+    paymentMethod: z.enum(['pix', 'credit_card', 'boleto'], {
+      error: t('validation.payment_method_required'),
+    }),
+    anonymous: z.boolean(),
+  });
+
+type DonateFormData = z.infer<ReturnType<typeof createDonateSchema>>;
 
 export const DonateForm = () => {
   const t = useTranslations('donate');
-  const phoneInputId = useId();
-  const [phone, setPhone] = useState<any>();
-  const [country, setCountry] = useState<any>();
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
-  const [customAmount, setCustomAmount] = useState('');
+  const params = useParams<{ campaign: string }>();
+
+  const { data: campaign } = useGetCampaign(params.campaign);
+
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [selectedQuickAmount, setSelectedQuickAmount] = useState<number | null>(null);
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<DonateFormData>({
+    resolver: zodResolver(createDonateSchema(t)),
+    defaultValues: {
+      amount: 0,
+      name: '',
+      email: '',
+      taxId: '',
+      phone: '',
+      paymentMethod: 'pix',
+      anonymous: false,
+    },
+  });
+
+  const createDonation = useCreateDonation();
 
   const quickAmounts = [
-    { value: 10, label: 'R$ 10' },
-    { value: 30, label: 'R$ 30' },
-    { value: 50, label: 'R$ 50' },
-    { value: 100, label: 'R$ 100' },
-    { value: 200, label: 'R$ 200' },
-    { value: 500, label: 'R$ 500' },
+    { value: 1000, label: 'R$ 10' },
+    { value: 3000, label: 'R$ 30' },
+    { value: 5000, label: 'R$ 50' },
+    { value: 10000, label: 'R$ 100' },
+    { value: 20000, label: 'R$ 200' },
+    { value: 50000, label: 'R$ 500' },
   ];
 
+  const onSubmit = async (data: DonateFormData) => {
+    setSubmitError(null);
+
+    const phoneDigits = data.phone.replace(/\D/g, '');
+    const cleanPhone = phoneDigits.startsWith('55')
+      ? phoneDigits.slice(2)
+      : phoneDigits;
+
+    try {
+      await createDonation.mutateAsync({
+        data: {
+          amount: data.amount,
+          anonymousDonation: data.anonymous,
+          campaignId: campaign?.id ?? null,
+          donor: {
+            name: data.name,
+            email: data.email,
+            taxId: data.taxId.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
+            phoneNumber: cleanPhone,
+          },
+          paymentMethod: data.paymentMethod,
+        },
+      });
+    } catch (error) {
+      setSubmitError(getApiErrorMessage(error, t('submit_error')));
+    }
+  };
+
   return (
-    <div className="space-y-6 flex-1">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 flex-1">
+      {submitError && (
+        <div className="p-4 rounded-lg bg-danger-50 border border-danger-200">
+          <p className="text-sm text-danger">{submitError}</p>
+        </div>
+      )}
+
       {/* Amount Selection Card */}
       <Card className="p-6 md:p-8 border border-default-200 overflow-hidden relative" shadow="none">
-        {/* Decorative background */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-3xl -z-10" />
-        
+
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
             <Icon icon="solar:wallet-money-bold" width={24} className="text-primary" />
@@ -58,16 +145,17 @@ export const DonateForm = () => {
           {quickAmounts.map((amount) => (
             <Button
               key={amount.value}
-              variant={selectedAmount === amount.value ? 'solid' : 'bordered'}
-              color={selectedAmount === amount.value ? 'primary' : 'default'}
+              type="button"
+              variant={selectedQuickAmount === amount.value ? 'solid' : 'bordered'}
+              color={selectedQuickAmount === amount.value ? 'primary' : 'default'}
               className={`font-semibold h-14 ${
-                selectedAmount === amount.value 
-                  ? 'shadow-lg shadow-primary/30' 
+                selectedQuickAmount === amount.value
+                  ? 'shadow-lg shadow-primary/30'
                   : 'border-default-300 hover:border-primary'
               }`}
               onPress={() => {
-                setSelectedAmount(amount.value);
-                setCustomAmount('');
+                setSelectedQuickAmount(amount.value);
+                setValue('amount', amount.value, { shouldValidate: true });
               }}
             >
               {amount.label}
@@ -81,18 +169,21 @@ export const DonateForm = () => {
           <Input
             type="number"
             placeholder="0,00"
-            value={customAmount}
+            value={selectedQuickAmount ? '' : watch('amount') ? String(watch('amount') / 100) : ''}
             onValueChange={(value) => {
-              setCustomAmount(value);
-              setSelectedAmount(null);
+              const cents = Math.round(parseFloat(value || '0') * 100);
+              setValue('amount', cents, { shouldValidate: true });
+              setSelectedQuickAmount(null);
             }}
             startContent={
               <span className="text-default-600 font-semibold">R$</span>
             }
             size="lg"
+            isInvalid={!!errors.amount}
+            errorMessage={errors.amount?.message}
             classNames={{
-              input: "text-lg font-semibold",
-              inputWrapper: "border-2 border-default-300 hover:border-primary data-[focus=true]:border-primary"
+              input: 'text-lg font-semibold',
+              inputWrapper: 'border-2 border-default-300 hover:border-primary data-[focus=true]:border-primary',
             }}
           />
         </div>
@@ -121,72 +212,108 @@ export const DonateForm = () => {
         </div>
 
         <div className="space-y-4">
-          <Input 
-            label={t('full_name_label')}
-            labelPlacement="outside" 
-            placeholder={t('full_name_placeholder')}
-            size="lg"
-            startContent={<Icon icon="solar:user-linear" width={20} className="text-default-400" />}
-          />
-          
-          <Input 
-            label={t('email_label')}
-            labelPlacement="outside" 
-            type="email"
-            placeholder={t('email_placeholder')}
-            size="lg"
-            startContent={<Icon icon="solar:letter-linear" width={20} className="text-default-400" />}
-          />
-
-          <PatternFormat
-            format="###.###.###-##"
-            mask="_"
-            customInput={Input}
-            label={t('tax_id_label')}
-            labelPlacement="outside"
-            placeholder={t('tax_id_placeholder')}
-            size="lg"
-            startContent={<Icon icon="solar:document-linear" width={20} className="text-default-400" />}
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label={t('full_name_label')}
+                placeholder={t('full_name_placeholder')}
+                isInvalid={!!errors.name}
+                errorMessage={errors.name?.message}
+                startContent={
+                  <Icon icon="solar:user-linear" className="text-default-400" width={20} />
+                }
+              />
+            )}
           />
 
-          <div>
-            <label
-              className={input({
-                labelPlacement: 'outside',
-              }).label()}
-              htmlFor={phoneInputId}
-            >
-              {t('phone_label')}
-            </label>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label={t('email_label')}
+                placeholder={t('email_placeholder')}
+                type="email"
+                isInvalid={!!errors.email}
+                errorMessage={errors.email?.message}
+                startContent={
+                  <Icon icon="solar:letter-linear" className="text-default-400" width={20} />
+                }
+              />
+            )}
+          />
 
-            <PhoneInput
-              onChange={(phone) => setPhone(phone)}
-              value={phone}
-              countryCallingCodeEditable={false}
-              inputComponent={Input}
-              defaultCountry="BR"
-              id={phoneInputId}
-              international
-            />
-          </div>
+          <Controller
+            name="taxId"
+            control={control}
+            render={({ field }) => (
+              <PatternFormat
+                format="###.###.###-##"
+                mask="_"
+                customInput={Input}
+                label={t('tax_id_label')}
+                placeholder={t('tax_id_placeholder')}
+                value={field.value}
+                onValueChange={(values) => {
+                  field.onChange(values.value);
+                }}
+                isInvalid={!!errors.taxId}
+                errorMessage={errors.taxId?.message}
+                startContent={
+                  <Icon icon="solar:document-linear" className="text-default-400" width={20} />
+                }
+              />
+            )}
+          />
 
-          <Checkbox size="sm" className="mt-2">
-            <span className="text-sm">{t('foreign_checkbox')}</span>
-          </Checkbox>
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field }) => (
+              <div>
+                <PhoneInput
+                  international
+                  defaultCountry="BR"
+                  value={field.value}
+                  onChange={(value) => field.onChange(value || '')}
+                  inputComponent={Input}
+                  countryCallingCodeEditable={false}
+                  label={t('phone_label')}
+                />
+                {errors.phone && (
+                  <p className="text-xs text-danger mt-1">{errors.phone.message}</p>
+                )}
+              </div>
+            )}
+          />
 
           {/* Anonymous Donation */}
-          <div className="mt-6 p-4 rounded-xl border border-default-200">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Icon icon="solar:incognito-bold" width={24} className="text-default-600" />
-                <div>
-                  <p className="font-semibold text-sm text-foreground">{t('anonymous_title')}</p>
-                  <p className="text-xs text-default-600 mt-0.5">{t('anonymous_description')}</p>
+          <Controller
+            name="anonymous"
+            control={control}
+            render={({ field }) => (
+              <div className="mt-6 p-4 rounded-xl border border-default-200">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Icon icon="solar:incognito-bold" width={24} className="text-default-600" />
+                    <div>
+                      <p className="font-semibold text-sm text-foreground">{t('anonymous_title')}</p>
+                      <p className="text-xs text-default-600 mt-0.5">{t('anonymous_description')}</p>
+                    </div>
+                  </div>
+                  <Switch
+                    size="lg"
+                    isSelected={field.value}
+                    onValueChange={field.onChange}
+                  />
                 </div>
               </div>
-              <Switch size="lg" />
-            </div>
-          </div>
+            )}
+          />
         </div>
       </Card>
 
@@ -201,28 +328,49 @@ export const DonateForm = () => {
 
         <p className="text-sm text-default-600 mb-4 font-medium">{t('payment_method_subtitle')}</p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-          <PaymentMethodButton
-            icon={<PixIcon width={28} height={28} />}
-            title={t('payment_pix')}
-          />
-          <PaymentMethodButton
-            icon={<CreditCardIcon width={28} height={28} />}
-            title={t('payment_card')}
-          />
-          <PaymentMethodButton
-            icon={<BarcodeIcon width={28} height={28} />}
-            title={t('payment_bank_slip')}
-          />
-          <PaymentMethodButton
-            icon={<BitcoinIcon height={28} width={28} />}
-            title={t('payment_bitcoin')}
-          />
-          <PaymentMethodButton
-            icon={<PayPalIcon width={28} height={28} />}
-            title={t('payment_paypal')}
-          />
-        </div>
+        <Controller
+          name="paymentMethod"
+          control={control}
+          render={({ field }) => (
+            <div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                <PaymentMethodButton
+                  icon={<PixIcon width={28} height={28} />}
+                  title={t('payment_pix')}
+                  isSelected={field.value === 'pix'}
+                  onSelect={() => field.onChange('pix')}
+                />
+                <PaymentMethodButton
+                  icon={<CreditCardIcon width={28} height={28} />}
+                  title={t('payment_card')}
+                  isSelected={field.value === 'credit_card'}
+                  onSelect={() => field.onChange('credit_card')}
+                />
+                <PaymentMethodButton
+                  icon={<BarcodeIcon width={28} height={28} />}
+                  title={t('payment_bank_slip')}
+                  isSelected={field.value === 'boleto'}
+                  onSelect={() => field.onChange('boleto')}
+                />
+                <PaymentMethodButton
+                  icon={<BitcoinIcon height={28} width={28} />}
+                  title={t('payment_bitcoin')}
+                  isSelected={false}
+                  disabled
+                />
+                <PaymentMethodButton
+                  icon={<PayPalIcon width={28} height={28} />}
+                  title={t('payment_paypal')}
+                  isSelected={false}
+                  disabled
+                />
+              </div>
+              {errors.paymentMethod && (
+                <p className="text-xs text-danger mt-2">{errors.paymentMethod.message}</p>
+              )}
+            </div>
+          )}
+        />
 
         {/* Security Badge */}
         <div className="mt-6 flex items-center gap-2 text-xs text-default-600 bg-emerald-50 p-3 rounded-xl border border-emerald-200">
@@ -234,15 +382,17 @@ export const DonateForm = () => {
       {/* Submit Card */}
       <Card className="p-6 md:p-8 border-2 border-primary/20" shadow="none">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <Button 
-            color="primary" 
+          <Button
+            type="submit"
+            color="primary"
             size="lg"
+            isLoading={isSubmitting}
             className="font-bold text-base shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 w-full sm:w-auto px-12"
-            startContent={<Icon icon="solar:heart-bold" width={24} />}
+            startContent={!isSubmitting && <Icon icon="solar:heart-bold" width={24} />}
           >
             {t('complete_button')}
           </Button>
-          
+
           <p className="text-xs text-default-600 leading-relaxed">
             {t('terms_text')}{' '}
             <a href="#" className="text-primary hover:underline font-medium">{t('terms_link')}</a>
@@ -251,6 +401,6 @@ export const DonateForm = () => {
           </p>
         </div>
       </Card>
-    </div>
+    </form>
   );
-}
+};
