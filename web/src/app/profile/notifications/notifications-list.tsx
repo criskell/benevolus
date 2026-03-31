@@ -1,75 +1,47 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardBody, Button, Chip } from '@heroui/react';
+import { Card, CardBody, Button, Chip, Spinner } from '@heroui/react';
 import { Bell, Check } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { NotificationItem, type Notification } from './notification-item';
-
-const initialNotifications: Notification[] = [
-  {
-    id: '1',
-    type: 'donation',
-    title: 'Nova doação recebida!',
-    message: 'Você recebeu uma doação de R$ 50,00 na campanha "Ajuda para Maria"',
-    timestamp: '2025-02-08T10:30:00',
-    isRead: false,
-  },
-  {
-    id: '2',
-    type: 'campaign',
-    title: 'Campanha aprovada',
-    message: 'Sua campanha "Tratamento do João" foi aprovada e já está ativa!',
-    timestamp: '2025-02-07T15:45:00',
-    isRead: false,
-  },
-  {
-    id: '3',
-    type: 'withdrawal',
-    title: 'Saque processado',
-    message: 'Seu saque de R$ 300,00 foi processado com sucesso.',
-    timestamp: '2025-02-06T09:20:00',
-    isRead: true,
-  },
-  {
-    id: '4',
-    type: 'donation',
-    title: 'Nova doação recebida!',
-    message: 'Você recebeu uma doação de R$ 100,00 na campanha "Reforma escola"',
-    timestamp: '2025-02-05T14:10:00',
-    isRead: true,
-  },
-  {
-    id: '5',
-    type: 'system',
-    title: 'Atualização de política',
-    message: 'Atualizamos nossa política de privacidade. Clique para saber mais.',
-    timestamp: '2025-02-04T11:00:00',
-    isRead: true,
-  },
-];
+import { useListNotifications, listNotificationsQueryKey } from '@/lib/http/generated/hooks/useListNotifications';
+import { useMarkNotificationAsRead } from '@/lib/http/generated/hooks/useMarkNotificationAsRead';
+import { useMarkAllNotificationsAsRead } from '@/lib/http/generated/hooks/useMarkAllNotificationsAsRead';
+import { useDeleteNotification } from '@/lib/http/generated/hooks/useDeleteNotification';
+import { NotificationItem } from './notification-item';
 
 const NotificationsList = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(initialNotifications);
+  const t = useTranslations('notifications_page');
+  const queryClient = useQueryClient();
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const { data, isLoading } = useListNotifications();
 
-  const markAsRead = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((notif) =>
-        notif.id === id ? { ...notif, isRead: true } : notif
-      )
-    );
+  const notifications = data?.data ?? [];
+  const unreadCount = data?.meta?.unreadCount ?? 0;
+
+  const invalidate = () => {
+    queryClient.invalidateQueries({ queryKey: listNotificationsQueryKey() });
   };
 
-  const markAllAsRead = () => {
-    setNotifications((prev) =>
-      prev.map((notif) => ({ ...notif, isRead: true }))
-    );
+  const { mutate: markAsRead } = useMarkNotificationAsRead({
+    mutation: { onSuccess: invalidate },
+  });
+
+  const { mutate: markAllAsRead } = useMarkAllNotificationsAsRead({
+    mutation: { onSuccess: invalidate },
+  });
+
+  const { mutate: deleteNotif } = useDeleteNotification({
+    mutation: { onSuccess: invalidate },
+  });
+
+  const handleMarkAsRead = (id: string) => {
+    markAsRead({ id });
   };
 
-  const deleteNotification = (id: string) => {
-    setNotifications((prev) => prev.filter((notif) => notif.id !== id));
+  const handleDelete = (id: string) => {
+    deleteNotif({ id });
   };
 
   return (
@@ -77,15 +49,15 @@ const NotificationsList = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold mb-2 flex items-center gap-2">
-            Notificações
+            {t('title')}
             {unreadCount > 0 && (
               <Chip color="primary" size="sm">
-                {unreadCount} nova{unreadCount > 1 ? 's' : ''}
+                {t('new_count', { count: unreadCount })}
               </Chip>
             )}
           </h1>
           <p className="text-sm text-default-500">
-            Acompanhe todas as atualizações sobre suas campanhas e doações.
+            {t('subtitle')}
           </p>
         </div>
         {unreadCount > 0 && (
@@ -93,19 +65,23 @@ const NotificationsList = () => {
             color="primary"
             variant="flat"
             startContent={<Check size={18} />}
-            onPress={markAllAsRead}
+            onPress={() => markAllAsRead()}
           >
-            Marcar todas como lidas
+            {t('mark_all_read')}
           </Button>
         )}
       </div>
 
-      {notifications.length === 0 ? (
+      {isLoading ? (
+        <div className="flex justify-center py-12">
+          <Spinner size="lg" />
+        </div>
+      ) : notifications.length === 0 ? (
         <Card>
           <CardBody className="p-12 text-center">
             <Bell size={48} className="mx-auto mb-4 text-default-300" />
             <p className="text-default-500 text-lg">
-              Você não tem notificações no momento.
+              {t('empty')}
             </p>
           </CardBody>
         </Card>
@@ -115,8 +91,8 @@ const NotificationsList = () => {
             <NotificationItem
               key={notification.id}
               notification={notification}
-              onMarkAsRead={markAsRead}
-              onDelete={deleteNotification}
+              onMarkAsRead={handleMarkAsRead}
+              onDelete={handleDelete}
             />
           ))}
         </div>

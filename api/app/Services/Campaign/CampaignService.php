@@ -6,6 +6,7 @@ namespace App\Services\Campaign;
 
 use App\Models\Campaign;
 use App\Models\User;
+use App\Notifications\CampaignApproved;
 use App\Services\Donation\DonationService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
@@ -106,8 +107,13 @@ final class CampaignService
 
     public function update(Campaign $campaign, array $data): Campaign
     {
+        $previousStatus = $campaign->status;
         $data = $this->mapPersistentEntity($data);
         $campaign->update($data);
+
+        if ($campaign->status === Campaign::STATUS_OPEN && $previousStatus !== Campaign::STATUS_OPEN) {
+            $campaign->user->notify(new CampaignApproved($campaign));
+        }
 
         return $campaign;
     }

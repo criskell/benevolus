@@ -2,21 +2,12 @@
 
 import { Card, CardBody, Button } from '@heroui/react';
 import { Heart, Megaphone, DollarSign, AlertCircle, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { dayjs } from '@/lib/dayjs';
+import type { NotificationResource, NotificationResourceTypeEnumKey } from '@/lib/http/generated/models/NotificationResource';
 
-type NotificationType = 'donation' | 'campaign' | 'system' | 'withdrawal';
-
-type Notification = {
-  id: string;
-  type: NotificationType;
-  title: string;
-  message: string;
-  timestamp: string;
-  isRead: boolean;
-};
-
-const notificationIcons: Record<NotificationType, React.ReactNode> = {
+const notificationIcons: Record<NotificationResourceTypeEnumKey, React.ReactNode> = {
   donation: <Heart size={20} className="text-pink-500" />,
   campaign: <Megaphone size={20} className="text-blue-500" />,
   withdrawal: <DollarSign size={20} className="text-green-500" />,
@@ -35,12 +26,14 @@ const formatTimestamp = (timestamp: string) => {
 };
 
 type NotificationItemProps = {
-  notification: Notification;
+  notification: NotificationResource;
   onMarkAsRead: (id: string) => void;
   onDelete: (id: string) => void;
 };
 
 const NotificationItem = ({ notification, onMarkAsRead, onDelete }: NotificationItemProps) => {
+  const t = useTranslations('notifications_page');
+
   return (
     <Card
       className={`${
@@ -52,7 +45,7 @@ const NotificationItem = ({ notification, onMarkAsRead, onDelete }: Notification
       <CardBody className="p-4">
         <div className="flex gap-4">
           <div className="flex-shrink-0 mt-1">
-            {notificationIcons[notification.type]}
+            {notificationIcons[notification.type!]}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2 mb-1">
@@ -72,7 +65,7 @@ const NotificationItem = ({ notification, onMarkAsRead, onDelete }: Notification
             </p>
             <div className="flex items-center justify-between">
               <span className="text-xs text-default-400">
-                {formatTimestamp(notification.timestamp)}
+                {formatTimestamp(notification.timestamp!)}
               </span>
               <div className="flex gap-2">
                 {!notification.isRead && (
@@ -80,10 +73,10 @@ const NotificationItem = ({ notification, onMarkAsRead, onDelete }: Notification
                     size="sm"
                     variant="flat"
                     color="primary"
-                    onPress={() => onMarkAsRead(notification.id)}
+                    onPress={() => onMarkAsRead(notification.id!)}
                     className="text-xs"
                   >
-                    Marcar como lida
+                    {t('mark_as_read')}
                   </Button>
                 )}
                 <Button
@@ -91,7 +84,7 @@ const NotificationItem = ({ notification, onMarkAsRead, onDelete }: Notification
                   variant="light"
                   color="danger"
                   isIconOnly
-                  onPress={() => onDelete(notification.id)}
+                  onPress={() => onDelete(notification.id!)}
                 >
                   <Trash2 size={16} />
                 </Button>
@@ -104,4 +97,4 @@ const NotificationItem = ({ notification, onMarkAsRead, onDelete }: Notification
   );
 };
 
-export { NotificationItem, type Notification, type NotificationType };
+export { NotificationItem };

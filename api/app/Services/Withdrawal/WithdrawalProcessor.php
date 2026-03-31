@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Withdrawal;
 
 use App\Models\Withdrawal;
+use App\Notifications\WithdrawalProcessed;
 use Illuminate\Support\Str;
 use OpenPix\PhpSdk\Client;
 use OpenPix\PhpSdk\Request;
@@ -51,5 +52,7 @@ final class WithdrawalProcessor
         $withdrawal->status = 'paid';
         $withdrawal->campaign()->decrement('available_balance_cents', $withdrawal->amountCents);
         $withdrawal->save();
+
+        $withdrawal->campaign->user->notify(new WithdrawalProcessed($withdrawal->load('campaign')));
     }
 }

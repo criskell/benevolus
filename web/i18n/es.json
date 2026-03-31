@@ -1203,5 +1203,13 @@
       "description": "Si tienes preguntas sobre nuestra Política de Privacidad o sobre el tratamiento de tus datos personales, contacta con nuestro Responsable de Protección de Datos (DPO).",
       "button": "Contáctanos"
     }
+  },
+  "notifications_page": {
+    "title": "Notificaciones",
+    "subtitle": "Sigue todas las actualizaciones sobre tus campañas y donaciones.",
+    "new_count": "{count, plural, one {# nueva} other {# nuevas}}",
+    "mark_all_read": "Marcar todas como leídas",
+    "mark_as_read": "Marcar como leída",
+    "empty": "No tienes notificaciones en este momento."
   }
 }

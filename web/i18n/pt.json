@@ -1203,5 +1203,13 @@
       "description": "Se você tiver dúvidas sobre nossa Política de Privacidade ou sobre o tratamento de seus dados pessoais, entre em contato com nosso Encarregado de Proteção de Dados (DPO).",
       "button": "Fale conosco"
     }
+  },
+  "notifications_page": {
+    "title": "Notificações",
+    "subtitle": "Acompanhe todas as atualizações sobre suas campanhas e doações.",
+    "new_count": "{count, plural, one {# nova} other {# novas}}",
+    "mark_all_read": "Marcar todas como lidas",
+    "mark_as_read": "Marcar como lida",
+    "empty": "Você não tem notificações no momento."
   }
 }
