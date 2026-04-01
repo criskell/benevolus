@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Campaign extends Model
@@ -62,6 +63,11 @@ class Campaign extends Model
     {
         return $this->belongsToMany(User::class, 'campaign_user_favorites')
             ->withTimestamps();
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     public function donations(): HasMany

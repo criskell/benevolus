@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Campaign\CampaignController;
 use App\Http\Controllers\API\Campaign\CampaignFavoriteController;
 use App\Http\Controllers\API\Campaign\CampaignImageController;
+use App\Http\Controllers\API\Campaign\CampaignTagController;
 use App\Http\Controllers\API\Campaign\CampaignUpdateController;
 use App\Http\Controllers\API\Campaign\LeaderboardController;
 use App\Http\Controllers\API\Comment\CommentController;
@@ -40,6 +41,9 @@ Route::apiResource('campaigns.comments', CommentController::class)->shallow()->e
 Route::post('/comments/{comment}/react', [CommentReactionController::class, 'toggle']);
 Route::get('/profile/campaigns/favorited', [CampaignFavoriteController::class, 'index']);
 Route::post('/campaigns/{campaign}/favorite', [CampaignFavoriteController::class, 'toggle']);
+
+Route::post('/campaigns/{campaign}/tags', [CampaignTagController::class, 'store']);
+Route::delete('/campaigns/{campaign}/tags/{tag}', [CampaignTagController::class, 'destroy']);
 
 Route::get('/reports', [ReportController::class, 'index']);
 Route::post('/campaigns/{campaign}/reports', [ReportController::class, 'store']);

@@ -37,6 +37,11 @@ use OpenApi\Attributes as OA;
             ]
         ),
         new OA\Property(
+            property: 'tags',
+            type: 'array',
+            items: new OA\Items(ref: '#/components/schemas/TagResource')
+        ),
+        new OA\Property(
             property: 'comments',
             type: 'array',
             items: new OA\Items(ref: '#/components/schemas/CommentResource')
@@ -76,6 +81,7 @@ class CampaignResource extends JsonResource
                 'name' => $this->user->name,
                 'avatarUrl' => $this->user->avatar_url,
             ]),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
             'comments' => CommentResource::collection($this->whenLoaded('recentComments')),
             'updates' => CampaignUpdateResource::collection($this->whenLoaded('recentUpdates')),
             'donations' => CampaignDonationResource::collection($this->whenLoaded('recentDonations')),
