@@ -6,7 +6,6 @@ use App\Services\Payment\Asaas\AsaasClient;
  * Integration tests against the real Asaas sandbox API.
  * Run with: php artisan test --filter=AsaasClient --group=asaas-integration
  */
-
 $client = null;
 
 beforeEach(function () {
@@ -63,7 +62,7 @@ test('can create a PIX payment in Asaas sandbox', function () {
         'value' => 10.00,
         'dueDate' => now()->format('Y-m-d'),
         'description' => 'Test PIX donation',
-        'externalReference' => 'test-pix-' . uniqid(),
+        'externalReference' => 'test-pix-'.uniqid(),
     ]);
 
     expect($payment)
@@ -85,7 +84,7 @@ test('can get PIX QR code after creating payment', function () {
         'billingType' => 'PIX',
         'value' => 10.00,
         'dueDate' => now()->format('Y-m-d'),
-        'externalReference' => 'test-qr-' . uniqid(),
+        'externalReference' => 'test-qr-'.uniqid(),
     ]);
 
     // Asaas sandbox may take a moment to generate the PIX QR code
@@ -114,7 +113,7 @@ test('can create a credit card payment in Asaas sandbox', function () {
         'value' => 10.00,
         'dueDate' => now()->format('Y-m-d'),
         'description' => 'Test credit card donation',
-        'externalReference' => 'test-cc-' . uniqid(),
+        'externalReference' => 'test-cc-'.uniqid(),
         'creditCard' => [
             'holderName' => 'Cartao Teste',
             'number' => '5162306219378829',
@@ -152,7 +151,7 @@ test('can create a boleto payment in Asaas sandbox', function () {
         'value' => 25.00,
         'dueDate' => now()->addDays(3)->format('Y-m-d'),
         'description' => 'Test boleto donation',
-        'externalReference' => 'test-boleto-' . uniqid(),
+        'externalReference' => 'test-boleto-'.uniqid(),
     ]);
 
     expect($payment)
@@ -174,7 +173,7 @@ test('can retrieve a payment by id', function () {
         'billingType' => 'PIX',
         'value' => 7.50,
         'dueDate' => now()->format('Y-m-d'),
-        'externalReference' => 'test-retrieve-' . uniqid(),
+        'externalReference' => 'test-retrieve-'.uniqid(),
     ]);
 
     $payment = $this->client->getPayment($created['id']);
@@ -192,7 +191,7 @@ test('can find a payment by external reference', function () {
         'notificationDisabled' => true,
     ]);
 
-    $externalRef = 'test-extref-' . uniqid();
+    $externalRef = 'test-extref-'.uniqid();
 
     $this->client->createPayment([
         'customer' => $customer['id'],
@@ -209,7 +208,7 @@ test('can find a payment by external reference', function () {
 })->group('asaas-integration');
 
 test('findPaymentByExternalReference returns null for unknown reference', function () {
-    $payment = $this->client->findPaymentByExternalReference('nonexistent-ref-' . uniqid());
+    $payment = $this->client->findPaymentByExternalReference('nonexistent-ref-'.uniqid());
 
     expect($payment)->toBeNull();
 })->group('asaas-integration');

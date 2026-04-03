@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Notification;
 function webhookPayload(string $event, string $externalReference, string $billingType = 'CREDIT_CARD'): array
 {
     return [
-        'id' => 'evt_' . uniqid(),
+        'id' => 'evt_'.uniqid(),
         'event' => $event,
         'dateCreated' => '2026-04-03 13:52:12',
         'account' => [
@@ -20,7 +20,7 @@ function webhookPayload(string $event, string $externalReference, string $billin
         ],
         'payment' => [
             'object' => 'payment',
-            'id' => 'pay_' . uniqid(),
+            'id' => 'pay_'.uniqid(),
             'dateCreated' => '2026-04-03',
             'customer' => 'cus_000007749177',
             'value' => 10,
