@@ -45,7 +45,7 @@ final class StripePaymentGateway implements PaymentGatewayInterface
             );
 
             return [
-                'paymentId' => $paymentIntent->id,
+                'externalReference' => $paymentIntent->id,
                 'status' => $paymentIntent->status,
                 'pixCode' => $this->extractPixCode($confirmedIntent),
                 'qrCode' => $this->extractQrCodeUrl($confirmedIntent),

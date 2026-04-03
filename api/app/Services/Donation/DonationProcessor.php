@@ -35,6 +35,7 @@ final class DonationProcessor
                 amount: $data->amount,
                 paymentMethod: $data->paymentMethod,
                 externalReference: $paymentResult['externalReference'],
+                paymentProcessor: config('services.payment_gateway', 'woovi'),
                 campaignId: $data->campaignId,
                 isAnonymous: $data->anonymousDonation
             );

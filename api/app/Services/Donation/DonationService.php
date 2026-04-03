@@ -55,6 +55,7 @@ final class DonationService
         int $amount,
         string $paymentMethod,
         string $externalReference,
+        string $paymentProcessor,
         ?int $campaignId = null,
         bool $isAnonymous = false
     ) {
@@ -65,7 +66,7 @@ final class DonationService
             'amount_cents' => $amount,
             'payment_method' => $paymentMethod,
             'payment_status' => 'pending',
-            'payment_processor' => 'woovi',
+            'payment_processor' => $paymentProcessor,
             'external_reference' => $externalReference,
             'paid_at' => null,
         ]);
