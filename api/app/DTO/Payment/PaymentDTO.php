@@ -11,7 +11,8 @@ readonly class PaymentDTO
         public string $status,
         public ?string $pixCode = null,
         public ?string $qrCode = null,
-        public ?string $expiresAt = null
+        public ?string $expiresAt = null,
+        public ?string $bankSlipUrl = null,
     ) {}
 
     public static function fromDonationRequest(array $result): self
@@ -22,6 +23,7 @@ readonly class PaymentDTO
             pixCode: $result['payment']['pixCode'] ?? null,
             qrCode: $result['payment']['qrCode'] ?? null,
             expiresAt: $result['payment']['expiresAt'] ?? null,
+            bankSlipUrl: $result['payment']['bankSlipUrl'] ?? null,
         );
     }
 }

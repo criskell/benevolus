@@ -30,5 +30,7 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="WOOVI_APP_ID" value=""/>
+        <env name="ASAAS_API_KEY" value=""/>
+        <env name="ASAAS_BASE_URL" value="https://sandbox.asaas.com/api/v3"/>
     </php>
 </phpunit>
