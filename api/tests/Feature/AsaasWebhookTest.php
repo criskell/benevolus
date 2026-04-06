@@ -4,6 +4,7 @@ use App\Events\DonationPaid;
 use App\Models\Campaign;
 use App\Models\Donation;
 use App\Models\User;
+use App\Models\WebhookHistoryItem;
 use App\Notifications\DonationReceived;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -97,7 +98,7 @@ test('webhook confirms payment and updates donation to paid', function () {
     );
 
     $response->assertStatus(200)
-        ->assertJsonPath('message', 'Success.');
+        ->assertJsonPath('message', 'Webhook received.');
 
     $donation->refresh();
     expect($donation->payment_status)->toBe('paid')
@@ -142,44 +143,74 @@ test('webhook handles PAYMENT_RECEIVED event the same as PAYMENT_CONFIRMED', fun
     expect($campaign->available_balance_cents)->toBe(7000);
 });
 
-test('webhook is idempotent — does not double-process already paid donation', function () {
+test('webhook is idempotent — duplicate payload is not processed twice', function () {
     Event::fake([DonationPaid::class]);
     Notification::fake();
 
     $owner = User::factory()->create();
     $campaign = Campaign::factory()->for($owner)->open()->create([
-        'available_balance_cents' => 1000,
+        'available_balance_cents' => 0,
     ]);
     Donation::factory()->for($campaign)->create([
-        'external_reference' => 'test-already-paid',
-        'payment_status' => 'paid',
+        'external_reference' => 'test-idempotent',
+        'payment_status' => 'pending',
         'amount_cents' => 1000,
-        'paid_at' => now(),
+        'paid_at' => null,
     ]);
 
-    $response = $this->postJson('/api/asaas/webhook',
-        webhookPayload('PAYMENT_CONFIRMED', 'test-already-paid'),
-        ['asaas-access-token' => 'test-webhook-token'],
-    );
+    $payload = webhookPayload('PAYMENT_CONFIRMED', 'test-idempotent');
 
-    $response->assertStatus(200)
-        ->assertJsonPath('message', 'Already processed.');
+    // First call — processes normally
+    $this->postJson('/api/asaas/webhook', $payload, [
+        'asaas-access-token' => 'test-webhook-token',
+    ])->assertJsonPath('message', 'Webhook received.');
+
+    // Second call with same payload — deduplicated by idempotency key
+    $this->postJson('/api/asaas/webhook', $payload, [
+        'asaas-access-token' => 'test-webhook-token',
+    ])->assertJsonPath('message', 'Webhook already received.');
+
+    expect(WebhookHistoryItem::count())->toBe(1);
 
     $campaign->refresh();
     expect($campaign->available_balance_cents)->toBe(1000);
-
-    Event::assertNotDispatched(DonationPaid::class);
-    Notification::assertNothingSent();
 });
 
-test('webhook returns 404 for unknown external reference', function () {
+test('webhook stores history item', function () {
+    Notification::fake();
+
+    $owner = User::factory()->create();
+    $campaign = Campaign::factory()->for($owner)->open()->create();
+    Donation::factory()->for($campaign)->create([
+        'external_reference' => 'test-history',
+        'payment_status' => 'pending',
+        'amount_cents' => 500,
+    ]);
+
+    $this->postJson('/api/asaas/webhook',
+        webhookPayload('PAYMENT_CONFIRMED', 'test-history'),
+        ['asaas-access-token' => 'test-webhook-token'],
+    );
+
+    $item = WebhookHistoryItem::first();
+    expect($item)->not->toBeNull()
+        ->and($item->processor)->toBe('asaas')
+        ->and($item->status)->toBe('processed')
+        ->and($item->processed_at)->not->toBeNull()
+        ->and($item->payload['payment']['externalReference'])->toBe('test-history');
+});
+
+test('webhook returns 200 even for unknown external reference', function () {
     $response = $this->postJson('/api/asaas/webhook',
         webhookPayload('PAYMENT_CONFIRMED', 'nonexistent-ref'),
         ['asaas-access-token' => 'test-webhook-token'],
     );
 
-    $response->assertStatus(404)
-        ->assertJsonPath('errors.0.message', 'Donation not found.');
+    $response->assertStatus(200)
+        ->assertJsonPath('message', 'Webhook received.');
+
+    $item = WebhookHistoryItem::first();
+    expect($item->status)->toBe('failed');
 });
 
 test('webhook acknowledges unhandled events', function () {
@@ -190,6 +221,9 @@ test('webhook acknowledges unhandled events', function () {
         'asaas-access-token' => 'test-webhook-token',
     ]);
 
-    $response->assertStatus(200)
-        ->assertJsonPath('message', 'Event acknowledged.');
+    $response->assertStatus(200);
+
+    $item = WebhookHistoryItem::first();
+    expect($item)->not->toBeNull()
+        ->and($item->processor)->toBe('asaas');
 });
