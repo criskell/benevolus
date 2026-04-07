@@ -10,7 +10,7 @@ import {
   Switch,
 } from '@heroui/react';
 import { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -24,6 +24,8 @@ import { PaymentMethodButton } from './payment-method-button';
 import { useGetCampaign, useCreateDonation } from '@/lib/http/generated';
 import type { TranslateFn } from '@/types/i18n';
 import { getApiErrorMessage } from '@/lib/utils/get-api-error-message';
+import { useSetAtom } from 'jotai';
+import { pendingDonationAtom } from '@/atoms/pending-donation';
 
 const createDonateSchema = (t: TranslateFn) =>
   z.object({
@@ -57,6 +59,8 @@ type DonateFormData = z.infer<ReturnType<typeof createDonateSchema>>;
 export const DonateForm = () => {
   const t = useTranslations('donate');
   const params = useParams<{ campaign: string }>();
+  const router = useRouter();
+  const setPendingDonation = useSetAtom(pendingDonationAtom);
 
   const { data: campaign } = useGetCampaign(params.campaign);
 
@@ -102,7 +106,7 @@ export const DonateForm = () => {
       : phoneDigits;
 
     try {
-      await createDonation.mutateAsync({
+      const result = await createDonation.mutateAsync({
         data: {
           amount: data.amount,
           anonymousDonation: data.anonymous,
@@ -116,6 +120,27 @@ export const DonateForm = () => {
           paymentMethod: data.paymentMethod,
         },
       });
+
+      const { donation, payment } = result;
+
+      if (payment?.pixCode) {
+        setPendingDonation({
+          pixCode: payment.pixCode,
+          qrCodeUrl: payment.qrCodeUrl,
+        });
+      }
+
+      const searchParams = new URLSearchParams({
+        ref: donation?.externalReference ?? '',
+        method: data.paymentMethod,
+        amount: String(data.amount),
+      });
+
+      if (data.paymentMethod === 'credit_card') {
+        searchParams.set('status', 'paid');
+      }
+
+      router.push(`/thank-you?${searchParams.toString()}`);
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, t('submit_error')));
     }

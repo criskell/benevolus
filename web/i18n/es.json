@@ -1211,5 +1211,28 @@
     "mark_all_read": "Marcar todas como leídas",
     "mark_as_read": "Marcar como leída",
     "empty": "No tienes notificaciones en este momento."
+  },
+  "thank_you": {
+    "title_pending": "Esperando el pago",
+    "title_confirmed": "¡Donación realizada!",
+    "subtitle_pending": "Estamos esperando la confirmación de tu pago. Esto puede tardar unos momentos.",
+    "subtitle_confirmed": "¡Gracias por marcar la diferencia! Tu generosidad está transformando vidas y haciendo del mundo un lugar mejor.",
+    "amount_label": "Monto donado",
+    "payment_method_label": "Método de pago",
+    "date_label": "Fecha",
+    "method_pix": "Pix",
+    "method_credit_card": "Tarjeta de crédito",
+    "method_boleto": "Boleto",
+    "pix_instruction": "Escanea el QR Code o copia el código Pix a continuación",
+    "pix_copy_button": "Copiar código Pix",
+    "pix_copied": "¡Código copiado!",
+    "payment_confirmed": "¡Pago confirmado!",
+    "waiting_confirmation": "Esperando confirmación...",
+    "impact_title": "¡Acabas de marcar la diferencia!",
+    "impact_description": "Tu donación ayudará directamente a esta causa. Pronto recibirás un correo con los detalles de tu contribución.",
+    "back_home": "Volver al inicio",
+    "view_campaigns": "Ver otras campañas",
+    "share_title": "Ayuda a difundir esta campaña",
+    "receipt_info": "Recibo enviado a tu correo · Transacción protegida"
   }
 }
