@@ -1,12 +1,55 @@
 'use client';
 
-import { Button, Card } from '@heroui/react';
+import { Button, Card, Snippet } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useAtom } from 'jotai';
+import { useTranslations } from 'next-intl';
+import { pendingDonationAtom } from '@/atoms/pending-donation';
+import { useDonationChannel } from '@/hooks/use-donation-channel';
+import { formatMoney } from '@/lib/utils/format-money';
+
+type PaymentStatus = 'pending' | 'confirmed';
 
 const DonationSuccessPage = () => {
+  const t = useTranslations('thank_you');
+  const searchParams = useSearchParams();
+
+  const externalReference = searchParams.get('ref');
+  const paymentMethod = searchParams.get('method');
+  const amountCents = Number(searchParams.get('amount') || 0);
+  const initialStatus = searchParams.get('status');
+
+  const [pendingDonation, setPendingDonation] = useAtom(pendingDonationAtom);
+  const [pixData] = useState(pendingDonation);
+
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>(
+    initialStatus === 'paid' || paymentMethod === 'credit_card'
+      ? 'confirmed'
+      : 'pending',
+  );
+
+  // Clear atom after reading
+  useEffect(() => {
+    if (pendingDonation) {
+      setPendingDonation(null);
+    }
+  }, []);
+
+  const onPaymentConfirmed = useCallback(() => {
+    setPaymentStatus('confirmed');
+  }, []);
+
+  useDonationChannel(
+    paymentStatus === 'pending' ? externalReference : null,
+    onPaymentConfirmed,
+  );
+
+  const isConfirmed = paymentStatus === 'confirmed';
+
   const [confetti, setConfetti] = useState<Array<{
     left: string;
     backgroundColor: string;
@@ -19,10 +62,12 @@ const DonationSuccessPage = () => {
   }>>([]);
 
   useEffect(() => {
-    // Ensure page stays at top
     window.scrollTo(0, 0);
-    
-    // Generate confetti only on client side
+  }, []);
+
+  useEffect(() => {
+    if (!isConfirmed) return;
+
     const colors = ['#10b981', '#14b8a6', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444'];
     const newConfetti = [...Array(50)].map(() => {
       const isRectangle = Math.random() > 0.5;
@@ -38,11 +83,18 @@ const DonationSuccessPage = () => {
       };
     });
     setConfetti(newConfetti);
-  }, []);
+  }, [isConfirmed]);
+
+  const methodLabel =
+    paymentMethod === 'pix'
+      ? t('method_pix')
+      : paymentMethod === 'credit_card'
+        ? t('method_credit_card')
+        : t('method_boleto');
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      {/* Confetti Effect (decorative) - Client side only */}
+      {/* Confetti Effect */}
       {confetti.length > 0 && (
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-50">
           {confetti.map((particle, i) => (
@@ -72,38 +124,55 @@ const DonationSuccessPage = () => {
           ))}
         </div>
       )}
-      
+
       <div className="max-w-3xl w-full">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Success Icon with Animation */}
+          {/* Status Icon */}
           <div className="flex justify-center mb-8">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-                delay: 0.2,
-                type: 'spring',
-                stiffness: 200,
-                damping: 15,
-              }}
-              className="relative"
-            >
-              {/* Glow effect */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 blur-3xl opacity-30 animate-pulse" />
-
-              {/* Icon container */}
-              <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-2xl shadow-emerald-500/50">
-                <Icon
-                  icon="solar:check-circle-bold"
-                  width={80}
-                  className="text-white"
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={paymentStatus}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                transition={{
+                  delay: 0.2,
+                  type: 'spring',
+                  stiffness: 200,
+                  damping: 15,
+                }}
+                className="relative"
+              >
+                <div
+                  className={`absolute inset-0 rounded-full blur-3xl opacity-30 animate-pulse ${
+                    isConfirmed
+                      ? 'bg-gradient-to-br from-emerald-500 to-teal-500'
+                      : 'bg-gradient-to-br from-amber-500 to-yellow-500'
+                  }`}
                 />
-              </div>
-            </motion.div>
+                <div
+                  className={`relative w-32 h-32 rounded-full flex items-center justify-center shadow-2xl ${
+                    isConfirmed
+                      ? 'bg-gradient-to-br from-emerald-500 to-teal-500 shadow-emerald-500/50'
+                      : 'bg-gradient-to-br from-amber-500 to-yellow-500 shadow-amber-500/50'
+                  }`}
+                >
+                  <Icon
+                    icon={
+                      isConfirmed
+                        ? 'solar:check-circle-bold'
+                        : 'solar:clock-circle-bold'
+                    }
+                    width={80}
+                    className="text-white"
+                  />
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Main Card */}
@@ -116,39 +185,100 @@ const DonationSuccessPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              {/* Success Message */}
-              <h1 className="text-4xl md:text-5xl font-black text-foreground mb-4 bg-gradient-to-br from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                Doação realizada!
-              </h1>
+              {/* Title & Subtitle */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={paymentStatus}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                >
+                  <h1
+                    className={`text-4xl md:text-5xl font-black mb-4 bg-clip-text text-transparent ${
+                      isConfirmed
+                        ? 'bg-gradient-to-br from-emerald-600 to-teal-600'
+                        : 'bg-gradient-to-br from-amber-600 to-yellow-600'
+                    }`}
+                  >
+                    {isConfirmed ? t('title_confirmed') : t('title_pending')}
+                  </h1>
+                  <p className="text-lg md:text-xl text-default-600 mb-8 leading-relaxed max-w-2xl mx-auto">
+                    {isConfirmed
+                      ? t('subtitle_confirmed')
+                      : t('subtitle_pending')}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
 
-              <p className="text-lg md:text-xl text-default-600 mb-8 leading-relaxed max-w-2xl mx-auto">
-                Obrigado por fazer a diferença! Sua generosidade está
-                transformando vidas e tornando o mundo um lugar melhor.
-              </p>
+              {/* Waiting indicator */}
+              {!isConfirmed && (
+                <div className="flex items-center justify-center gap-3 mb-8 p-4 rounded-xl bg-amber-50 border border-amber-200">
+                  <Icon
+                    icon="solar:refresh-circle-bold"
+                    width={24}
+                    className="text-amber-600 animate-spin"
+                  />
+                  <span className="text-sm font-semibold text-amber-700">
+                    {t('waiting_confirmation')}
+                  </span>
+                </div>
+              )}
+
+              {/* PIX QR Code / Copy Section */}
+              {!isConfirmed && paymentMethod === 'pix' && pixData && (
+                <div className="mb-8 max-w-md mx-auto">
+                  <p className="text-sm font-semibold text-default-700 mb-4">
+                    {t('pix_instruction')}
+                  </p>
+
+                  {pixData.qrCodeUrl && (
+                    <div className="flex justify-center mb-4">
+                      <img
+                        src={pixData.qrCodeUrl}
+                        alt="PIX QR Code"
+                        className="w-48 h-48 rounded-xl border border-default-200"
+                      />
+                    </div>
+                  )}
+
+                  {pixData.pixCode && (
+                    <Snippet
+                      symbol=""
+                      variant="bordered"
+                      className="w-full"
+                      codeString={pixData.pixCode}
+                    >
+                      <span className="truncate max-w-[250px] inline-block">
+                        {pixData.pixCode}
+                      </span>
+                    </Snippet>
+                  )}
+                </div>
+              )}
 
               {/* Donation Details */}
               <div className="bg-default-50 border border-default-200 rounded-2xl p-6 mb-8 max-w-md mx-auto">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-default-600 font-medium">
-                      Valor doado
+                      {t('amount_label')}
                     </span>
                     <span className="text-2xl font-black text-emerald-600">
-                      R$ 100,00
+                      {formatMoney(amountCents)}
                     </span>
                   </div>
                   <div className="h-px bg-default-200" />
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-default-600 font-medium">
-                      Método de pagamento
+                      {t('payment_method_label')}
                     </span>
                     <span className="text-sm font-semibold text-foreground">
-                      Pix
+                      {methodLabel}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-default-600 font-medium">
-                      Data
+                      {t('date_label')}
                     </span>
                     <span className="text-sm font-semibold text-foreground">
                       {new Date().toLocaleDateString('pt-BR')}
@@ -157,29 +287,32 @@ const DonationSuccessPage = () => {
                 </div>
               </div>
 
-              {/* Impact Message */}
-              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6 mb-8">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-emerald-500/25">
-                    <Icon
-                      icon="solar:hand-heart-bold"
-                      width={24}
-                      className="text-white"
-                    />
+              {/* Impact Message - only when confirmed */}
+              {isConfirmed && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6 mb-8"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-emerald-500/25">
+                      <Icon
+                        icon="solar:hand-heart-bold"
+                        width={24}
+                        className="text-white"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <h3 className="font-bold text-foreground mb-2">
+                        {t('impact_title')}
+                      </h3>
+                      <p className="text-sm text-default-700 leading-relaxed">
+                        {t('impact_description')}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-left">
-                    <h3 className="font-bold text-foreground mb-2">
-                      Você acabou de fazer a diferença!
-                    </h3>
-                    <p className="text-sm text-default-700 leading-relaxed">
-                      Sua doação ajudará diretamente esta família. Em breve,
-                      você receberá um e-mail com os detalhes da sua
-                      contribuição e atualizações sobre como ela está sendo
-                      utilizada.
-                    </p>
-                  </div>
-                </div>
-              </div>
+                </motion.div>
+              )}
 
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -191,7 +324,7 @@ const DonationSuccessPage = () => {
                   className="font-semibold shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 w-full sm:w-auto px-8"
                   startContent={<Icon icon="solar:home-2-bold" width={24} />}
                 >
-                  Voltar ao início
+                  {t('back_home')}
                 </Button>
 
                 <Button
@@ -204,50 +337,56 @@ const DonationSuccessPage = () => {
                     <Icon icon="solar:arrow-right-linear" width={24} />
                   }
                 >
-                  Ver outras campanhas
+                  {t('view_campaigns')}
                 </Button>
               </div>
 
               {/* Share Section */}
-              <div className="mt-12 pt-8 border-t border-default-200">
-                <p className="text-sm font-semibold text-default-700 mb-4">
-                  Ajude a divulgar esta campanha
-                </p>
-                <div className="flex gap-3 justify-center">
-                  <Button
-                    isIconOnly
-                    variant="flat"
-                    className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 transition-colors"
-                    size="lg"
-                  >
-                    <Icon icon="ri:facebook-fill" width={24} />
-                  </Button>
-                  <Button
-                    isIconOnly
-                    variant="flat"
-                    className="bg-sky-500/10 hover:bg-sky-500/20 text-sky-600 transition-colors"
-                    size="lg"
-                  >
-                    <Icon icon="ri:twitter-x-fill" width={24} />
-                  </Button>
-                  <Button
-                    isIconOnly
-                    variant="flat"
-                    className="bg-green-500/10 hover:bg-green-500/20 text-green-600 transition-colors"
-                    size="lg"
-                  >
-                    <Icon icon="ri:whatsapp-fill" width={24} />
-                  </Button>
-                  <Button
-                    isIconOnly
-                    variant="flat"
-                    className="bg-default-100 hover:bg-default-200 text-default-600 transition-colors"
-                    size="lg"
-                  >
-                    <Icon icon="solar:link-bold" width={24} />
-                  </Button>
-                </div>
-              </div>
+              {isConfirmed && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="mt-12 pt-8 border-t border-default-200"
+                >
+                  <p className="text-sm font-semibold text-default-700 mb-4">
+                    {t('share_title')}
+                  </p>
+                  <div className="flex gap-3 justify-center">
+                    <Button
+                      isIconOnly
+                      variant="flat"
+                      className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 transition-colors"
+                      size="lg"
+                    >
+                      <Icon icon="ri:facebook-fill" width={24} />
+                    </Button>
+                    <Button
+                      isIconOnly
+                      variant="flat"
+                      className="bg-sky-500/10 hover:bg-sky-500/20 text-sky-600 transition-colors"
+                      size="lg"
+                    >
+                      <Icon icon="ri:twitter-x-fill" width={24} />
+                    </Button>
+                    <Button
+                      isIconOnly
+                      variant="flat"
+                      className="bg-green-500/10 hover:bg-green-500/20 text-green-600 transition-colors"
+                      size="lg"
+                    >
+                      <Icon icon="ri:whatsapp-fill" width={24} />
+                    </Button>
+                    <Button
+                      isIconOnly
+                      variant="flat"
+                      className="bg-default-100 hover:bg-default-200 text-default-600 transition-colors"
+                      size="lg"
+                    >
+                      <Icon icon="solar:link-bold" width={24} />
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           </Card>
 
@@ -264,9 +403,7 @@ const DonationSuccessPage = () => {
                 width={20}
                 className="text-primary"
               />
-              <span>
-                Recibo enviado para o seu e-mail • Transação protegida
-              </span>
+              <span>{t('receipt_info')}</span>
             </div>
           </motion.div>
         </motion.div>

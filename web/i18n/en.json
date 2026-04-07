@@ -1211,5 +1211,28 @@
     "mark_all_read": "Mark all as read",
     "mark_as_read": "Mark as read",
     "empty": "You don't have any notifications at the moment."
+  },
+  "thank_you": {
+    "title_pending": "Waiting for payment",
+    "title_confirmed": "Donation completed!",
+    "subtitle_pending": "We are waiting for your payment confirmation. This may take a few moments.",
+    "subtitle_confirmed": "Thank you for making a difference! Your generosity is transforming lives and making the world a better place.",
+    "amount_label": "Amount donated",
+    "payment_method_label": "Payment method",
+    "date_label": "Date",
+    "method_pix": "Pix",
+    "method_credit_card": "Credit card",
+    "method_boleto": "Boleto",
+    "pix_instruction": "Scan the QR Code or copy the Pix code below",
+    "pix_copy_button": "Copy Pix code",
+    "pix_copied": "Code copied!",
+    "payment_confirmed": "Payment confirmed!",
+    "waiting_confirmation": "Waiting for confirmation...",
+    "impact_title": "You just made a difference!",
+    "impact_description": "Your donation will directly help this cause. You will soon receive an email with the details of your contribution.",
+    "back_home": "Back to home",
+    "view_campaigns": "View other campaigns",
+    "share_title": "Help spread the word about this campaign",
+    "receipt_info": "Receipt sent to your email · Secure transaction"
   }
 }
