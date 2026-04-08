@@ -6,7 +6,10 @@ namespace App\Services\Donation;
 
 use App\DTO\Donation\DonationDTO;
 use App\DTO\Payment\PaymentDTO;
+use App\Exceptions\PaymentException;
 use App\Models\Donation;
+use App\Models\PaymentMethod;
+use App\Services\Payment\CardTokenizableInterface;
 use App\Services\Payment\PaymentGatewayInterface;
 use App\Services\Transaction\TransactionService;
 use App\Services\User\UserService;
@@ -29,7 +32,7 @@ final class DonationProcessor
     {
         return $this->db->transaction(function () use ($data) {
             $user = $this->userService->findOrCreateDonor($data->donor);
-            $paymentResult = $this->paymentGateway->createPayment($data);
+            $paymentResult = $this->processPayment($data);
             $donation = $this->donationService->createFromPayment(
                 user: $user,
                 amount: $data->amount,
@@ -37,7 +40,8 @@ final class DonationProcessor
                 externalReference: $paymentResult['externalReference'],
                 paymentProcessor: config('services.payment_gateway', 'woovi'),
                 campaignId: $data->campaignId,
-                isAnonymous: $data->anonymousDonation
+                isAnonymous: $data->anonymousDonation,
+                paymentMethodId: $data->paymentMethodId,
             );
             $transaction = $this->transactionService->createFromDonation(
                 donation: $donation,
@@ -60,6 +64,51 @@ final class DonationProcessor
                 ]),
             ];
         });
+    }
+
+    private function processPayment(DonationDTO $data): array
+    {
+        if ($data->paymentMethodId !== null) {
+            return $this->processPaymentWithSavedCard($data);
+        }
+
+        if ($data->creditCardToken !== null) {
+            return $this->processPaymentWithToken($data);
+        }
+
+        return $this->paymentGateway->createPayment($data);
+    }
+
+    private function processPaymentWithSavedCard(DonationDTO $data): array
+    {
+        if (! ($this->paymentGateway instanceof CardTokenizableInterface)) {
+            throw PaymentException::invalidPaymentMethod('Current gateway does not support card tokenization');
+        }
+
+        $paymentMethod = PaymentMethod::findOrFail($data->paymentMethodId);
+
+        if ($paymentMethod->user_id !== auth()->id()) {
+            throw PaymentException::invalidPaymentMethod('Payment method does not belong to authenticated user');
+        }
+
+        return $this->paymentGateway->createPaymentWithToken(
+            $data,
+            $paymentMethod->gateway_token,
+            $paymentMethod->gateway_customer_id,
+        );
+    }
+
+    private function processPaymentWithToken(DonationDTO $data): array
+    {
+        if (! ($this->paymentGateway instanceof CardTokenizableInterface)) {
+            throw PaymentException::invalidPaymentMethod('Current gateway does not support card tokenization');
+        }
+
+        return $this->paymentGateway->createPaymentWithToken(
+            $data,
+            $data->creditCardToken,
+            null,
+        );
     }
 
     public function confirmPayment(string $externalReferenceId): Donation

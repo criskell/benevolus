@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Services\Payment\Asaas;
 
 use App\DTO\Donation\DonationDTO;
+use App\Models\User;
+use App\Services\Payment\CardTokenizableInterface;
 use App\Services\Payment\PaymentGatewayInterface;
 use Illuminate\Support\Str;
 
-final class AsaasPaymentGateway implements PaymentGatewayInterface
+final class AsaasPaymentGateway implements PaymentGatewayInterface, CardTokenizableInterface
 {
     public function __construct(
         private AsaasClient $client,
@@ -27,10 +29,6 @@ final class AsaasPaymentGateway implements PaymentGatewayInterface
             'externalReference' => $externalReference,
             'description' => 'Doacao',
         ];
-
-        if ($data->paymentMethod === 'credit_card' && $data->creditCard !== null) {
-            $payload = array_merge($payload, $data->creditCard->toAsaasPayload());
-        }
 
         $charge = $this->client->createPayment($payload);
 
@@ -62,6 +60,46 @@ final class AsaasPaymentGateway implements PaymentGatewayInterface
         }
 
         return $this->mapStatus($payment['status']);
+    }
+
+    public function createTokenizationSession(User $user): array
+    {
+        return [
+            'gateway' => 'asaas',
+            'clientSecret' => null,
+            'customerId' => null,
+        ];
+    }
+
+    public function createPaymentWithToken(DonationDTO $data, string $token, ?string $customerId): array
+    {
+        if ($customerId === null) {
+            $customer = $this->findOrCreateCustomer($data);
+            $customerId = $customer['id'];
+        }
+
+        $externalReference = Str::random(48);
+
+        $payload = [
+            'customer' => $customerId,
+            'billingType' => 'CREDIT_CARD',
+            'value' => $data->amount / 100,
+            'dueDate' => now()->format('Y-m-d'),
+            'externalReference' => $externalReference,
+            'description' => 'Doacao',
+            'creditCardToken' => $token,
+        ];
+
+        $charge = $this->client->createPayment($payload);
+
+        return [
+            'externalReference' => $externalReference,
+            'status' => $this->mapStatus($charge['status']),
+            'pixCode' => null,
+            'qrCode' => null,
+            'expiresAt' => null,
+            'bankSlipUrl' => null,
+        ];
     }
 
     private function findOrCreateCustomer(DonationDTO $data): array

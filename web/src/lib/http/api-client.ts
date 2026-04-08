@@ -13,7 +13,7 @@ export type RequestConfig<T = unknown> = {
   url?: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
   params?: unknown;
-  data?: T;
+  data?: T | FormData;
   responseType?:
   | 'arraybuffer'
   | 'blob'

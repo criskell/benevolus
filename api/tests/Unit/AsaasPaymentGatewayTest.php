@@ -1,7 +1,6 @@
 <?php
 
 use App\DTO\Donation\DonationDTO;
-use App\DTO\Payment\CreditCardDTO;
 use App\Services\Payment\Asaas\AsaasClient;
 use App\Services\Payment\Asaas\AsaasPaymentGateway;
 
@@ -10,7 +9,7 @@ beforeEach(function () {
     $this->gateway = new AsaasPaymentGateway($this->mockClient);
 });
 
-function makeDonationDTO(string $paymentMethod = 'pix', ?CreditCardDTO $creditCard = null): DonationDTO
+function makeDonationDTO(string $paymentMethod = 'pix'): DonationDTO
 {
     return new DonationDTO(
         amount: 5000,
@@ -23,7 +22,6 @@ function makeDonationDTO(string $paymentMethod = 'pix', ?CreditCardDTO $creditCa
         ),
         paymentMethod: $paymentMethod,
         campaignId: 1,
-        creditCard: $creditCard,
     );
 }
 
@@ -93,32 +91,15 @@ test('createPayment with boleto returns bankSlipUrl', function () {
         ->toHaveKey('qrCode', null);
 });
 
-test('createPayment with credit card sends card data', function () {
-    $creditCard = new CreditCardDTO(
-        holderName: 'João Silva',
-        number: '4111111111111111',
-        expiryMonth: '12',
-        expiryYear: '2030',
-        ccv: '123',
-        holderEmail: 'joao@test.com',
-        holderCpfCnpj: '12345678900',
-        holderPostalCode: '01001000',
-        holderAddressNumber: '100',
-        holderPhone: '11999999999',
-    );
-
-    $this->mockClient->shouldReceive('findCustomerByCpfCnpj')
-        ->once()
-        ->andReturn(['id' => 'cus_789']);
+test('createPaymentWithToken uses tokenized card for credit card payments', function () {
+    $dto = makeDonationDTO('credit_card');
 
     $this->mockClient->shouldReceive('createPayment')
         ->once()
         ->withArgs(function ($data) {
             return $data['billingType'] === 'CREDIT_CARD'
-                && isset($data['creditCard']['number'])
-                && $data['creditCard']['number'] === '4111111111111111'
-                && isset($data['creditCardHolderInfo']['cpfCnpj'])
-                && $data['creditCardHolderInfo']['cpfCnpj'] === '12345678900';
+                && $data['creditCardToken'] === 'tok_abc123'
+                && $data['customer'] === 'cus_789';
         })
         ->andReturn([
             'id' => 'pay_789',
@@ -126,7 +107,7 @@ test('createPayment with credit card sends card data', function () {
             'bankSlipUrl' => null,
         ]);
 
-    $result = $this->gateway->createPayment(makeDonationDTO('credit_card', $creditCard));
+    $result = $this->gateway->createPaymentWithToken($dto, 'tok_abc123', 'cus_789');
 
     expect($result)
         ->toHaveKey('status', 'paid')

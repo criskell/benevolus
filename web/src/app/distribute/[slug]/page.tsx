@@ -8,6 +8,7 @@ import { useCart } from '@/hooks/use-cart';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useSuggestedCampaigns } from '@/hooks/use-suggested-campaigns';
 import { useGetCampaign } from '@/lib/http/generated/hooks/useGetCampaign';
+import type { GetCampaignQueryResponse } from '@/lib/http/generated/models/GetCampaign';
 import { campaigns } from '@/data/campaigns';
 import type { Campaign } from '@/models/campaign';
 import { calculateDistribution } from './calculate-distribution';
@@ -25,7 +26,7 @@ const campaignMap = campaigns.campaigns.reduce(
   {} as Record<string, (typeof campaigns.campaigns)[number]>
 );
 
-function mapApiCampaign(data: NonNullable<ReturnType<typeof useGetCampaign>['data']>) {
+function mapApiCampaign(data: GetCampaignQueryResponse) {
   const goalCents = data.goalCents ?? 0;
   const raisedCents = data.amountRaisedCents ?? 0;
   const progress = goalCents > 0 ? Math.round((raisedCents / goalCents) * 100) : 0;
@@ -34,7 +35,7 @@ function mapApiCampaign(data: NonNullable<ReturnType<typeof useGetCampaign>['dat
     category: '',
     title: data.title ?? '',
     image: data.image ?? '',
-    daysRemaining: data.expiresAt ? Math.max(0, Math.ceil((new Date(data.expiresAt).getTime() - Date.now()) / 86400000)) : null,
+    daysRemaining: data.expiresAt ? Math.max(0, Math.ceil((new Date(data.expiresAt).getTime() - Date.now()) / 86400000)) : 0,
     progressPercent: progress,
     raised: raisedCents / 100,
     goal: goalCents / 100,
@@ -151,7 +152,7 @@ const DistributePage = ({
     cart.addToCart({
       slug: relatedCampaign.slug || '',
       title: relatedCampaign.title,
-      image: relatedCampaign.image,
+      image: relatedCampaign.image ?? '',
       amount: quickAmount,
     });
   };

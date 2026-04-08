@@ -16,7 +16,7 @@ final class DonationService
 
     public function findByExternalReference(string $externalReference): ?Donation
     {
-        return Donation::where('external_reference_id', $externalReference)->first();
+        return Donation::where('external_reference', $externalReference)->first();
     }
 
     public function findDonationsByUser(int $userId)
@@ -57,7 +57,8 @@ final class DonationService
         string $externalReference,
         string $paymentProcessor,
         ?int $campaignId = null,
-        bool $isAnonymous = false
+        bool $isAnonymous = false,
+        ?int $paymentMethodId = null,
     ) {
         return $this->create([
             'user_id' => $isAnonymous ? null : $user->id,
@@ -68,6 +69,7 @@ final class DonationService
             'payment_status' => 'pending',
             'payment_processor' => $paymentProcessor,
             'external_reference' => $externalReference,
+            'payment_method_id' => $paymentMethodId,
             'paid_at' => null,
         ]);
     }

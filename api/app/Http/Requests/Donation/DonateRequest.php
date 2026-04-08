@@ -18,22 +18,6 @@ use OpenApi\Attributes as OA;
     ]
 )]
 #[OA\Schema(
-    schema: 'CreditCardRequest',
-    required: ['holderName', 'number', 'expiryMonth', 'expiryYear', 'ccv', 'holderEmail', 'holderCpfCnpj', 'holderPostalCode', 'holderAddressNumber', 'holderPhone'],
-    properties: [
-        new OA\Property(property: 'holderName', type: 'string'),
-        new OA\Property(property: 'number', type: 'string'),
-        new OA\Property(property: 'expiryMonth', type: 'string'),
-        new OA\Property(property: 'expiryYear', type: 'string'),
-        new OA\Property(property: 'ccv', type: 'string'),
-        new OA\Property(property: 'holderEmail', type: 'string', format: 'email'),
-        new OA\Property(property: 'holderCpfCnpj', type: 'string'),
-        new OA\Property(property: 'holderPostalCode', type: 'string'),
-        new OA\Property(property: 'holderAddressNumber', type: 'string'),
-        new OA\Property(property: 'holderPhone', type: 'string'),
-    ]
-)]
-#[OA\Schema(
     schema: 'DonationRequest',
     required: ['amount', 'anonymousDonation', 'donor', 'paymentMethod'],
     properties: [
@@ -51,7 +35,8 @@ use OpenApi\Attributes as OA;
             type: 'string',
             enum: ['pix', 'credit_card', 'boleto'],
         ),
-        new OA\Property(property: 'creditCard', ref: '#/components/schemas/CreditCardRequest', type: 'object', nullable: true),
+        new OA\Property(property: 'paymentMethodId', type: 'integer', nullable: true, description: 'Saved card ID for credit card payments'),
+        new OA\Property(property: 'creditCardToken', type: 'string', nullable: true, description: 'One-time token from client-side gateway SDK'),
     ]
 )]
 class DonateRequest extends FormRequest
@@ -89,17 +74,8 @@ class DonateRequest extends FormRequest
                 'string',
                 'in:pix,credit_card,boleto',
             ],
-            'creditCard' => ['required_if:paymentMethod,credit_card', 'array'],
-            'creditCard.holderName' => ['required_if:paymentMethod,credit_card', 'string', 'max:255'],
-            'creditCard.number' => ['required_if:paymentMethod,credit_card', 'string'],
-            'creditCard.expiryMonth' => ['required_if:paymentMethod,credit_card', 'string'],
-            'creditCard.expiryYear' => ['required_if:paymentMethod,credit_card', 'string'],
-            'creditCard.ccv' => ['required_if:paymentMethod,credit_card', 'string'],
-            'creditCard.holderEmail' => ['required_if:paymentMethod,credit_card', 'string', 'email'],
-            'creditCard.holderCpfCnpj' => ['required_if:paymentMethod,credit_card', 'string'],
-            'creditCard.holderPostalCode' => ['required_if:paymentMethod,credit_card', 'string'],
-            'creditCard.holderAddressNumber' => ['required_if:paymentMethod,credit_card', 'string'],
-            'creditCard.holderPhone' => ['required_if:paymentMethod,credit_card', 'string'],
+            'paymentMethodId' => ['nullable', 'integer', 'exists:payment_methods,id'],
+            'creditCardToken' => ['nullable', 'string', 'max:500'],
         ];
     }
 

@@ -13,7 +13,7 @@ import { useGetProfile } from '@/lib/http/generated/hooks/useGetProfile';
 import { getCsrfToken } from '@/lib/http/generated';
 import { useQueryClient } from '@tanstack/react-query';
 import { ProfileSidebar } from '../../../profile-sidebar';
-import type { MyCampaign } from '../types';
+import type { MyCampaign } from '../../types';
 
 const CampaignUpdatesPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);

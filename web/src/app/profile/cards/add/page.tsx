@@ -1,75 +1,130 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, CardBody, Input, Select, SelectItem } from '@heroui/react';
-import { X, ArrowLeft } from 'lucide-react';
+import {
+  Button,
+  Card,
+  CardBody,
+  Input,
+  Select,
+  SelectItem,
+} from '@heroui/react';
+import { ArrowLeft, X } from 'lucide-react';
 import { PatternFormat } from 'react-number-format';
 import NextLink from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useTranslations } from 'next-intl';
 import { ProfileSidebar } from '../../profile-sidebar';
+import { useStorePaymentMethod, useCreateTokenizationSession } from '@/lib/http/generated';
+import type { TranslateFn } from '@/types/i18n';
+import { tokenizeCard } from '@/lib/payment/tokenize';
 
-const AddCardPage = () => {
-  const [formData, setFormData] = useState({
-    cardNumber: '',
-    cardholderName: '',
-    expiryDate: '',
-    securityCode: '',
-    zipCode: '',
-    state: '',
-    city: '',
-    neighborhood: '',
-    street: '',
-    number: '',
-    complement: '',
+const BRAZILIAN_STATES = [
+  'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO',
+  'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI',
+  'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO',
+];
+
+const createAddCardSchema = (t: TranslateFn) =>
+  z.object({
+    cardNumber: z.string().min(13, t('validation.card_required')),
+    holderName: z.string().min(1, t('validation.holder_name_required')),
+    expiryDate: z.string().min(4, t('validation.card_required')),
+    cvv: z.string().min(3, t('validation.card_required')),
+    billingPostalCode: z.string().optional(),
+    billingState: z.string().optional(),
+    billingCity: z.string().optional(),
+    billingNeighborhood: z.string().optional(),
+    billingStreet: z.string().optional(),
+    billingAddressNumber: z.string().optional(),
+    billingComplement: z.string().optional(),
   });
 
-  const userData = {
-    name: 'Cristiano',
-    followedCampaigns: 0,
-    donationsCount: 3,
-  };
+type AddCardFormData = z.infer<ReturnType<typeof createAddCardSchema>>;
 
-  const menuItems = [
-    { label: 'Informações pessoais', active: false },
-    { label: 'Comunicação', active: false },
-    { label: 'Configurações', active: false },
-  ];
+function detectCardBrand(number: string): string {
+  const clean = number.replace(/\D/g, '');
+  if (/^4/.test(clean)) return 'visa';
+  if (/^5[1-5]/.test(clean)) return 'mastercard';
+  if (/^(636368|438935|504175|451416|636297)/.test(clean)) return 'elo';
+  if (/^3[47]/.test(clean)) return 'amex';
+  return 'unknown';
+}
 
-  const estados = [
-    'Acre',
-    'Alagoas',
-    'Amapá',
-    'Amazonas',
-    'Bahia',
-    'Ceará',
-    'Distrito Federal',
-    'Espírito Santo',
-    'Goiás',
-    'Maranhão',
-    'Mato Grosso',
-    'Mato Grosso do Sul',
-    'Minas Gerais',
-    'Pará',
-    'Paraíba',
-    'Paraná',
-    'Pernambuco',
-    'Piauí',
-    'Rio de Janeiro',
-    'Rio Grande do Norte',
-    'Rio Grande do Sul',
-    'Rondônia',
-    'Roraima',
-    'Santa Catarina',
-    'São Paulo',
-    'Sergipe',
-    'Tocantins',
-  ];
+const AddCardPage = () => {
+  const t = useTranslations('cards');
+  const router = useRouter();
+  const storePaymentMethod = useStorePaymentMethod();
+  const createTokenizationSession = useCreateTokenizationSession();
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const updateField = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<AddCardFormData>({
+    resolver: zodResolver(createAddCardSchema(t)),
+    defaultValues: {
+      cardNumber: '',
+      holderName: '',
+      expiryDate: '',
+      cvv: '',
+      billingPostalCode: '',
+      billingState: '',
+      billingCity: '',
+      billingNeighborhood: '',
+      billingStreet: '',
+      billingAddressNumber: '',
+      billingComplement: '',
+    },
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: AddCardFormData) => {
+    setSubmitError(null);
+
+    const cardNumber = data.cardNumber.replace(/\D/g, '');
+    const lastFour = cardNumber.slice(-4);
+    const brand = detectCardBrand(cardNumber);
+    const [expMonth, expYear] = data.expiryDate.match(/.{1,2}/g) ?? ['', ''];
+    const fullExpYear = expYear.length === 2 ? `20${expYear}` : expYear;
+
+    try {
+      const session = await createTokenizationSession.mutateAsync();
+
+      const tokenResult = await tokenizeCard(session, {
+        cardNumber,
+        holderName: data.holderName,
+        expMonth,
+        expYear: fullExpYear,
+        cvv: data.cvv,
+      });
+
+      await storePaymentMethod.mutateAsync({
+        data: {
+          token: tokenResult.token,
+          brand,
+          lastFour,
+          expMonth,
+          expYear: fullExpYear,
+          holderName: data.holderName,
+          gatewayCustomerId: tokenResult.customerId ?? null,
+          billingPostalCode: data.billingPostalCode || null,
+          billingAddressNumber: data.billingAddressNumber || null,
+          billingStreet: data.billingStreet || null,
+          billingNeighborhood: data.billingNeighborhood || null,
+          billingCity: data.billingCity || null,
+          billingState: data.billingState || null,
+          billingComplement: data.billingComplement || null,
+        },
+      });
+
+      router.push('/profile/cards');
+    } catch {
+      setSubmitError(t('save_error'));
+    }
   };
 
   return (
@@ -90,7 +145,7 @@ const AddCardPage = () => {
                   >
                     <ArrowLeft size={20} />
                   </Button>
-                  <h1 className="text-2xl font-semibold">Novo cartão</h1>
+                  <h1 className="text-2xl font-semibold">{t('new_card_title')}</h1>
                 </div>
                 <Button
                   isIconOnly
@@ -103,157 +158,195 @@ const AddCardPage = () => {
                 </Button>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-8">
+              {submitError && (
+                <div className="p-4 rounded-lg bg-danger-50 border border-danger-200 mb-6">
+                  <p className="text-sm text-danger">{submitError}</p>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                 <div className="space-y-4">
-                  <h2 className="text-lg font-semibold mb-4">Dados do cartão</h2>
+                  <h2 className="text-lg font-semibold mb-4">{t('card_details_title')}</h2>
 
-                  <div>
-                    <PatternFormat
-                      format="#### #### #### ####"
-                      mask="_"
-                      customInput={Input}
-                      label="Número do cartão"
-                      labelPlacement="outside-top"
-                      placeholder="0000 0000 0000 0000"
-                      value={formData.cardNumber}
-                      onValueChange={(values) => updateField('cardNumber', values.value)}
-                    />
-                  </div>
-
-                  <div>
-                    <Input
-                      label="Nome do titular"
-                      labelPlacement="outside-top"
-                      value={formData.cardholderName}
-                      onChange={(e) => updateField('cardholderName', e.target.value)}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
+                  <Controller
+                    name="cardNumber"
+                    control={control}
+                    render={({ field }) => (
                       <PatternFormat
-                        format="##/##"
+                        format="#### #### #### ####"
                         mask="_"
                         customInput={Input}
-                        label="Data de validade"
-                        labelPlacement="outside-top"
-                        placeholder="MM/AA"
-                        value={formData.expiryDate}
-                        onValueChange={(values) => updateField('expiryDate', values.value)}
+                        label={t('card_number_label')}
+                        labelPlacement="outside"
+                        placeholder={t('card_number_placeholder')}
+                        value={field.value}
+                        onValueChange={(values) => field.onChange(values.value)}
+                        isInvalid={!!errors.cardNumber}
+                        errorMessage={errors.cardNumber?.message}
                       />
-                    </div>
+                    )}
+                  />
 
-                    <div>
+                  <Controller
+                    name="holderName"
+                    control={control}
+                    render={({ field }) => (
                       <Input
-                        type="number"
-                        label="Código de segurança"
-                        labelPlacement="outside-top"
-                        placeholder="CVV"
-                        maxLength={4}
-                        value={formData.securityCode}
-                        onChange={(e) => updateField('securityCode', e.target.value)}
+                        {...field}
+                        label={t('holder_name_label')}
+                        labelPlacement="outside"
+                        placeholder={t('holder_name_placeholder')}
+                        isInvalid={!!errors.holderName}
+                        errorMessage={errors.holderName?.message}
                       />
-                    </div>
+                    )}
+                  />
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <Controller
+                      name="expiryDate"
+                      control={control}
+                      render={({ field }) => (
+                        <PatternFormat
+                          format="##/##"
+                          mask="_"
+                          customInput={Input}
+                          label={t('expiry_label')}
+                          labelPlacement="outside"
+                          placeholder={t('expiry_placeholder')}
+                          value={field.value}
+                          onValueChange={(values) => field.onChange(values.value)}
+                          isInvalid={!!errors.expiryDate}
+                          errorMessage={errors.expiryDate?.message}
+                        />
+                      )}
+                    />
+
+                    <Controller
+                      name="cvv"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          type="number"
+                          label={t('cvv_label')}
+                          labelPlacement="outside"
+                          placeholder={t('cvv_placeholder')}
+                          maxLength={4}
+                          isInvalid={!!errors.cvv}
+                          errorMessage={errors.cvv?.message}
+                        />
+                      )}
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h2 className="text-lg font-semibold mb-4">
-                    Endereço de cobrança
-                  </h2>
+                  <h2 className="text-lg font-semibold mb-4">{t('billing_address_title')}</h2>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <PatternFormat
-                        format="#####-###"
-                        mask="_"
-                        customInput={Input}
-                        label="CEP"
-                        labelPlacement="outside-top"
-                        value={formData.zipCode}
-                        onValueChange={(values) => updateField('zipCode', values.value)}
-                      />
-                    </div>
+                    <Controller
+                      name="billingPostalCode"
+                      control={control}
+                      render={({ field }) => (
+                        <PatternFormat
+                          format="#####-###"
+                          mask="_"
+                          customInput={Input}
+                          label={t('zip_code_label')}
+                          labelPlacement="outside"
+                          placeholder={t('zip_code_placeholder')}
+                          value={field.value}
+                          onValueChange={(values) => field.onChange(values.value)}
+                        />
+                      )}
+                    />
 
-                    <div>
-                      <label className="text-sm font-medium text-default-600 block mb-1">
-                        Estado
-                      </label>
-                      <Select
-                        placeholder="Selecione o estado"
-                        selectedKeys={
-                          formData.state ? [formData.state] : []
-                        }
-                        onSelectionChange={(keys) => {
-                          const value = Array.from(keys)[0] as string;
-                          updateField('state', value || '');
-                        }}
-                      >
-                        {estados.map((estado) => (
-                          <SelectItem key={estado}>
-                            {estado}
-                          </SelectItem>
-                        ))}
-                      </Select>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-default-600 block mb-1">
-                        Cidade
-                      </label>
-                      <Select
-                        placeholder="Selecione a cidade"
-                        selectedKeys={formData.city ? [formData.city] : []}
-                        onSelectionChange={(keys) => {
-                          const value = Array.from(keys)[0] as string;
-                          updateField('city', value || '');
-                        }}
-                      >
-                        <SelectItem key="sao-jose-dos-campos">
-                          São José dos Campos
-                        </SelectItem>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Input
-                        label="Bairro"
-                        labelPlacement="outside-top"
-                        value={formData.neighborhood}
-                        onChange={(e) => updateField('neighborhood', e.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Input
-                      label="Rua"
-                      labelPlacement="outside-top"
-                      value={formData.street}
-                      onChange={(e) => updateField('street', e.target.value)}
+                    <Controller
+                      name="billingState"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          label={t('state_label')}
+                          labelPlacement="outside"
+                          placeholder={t('state_placeholder')}
+                          selectedKeys={field.value ? [field.value] : []}
+                          onSelectionChange={(keys) => {
+                            const value = Array.from(keys)[0] as string;
+                            field.onChange(value || '');
+                          }}
+                        >
+                          {BRAZILIAN_STATES.map((state) => (
+                            <SelectItem key={state}>{state}</SelectItem>
+                          ))}
+                        </Select>
+                      )}
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Input
-                        label="Número"
-                        labelPlacement="outside-top"
-                        value={formData.number}
-                        onChange={(e) => updateField('number', e.target.value)}
-                      />
-                    </div>
+                    <Controller
+                      name="billingCity"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          label={t('city_label')}
+                          labelPlacement="outside"
+                          placeholder={t('city_placeholder')}
+                        />
+                      )}
+                    />
 
-                    <div>
+                    <Controller
+                      name="billingNeighborhood"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          label={t('neighborhood_label')}
+                          labelPlacement="outside"
+                        />
+                      )}
+                    />
+                  </div>
+
+                  <Controller
+                    name="billingStreet"
+                    control={control}
+                    render={({ field }) => (
                       <Input
-                        label="Complemento"
-                        labelPlacement="outside-top"
-                        value={formData.complement}
-                        onChange={(e) => updateField('complement', e.target.value)}
+                        {...field}
+                        label={t('street_label')}
+                        labelPlacement="outside"
                       />
-                    </div>
+                    )}
+                  />
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <Controller
+                      name="billingAddressNumber"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          label={t('number_label')}
+                          labelPlacement="outside"
+                        />
+                      )}
+                    />
+
+                    <Controller
+                      name="billingComplement"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          label={t('complement_label')}
+                          labelPlacement="outside"
+                        />
+                      )}
+                    />
                   </div>
                 </div>
 
@@ -264,10 +357,10 @@ const AddCardPage = () => {
                     href="/profile/cards"
                     className="text-default-600"
                   >
-                    Cancelar
+                    {t('cancel_button')}
                   </Button>
-                  <Button type="submit" color="primary">
-                    Salvar
+                  <Button type="submit" color="primary" isLoading={isSubmitting}>
+                    {t('save_button')}
                   </Button>
                 </div>
               </form>
