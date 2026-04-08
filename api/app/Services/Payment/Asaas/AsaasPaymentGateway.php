@@ -10,7 +10,7 @@ use App\Services\Payment\CardTokenizableInterface;
 use App\Services\Payment\PaymentGatewayInterface;
 use Illuminate\Support\Str;
 
-final class AsaasPaymentGateway implements PaymentGatewayInterface, CardTokenizableInterface
+final class AsaasPaymentGateway implements CardTokenizableInterface, PaymentGatewayInterface
 {
     public function __construct(
         private AsaasClient $client,

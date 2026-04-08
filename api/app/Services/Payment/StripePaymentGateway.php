@@ -13,7 +13,7 @@ use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
-final class StripePaymentGateway implements PaymentGatewayInterface, CardTokenizableInterface
+final class StripePaymentGateway implements CardTokenizableInterface, PaymentGatewayInterface
 {
     private StripeClient $stripe;
 
