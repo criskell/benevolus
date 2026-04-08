@@ -7,12 +7,13 @@ namespace App\Services\Payment;
 use App\DTO\Donation\DonationDTO;
 use App\DTO\User\DonorDTO;
 use App\Exceptions\PaymentException;
+use App\Models\User;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
-final class StripePaymentGateway implements PaymentGatewayInterface
+final class StripePaymentGateway implements CardTokenizableInterface, PaymentGatewayInterface
 {
     private StripeClient $stripe;
 
@@ -62,6 +63,68 @@ final class StripePaymentGateway implements PaymentGatewayInterface
             $paymentIntent = $this->stripe->paymentIntents->retrieve($paymentId);
 
             return $paymentIntent->status;
+        } catch (ApiErrorException $e) {
+            throw PaymentException::processingFailed($e->getMessage());
+        }
+    }
+
+    public function createTokenizationSession(User $user): array
+    {
+        try {
+            $existingCustomerId = $user->paymentMethods()
+                ->where('gateway', 'stripe')
+                ->whereNotNull('gateway_customer_id')
+                ->value('gateway_customer_id');
+
+            $customer = $existingCustomerId
+                ? $this->stripe->customers->retrieve($existingCustomerId)
+                : $this->stripe->customers->create([
+                    'name' => $user->name,
+                    'metadata' => [
+                        'user_id' => $user->id,
+                    ],
+                ]);
+
+            $setupIntent = $this->stripe->setupIntents->create([
+                'customer' => $customer->id,
+                'payment_method_types' => ['card'],
+            ]);
+
+            return [
+                'gateway' => 'stripe',
+                'clientSecret' => $setupIntent->client_secret,
+                'customerId' => $customer->id,
+            ];
+        } catch (ApiErrorException $e) {
+            throw PaymentException::processingFailed($e->getMessage());
+        }
+    }
+
+    public function createPaymentWithToken(DonationDTO $data, string $token, ?string $customerId): array
+    {
+        try {
+            $paymentIntent = $this->stripe->paymentIntents->create([
+                'amount' => $this->convertToStripeAmount($data->amount),
+                'currency' => 'brl',
+                'customer' => $customerId,
+                'payment_method' => $token,
+                'off_session' => true,
+                'confirm' => true,
+                'metadata' => [
+                    'donor_name' => $data->donor->name,
+                    'donor_tax_id' => $data->donor->taxId,
+                    'anonymous' => $data->anonymousDonation ? 'true' : 'false',
+                    'campaign_id' => $data->campaignId,
+                ],
+            ]);
+
+            return [
+                'externalReference' => $paymentIntent->id,
+                'status' => $paymentIntent->status === 'succeeded' ? 'paid' : 'pending',
+                'pixCode' => null,
+                'qrCode' => null,
+                'expiresAt' => null,
+            ];
         } catch (ApiErrorException $e) {
             throw PaymentException::processingFailed($e->getMessage());
         }

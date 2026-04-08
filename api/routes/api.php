@@ -12,6 +12,7 @@ use App\Http\Controllers\API\Donation\DonationController;
 use App\Http\Controllers\API\Donation\DonationThankController;
 use App\Http\Controllers\API\Notification\NotificationController;
 use App\Http\Controllers\API\Payment\AsaasWebhookController;
+use App\Http\Controllers\API\Payment\PaymentMethodController;
 use App\Http\Controllers\API\Payment\WooviWebhookController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\Transaction\TransactionController;
@@ -60,3 +61,7 @@ Route::get('/notifications', [NotificationController::class, 'index']);
 Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
 Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+
+Route::post('/payment-methods/tokenization-session', [PaymentMethodController::class, 'tokenizationSession'])->middleware('auth:sanctum');
+Route::apiResource('payment-methods', PaymentMethodController::class)->only(['index', 'store', 'destroy'])->middleware('auth:sanctum');
+Route::post('/payment-methods/{paymentMethod}/default', [PaymentMethodController::class, 'setDefault'])->middleware('auth:sanctum');

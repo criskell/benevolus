@@ -17,11 +17,11 @@ import { z } from 'zod';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import { PixIcon } from '@/components/icons/pix';
-import { BarcodeIcon, CreditCardIcon } from 'lucide-react';
+import { BarcodeIcon, CreditCardIcon, CheckCircle } from 'lucide-react';
 import { PayPalIcon } from '@/components/icons/paypal';
 import { BitcoinIcon } from '@/components/icons/bitcoin';
 import { PaymentMethodButton } from './payment-method-button';
-import { useGetCampaign, useCreateDonation } from '@/lib/http/generated';
+import { useGetCampaign, useCreateDonation, useListPaymentMethods, useGetProfile } from '@/lib/http/generated';
 import type { TranslateFn } from '@/types/i18n';
 import { getApiErrorMessage } from '@/lib/utils/get-api-error-message';
 import { useSetAtom } from 'jotai';
@@ -64,8 +64,14 @@ export const DonateForm = () => {
 
   const { data: campaign } = useGetCampaign(params.campaign);
 
+  const { data: profile } = useGetProfile();
+  const isAuthenticated = !!profile?.id;
+  const { data: savedCardsResponse } = useListPaymentMethods({ query: { enabled: isAuthenticated } });
+  const savedCards = savedCardsResponse?.data;
+
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [selectedQuickAmount, setSelectedQuickAmount] = useState<number | null>(null);
+  const [selectedSavedCardId, setSelectedSavedCardId] = useState<number | null>(null);
 
   const {
     control,
@@ -106,19 +112,25 @@ export const DonateForm = () => {
       : phoneDigits;
 
     try {
-      const result = await createDonation.mutateAsync({
-        data: {
-          amount: data.amount,
-          anonymousDonation: data.anonymous,
-          campaignId: campaign?.id ?? null,
-          donor: {
-            name: data.name,
-            email: data.email,
-            taxId: data.taxId.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
-            phoneNumber: cleanPhone,
-          },
-          paymentMethod: data.paymentMethod,
+      const donationPayload: Parameters<typeof createDonation.mutateAsync>[0]['data'] = {
+        amount: data.amount,
+        anonymousDonation: data.anonymous,
+        campaignId: campaign?.id ?? null,
+        donor: {
+          name: data.name,
+          email: data.email,
+          taxId: data.taxId.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
+          phoneNumber: cleanPhone,
         },
+        paymentMethod: data.paymentMethod,
+      };
+
+      if (data.paymentMethod === 'credit_card' && selectedSavedCardId) {
+        donationPayload.paymentMethodId = selectedSavedCardId;
+      }
+
+      const result = await createDonation.mutateAsync({
+        data: donationPayload,
       });
 
       const { donation, payment } = result;
@@ -396,6 +408,36 @@ export const DonateForm = () => {
             </div>
           )}
         />
+
+        {/* Saved Cards */}
+        {watch('paymentMethod') === 'credit_card' && isAuthenticated && savedCards && savedCards.length > 0 && (
+          <div className="mt-4 space-y-2">
+            <p className="text-sm font-medium text-default-700 mb-2">{t('saved_cards_title')}</p>
+            {savedCards.map((card) => (
+              <button
+                key={card.id}
+                type="button"
+                onClick={() => setSelectedSavedCardId(selectedSavedCardId === card.id ? null : (card.id ?? null))}
+                className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all ${
+                  selectedSavedCardId === card.id
+                    ? 'border-primary bg-primary/5'
+                    : 'border-default-200 hover:border-default-400'
+                }`}
+              >
+                <CreditCardIcon size={20} className="text-default-500" />
+                <span className="text-sm font-medium capitalize">
+                  {card.brand} •••• {card.lastFour}
+                </span>
+                <span className="text-xs text-default-400 ml-auto">
+                  {card.expMonth}/{card.expYear}
+                </span>
+                {selectedSavedCardId === card.id && (
+                  <CheckCircle size={18} className="text-primary" />
+                )}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Security Badge */}
         <div className="mt-6 flex items-center gap-2 text-xs text-default-600 bg-emerald-50 p-3 rounded-xl border border-emerald-200">

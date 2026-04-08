@@ -22,7 +22,7 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
   const [criteria, setCriteria] = useState<'equal' | 'mixed'>('equal');
   const [distributionType, setDistributionType] = useState<'category' | 'favorites'>('category');
 
-  const relatedCampaigns = getRelated(campaign.category, campaign.slug);
+  const relatedCampaigns = getRelated(campaign.category ?? '', campaign.slug ?? '');
   const campaignMap = campaigns.campaigns.reduce((acc, c) => {
     acc[c.slug] = c;
     return acc;
@@ -35,7 +35,7 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
     cart.addToCart({
       slug: campaign.slug || '',
       title: campaign.title,
-      image: campaign.images?.[0] || campaign.image,
+      image: campaign.images?.[0] || campaign.image || '',
       amount: amount * 100, // Convert to cents
     });
     onClose();
@@ -46,7 +46,7 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
     cart.addToCart({
       slug: relatedCampaign.slug || '',
       title: relatedCampaign.title,
-      image: relatedCampaign.images?.[0] || relatedCampaign.image,
+      image: relatedCampaign.images?.[0] || relatedCampaign.image || '',
       amount: quickAmount,
     });
   };
@@ -78,7 +78,7 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
               <Image
-                src={campaign.images?.[0] || campaign.image}
+                src={campaign.images?.[0] || campaign.image || ''}
                 alt={campaign.title}
                 className="w-20 h-20 object-cover rounded"
               />
@@ -204,7 +204,7 @@ export const DonationModal = ({ campaign, isOpen, onClose }: DonationModalProps)
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3 flex-1">
                           <Image
-                            src={related.images?.[0] || related.image}
+                            src={related.images?.[0] || related.image || ''}
                             alt={related.title}
                             className="w-12 h-12 object-cover rounded"
                           />

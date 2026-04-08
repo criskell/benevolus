@@ -13,7 +13,6 @@ import { LogoIcon } from "@/components/icons/logo";
 import { useTranslations } from "next-intl";
 import { getCsrfToken, register, getProfileQueryKey } from "@/lib/http/generated";
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "nextjs-toploader/app";
 import type { TranslateFn } from "@/types/i18n";
 
 const createSignUpSchema = (t: TranslateFn) =>

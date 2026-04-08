@@ -48,7 +48,7 @@ const RelatedCampaigns = ({ campaigns, onQuickDonate }: RelatedCampaignsProps) =
                 <CardBody className="p-0">
                   <div className="relative h-32 overflow-hidden">
                     <Image
-                      src={related.images?.[0] || related.image}
+                      src={related.images?.[0] || related.image || ''}
                       alt={related.title}
                       className="w-full h-full object-cover"
                       removeWrapper

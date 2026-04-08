@@ -40,6 +40,7 @@ export default defineConfig({
 
       client: {
         dataReturnType: 'data',
+        importPath: '@/lib/http/api-client',
       },
     }),
   ],

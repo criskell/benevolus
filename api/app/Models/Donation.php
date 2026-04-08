@@ -19,6 +19,7 @@ class Donation extends Model
         'payment_method',
         'payment_status',
         'payment_processor',
+        'payment_method_id',
         'external_reference',
         'paid_at',
         'thank_you_message',
@@ -33,6 +34,11 @@ class Donation extends Model
     public function campaign()
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 
     protected $casts = [

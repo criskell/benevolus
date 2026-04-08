@@ -1198,6 +1198,182 @@
                 ]
             }
         },
+        "/api/payment-methods/tokenization-session": {
+            "post": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Create a tokenization session for client-side card tokenization",
+                "operationId": "createTokenizationSession",
+                "responses": {
+                    "200": {
+                        "description": "Tokenization session created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "gateway": {
+                                            "type": "string"
+                                        },
+                                        "clientSecret": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "customerId": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/payment-methods": {
+            "get": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "List saved payment methods",
+                "operationId": "listPaymentMethods",
+                "responses": {
+                    "200": {
+                        "description": "Payment methods retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PaymentMethodResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Save a tokenized payment method",
+                "operationId": "storePaymentMethod",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePaymentMethodRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment method saved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaymentMethodResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/payment-methods/{id}": {
+            "delete": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Delete a saved payment method",
+                "operationId": "deletePaymentMethod",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Payment method deleted"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/payment-methods/{id}/default": {
+            "post": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Set a payment method as default",
+                "operationId": "setDefaultPaymentMethod",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Default updated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/reports": {
             "get": {
                 "tags": [
@@ -2082,14 +2258,15 @@
                             "boleto"
                         ]
                     },
-                    "creditCard": {
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/CreditCardRequest"
-                            }
-                        ],
-                        "nullable": true,
-                        "type": "object"
+                    "paymentMethodId": {
+                        "description": "Saved card ID for credit card payments",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "creditCardToken": {
+                        "description": "One-time token from client-side gateway SDK",
+                        "type": "string",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -2103,6 +2280,77 @@
                         "type": "string",
                         "maxLength": 2000,
                         "minLength": 10
+                    }
+                },
+                "type": "object"
+            },
+            "StorePaymentMethodRequest": {
+                "required": [
+                    "token",
+                    "brand",
+                    "lastFour",
+                    "expMonth",
+                    "expYear",
+                    "holderName"
+                ],
+                "properties": {
+                    "token": {
+                        "description": "Gateway token from client-side tokenization",
+                        "type": "string"
+                    },
+                    "brand": {
+                        "type": "string"
+                    },
+                    "lastFour": {
+                        "type": "string",
+                        "maxLength": 4,
+                        "minLength": 4
+                    },
+                    "expMonth": {
+                        "type": "string",
+                        "maxLength": 2,
+                        "minLength": 2
+                    },
+                    "expYear": {
+                        "type": "string",
+                        "maxLength": 4,
+                        "minLength": 4
+                    },
+                    "holderName": {
+                        "type": "string"
+                    },
+                    "gatewayCustomerId": {
+                        "description": "Gateway customer ID from tokenization session",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "billingPostalCode": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "billingAddressNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "billingStreet": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "billingNeighborhood": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "billingCity": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "billingState": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "billingComplement": {
+                        "type": "string",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -2567,6 +2815,70 @@
                 },
                 "type": "object"
             },
+            "PaymentMethodResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "brand": {
+                        "type": "string"
+                    },
+                    "lastFour": {
+                        "type": "string"
+                    },
+                    "expMonth": {
+                        "type": "string"
+                    },
+                    "expYear": {
+                        "type": "string"
+                    },
+                    "holderName": {
+                        "type": "string"
+                    },
+                    "billingAddress": {
+                        "properties": {
+                            "postalCode": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "number": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "street": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "neighborhood": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "city": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "state": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "complement": {
+                                "type": "string",
+                                "nullable": true
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "isDefault": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "PaymentResource": {
                 "properties": {
                     "method": {
@@ -2824,6 +3136,10 @@
         {
             "name": "Notifications",
             "description": "Notification management endpoints"
+        },
+        {
+            "name": "Payment Methods",
+            "description": "Payment Methods"
         }
     ]
 }
