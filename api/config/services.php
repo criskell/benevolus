@@ -2,7 +2,7 @@
 
 return [
 
-    'payment_gateway' => env('PAYMENT_GATEWAY', 'woovi'),
+    'payment_gateway' => env('PAYMENT_GATEWAY', 'asaas'),
 
     /*
     |--------------------------------------------------------------------------
