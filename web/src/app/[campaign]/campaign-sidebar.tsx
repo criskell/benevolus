@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import { formatMoney } from '@/lib/utils/format-money';
 import type { CampaignResource } from '@/lib/http/generated';
+import Link from 'next/link';
 
 interface CampaignSidebarProps {
   campaign: CampaignResource;
@@ -97,8 +98,10 @@ export const CampaignSidebar = ({ campaign }: CampaignSidebarProps) => {
             className="w-full font-bold text-base shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300"
             color="primary"
             size="lg"
-            startContent={<Icon icon="solar:heart-bold" width={24} />}
-          >
+            startContent={<Icon icon="solar:heart-bold" width={24}/>}
+            as={Link}
+            href={`/${campaign.slug}/donate`}
+          > 
             {t('donate_button')}
           </Button>
 
