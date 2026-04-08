@@ -16,6 +16,7 @@ final class WebhookService
     public function __construct(
         private TransactionService $transactionService
     ) {}
+
     public function store(string $processor, string $rawPayload, ?string $gatewayKey = null): ?WebhookHistoryItem
     {
         $idempotencyKey = $gatewayKey ?? hash('sha256', $rawPayload);

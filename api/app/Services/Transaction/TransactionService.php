@@ -7,7 +7,6 @@ namespace App\Services\Transaction;
 use App\Models\Donation;
 use App\Models\Transaction;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 
 final class TransactionService
 {

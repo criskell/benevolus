@@ -14,9 +14,9 @@ use App\Http\Controllers\API\Notification\NotificationController;
 use App\Http\Controllers\API\Payment\AsaasWebhookController;
 use App\Http\Controllers\API\Payment\WooviWebhookController;
 use App\Http\Controllers\API\ReportController;
+use App\Http\Controllers\API\Transaction\TransactionController;
 use App\Http\Controllers\API\User\OAuthController;
 use App\Http\Controllers\API\User\ProfileController;
-use App\Http\Controllers\API\Transaction\TransactionController;
 use App\Http\Controllers\API\Withdrawal\WithdrawalController;
 use Illuminate\Support\Facades\Route;
 
