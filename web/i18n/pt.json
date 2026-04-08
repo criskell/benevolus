@@ -486,6 +486,32 @@
         "description_required": "A descrição é obrigatória",
         "goal_min": "A meta deve ser de pelo menos R$ 1,00"
       }
+    },
+    "statement": {
+      "title": "Extrato da Campanha",
+      "export": "Exportar",
+      "export_wip": "Exportação em desenvolvimento",
+      "current_balance": "Saldo atual",
+      "total_received": "Total recebido",
+      "total_withdrawn": "Total sacado",
+      "period_label": "Período",
+      "period_7": "Últimos 7 dias",
+      "period_15": "Últimos 15 dias",
+      "period_30": "Últimos 30 dias",
+      "period_90": "Últimos 90 dias",
+      "period_all": "Todo o período",
+      "tab_all": "Todas",
+      "tab_donation": "Doações",
+      "tab_withdrawal": "Saques",
+      "tab_dispute": "Disputas",
+      "tab_adjustment": "Ajustes",
+      "type_donation": "Doação recebida",
+      "type_withdrawal": "Saque",
+      "type_dispute": "Disputa",
+      "type_adjustment": "Ajuste",
+      "donor_label": "Doador: {name}",
+      "empty": "Nenhuma transação encontrada para este período.",
+      "loading": "Carregando transações..."
     }
   },
   "campaign": {

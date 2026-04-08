@@ -8,7 +8,6 @@ use App\DTO\Donation\DonationDTO;
 use App\DTO\Payment\PaymentDTO;
 use App\Models\Donation;
 use App\Services\Payment\PaymentGatewayInterface;
-use App\Services\Transaction\TransactionService;
 use App\Services\User\UserService;
 use Exception;
 use Illuminate\Database\ConnectionInterface;
@@ -19,7 +18,6 @@ final class DonationProcessor
     public function __construct(
         private UserService $userService,
         private DonationService $donationService,
-        private TransactionService $transactionService,
         private PaymentGatewayInterface $paymentGateway,
         private ConnectionInterface $db,
         private LoggerInterface $logger,
@@ -39,10 +37,6 @@ final class DonationProcessor
                 campaignId: $data->campaignId,
                 isAnonymous: $data->anonymousDonation
             );
-            $transaction = $this->transactionService->createFromDonation(
-                donation: $donation,
-                user: $user
-            );
 
             $this->logger->info('Donation created successfully', [
                 'donationId' => $donation->id,
@@ -53,7 +47,6 @@ final class DonationProcessor
 
             return [
                 'donation' => $donation->load(['user', 'campaign']),
-                'transaction' => $transaction,
                 'payment' => PaymentDTO::fromDonationRequest([
                     'donation' => $donation,
                     'payment' => $paymentResult,
