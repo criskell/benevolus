@@ -6,13 +6,17 @@ namespace App\Services\Withdrawal;
 
 use App\Models\Withdrawal;
 use App\Notifications\WithdrawalProcessed;
+use App\Services\Transaction\TransactionService;
 use Illuminate\Support\Str;
 use OpenPix\PhpSdk\Client;
 use OpenPix\PhpSdk\Request;
 
 final class WithdrawalProcessor
 {
-    public function __construct(private Client $woovi) {}
+    public function __construct(
+        private Client $woovi,
+        private TransactionService $transactionService,
+    ) {}
 
     public function process(Withdrawal $withdrawal)
     {
@@ -52,6 +56,12 @@ final class WithdrawalProcessor
         $withdrawal->status = 'paid';
         $withdrawal->campaign()->decrement('available_balance_cents', $withdrawal->amountCents);
         $withdrawal->save();
+
+        $this->transactionService->createWithdrawal(
+            $withdrawal->campaign_id,
+            $withdrawal->campaign->user_id,
+            $withdrawal->amountCents
+        );
 
         $withdrawal->campaign->user->notify(new WithdrawalProcessed($withdrawal->load('campaign')));
     }

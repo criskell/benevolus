@@ -15,6 +15,7 @@ use App\Http\Controllers\API\Payment\AsaasWebhookController;
 use App\Http\Controllers\API\Payment\PaymentMethodController;
 use App\Http\Controllers\API\Payment\WooviWebhookController;
 use App\Http\Controllers\API\ReportController;
+use App\Http\Controllers\API\Transaction\TransactionController;
 use App\Http\Controllers\API\User\OAuthController;
 use App\Http\Controllers\API\User\ProfileController;
 use App\Http\Controllers\API\Withdrawal\WithdrawalController;
@@ -39,6 +40,7 @@ Route::apiResource('campaigns', CampaignController::class);
 
 Route::post('/campaigns/{campaign}/images', [CampaignImageController::class, 'store'])->middleware('auth:sanctum');
 Route::apiResource('campaigns.withdrawals', WithdrawalController::class)->shallow()->except(['destroy', 'update']);
+Route::apiResource('campaigns.transactions', TransactionController::class)->shallow()->only(['index']);
 Route::apiResource('campaigns.updates', CampaignUpdateController::class)->shallow()->except(['update']);
 Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);
 Route::post('/comments/{comment}/react', [CommentReactionController::class, 'toggle']);

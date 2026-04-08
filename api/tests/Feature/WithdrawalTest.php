@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Campaign;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Withdrawal;
 use OpenPix\PhpSdk\Client;
@@ -100,6 +101,11 @@ test('can create withdrawal as campaign owner when balance is sufficient', funct
         'pix_key' => 'user@example.com',
         'pix_key_type' => 'email',
     ]);
+
+    $transaction = Transaction::where('campaign_id', $campaign->id)->first();
+    expect($transaction)->not->toBeNull()
+        ->and($transaction->type)->toBe('withdrawal')
+        ->and($transaction->amount_cents)->toBe(-10000);
 });
 
 test('cannot create withdrawal for another users campaign', function () {

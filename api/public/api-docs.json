@@ -2179,6 +2179,54 @@
                 },
                 "type": "object"
             },
+            "CreditCardRequest": {
+                "required": [
+                    "holderName",
+                    "number",
+                    "expiryMonth",
+                    "expiryYear",
+                    "ccv",
+                    "holderEmail",
+                    "holderCpfCnpj",
+                    "holderPostalCode",
+                    "holderAddressNumber",
+                    "holderPhone"
+                ],
+                "properties": {
+                    "holderName": {
+                        "type": "string"
+                    },
+                    "number": {
+                        "type": "string"
+                    },
+                    "expiryMonth": {
+                        "type": "string"
+                    },
+                    "expiryYear": {
+                        "type": "string"
+                    },
+                    "ccv": {
+                        "type": "string"
+                    },
+                    "holderEmail": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "holderCpfCnpj": {
+                        "type": "string"
+                    },
+                    "holderPostalCode": {
+                        "type": "string"
+                    },
+                    "holderAddressNumber": {
+                        "type": "string"
+                    },
+                    "holderPhone": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "DonationRequest": {
                 "required": [
                     "amount",
@@ -2584,6 +2632,9 @@
                     },
                     "likes": {
                         "type": "integer"
+                    },
+                    "userHasReacted": {
+                        "type": "boolean"
                     },
                     "createdAt": {
                         "type": "string",

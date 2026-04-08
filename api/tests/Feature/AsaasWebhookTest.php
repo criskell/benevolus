@@ -3,6 +3,7 @@
 use App\Events\DonationPaid;
 use App\Models\Campaign;
 use App\Models\Donation;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\WebhookHistoryItem;
 use App\Notifications\DonationReceived;
@@ -112,6 +113,11 @@ test('webhook confirms payment and updates donation to paid', function () {
     });
 
     Notification::assertSentTo($owner, DonationReceived::class);
+
+    $transaction = Transaction::where('campaign_id', $campaign->id)->first();
+    expect($transaction)->not->toBeNull()
+        ->and($transaction->type)->toBe('donation')
+        ->and($transaction->amount_cents)->toBe(1000);
 });
 
 test('webhook handles PAYMENT_RECEIVED event the same as PAYMENT_CONFIRMED', function () {
