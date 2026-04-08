@@ -521,7 +521,9 @@
     },
     "comments": {
       "title": "Comments",
-      "reply_button": "Reply"
+      "reply_button": "Reply",
+      "like_button": "Like this comment",
+      "empty_message": "No comments yet. Be the first to comment!"
     },
     "sidebar": {
       "raised_label": "Raised",

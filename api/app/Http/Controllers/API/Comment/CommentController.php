@@ -60,7 +60,11 @@ final class CommentController extends Controller implements HasMiddleware
     )]
     public function index(Campaign $campaign)
     {
-        $comments = Comment::withCount('likes')->where('campaign_id', $campaign->id)->latest()->paginate();
+        $comments = Comment::withCount('likes')
+            ->withExists(['likes as user_has_reacted' => fn ($q) => $q->where('user_id', auth('sanctum')->id())])
+            ->where('campaign_id', $campaign->id)
+            ->latest()
+            ->paginate();
 
         return CommentResource::collection($comments);
     }

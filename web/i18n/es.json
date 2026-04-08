@@ -521,7 +521,9 @@
     },
     "comments": {
       "title": "Comentarios",
-      "reply_button": "Responder"
+      "reply_button": "Responder",
+      "like_button": "Me gusta este comentario",
+      "empty_message": "Aún no hay comentarios. ¡Sé el primero en comentar!"
     },
     "sidebar": {
       "raised_label": "Recaudado",

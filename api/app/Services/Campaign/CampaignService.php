@@ -49,6 +49,8 @@ final class CampaignService
 
         $recentComments = $campaign->comments()
             ->with('user')
+            ->withCount('likes')
+            ->withExists(['likes as user_has_reacted' => fn ($q) => $q->where('user_id', auth('sanctum')->id())])
             ->latest()
             ->take(15)
             ->get();
@@ -78,6 +80,8 @@ final class CampaignService
 
         $recentComments = $campaign->comments()
             ->with('user')
+            ->withCount('likes')
+            ->withExists(['likes as user_has_reacted' => fn ($q) => $q->where('user_id', auth('sanctum')->id())])
             ->latest()
             ->take(15)
             ->get();
