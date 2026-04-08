@@ -1,164 +1,100 @@
 'use client';
 
 import { use, useState } from 'react';
-import { Button, Card, CardBody, Chip, Tabs, Tab, Select, SelectItem } from '@heroui/react';
+import { Button, Card, CardBody, Chip, Tabs, Tab, Select, SelectItem, Spinner } from '@heroui/react';
 import { ArrowLeft, Download, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownLeft, Filter } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations, useLocale } from 'next-intl';
+import { useQuery } from '@tanstack/react-query';
 
 import { ProfileSidebar } from '../../../profile-sidebar';
 import { formatMoney } from '@/lib/utils/format-money';
+import { api } from '@/lib/http/api-client';
 
-type TransactionType = 'donation' | 'withdrawal' | 'fee' | 'refund';
+type TransactionType = 'donation' | 'withdrawal' | 'dispute' | 'adjustment';
+
+type TransactionUser = {
+  id: number;
+  name: string;
+};
 
 type Transaction = {
-  id: string;
+  id: number;
+  campaignId: number;
+  userId: number | null;
   type: TransactionType;
-  description: string;
   amountCents: number;
-  balanceCents: number;
+  direction: 'input' | 'output';
   createdAt: string;
-  status: 'completed' | 'pending' | 'failed';
-  metadata?: {
-    donorName?: string;
-    pixKey?: string;
-    transactionId?: string;
+  updatedAt: string;
+  user?: TransactionUser;
+};
+
+type TransactionSummary = {
+  balanceCents: number;
+  totalReceivedCents: number;
+  totalWithdrawnCents: number;
+};
+
+type TransactionsResponse = {
+  summary: TransactionSummary;
+  data: Transaction[];
+  meta: {
+    currentPage: number;
+    lastPage: number;
+    perPage: number;
+    total: number;
   };
-};
-
-const transactionConfig: Record<TransactionType, { label: string; color: string; icon: React.ReactNode }> = {
-  donation: { 
-    label: 'Doação recebida', 
-    color: 'text-success', 
-    icon: <ArrowDownLeft size={18} className="text-success" /> 
-  },
-  withdrawal: { 
-    label: 'Saque', 
-    color: 'text-danger', 
-    icon: <ArrowUpRight size={18} className="text-danger" /> 
-  },
-  fee: { 
-    label: 'Taxa', 
-    color: 'text-warning', 
-    icon: <TrendingDown size={18} className="text-warning" /> 
-  },
-  refund: { 
-    label: 'Estorno', 
-    color: 'text-primary', 
-    icon: <TrendingUp size={18} className="text-primary" /> 
-  },
-};
-
-const statusConfig = {
-  completed: { label: 'Concluída', color: 'success' as const },
-  pending: { label: 'Pendente', color: 'warning' as const },
-  failed: { label: 'Falhou', color: 'danger' as const },
 };
 
 const CampaignStatementPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
+  const t = useTranslations('campaigns.statement');
+  const locale = useLocale();
   const [activeTab, setActiveTab] = useState<'all' | TransactionType>('all');
   const [selectedPeriod, setSelectedPeriod] = useState('30');
 
-  const userData = {
-    name: 'Cristiano',
-    followedCampaigns: 0,
-    donationsCount: 3,
+  const { data, isLoading } = useQuery<TransactionsResponse>({
+    queryKey: ['campaign-transactions', id, activeTab, selectedPeriod],
+    queryFn: async () => {
+      const params: Record<string, string> = {};
+      if (activeTab !== 'all') params.type = activeTab;
+      if (selectedPeriod !== 'all') params.period = selectedPeriod;
+
+      const res = await api.get<TransactionsResponse>(`/api/campaigns/${id}/transactions`, { params });
+      return res.data;
+    },
+  });
+
+  const summary = data?.summary;
+  const transactions = data?.data ?? [];
+
+  const transactionConfig: Record<TransactionType, { label: string; color: string; icon: React.ReactNode }> = {
+    donation: {
+      label: t('type_donation'),
+      color: 'text-success',
+      icon: <ArrowDownLeft size={18} className="text-success" />,
+    },
+    withdrawal: {
+      label: t('type_withdrawal'),
+      color: 'text-danger',
+      icon: <ArrowUpRight size={18} className="text-danger" />,
+    },
+    dispute: {
+      label: t('type_dispute'),
+      color: 'text-warning',
+      icon: <TrendingDown size={18} className="text-warning" />,
+    },
+    adjustment: {
+      label: t('type_adjustment'),
+      color: 'text-primary',
+      icon: <TrendingUp size={18} className="text-primary" />,
+    },
   };
-
-  const campaignTitle = 'Ajuda para Maria reconstruir sua casa';
-  const currentBalanceCents = 450000;
-
-  // Mock de transações
-  const allTransactions: Transaction[] = [
-    {
-      id: '1',
-      type: 'donation',
-      description: 'Doação via Pix',
-      amountCents: 10000,
-      balanceCents: 450000,
-      createdAt: '2025-02-08T10:30:00',
-      status: 'completed',
-      metadata: { donorName: 'João Silva', transactionId: 'PIX-123456' },
-    },
-    {
-      id: '2',
-      type: 'donation',
-      description: 'Doação via Cartão de Crédito',
-      amountCents: 5000,
-      balanceCents: 440000,
-      createdAt: '2025-02-07T15:45:00',
-      status: 'completed',
-      metadata: { donorName: 'Doador Anônimo', transactionId: 'CC-789012' },
-    },
-    {
-      id: '3',
-      type: 'withdrawal',
-      description: 'Saque via Pix',
-      amountCents: -150000,
-      balanceCents: 435000,
-      createdAt: '2025-02-06T09:20:00',
-      status: 'completed',
-      metadata: { pixKey: '***-***-***-**', transactionId: 'WD-345678' },
-    },
-    {
-      id: '4',
-      type: 'donation',
-      description: 'Doação via Pix',
-      amountCents: 25000,
-      balanceCents: 585000,
-      createdAt: '2025-02-05T14:10:00',
-      status: 'completed',
-      metadata: { donorName: 'Maria Santos', transactionId: 'PIX-901234' },
-    },
-    {
-      id: '5',
-      type: 'fee',
-      description: 'Taxa de processamento',
-      amountCents: -500,
-      balanceCents: 560000,
-      createdAt: '2025-02-05T14:10:00',
-      status: 'completed',
-      metadata: { transactionId: 'FEE-567890' },
-    },
-    {
-      id: '6',
-      type: 'donation',
-      description: 'Doação via Boleto',
-      amountCents: 20000,
-      balanceCents: 560500,
-      createdAt: '2025-02-04T11:00:00',
-      status: 'completed',
-      metadata: { donorName: 'Pedro Oliveira', transactionId: 'BOL-112233' },
-    },
-    {
-      id: '7',
-      type: 'withdrawal',
-      description: 'Saque via Pix',
-      amountCents: -100000,
-      balanceCents: 540500,
-      createdAt: '2025-02-03T16:30:00',
-      status: 'completed',
-      metadata: { pixKey: '***-***-***-**', transactionId: 'WD-445566' },
-    },
-    {
-      id: '8',
-      type: 'donation',
-      description: 'Doação via Pix',
-      amountCents: 15000,
-      balanceCents: 640500,
-      createdAt: '2025-02-02T08:15:00',
-      status: 'completed',
-      metadata: { donorName: 'Ana Costa', transactionId: 'PIX-778899' },
-    },
-  ];
-
-  const filteredTransactions = activeTab === 'all' 
-    ? allTransactions 
-    : allTransactions.filter(t => t.type === activeTab);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('pt-BR', {
+    return date.toLocaleDateString(locale, {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -167,44 +103,8 @@ const CampaignStatementPage = ({ params }: { params: Promise<{ id: string }> }) 
     });
   };
 
-  const getTotals = () => {
-    const totals = {
-      all: allTransactions.length,
-      donation: 0,
-      withdrawal: 0,
-      fee: 0,
-      refund: 0,
-    };
-    
-    allTransactions.forEach(t => {
-      totals[t.type]++;
-    });
-    
-    return totals;
-  };
-
-  const totals = getTotals();
-
-  const calculateSummary = () => {
-    let totalIn = 0;
-    let totalOut = 0;
-    
-    allTransactions.forEach(t => {
-      if (t.amountCents > 0) {
-        totalIn += t.amountCents;
-      } else {
-        totalOut += Math.abs(t.amountCents);
-      }
-    });
-    
-    return { totalIn, totalOut };
-  };
-
-  const { totalIn, totalOut } = calculateSummary();
-
   const handleExport = () => {
-    // Aqui seria implementada a exportação do extrato
-    alert('Exportação em desenvolvimento');
+    alert(t('export_wip'));
   };
 
   return (
@@ -224,107 +124,87 @@ const CampaignStatementPage = ({ params }: { params: Promise<{ id: string }> }) 
               <ArrowLeft size={20} />
             </Button>
             <div className="flex-1">
-              <h1 className="text-2xl font-semibold">Extrato da Campanha</h1>
-              <p className="text-sm text-default-500 mt-1">{campaignTitle}</p>
+              <h1 className="text-2xl font-semibold">{t('title')}</h1>
             </div>
             <Button
               variant="flat"
               startContent={<Download size={18} />}
               onPress={handleExport}
             >
-              Exportar
+              {t('export')}
             </Button>
           </div>
 
-          {/* Resumo */}
+          {/* Summary */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card>
               <CardBody className="p-4">
-                <p className="text-sm text-default-500 mb-1">Saldo atual</p>
-                <p className="text-2xl font-bold text-primary">{formatMoney(currentBalanceCents)}</p>
+                <p className="text-sm text-default-500 mb-1">{t('current_balance')}</p>
+                <p className="text-2xl font-bold text-primary">
+                  {summary ? formatMoney(summary.balanceCents) : '—'}
+                </p>
               </CardBody>
             </Card>
             <Card>
               <CardBody className="p-4">
-                <p className="text-sm text-default-500 mb-1">Total recebido</p>
-                <p className="text-2xl font-bold text-success">{formatMoney(totalIn)}</p>
+                <p className="text-sm text-default-500 mb-1">{t('total_received')}</p>
+                <p className="text-2xl font-bold text-success">
+                  {summary ? formatMoney(summary.totalReceivedCents) : '—'}
+                </p>
               </CardBody>
             </Card>
             <Card>
               <CardBody className="p-4">
-                <p className="text-sm text-default-500 mb-1">Total sacado</p>
-                <p className="text-2xl font-bold text-danger">{formatMoney(totalOut)}</p>
+                <p className="text-sm text-default-500 mb-1">{t('total_withdrawn')}</p>
+                <p className="text-2xl font-bold text-danger">
+                  {summary ? formatMoney(summary.totalWithdrawnCents) : '—'}
+                </p>
               </CardBody>
             </Card>
           </div>
 
-          {/* Filtros */}
+          {/* Period filter */}
           <div className="flex flex-wrap gap-3 items-center">
             <Select
-              label="Período"
+              label={t('period_label')}
               selectedKeys={[selectedPeriod]}
               onSelectionChange={(keys) => setSelectedPeriod(Array.from(keys)[0] as string)}
               className="max-w-xs"
               size="sm"
               startContent={<Filter size={16} />}
             >
-              <SelectItem key="7">Últimos 7 dias</SelectItem>
-              <SelectItem key="15">Últimos 15 dias</SelectItem>
-              <SelectItem key="30">Últimos 30 dias</SelectItem>
-              <SelectItem key="90">Últimos 90 dias</SelectItem>
-              <SelectItem key="all">Todo o período</SelectItem>
+              <SelectItem key="7">{t('period_7')}</SelectItem>
+              <SelectItem key="15">{t('period_15')}</SelectItem>
+              <SelectItem key="30">{t('period_30')}</SelectItem>
+              <SelectItem key="90">{t('period_90')}</SelectItem>
+              <SelectItem key="all">{t('period_all')}</SelectItem>
             </Select>
           </div>
 
-          {/* Tabs de tipos de transação */}
+          {/* Transaction type tabs */}
           <Tabs
             selectedKey={activeTab}
             onSelectionChange={(key) => setActiveTab(key as typeof activeTab)}
           >
-            <Tab
-              key="all"
-              title={
-                <div className="flex items-center gap-2">
-                  Todas
-                  <Chip size="sm" variant="flat">{totals.all}</Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="donation"
-              title={
-                <div className="flex items-center gap-2">
-                  Doações
-                  <Chip size="sm" variant="flat" color="success">{totals.donation}</Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="withdrawal"
-              title={
-                <div className="flex items-center gap-2">
-                  Saques
-                  <Chip size="sm" variant="flat" color="danger">{totals.withdrawal}</Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="fee"
-              title={
-                <div className="flex items-center gap-2">
-                  Taxas
-                  <Chip size="sm" variant="flat" color="warning">{totals.fee}</Chip>
-                </div>
-              }
-            />
+            <Tab key="all" title={t('tab_all')} />
+            <Tab key="donation" title={t('tab_donation')} />
+            <Tab key="withdrawal" title={t('tab_withdrawal')} />
+            <Tab key="dispute" title={t('tab_dispute')} />
+            <Tab key="adjustment" title={t('tab_adjustment')} />
           </Tabs>
 
-          {/* Lista de transações */}
-          {filteredTransactions.length === 0 ? (
+          {/* Transaction list */}
+          {isLoading ? (
+            <Card>
+              <CardBody className="p-12 flex justify-center">
+                <Spinner label={t('loading')} />
+              </CardBody>
+            </Card>
+          ) : transactions.length === 0 ? (
             <Card>
               <CardBody className="p-12 text-center">
                 <p className="text-default-500 text-lg">
-                  Nenhuma transação encontrada para este período.
+                  {t('empty')}
                 </p>
               </CardBody>
             </Card>
@@ -332,10 +212,9 @@ const CampaignStatementPage = ({ params }: { params: Promise<{ id: string }> }) 
             <Card>
               <CardBody className="p-0">
                 <div className="divide-y divide-divider">
-                  {filteredTransactions.map((transaction) => {
+                  {transactions.map((transaction) => {
                     const config = transactionConfig[transaction.type];
-                    const statusInfo = statusConfig[transaction.status];
-                    
+
                     return (
                       <div key={transaction.id} className="p-4 hover:bg-default-50 transition-colors">
                         <div className="flex gap-4">
@@ -345,15 +224,10 @@ const CampaignStatementPage = ({ params }: { params: Promise<{ id: string }> }) 
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-2 mb-1">
                               <div className="flex-1">
-                                <p className="font-semibold text-base">{transaction.description}</p>
-                                {transaction.metadata?.donorName && (
+                                <p className="font-semibold text-base">{config.label}</p>
+                                {transaction.user && (
                                   <p className="text-sm text-default-500">
-                                    Doador: {transaction.metadata.donorName}
-                                  </p>
-                                )}
-                                {transaction.metadata?.pixKey && (
-                                  <p className="text-sm text-default-500">
-                                    Chave Pix: {transaction.metadata.pixKey}
+                                    {t('donor_label', { name: transaction.user.name })}
                                   </p>
                                 )}
                               </div>
@@ -361,24 +235,13 @@ const CampaignStatementPage = ({ params }: { params: Promise<{ id: string }> }) 
                                 <p className={`text-lg font-semibold ${config.color}`}>
                                   {transaction.amountCents > 0 ? '+' : ''}{formatMoney(transaction.amountCents)}
                                 </p>
-                                <p className="text-xs text-default-400">
-                                  Saldo: {formatMoney(transaction.balanceCents)}
-                                </p>
                               </div>
                             </div>
                             <div className="flex items-center justify-between mt-2">
                               <span className="text-xs text-default-400">
                                 {formatDate(transaction.createdAt)}
                               </span>
-                              <Chip size="sm" color={statusInfo.color} variant="flat">
-                                {statusInfo.label}
-                              </Chip>
                             </div>
-                            {transaction.metadata?.transactionId && (
-                              <p className="text-xs text-default-400 mt-1">
-                                ID: {transaction.metadata.transactionId}
-                              </p>
-                            )}
                           </div>
                         </div>
                       </div>

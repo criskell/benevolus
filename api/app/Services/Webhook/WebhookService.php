@@ -9,9 +9,14 @@ use App\Jobs\ProcessWebhook;
 use App\Models\Donation;
 use App\Models\WebhookHistoryItem;
 use App\Notifications\DonationReceived;
+use App\Services\Transaction\TransactionService;
 
 final class WebhookService
 {
+    public function __construct(
+        private TransactionService $transactionService
+    ) {}
+
     public function store(string $processor, string $rawPayload, ?string $gatewayKey = null): ?WebhookHistoryItem
     {
         $idempotencyKey = $gatewayKey ?? hash('sha256', $rawPayload);
@@ -75,6 +80,8 @@ final class WebhookService
         $donation->save();
 
         $donation->campaign->increment('available_balance_cents', $donation->amount_cents);
+
+        $this->transactionService->createFromDonation($donation, $donation->user);
 
         event(new DonationPaid($donation->external_reference));
 

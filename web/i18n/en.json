@@ -486,6 +486,32 @@
         "description_required": "Description is required",
         "goal_min": "Goal must be at least R$ 1.00"
       }
+    },
+    "statement": {
+      "title": "Campaign Statement",
+      "export": "Export",
+      "export_wip": "Export coming soon",
+      "current_balance": "Current balance",
+      "total_received": "Total received",
+      "total_withdrawn": "Total withdrawn",
+      "period_label": "Period",
+      "period_7": "Last 7 days",
+      "period_15": "Last 15 days",
+      "period_30": "Last 30 days",
+      "period_90": "Last 90 days",
+      "period_all": "All time",
+      "tab_all": "All",
+      "tab_donation": "Donations",
+      "tab_withdrawal": "Withdrawals",
+      "tab_dispute": "Disputes",
+      "tab_adjustment": "Adjustments",
+      "type_donation": "Donation received",
+      "type_withdrawal": "Withdrawal",
+      "type_dispute": "Dispute",
+      "type_adjustment": "Adjustment",
+      "donor_label": "Donor: {name}",
+      "empty": "No transactions found for this period.",
+      "loading": "Loading transactions..."
     }
   },
   "campaign": {
