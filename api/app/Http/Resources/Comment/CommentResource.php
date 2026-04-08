@@ -16,6 +16,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'content', type: 'string'),
         new OA\Property(property: 'isAnonymous', type: 'boolean'),
         new OA\Property(property: 'likes', type: 'integer'),
+        new OA\Property(property: 'userHasReacted', type: 'boolean'),
         new OA\Property(property: 'createdAt', type: 'string', format: 'date-time'),
         new OA\Property(
             property: 'user',
@@ -37,6 +38,7 @@ class CommentResource extends JsonResource
             'isAnonymous' => $this->is_anonymous,
             'createdAt' => $this->created_at,
             'likes' => $this->likes_count ?? 0,
+            'userHasReacted' => (bool) ($this->user_has_reacted ?? false),
         ];
     }
 }
