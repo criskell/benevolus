@@ -518,7 +518,9 @@
     "header": {
       "created_ago": "Created this campaign {days} days ago",
       "follow_button": "Follow",
+      "following_button": "Following",
       "follow_campaign_button": "Follow campaign",
+      "following_campaign_button": "Following campaign",
       "verified_badge": "Verified campaign",
       "documents_badge": "Verified documents",
       "likes": "{count} likes",

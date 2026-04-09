@@ -518,7 +518,9 @@
     "header": {
       "created_ago": "Creó esta campaña hace {days} días",
       "follow_button": "Seguir",
+      "following_button": "Siguiendo",
       "follow_campaign_button": "Seguir campaña",
+      "following_campaign_button": "Siguiendo campaña",
       "verified_badge": "Campaña verificada",
       "documents_badge": "Documentos verificados",
       "likes": "{count} me gusta",

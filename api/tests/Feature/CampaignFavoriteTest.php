@@ -58,7 +58,7 @@ test('list favorited campaigns only returns current user favorites', function ()
 test('toggle favorite requires authentication', function () {
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->postJson("/api/campaigns/{$campaign->id}/favorite");
+    $response = $this->postJson("/api/campaigns/{$campaign->slug}/favorite");
 
     $response->assertStatus(401);
 });
@@ -66,7 +66,7 @@ test('toggle favorite requires authentication', function () {
 test('toggle favorite returns 404 for non-existent campaign', function () {
     $user = User::factory()->create();
 
-    $response = $this->actingAsUser($user)->postJson('/api/campaigns/99999/favorite');
+    $response = $this->actingAsUser($user)->postJson('/api/campaigns/non-existent-slug/favorite');
 
     $response->assertStatus(404);
 });
@@ -75,7 +75,7 @@ test('can add campaign to favorites', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->id}/favorite");
+    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->slug}/favorite");
 
     $response->assertStatus(200)
         ->assertJson(['favorited' => true]);
@@ -91,7 +91,7 @@ test('can remove campaign from favorites', function () {
     $campaign = Campaign::factory()->open()->create();
     $user->favoriteCampaigns()->attach($campaign);
 
-    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->id}/favorite");
+    $response = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->slug}/favorite");
 
     $response->assertStatus(200)
         ->assertJson(['favorited' => false]);
@@ -106,13 +106,13 @@ test('toggle favorite is idempotent', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
 
-    $first = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->id}/favorite");
+    $first = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->slug}/favorite");
     $first->assertJson(['favorited' => true]);
 
-    $second = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->id}/favorite");
+    $second = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->slug}/favorite");
     $second->assertJson(['favorited' => false]);
 
-    $third = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->id}/favorite");
+    $third = $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->slug}/favorite");
     $third->assertJson(['favorited' => true]);
 });
 
@@ -122,7 +122,7 @@ test('toggle favorite does not affect other users favorites', function () {
     $campaign = Campaign::factory()->open()->create();
     $otherUser->favoriteCampaigns()->attach($campaign);
 
-    $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->id}/favorite");
+    $this->actingAsUser($user)->postJson("/api/campaigns/{$campaign->slug}/favorite");
 
     $this->assertDatabaseHas('campaign_user_favorites', [
         'user_id' => $otherUser->id,

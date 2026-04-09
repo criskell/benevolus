@@ -45,7 +45,7 @@ Route::apiResource('campaigns.updates', CampaignUpdateController::class)->shallo
 Route::apiResource('campaigns.comments', CommentController::class)->shallow()->except(['show']);
 Route::post('/comments/{comment}/react', [CommentReactionController::class, 'toggle']);
 Route::get('/profile/campaigns/favorited', [CampaignFavoriteController::class, 'index']);
-Route::post('/campaigns/{campaign}/favorite', [CampaignFavoriteController::class, 'toggle']);
+Route::post('/campaigns/{campaign:slug}/favorite', [CampaignFavoriteController::class, 'toggle']);
 
 Route::post('/campaigns/{campaign}/tags', [CampaignTagController::class, 'store']);
 Route::delete('/campaigns/{campaign}/tags/{tag}', [CampaignTagController::class, 'destroy']);
