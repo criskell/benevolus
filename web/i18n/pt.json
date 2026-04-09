@@ -822,6 +822,12 @@
       "payment_method_required": "Selecione uma forma de pagamento"
     }
   },
+  "followed_campaigns": {
+    "title": "Campanhas que sigo",
+    "subtitle": "Veja as campanhas que você está acompanhando.",
+    "empty_title": "Você ainda não segue nenhuma campanha",
+    "empty_subtitle": "As campanhas que você seguir aparecerão aqui."
+  },
   "leaderboard": {
     "hero_badge": "Ranking",
     "title": "Ranking de Doadores",
