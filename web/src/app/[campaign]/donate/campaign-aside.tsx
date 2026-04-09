@@ -3,10 +3,27 @@
 import { Card, Progress, Chip } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
+import { useGetCampaign } from '@/lib/http/generated';
+import { formatMoney } from '@/lib/utils/format-money';
 import placeholder from '@/assets/images/placeholder1.jpg';
+
+const calculateDaysRemaining = (expiresAt?: string | null) => {
+  if (!expiresAt) return 0;
+  const diffMs = new Date(expiresAt).getTime() - Date.now();
+  return Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+};
 
 export const CampaignAside = () => {
   const t = useTranslations('donate');
+  const params = useParams<{ campaign: string }>();
+  const { data: campaign } = useGetCampaign(params.campaign);
+
+  const raised = (campaign?.amountRaisedCents ?? 0) / 100;
+  const goal = (campaign?.goalCents ?? 0) / 100;
+  const progress = goal > 0 ? Math.min(Math.round((raised / goal) * 100), 100) : 0;
+  const daysRemaining = calculateDaysRemaining(campaign?.expiresAt);
+
   return (
     <aside className="w-full lg:w-[380px] xl:w-[420px]">
       <div className="lg:sticky lg:top-24 space-y-6">
@@ -14,7 +31,7 @@ export const CampaignAside = () => {
         <Card className="p-6 border border-default-200 overflow-hidden relative" shadow="none">
           {/* Decorative background */}
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-primary/5 to-transparent rounded-full blur-3xl -z-10" />
-          
+
           <div className="flex items-center gap-2 mb-4">
             <Icon icon="solar:bookmark-bold" width={20} className="text-primary" />
             <h3 className="text-lg font-bold text-foreground">{t('campaign_summary')}</h3>
@@ -22,9 +39,9 @@ export const CampaignAside = () => {
 
           {/* Campaign Image */}
           <div className="relative mb-4 rounded-2xl overflow-hidden border border-default-200">
-            <img 
-              src={placeholder.src} 
-              alt="Campanha"
+            <img
+              src={campaign?.image ?? placeholder.src}
+              alt={campaign?.title ?? ''}
               className="w-full aspect-video object-cover"
             />
             {/* Verified Badge Overlay */}
@@ -42,7 +59,7 @@ export const CampaignAside = () => {
 
           {/* Campaign Title */}
           <h4 className="font-bold text-foreground leading-snug mb-4">
-            {t('campaign_title_example')}
+            {campaign?.title}
           </h4>
 
           {/* Progress Info */}
@@ -51,19 +68,19 @@ export const CampaignAside = () => {
               <div>
                 <p className="text-sm text-default-600 mb-1">{t('raised_label')}</p>
                 <p className="text-2xl font-black bg-gradient-to-br from-primary to-primary-600 bg-clip-text text-transparent">
-                  R$ 6.934,51
+                  {formatMoney(raised)}
                 </p>
               </div>
               <div className="text-right">
                 <p className="text-sm text-default-600 mb-1">{t('goal_label')}</p>
                 <p className="text-lg font-bold text-foreground">
-                  R$ 50.000,00
+                  {formatMoney(goal)}
                 </p>
               </div>
             </div>
 
-            <Progress 
-              value={14} 
+            <Progress
+              value={progress}
               size="md"
               classNames={{
                 indicator: "bg-gradient-to-r from-primary to-primary-600",
@@ -71,8 +88,8 @@ export const CampaignAside = () => {
             />
 
             <div className="flex items-center justify-between text-xs font-medium">
-              <span className="text-default-600">{t('progress_complete', { percent: 14 })}</span>
-              <span className="text-primary">{t('progress_remaining', { percent: 86 })}</span>
+              <span className="text-default-600">{t('progress_complete', { percent: progress })}</span>
+              <span className="text-primary">{t('progress_remaining', { percent: 100 - progress })}</span>
             </div>
           </div>
 
@@ -83,7 +100,7 @@ export const CampaignAside = () => {
                 <Icon icon="solar:users-group-rounded-bold" width={20} className="text-primary" />
               </div>
               <div>
-                <p className="text-lg font-bold text-foreground">567</p>
+                <p className="text-lg font-bold text-foreground">{campaign?.donationsCount ?? 0}</p>
                 <p className="text-xs text-default-600">{t('donors_count')}</p>
               </div>
             </div>
@@ -92,7 +109,7 @@ export const CampaignAside = () => {
                 <Icon icon="solar:clock-circle-bold" width={20} className="text-amber-600" />
               </div>
               <div>
-                <p className="text-lg font-bold text-foreground">23</p>
+                <p className="text-lg font-bold text-foreground">{daysRemaining}</p>
                 <p className="text-xs text-default-600">{t('days_remaining')}</p>
               </div>
             </div>
@@ -129,8 +146,8 @@ export const CampaignAside = () => {
               <p className="text-xs text-default-600 leading-relaxed mb-3">
                 {t('need_help_description')}
               </p>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
               >
                 {t('contact_support')}
