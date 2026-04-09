@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useGetCampaign } from '@/lib/http/generated';
 import { formatMoney } from '@/lib/utils/format-money';
-import placeholder from '@/assets/images/placeholder1.jpg';
 
 const calculateDaysRemaining = (expiresAt?: string | null) => {
   if (!expiresAt) return 0;
@@ -39,11 +38,17 @@ export const CampaignAside = () => {
 
           {/* Campaign Image */}
           <div className="relative mb-4 rounded-2xl overflow-hidden border border-default-200">
-            <img
-              src={campaign?.image ?? placeholder.src}
-              alt={campaign?.title ?? ''}
-              className="w-full aspect-video object-cover"
-            />
+            {campaign?.image ? (
+              <img
+                src={campaign.image}
+                alt={campaign?.title ?? ''}
+                className="w-full aspect-video object-cover"
+              />
+            ) : (
+              <div className="w-full aspect-video flex flex-col items-center justify-center gap-2 bg-default-100 text-default-300">
+                <Icon icon="solar:gallery-bold" width={48} />
+              </div>
+            )}
             {/* Verified Badge Overlay */}
             <div className="absolute top-3 right-3">
               <Chip
