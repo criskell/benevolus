@@ -2,6 +2,7 @@
 
 import { Avatar, Button, Card, CardBody } from '@heroui/react';
 import {
+  Bookmark,
   CameraIcon,
   Heart,
   Megaphone,
@@ -19,6 +20,7 @@ import { useRef } from 'react';
 
 const navigationItems = [
   { label: 'Minhas Campanhas', href: '/profile/campaigns', icon: Megaphone },
+  { label: 'Campanhas que Sigo', href: '/profile/followed-campaigns', icon: Bookmark },
   { label: 'Minhas Doações', href: '/profile/donations', icon: Heart },
   { label: 'Extrato', href: '/profile/statement', icon: Receipt },
   { label: 'Notificações', href: '/profile/notifications', icon: Bell },

@@ -822,6 +822,12 @@
       "payment_method_required": "Select a payment method"
     }
   },
+  "followed_campaigns": {
+    "title": "Campaigns I follow",
+    "subtitle": "See the campaigns you are following.",
+    "empty_title": "You are not following any campaigns yet",
+    "empty_subtitle": "Campaigns you follow will appear here."
+  },
   "leaderboard": {
     "hero_badge": "Rankings",
     "title": "Donor Leaderboard",
