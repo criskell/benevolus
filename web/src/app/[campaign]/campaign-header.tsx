@@ -4,9 +4,15 @@ import { Card } from '@heroui/card';
 import { Chip, Avatar, Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
+import { useQueryClient } from '@tanstack/react-query';
 import { getUserNameInitials } from '@/lib/utils/get-user-name-initials';
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 import type { CampaignResource } from '@/lib/http/generated';
+import {
+  useToggleCampaignFavorite,
+  useListFavoritedCampaigns,
+  listFavoritedCampaignsQueryKey,
+} from '@/lib/http/generated';
 
 interface CampaignHeaderProps {
   campaign: CampaignResource;
@@ -21,6 +27,23 @@ const calculateDaysSince = (dateString?: string) => {
 export const CampaignHeader = ({ campaign }: CampaignHeaderProps) => {
   const t = useTranslations('campaign.header');
   const daysSince = calculateDaysSince(campaign.createdAt);
+  const queryClient = useQueryClient();
+  const { data: favorited } = useListFavoritedCampaigns();
+  const { mutate: toggleFavorite } = useToggleCampaignFavorite();
+  const isFollowing = favorited?.some((c) => c.slug === campaign.slug) ?? false;
+
+  const handleFollow = () => {
+    toggleFavorite(
+      { campaign: campaign.slug! },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: listFavoritedCampaignsQueryKey(),
+          });
+        },
+      },
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -55,12 +78,19 @@ export const CampaignHeader = ({ campaign }: CampaignHeaderProps) => {
           </div>
 
           <Button
-            variant="bordered"
+            variant={isFollowing ? 'solid' : 'bordered'}
+            color={isFollowing ? 'primary' : 'default'}
             size="sm"
-            startContent={<Icon icon="solar:bookmark-bold" width={18} />}
-            className="hidden md:flex border-default-300 hover:border-primary hover:text-primary transition-colors"
+            startContent={
+              <Icon
+                icon={isFollowing ? 'solar:bookmark-bold' : 'solar:bookmark-linear'}
+                width={18}
+              />
+            }
+            onPress={handleFollow}
+            className="hidden md:flex transition-colors"
           >
-            {t('follow_button')}
+            {isFollowing ? t('following_button') : t('follow_button')}
           </Button>
         </div>
 
@@ -129,13 +159,20 @@ export const CampaignHeader = ({ campaign }: CampaignHeaderProps) => {
         </div>
 
         <Button
-          variant="bordered"
+          variant={isFollowing ? 'solid' : 'bordered'}
+          color={isFollowing ? 'primary' : 'default'}
           size="md"
           fullWidth
-          startContent={<Icon icon="solar:bookmark-bold" width={18} />}
-          className="md:hidden mt-6 border-default-300 hover:border-primary hover:text-primary transition-colors"
+          startContent={
+            <Icon
+              icon={isFollowing ? 'solar:bookmark-bold' : 'solar:bookmark-linear'}
+              width={18}
+            />
+          }
+          onPress={handleFollow}
+          className="md:hidden mt-6 transition-colors"
         >
-          {t('follow_campaign_button')}
+          {isFollowing ? t('following_campaign_button') : t('follow_campaign_button')}
         </Button>
       </Card>
     </div>
