@@ -83,9 +83,7 @@ test('webhook confirms payment and updates donation to paid', function () {
     Notification::fake();
 
     $owner = User::factory()->create();
-    $campaign = Campaign::factory()->for($owner)->open()->create([
-        'available_balance_cents' => 0,
-    ]);
+    $campaign = Campaign::factory()->for($owner)->open()->create();
     $donation = Donation::factory()->for($campaign)->create([
         'external_reference' => 'test-cc-69cff03949958',
         'payment_status' => 'pending',
@@ -105,8 +103,7 @@ test('webhook confirms payment and updates donation to paid', function () {
     expect($donation->payment_status)->toBe('paid')
         ->and($donation->paid_at)->not->toBeNull();
 
-    $campaign->refresh();
-    expect($campaign->available_balance_cents)->toBe(1000);
+    expect(Transaction::where('campaign_id', $campaign->id)->sum('amount_cents'))->toBe(1000);
 
     Event::assertDispatched(DonationPaid::class, function ($event) {
         return $event->externalReference === 'test-cc-69cff03949958';
@@ -125,8 +122,12 @@ test('webhook handles PAYMENT_RECEIVED event the same as PAYMENT_CONFIRMED', fun
     Notification::fake();
 
     $owner = User::factory()->create();
-    $campaign = Campaign::factory()->for($owner)->open()->create([
-        'available_balance_cents' => 5000,
+    $campaign = Campaign::factory()->for($owner)->open()->create();
+    Transaction::create([
+        'campaign_id' => $campaign->id,
+        'user_id' => $owner->id,
+        'type' => 'donation',
+        'amount_cents' => 5000,
     ]);
     $donation = Donation::factory()->for($campaign)->create([
         'external_reference' => 'test-pix-received',
@@ -145,8 +146,7 @@ test('webhook handles PAYMENT_RECEIVED event the same as PAYMENT_CONFIRMED', fun
     $donation->refresh();
     expect($donation->payment_status)->toBe('paid');
 
-    $campaign->refresh();
-    expect($campaign->available_balance_cents)->toBe(7000);
+    expect((int) Transaction::where('campaign_id', $campaign->id)->sum('amount_cents'))->toBe(7000);
 });
 
 test('webhook is idempotent — duplicate payload is not processed twice', function () {
@@ -154,9 +154,7 @@ test('webhook is idempotent — duplicate payload is not processed twice', funct
     Notification::fake();
 
     $owner = User::factory()->create();
-    $campaign = Campaign::factory()->for($owner)->open()->create([
-        'available_balance_cents' => 0,
-    ]);
+    $campaign = Campaign::factory()->for($owner)->open()->create();
     Donation::factory()->for($campaign)->create([
         'external_reference' => 'test-idempotent',
         'payment_status' => 'pending',
@@ -178,8 +176,7 @@ test('webhook is idempotent — duplicate payload is not processed twice', funct
 
     expect(WebhookHistoryItem::count())->toBe(1);
 
-    $campaign->refresh();
-    expect($campaign->available_balance_cents)->toBe(1000);
+    expect((int) Transaction::where('campaign_id', $campaign->id)->sum('amount_cents'))->toBe(1000);
 });
 
 test('webhook stores history item', function () {

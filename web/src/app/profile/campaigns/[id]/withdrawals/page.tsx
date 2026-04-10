@@ -1,25 +1,18 @@
 'use client';
 
 import { use, useState } from 'react';
-import { Button, Card, CardBody, Input, Select, SelectItem, Chip } from '@heroui/react';
+import { Button, Card, CardBody, Input, Select, SelectItem, Chip, Spinner } from '@heroui/react';
 import { ArrowLeft, Wallet, Clock, CheckCircle, XCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
 
 import { ProfileSidebar } from '../../../profile-sidebar';
 import { formatMoney } from '@/lib/utils/format-money';
+import { api } from '@/lib/http/api-client';
+import { useListWithdrawals } from '@/lib/http/generated/hooks/useListWithdrawals';
 
 type PixKeyType = 'cpf' | 'cnpj' | 'email' | 'phone' | 'random';
 type WithdrawalStatus = 'pending' | 'paid' | 'failed';
-
-type Withdrawal = {
-  id: string;
-  amountCents: number;
-  pixKey: string;
-  pixKeyType: PixKeyType;
-  status: WithdrawalStatus;
-  createdAt: string;
-  paidAt: string | null;
-};
 
 const pixKeyTypeLabels: Record<PixKeyType, string> = {
   cpf: 'CPF',
@@ -38,34 +31,21 @@ const statusConfig: Record<WithdrawalStatus, { label: string; color: 'warning' |
 const WithdrawalsPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
 
-  const userData = {
-    name: 'Cristiano',
-    followedCampaigns: 0,
-    donationsCount: 3,
-  };
-
-  const availableBalanceCents = 380000;
-
-  const [withdrawals, setWithdrawals] = useState<Withdrawal[]>([
-    {
-      id: '1',
-      amountCents: 50000,
-      pixKey: '123.456.789-00',
-      pixKeyType: 'cpf',
-      status: 'paid',
-      createdAt: '2025-01-10T10:00:00',
-      paidAt: '2025-01-10T10:05:00',
+  const { data: transactionData, isLoading: isLoadingBalance } = useQuery<{
+    summary: { balanceCents: number; totalReceivedCents: number; totalWithdrawnCents: number };
+  }>({
+    queryKey: ['campaign-transactions-summary', id],
+    queryFn: async () => {
+      const res = await api.get(`/api/campaigns/${id}/transactions`);
+      return res.data;
     },
-    {
-      id: '2',
-      amountCents: 20000,
-      pixKey: '123.456.789-00',
-      pixKeyType: 'cpf',
-      status: 'pending',
-      createdAt: '2025-01-14T15:30:00',
-      paidAt: null,
-    },
-  ]);
+  });
+
+  const availableBalanceCents = transactionData?.summary?.balanceCents ?? 0;
+
+  const { data: withdrawalsData, isLoading: isLoadingWithdrawals } = useListWithdrawals(id);
+
+  const withdrawals = withdrawalsData?.data ?? [];
 
   const [isRequesting, setIsRequesting] = useState(false);
   const [formData, setFormData] = useState({
@@ -111,6 +91,14 @@ const WithdrawalsPage = ({ params }: { params: Promise<{ id: string }> }) => {
     { label: 'Comunicação', active: false },
     { label: 'Configurações', active: false },
   ];
+
+  if (isLoadingBalance || isLoadingWithdrawals) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-[1280px] mx-auto w-full my-10 px-4">
@@ -241,7 +229,7 @@ const WithdrawalsPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 <CardBody className="p-0">
                   <div className="divide-y divide-default-100">
                     {withdrawals.map((withdrawal) => {
-                      const status = statusConfig[withdrawal.status];
+                      const status = statusConfig[withdrawal.status as WithdrawalStatus] ?? statusConfig.pending;
                       const StatusIcon = status.icon;
 
                       return (
@@ -250,12 +238,12 @@ const WithdrawalsPage = ({ params }: { params: Promise<{ id: string }> }) => {
                             <StatusIcon size={20} className={`text-${status.color}`} />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="font-medium">{formatMoney(withdrawal.amountCents)}</p>
+                            <p className="font-medium">{formatMoney(withdrawal.amountCents ?? 0)}</p>
                             <p className="text-sm text-default-500">
-                              {pixKeyTypeLabels[withdrawal.pixKeyType]}: {withdrawal.pixKey}
+                              {pixKeyTypeLabels[withdrawal.pixKeyType as PixKeyType]}: {withdrawal.pixKey}
                             </p>
                             <p className="text-xs text-default-400">
-                              Solicitado em {formatDate(withdrawal.createdAt)}
+                              Solicitado em {formatDate(withdrawal.createdAt ?? '')}
                             </p>
                           </div>
                           <Chip size="sm" color={status.color} variant="flat">

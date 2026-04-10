@@ -9,6 +9,7 @@ use App\Http\Requests\Withdrawal\StoreWithdrawalRequest;
 use App\Http\Resources\Withdrawal\WithdrawalResource;
 use App\Models\Campaign;
 use App\Models\Withdrawal;
+use App\Services\Transaction\TransactionService;
 use App\Services\Withdrawal\WithdrawalProcessor;
 use App\Services\Withdrawal\WithdrawalService;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -26,7 +27,8 @@ final class WithdrawalController extends Controller implements HasMiddleware
 
     public function __construct(
         private WithdrawalService $withdrawalService,
-        private WithdrawalProcessor $withdrawalProcessor
+        private WithdrawalProcessor $withdrawalProcessor,
+        private TransactionService $transactionService,
     ) {}
 
     #[OA\Get(
@@ -99,7 +101,9 @@ final class WithdrawalController extends Controller implements HasMiddleware
             'amountCents' => $request->amountCents,
         ];
 
-        if ($request->amountCents > $campaign->available_balance_cents) {
+        $summary = $this->transactionService->getCampaignSummary($campaign->id);
+
+        if ($request->amountCents > $summary['balance']) {
             abort(403);
         }
 

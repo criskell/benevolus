@@ -85,7 +85,12 @@ test('can create withdrawal as campaign owner when balance is sufficient', funct
 
     $user = User::factory()->create();
     $campaign = Campaign::factory()->for($user)->open()->create();
-    $campaign->update(['available_balance_cents' => 50000]);
+    Transaction::create([
+        'campaign_id' => $campaign->id,
+        'user_id' => $user->id,
+        'type' => 'donation',
+        'amount_cents' => 50000,
+    ]);
 
     $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/withdrawals", [
         'amountCents' => 10000,
@@ -102,16 +107,20 @@ test('can create withdrawal as campaign owner when balance is sufficient', funct
         'pix_key_type' => 'email',
     ]);
 
-    $transaction = Transaction::where('campaign_id', $campaign->id)->first();
+    $transaction = Transaction::where('campaign_id', $campaign->id)->where('type', 'withdrawal')->first();
     expect($transaction)->not->toBeNull()
-        ->and($transaction->type)->toBe('withdrawal')
         ->and($transaction->amount_cents)->toBe(-10000);
 });
 
 test('cannot create withdrawal for another users campaign', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->open()->create();
-    $campaign->update(['available_balance_cents' => 50000]);
+    Transaction::create([
+        'campaign_id' => $campaign->id,
+        'user_id' => $campaign->user_id,
+        'type' => 'donation',
+        'amount_cents' => 50000,
+    ]);
 
     $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/withdrawals", [
         'amountCents' => 10000,
@@ -125,7 +134,12 @@ test('cannot create withdrawal for another users campaign', function () {
 test('cannot create withdrawal when amount exceeds available balance', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->for($user)->open()->create();
-    $campaign->update(['available_balance_cents' => 5000]);
+    Transaction::create([
+        'campaign_id' => $campaign->id,
+        'user_id' => $user->id,
+        'type' => 'donation',
+        'amount_cents' => 5000,
+    ]);
 
     $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/withdrawals", [
         'amountCents' => 10000,
@@ -139,7 +153,12 @@ test('cannot create withdrawal when amount exceeds available balance', function 
 test('create withdrawal validates required fields', function () {
     $user = User::factory()->create();
     $campaign = Campaign::factory()->for($user)->open()->create();
-    $campaign->update(['available_balance_cents' => 50000]);
+    Transaction::create([
+        'campaign_id' => $campaign->id,
+        'user_id' => $user->id,
+        'type' => 'donation',
+        'amount_cents' => 50000,
+    ]);
 
     $response = $this->actingAs($user)->postJson("/api/campaigns/{$campaign->id}/withdrawals", []);
 

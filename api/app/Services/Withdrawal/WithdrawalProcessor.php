@@ -54,7 +54,6 @@ final class WithdrawalProcessor
         }
 
         $withdrawal->status = 'paid';
-        $withdrawal->campaign()->decrement('available_balance_cents', $withdrawal->amountCents);
         $withdrawal->save();
 
         $this->transactionService->createWithdrawal(
