@@ -79,8 +79,6 @@ final class WebhookService
         $donation->paid_at = now();
         $donation->save();
 
-        $donation->campaign->increment('available_balance_cents', $donation->amount_cents);
-
         $this->transactionService->createFromDonation($donation, $donation->user);
 
         event(new DonationPaid($donation->external_reference));

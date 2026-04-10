@@ -29,7 +29,6 @@ class Campaign extends Model
         'slug',
         'description',
         'goal_cents',
-        'available_balance_cents',
         'expires_at',
         'status',
     ];

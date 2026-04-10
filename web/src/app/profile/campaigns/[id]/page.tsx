@@ -24,6 +24,8 @@ import { formatMoney } from '@/lib/utils/format-money';
 import { useGetCampaign } from '@/lib/http/generated/hooks/useGetCampaign';
 import { useListCampaignDonations } from '@/lib/http/generated/hooks/useListCampaignDonations';
 import { Spinner } from '@heroui/react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/lib/http/api-client';
 
 import placeholderImage1 from '@/assets/images/placeholder1.jpg';
 
@@ -38,7 +40,6 @@ type CampaignDetails = {
   status: CampaignStatus;
   currentAmountCents: number;
   goalAmountCents: number;
-  availableBalanceCents: number;
   donationsCount: number;
   image: string;
   createdAt: string;
@@ -77,6 +78,15 @@ const CampaignDashboardPage = ({
   const { data: campaign, isLoading: isLoadingCampaign } = useGetCampaign(id);
   const { data: donationsResponse, isLoading: isLoadingDonations } =
     useListCampaignDonations(id);
+  const { data: transactionData } = useQuery<{
+    summary: { balanceCents: number; totalReceivedCents: number; totalWithdrawnCents: number };
+  }>({
+    queryKey: ['campaign-transactions-summary', id],
+    queryFn: async () => {
+      const res = await api.get(`/api/campaigns/${id}/transactions`);
+      return res.data;
+    },
+  });
 
   if (isLoadingCampaign || isLoadingDonations) {
     return (
@@ -213,7 +223,7 @@ const CampaignDashboardPage = ({
             <StatsCard
               icon={Wallet}
               label="Disponível para saque"
-              value={formatMoney(currentAmountCents)}
+              value={formatMoney(transactionData?.summary?.balanceCents ?? 0)}
               color="success"
             />
             <StatsCard
