@@ -1318,5 +1318,8 @@
       "tokenization_failed": "Error processing card. Please check your details and try again.",
       "zip_code_required": "ZIP code is required"
     }
+  },
+  "campaignDashboard": {
+    "view_public_page": "View public page"
   }
 }

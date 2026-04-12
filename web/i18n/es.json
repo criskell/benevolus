@@ -1318,5 +1318,8 @@
       "tokenization_failed": "Error al procesar la tarjeta. Verifica los datos e inténtalo de nuevo.",
       "zip_code_required": "Ingrese el código postal"
     }
+  },
+  "campaignDashboard": {
+    "view_public_page": "Ver página pública"
   }
 }

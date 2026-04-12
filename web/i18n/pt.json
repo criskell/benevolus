@@ -1318,5 +1318,8 @@
       "tokenization_failed": "Erro ao processar o cartão. Verifique os dados e tente novamente.",
       "zip_code_required": "Informe o CEP"
     }
+  },
+  "campaignDashboard": {
+    "view_public_page": "Ver página pública"
   }
 }
