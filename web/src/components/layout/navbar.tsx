@@ -69,11 +69,10 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink
-            className="flex justify-start items-center gap-3 group"
+            className="flex justify-start items-center group"
             href="/"
           >
             <LogoIcon className="text-primary" size={40} />
-            <span className="font-bold text-xl">{siteConfig.name}</span>
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-6 justify-start ml-4 flex-shrink-0">
