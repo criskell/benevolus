@@ -5,6 +5,7 @@ import {
   BreadcrumbItem,
 } from '@heroui/react';
 import { Icon } from '@iconify/react';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { CampaignAside } from './campaign-aside';
@@ -12,17 +13,19 @@ import { DonateForm } from './donate-form';
 
 const CampaignDonatePage = () => {
   const t = useTranslations('donate');
+  const { campaign } = useParams<{ campaign: string }>();
   return (
     <div className="min-h-screen">
       <div className="max-w-[1400px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* Breadcrumbs */}
         <Breadcrumbs className="mb-8">
-          <BreadcrumbItem 
+          <BreadcrumbItem
+            href="/"
             startContent={<Icon icon="solar:home-2-bold" width={18} />}
           >
             {t('breadcrumb_home')}
           </BreadcrumbItem>
-          <BreadcrumbItem>{t('breadcrumb_campaign')}</BreadcrumbItem>
+          <BreadcrumbItem href={`/${campaign}`}>{t('breadcrumb_campaign')}</BreadcrumbItem>
           <BreadcrumbItem>{t('breadcrumb_donate')}</BreadcrumbItem>
         </Breadcrumbs>
 
