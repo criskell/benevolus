@@ -39,7 +39,7 @@ export const HeroSection = () => {
 
       {/* Title */}
       <motion.div
-        className="text-center max-w-5xl mx-auto"
+        className="relative text-center max-w-5xl mx-auto"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
@@ -50,18 +50,51 @@ export const HeroSection = () => {
               {t('title_line_1')}
             </span>
             {/* Subtle glow behind first line */}
-            <div 
+            <div
               className="absolute inset-0 blur-2xl opacity-30 -z-10"
               style={{
                 background: 'linear-gradient(90deg, oklch(0.70 0.25 250) 0%, oklch(0.75 0.20 280) 100%)',
               }}
             />
           </span>
-          <br />
-          <span className="relative inline-block bg-gradient-to-r from-primary via-primary-500 to-primary-600 bg-clip-text text-transparent">
+          <span className="relative block text-balance bg-gradient-to-r from-primary via-primary-500 to-primary-600 bg-clip-text text-transparent">
             {t('title_line_2')}
           </span>
         </h1>
+
+        <motion.div
+          className="absolute top-1/4 -left-24 hidden xl:block pointer-events-none"
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, 5, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 backdrop-blur-sm border border-primary/20 flex items-center justify-center shadow-xl">
+            <Icon icon="solar:heart-bold" width={32} className="text-primary" />
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="absolute top-1/4 -right-24 hidden xl:block pointer-events-none"
+          animate={{
+            y: [0, 20, 0],
+            rotate: [0, -5, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 backdrop-blur-sm border border-emerald-500/20 flex items-center justify-center shadow-xl">
+            <Icon icon="solar:hand-heart-bold" width={32} className="text-emerald-500" />
+          </div>
+        </motion.div>
       </motion.div>
 
       {/* Subtitle */}
@@ -149,41 +182,7 @@ export const HeroSection = () => {
         </div>
       </motion.div>
 
-      {/* Floating elements decoration */}
-      <motion.div
-        className="absolute top-1/4 left-10 hidden lg:block pointer-events-none"
-        animate={{ 
-          y: [0, -20, 0],
-          rotate: [0, 5, 0],
-        }}
-        transition={{ 
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 backdrop-blur-sm border border-primary/20 flex items-center justify-center shadow-xl">
-          <Icon icon="solar:heart-bold" width={32} className="text-primary" />
-        </div>
-      </motion.div>
-
-      <motion.div
-        className="absolute top-1/4 right-10 hidden lg:block pointer-events-none"
-        animate={{ 
-          y: [0, 20, 0],
-          rotate: [0, -5, 0],
-        }}
-        transition={{ 
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 backdrop-blur-sm border border-emerald-500/20 flex items-center justify-center shadow-xl">
-          <Icon icon="solar:hand-heart-bold" width={32} className="text-emerald-500" />
-        </div>
-      </motion.div>
-
+      {/* Bottom floating decoration */}
       <motion.div
         className="absolute bottom-1/4 left-10 hidden lg:block pointer-events-none"
         animate={{ 
