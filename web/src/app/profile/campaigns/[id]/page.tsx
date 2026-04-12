@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 import { ProfileSidebar } from '../../profile-sidebar';
 import { RecentDonationsList } from './recent-donations-list';
@@ -74,6 +75,7 @@ const CampaignDashboardPage = ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = use(params);
+  const t = useTranslations('campaignDashboard');
 
   const { data: campaign, isLoading: isLoadingCampaign } = useGetCampaign(id);
   const { data: donationsResponse, isLoading: isLoadingDonations } =
@@ -151,11 +153,12 @@ const CampaignDashboardPage = ({
             <Button
               as={Link}
               href={`/${campaign.slug}`}
+              target="_blank"
               variant="flat"
               size="sm"
               endContent={<ExternalLink size={16} />}
             >
-              Ver página pública
+              {t('view_public_page')}
             </Button>
           </div>
 
